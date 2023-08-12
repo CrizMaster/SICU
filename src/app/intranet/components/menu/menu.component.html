@@ -1,0 +1,38 @@
+<div class="row mt-3 bg-light">
+    <mat-accordion >
+      <mat-expansion-panel class="bg-light" *ngFor="let menu of menus">
+        <mat-expansion-panel-header 
+            [collapsedHeight]="customCollapsedHeight" 
+            [expandedHeight]="customExpandedHeight">
+          <mat-panel-title>
+              <mat-icon>dynamic_feed</mat-icon>&nbsp;
+            {{menu.nombreMenu}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item class="rounded-1" style="font-size: 8pt; height: 36px" *ngFor="let item of menu.menu">
+              <mat-panel-title (click)="ir(item.path)">
+                  <mat-icon>{{item.icon}}</mat-icon>&nbsp;{{item.nombreMenu}}
+              </mat-panel-title>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+      <!-- <mat-expansion-panel class="bg-light">
+        <mat-expansion-panel-header 
+            [collapsedHeight]="customCollapsedHeight" 
+            [expandedHeight]="customExpandedHeight">
+          <mat-panel-title>
+              <mat-icon>dynamic_feed</mat-icon>&nbsp;
+            Fichas Catastrales Urbanas
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item class="rounded-1" style="font-size: 8pt; height: 36px" *ngFor="let folder of folders">
+              <mat-panel-title>
+                  <mat-icon>{{folder.icon}}</mat-icon>&nbsp;{{folder.name}}
+              </mat-panel-title>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel> -->
+    </mat-accordion>
+  </div>

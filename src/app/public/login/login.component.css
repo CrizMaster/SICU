@@ -1,0 +1,7 @@
+.full-width {
+    width: 100%;
+ }
+ .circle-header-image {
+    background-image: url('../../../assets/image/circleCOFOPRI.jpg');
+    background-size: cover;
+  }

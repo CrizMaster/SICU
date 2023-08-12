@@ -1,0 +1,18 @@
+<nav class="navbar navbar-expand-lg bg-cofopri sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" class="text-white text-decoration-none title_navbar fs-5">Sistema de Información Catastral Urbano</a>
+      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active curso-hand" aria-current="page" 
+              (click)="inicio()" *ngIf="userLoginOn">Inicio</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <button (click)="iniciarSesion()" *ngIf="!userLoginOn"
+                class="btn btn-sm btn-primary" type="submit">Iniciar Sesión</button>
+      </form>
+    </div>
+  </nav>

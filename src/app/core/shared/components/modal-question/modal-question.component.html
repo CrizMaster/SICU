@@ -1,0 +1,18 @@
+<h1 mat-dialog-title class="bg-cofopri text-white">Sistema de Información Catastral Urbano</h1>
+<div mat-dialog-content class="px-4" style="font-size: 0.9rem;">
+    <div class="container">
+        <div class="row">
+            <div class="col col-12 text-center">
+                {{data.Title}}
+            </div>
+        </div>
+    </div>      
+</div>
+<div mat-dialog-actions class="d-flex justify-content-center align-items-center bg-body-secondary">  
+    <button type="submit" class="btn btn-sm btn-success text-white" style="width: 80px;"
+          (click)="Aceptar()"><i class="bi bi-check-circle"></i>&nbsp;Si</button>
+          &nbsp;&nbsp;
+    <button type="submit" class="btn btn-sm btn-primary bg-cofopri" style="width: 80px;"
+          (click)="Cancelar()">No&nbsp;<i class="bi bi-x-circle"></i></button>
+</div>
+

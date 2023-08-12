@@ -1,0 +1,10 @@
+.circle-header-image {
+    
+    background-size: cover;
+    background-color: #15448b;
+    width: 80px;
+    height: 80px;
+  }
+  .name_user{
+    font-family: 'Fira Sans', sans-serif;
+  }

@@ -1,0 +1,48 @@
+<mat-card class="rounded-1 shadow-2" 
+  style="background: linear-gradient(to top left, #15448b 80%, #fadb0c 20%);">
+  <mat-card-content>
+    <div class="d-flex justify-content-around align-items-center">
+      <!-- <div mat-card-avatar class="circle-header-image">
+        <img mat-card-avatar class="circle-header-image" src="data:image/png;base64,{{image}}"/>
+      </div> -->
+      <img mat-card-avatar class="circle-header-image" src="data:image/png;base64,{{image}}"/>
+      <div style="width: auto;">
+        <div class="row">
+          <div class="col-12 text-start fs-6 ms-3 me-1 text-white text-break name_user">                  
+            {{userName}}
+          </div>
+          <div class="col-12 text-light ms-3 me-1 fw-light" style="font-size: 0.9;">                  
+            {{email}}
+          </div>
+          <div class="col-12 text-primary mt-1 ms-3 me-1 ">
+            <div class="d-flex text-start align-items-center text-white">
+              <mat-icon aria-hidden="false" fontIcon="notifications" style="color: #fadb0c;"></mat-icon>
+              <span>(3)</span>&nbsp;&nbsp;
+              <mat-icon aria-hidden="false" fontIcon="inbox"></mat-icon>
+              <span>(1)</span>&nbsp;&nbsp;
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+    <mat-card-subtitle class="text-start text-cofopri my-2">
+      <select name="organizacion" #SelOrgs
+              [(ngModel)]="organizacionSeleccionada"
+              (change)="onChangeSelOrgs(SelOrgs.value)"
+              class="form-select form-select-sm" aria-label="select-organizacion">
+              <option *ngFor="let org of organizaciones" [value]="org.idOrganizacion">{{ org.nombreOrganizacion }}</option>
+      </select>   
+    </mat-card-subtitle>
+
+      <mat-card-subtitle class="text-start text-cofopri mb-2">
+        <select name="perfil" #SelPerf
+                [(ngModel)]="perfilSeleccionado"
+                (change)="onChangeSelPerf(SelPerf.value)"
+                class="form-select form-select-sm" aria-label="select-perfil">
+          <option [value]="per.idPerfil" *ngFor="let per of perfiles">{{ per.nombrePerfil }}</option>
+        </select>   
+      </mat-card-subtitle>
+
+  </mat-card-content>
+</mat-card>

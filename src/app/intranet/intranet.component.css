@@ -1,0 +1,35 @@
+.toolbar-spacer {
+    flex: 1 1 auto;
+  }
+.toolbar-backColor{
+    background-color: #15448b;
+    color: white;
+}
+
+
+.drawer-container {
+    margin-top: -12px;
+    width: 100%;
+    height: 100%;
+  }
+
+  mat-drawer {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }  
+
+  mat-drawer-content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-x: hidden;
+  }
+  mat-drawer-content-notscrollx{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
+

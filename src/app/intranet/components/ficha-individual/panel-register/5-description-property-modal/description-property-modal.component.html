@@ -1,0 +1,93 @@
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <h1 mat-dialog-title class="bg-cofopri text-white">Descripción del Predio</h1>
+  <div mat-dialog-content class="px-4" style="font-size: 0.9rem;">
+    <div class="row my-2">  
+      <div class="row mt-2">
+        <div class="col col-5">
+          Clasificación del Predio:
+        </div>
+        <div class="col col-7" style="position: relative;">
+          <select name="clasificacionpredio" #SelEstCivil
+                  formControlName="clasificacionpredio"
+                  class="form-select form-select-sm border focus-ring" 
+                  [class.border-success]="this.form.get('clasificacionpredio')?.valid"
+                  [class.focus-ring-success]="this.form.get('clasificacionpredio')?.valid"
+                  [class.border-danger]="this.form.get('clasificacionpredio')?.invalid && this.form.get('clasificacionpredio')?.touched"
+                  [class.focus-ring-danger]="this.form.get('clasificacionpredio')?.invalid && this.form.get('clasificacionpredio')?.touched"
+                  aria-label="select-clasificacionpredio" [pattern]="pattern1Digs">
+                  <option *ngFor="let cv of listClasificacionPredio" [value]="cv.value">{{ cv.text }}</option>
+          </select>
+          <i *ngIf="this.form.get('clasificacionpredio')?.invalid && this.form.get('clasificacionpredio')?.touched" 
+                  class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                  title="Campo requerido"></i>
+        </div>
+      </div>
+      <div class="row my-2">
+        <div class="col col-5 mt-1">
+          Predio Catastral en:
+        </div>
+        <div class="col col-7" style="position: relative;">
+          <select name="prediocatastralen" #SelDocIdent
+                  formControlName="prediocatastralen"
+                  class="form-select form-select-sm border focus-ring" 
+                  [class.border-success]="this.form.get('prediocatastralen')?.valid"
+                  [class.focus-ring-success]="this.form.get('prediocatastralen')?.valid"
+                  [class.border-danger]="this.form.get('prediocatastralen')?.invalid && this.form.get('prediocatastralen')?.touched"
+                  [class.focus-ring-danger]="this.form.get('prediocatastralen')?.invalid && this.form.get('prediocatastralen')?.touched"
+                  aria-label="select-prediocatastralen" [pattern]="pattern1Digs">
+                  <option *ngFor="let cv of listPredioCatastralEn" [value]="cv.value">{{ cv.text }}</option>
+          </select>
+          <i *ngIf="this.form.get('prediocatastralen')?.invalid && this.form.get('prediocatastralen')?.touched" 
+                  class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                  title="Campo requerido"></i>                      
+        </div>
+      </div>
+      <div class="row my-2">
+        <div class="col col-5 mt-1">
+          Código de Uso:
+        </div>
+        <div class="col col-7" style="position: relative;">
+          <input type="text" formControlName="codigouso"
+                class="form-control form-control-sm border focus-ring"
+                [class.border-success]="this.form.get('codigouso')?.valid"
+                [class.focus-ring-success]="this.form.get('codigouso')?.valid"
+                [class.border-danger]="this.form.get('codigouso')?.invalid && this.form.get('codigouso')?.touched"
+                [class.focus-ring-danger]="this.form.get('codigouso')?.invalid && this.form.get('codigouso')?.touched"
+                mask="000000">                        
+        </div>
+      </div>
+      <div class="row my-2">
+        <div class="col col-5 mt-1">
+          Descripción del Uso:
+        </div>
+        <div class="col col-7" style="position: relative;">
+          <input type="text" formControlName="descripcionuso"
+                class="form-control form-control-sm border focus-ring"
+                [class.border-success]="this.form.get('descripcionuso')?.valid"
+                [class.focus-ring-success]="this.form.get('descripcionuso')?.valid"
+                [class.border-danger]="this.form.get('descripcionuso')?.invalid && this.form.get('descripcionuso')?.touched"
+                [class.focus-ring-danger]="this.form.get('descripcionuso')?.invalid && this.form.get('descripcionuso')?.touched">                        
+        </div>
+      </div>
+      <div class="row my-2">
+        <div class="col col-7 mt-1">
+          Área de Terreno Verificada (m2):
+        </div>
+        <div class="col col-5" style="position: relative;">
+          <input type="text" formControlName="areaterrenoverificada"
+                class="form-control form-control-sm border focus-ring"
+                [class.border-success]="this.form.get('areaterrenoverificada')?.valid"
+                [class.focus-ring-success]="this.form.get('areaterrenoverificada')?.valid"
+                [class.border-danger]="this.form.get('areaterrenoverificada')?.invalid && this.form.get('areaterrenoverificada')?.touched"
+                [class.focus-ring-danger]="this.form.get('areaterrenoverificada')?.invalid && this.form.get('areaterrenoverificada')?.touched">                        
+        </div>
+      </div>  
+    </div>    
+  </div>
+  <div mat-dialog-actions class="d-flex justify-content-end">  
+    <button type="submit" class="btn btn-sm btn-primary bg-cofopri text-white" 
+            [disabled]="form.invalid"
+            (click)="guardar()"><i class="bi bi-plus-circle"></i>&nbsp;Agregar</button>
+    <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
+  </div>
+</form>

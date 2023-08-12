@@ -1,0 +1,87 @@
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <h1 mat-dialog-title class="bg-cofopri text-white">Identificación del Titular Catastral</h1>
+  <div mat-dialog-content class="px-4" style="font-size: 0.9rem;">
+    <div class="row my-2">  
+      <div class="row mt-2">
+        <div class="col col-5">
+          Persona Juridica:
+        </div>
+        <div class="col col-7" style="position: relative;">
+          <select name="personajuridica" #SelPersJuri
+                  formControlName="personajuridica"
+                  class="form-select form-select-sm border focus-ring" 
+                  [class.border-success]="this.form.get('personajuridica')?.valid"
+                  [class.focus-ring-success]="this.form.get('personajuridica')?.valid"
+                  [class.border-danger]="this.form.get('personajuridica')?.invalid && this.form.get('personajuridica')?.touched"
+                  [class.focus-ring-danger]="this.form.get('personajuridica')?.invalid && this.form.get('personajuridica')?.touched"
+                  aria-label="select-personajuridica" [pattern]="pattern1Digs">
+                  <option *ngFor="let cv of listPersonaJuridica" [value]="cv.value">{{ cv.text }}</option>
+          </select>
+          <i *ngIf="this.form.get('personajuridica')?.invalid && this.form.get('personajuridica')?.touched" 
+                  class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                  title="Campo requerido"></i>
+        </div>
+      </div>
+      <div class="row my-2">
+        <div class="col col-5 mt-1">
+          Nro. RUC:
+        </div>
+        <div class="col col-7" style="position: relative;">
+          <input type="text" formControlName="ruc"
+                class="form-control form-control-sm border focus-ring"
+                [class.border-success]="this.form.get('ruc')?.valid"
+                [class.focus-ring-success]="this.form.get('ruc')?.valid"
+                [class.border-danger]="this.form.get('ruc')?.invalid && this.form.get('ruc')?.touched"
+                [class.focus-ring-danger]="this.form.get('ruc')?.invalid && this.form.get('ruc')?.touched"
+                mask="00000000000">
+        </div>
+      </div>
+      <div class="row my-2">
+        <div class="col col-5 mt-1">
+          Teléfono / Anexo:
+        </div>
+        <div class="col col-7" style="position: relative;">
+          <input type="text" formControlName="telefonoanexo"
+                class="form-control form-control-sm border focus-ring"
+                [class.border-success]="this.form.get('telefonoanexo')?.valid"
+                [class.focus-ring-success]="this.form.get('telefonoanexo')?.valid"
+                [class.border-danger]="this.form.get('telefonoanexo')?.invalid && this.form.get('telefonoanexo')?.touched"
+                [class.focus-ring-danger]="this.form.get('telefonoanexo')?.invalid && this.form.get('telefonoanexo')?.touched">
+        </div>
+      </div>
+      <div class="row my-2">
+        <div class="col col-5 mt-1">
+          Razón Social:
+        </div>
+        <div class="col col-7" style="position: relative;">
+          <input type="text" formControlName="razonsocial"
+                class="form-control form-control-sm border focus-ring"
+                [class.border-success]="this.form.get('razonsocial')?.valid"
+                [class.focus-ring-success]="this.form.get('razonsocial')?.valid"
+                [class.border-danger]="this.form.get('razonsocial')?.invalid && this.form.get('razonsocial')?.touched"
+                [class.focus-ring-danger]="this.form.get('razonsocial')?.invalid && this.form.get('razonsocial')?.touched">
+        </div>
+      </div>
+      <div class="row my-2">
+        <div class="col col-5 mt-1">
+          Correo Electrónico:
+        </div>
+        <div class="col col-7" style="position: relative;">
+          <input type="text" formControlName="email"
+                class="form-control form-control-sm border focus-ring"
+                [class.border-success]="this.form.get('email')?.valid"
+                [class.focus-ring-success]="this.form.get('email')?.valid"
+                [class.border-danger]="this.form.get('email')?.invalid && this.form.get('email')?.touched"
+                [class.focus-ring-danger]="this.form.get('email')?.invalid && this.form.get('email')?.touched">                        
+        </div>
+      </div>  
+    </div>    
+  </div>
+  <!-- [disabled]="form.invalid" -->
+  <div mat-dialog-actions class="d-flex justify-content-end">  
+    <button type="submit" class="btn btn-sm btn-primary bg-cofopri text-white" 
+            [disabled]="form.invalid"
+            (click)="guardar()"><i class="bi bi-plus-circle"></i>&nbsp;Agregar</button>
+    <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
+  </div>
+</form>

@@ -1,0 +1,46 @@
+  <div class="row" style="height: 100%;">
+      <div class="col-md-12">
+        <p>
+          <mat-toolbar class="toolbar-backColor">
+            <button mat-icon-button class="example-icon" 
+                    aria-label="icon-button with menu icon"
+                    (click)="drawer.toggle()">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span class="title_navbar">Sistema de Información Catastral Urbano</span>
+            <span class="toolbar-spacer"></span>
+            <!-- <button mat-icon-button
+                    matTooltip="Ver información del usuario"
+                    matTooltipShowDelay ="500"
+                    matTooltipPosition="below">
+              <mat-icon>account_circle</mat-icon>
+            </button> -->
+            <button mat-icon-button
+                  matTooltip="Cerrar sesión"
+                  matTooltipShowDelay ="500"
+                  matTooltipPosition="below"
+                    class="example-icon"             
+                    aria-label="Example icon-button with share icon"
+                    (click)="CerrarSesion()">
+            <mat-icon>exit_to_app</mat-icon>
+            </button>
+          </mat-toolbar>
+        </p>
+        <mat-drawer-container class="drawer-container" [hasBackdrop]="hasBackdrop" style="overflow-x: hidden;">
+          <mat-drawer #drawer mode="side" position="start" style="width: 25rem;overflow-x: hidden;">
+            <app-user></app-user>
+            <app-menu></app-menu>
+          </mat-drawer>
+          <mat-drawer-content>
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-12">
+                  <router-outlet></router-outlet>
+                </div>
+              </div>      
+            </div>      
+          </mat-drawer-content>
+        </mat-drawer-container>
+      </div>
+  </div>
+  

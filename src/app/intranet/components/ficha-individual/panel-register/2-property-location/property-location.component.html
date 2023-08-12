@@ -1,0 +1,147 @@
+<div class="row">
+  <div class="col-12 py-3">
+    <table class="table table-sm table-bordered border-dark" style="font-size: 11px;">
+      <thead class="m-2">
+        <tr>
+          <td colspan="17" class="bg-secondary-subtle px-3">            
+            <button type="button" class="btn btn-success btn-sm rounded-pill" 
+                title="Agregar ubicación" (click)="Agregar()">
+              <i class="bi bi-plus-circle"></i>&nbsp;Agregar
+            </button>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row" class="text-center bg-secondary-subtle align-middle fw-bold" style="width: 100px;">Acción</th>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">05</th>
+          <td colspan="5" class="text-center align-middle bg-info">CÓDIGO DE VÍA</td>
+
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">06</th>
+          <td class="text-center bg-info align-middle" style="width: 80px;">TIPO DE VÍA</td>
+
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">07</th>
+          <td class="text-center align-middle bg-info">NOMBRE DE VÍA</td>
+
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">08</th>
+          <td class="text-center bg-info" style="width: 105px;">TIPO DE PUERTA</td>
+
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">09</th>
+          <td class="text-center bg-info" style="width: 100px;">N° MUNICIPAL</td>
+
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">10</th>
+          <td class="text-center bg-info" style="width: 100px;">COND. NÚMER.</td>
+        </tr>
+        <tr *ngFor="let pl of listUbicacionPredial">
+          <td class="text-center align-middle alto-column">
+            <button type="button" class="btn btn-primary btn-sm rounded-circle" 
+              title="Modificar" (click)="Editar(pl)">
+              <i class="bi bi-pencil"></i>
+            </button>&nbsp;
+            <button type="button" class="btn btn-danger btn-sm rounded-circle" 
+              title="Borrar" (click)="Borrar(pl)">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </td>
+          <td class="text-center align-middle alto-column">{{pl.CodeVia1}}</td>
+          <td class="text-center align-middle ancho-column">{{pl.CodeVia2}}</td>
+          <td class="text-center align-middle ancho-column">{{pl.CodeVia3}}</td>
+          <td class="text-center align-middle ancho-column">{{pl.CodeVia4}}</td>
+          <td class="text-center align-middle ancho-column">{{pl.CodeVia5}}</td>
+          <td class="text-center align-middle ancho-column">{{pl.CodeVia6}}</td>
+          <td colspan="2" class="text-center align-middle">{{pl.TipoVia}}</td>
+          <td colspan="2" class="text-left align-middle">{{pl.NombreVia}}</td>
+          <td colspan="2" class="text-center align-middle">{{pl.TipoPuerta}}</td>
+          <td colspan="2" class="text-center align-middle">{{pl.NroMunicipal}}</td>
+          <td colspan="2" class="text-center align-middle">{{pl.CondNumeracion}}</td>
+        </tr>
+      </tbody>
+    </table>                                                
+  </div>
+  <div class="col-12">
+    <table class="table table-sm table-bordered border-dark" style="font-size: 11px;">
+      <thead class="m-2">
+        <tr>
+          <td colspan="12" class="bg-secondary-subtle px-3">            
+            <button type="button" class="btn btn-primary btn-sm rounded-pill" 
+                title="Agregar ubicación" [disabled]="btnCompleteInfoDisabled"
+                (click)="CompletarInfo()">
+              <i class="bi bi-book-half"></i>&nbsp;Completar Información
+            </button>
+          </td>
+        </tr>
+      </thead>
+      <tbody>                        
+        <tr>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">11</th>
+          <td class="text-center bg-info" style="width:130px">TIPO DE EDIFICACIÓN</td>
+          <td class="text-center ancho-column">{{edificacion.codigoEspecifico}}</td>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">12</th>
+          <td class="text-center bg-info" style="width:150px">NOMBRE DE EDIFICACIÓN</td>
+          <td class="text-center">{{edificacion.nombreEdificacion}}</td>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">13</th>
+          <td class="text-center bg-info" style="width:130px">TIPO DE INTERIOR</td>
+          <td class="text-center ancho-column">{{edificacion.codigoTipoInterior}}</td>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">14</th>
+          <td class="text-center bg-info" style="width:110px">N° INTERIOR</td>
+          <td class="text-center ancho-column">{{edificacion.numeroInterior}}</td>
+        </tr>                         
+      </tbody>
+    </table>                                                
+  </div>
+  <div class="col-12">
+    <table class="table table-sm table-bordered border-dark" style="font-size: 11px;">
+      <tbody>
+        <tr>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">15</th>
+          <td class="text-center bg-info">CÓDIGO HU</td>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">16</th>
+          <td class="text-center bg-info">NOMBRE DE LA HABILITACIÓN URBANA</td>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">17</th>
+          <td class="text-center bg-info">ZONA/SECTOR/ETAPA</td>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">18</th>
+          <td class="text-center bg-info">MANZANA</td>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">19</th>
+          <td class="text-center bg-info">LOTE</td>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">20</th>
+          <td class="text-center bg-info">SUB-LOTE</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="text-center alto-column">
+            {{habilitacion.codigoHabilitacion}}
+          </td>
+          <td colspan="2" class="text-center">
+            {{habilitacion.nombreHabilitacion}}
+          </td>
+          <td colspan="2" class="text-center">
+            {{habilitacion.sectorZonaEtapa}}
+          </td>
+          <td colspan="2" class="text-center">
+            {{habilitacion.manzanaUrbana}}
+          </td>
+          <td colspan="2" class="text-center">{{habilitacion.lote}}</td>
+          <td colspan="2" class="text-center">{{habilitacion.sublote}}</td>
+        </tr>                          
+      </tbody>
+      <tfoot *ngIf="progress">
+        <tr>
+          <td colspan="24"><span style="font-size: 0.85rem;">Registrando la ubicación del predio catastral...</span>
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </td>
+        </tr>            
+      </tfoot>
+    </table>                                                
+  </div>
+</div>
+<div class="row">
+  <div class="col col-12">
+    <div class="input-group">
+      <button class="btn btn-dark btn-sm" style="width: 100px;" 
+        matStepperPrevious>
+        <i class="bi bi-arrow-up-circle"></i>&nbsp;Atrás</button>
+      <button class="btn btn-success btn-sm" style="width: 100px;" 
+      [disabled]="btnNextDisabled" (click)="goNext()">
+        Siguiente&nbsp;<i class="bi bi-arrow-down-circle"></i></button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,255 @@
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <h1 mat-dialog-title class="bg-cofopri text-white">Código de Referencia Catastral</h1>
+  <div mat-dialog-content class="px-4" style="font-size: 0.9rem;">
+    <div class="row my-2">    
+        <div class="col-12 mt-1">
+          <mat-card class="example-card">
+            <mat-card-content>
+              <div class="row">
+                <div class="col-3 mt-1">
+                  Departamento:
+                </div>
+                <div class="col-9" style="position: relative;">
+                  <select name="departamento" #SelDepa
+                          formControlName="departamento"
+                          (change)="onChangeSelDepa(SelDepa.value, false)"
+                          class="form-select form-select-sm border focus-ring" 
+                          [class.border-success]="this.form.get('departamento')?.valid"
+                          [class.focus-ring-success]="this.form.get('departamento')?.valid"
+                          [class.border-danger]="this.form.get('departamento')?.invalid && this.form.get('departamento')?.touched"
+                          [class.focus-ring-danger]="this.form.get('departamento')?.invalid && this.form.get('departamento')?.touched"
+                          aria-label="select-departamento" [pattern]="pattern2Digs">
+                          <option *ngFor="let dep of listDpto$ | async" [value]="dep.ubigeoDepartamento">{{ dep.nombreDepartamento }}</option>
+                  </select>
+                  <i *ngIf="this.form.get('departamento')?.invalid && this.form.get('departamento')?.touched" 
+                          class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                          title="Campo requerido"></i>
+                  <!-- <i *ngIf="this.form.get('departamento')?.valid && this.form.get('departamento')?.touched" 
+                          class="position-icon-select fa-solid fa-check-circle text-success"></i> -->
+                </div>            
+              </div>
+              <div class="row mt-2">
+                <div class="col-3 mt-1">
+                  Provincia:
+                </div>
+                <div class="col-9" style="position: relative;">      
+                  <select name="provincias" #SelProv
+                          formControlName="provincia"                          
+                          (change)="onChangeSelProv(SelProv.value, SelDepa.value, false)"
+                          class="form-select form-select-sm border focus-ring" 
+                          [class.border-success]="this.form.get('provincia')?.valid"
+                          [class.focus-ring-success]="this.form.get('provincia')?.valid"
+                          [class.border-danger]="this.form.get('provincia')?.invalid && this.form.get('provincia')?.touched"
+                          [class.focus-ring-danger]="this.form.get('provincia')?.invalid && this.form.get('provincia')?.touched"
+                          aria-label="select-provincias" [pattern]="pattern2Digs">
+                          <option *ngFor="let pro of provincias" [value]="pro.ubigeoProvincia">{{ pro.nombreProvincia }}</option>
+                  </select>
+                  <i *ngIf="this.form.get('provincia')?.invalid && this.form.get('provincia')?.touched" 
+                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                    title="Campo requerido"></i>
+                  <!-- <i *ngIf="this.form.get('provincia')?.valid && this.form.get('provincia')?.touched" 
+                          class="position-icon-select fa-solid fa-check-circle text-success"></i> -->
+                </div>            
+              </div>
+              <div class="row mt-2">
+                <div class="col-3 mt-1">
+                  Distrito:
+                </div>
+                <div class="col-9" style="position: relative;">      
+                  <select name="distritos" #SelDist
+                          formControlName="distrito"
+                          (change)="onChangeSelDist(SelDist.value, false)"
+                          class="form-select form-select-sm border focus-ring"
+                          [class.border-success]="this.form.get('distrito')?.valid"
+                          [class.focus-ring-success]="this.form.get('distrito')?.valid"
+                          [class.border-danger]="this.form.get('distrito')?.invalid && this.form.get('distrito')?.touched"
+                          [class.focus-ring-danger]="this.form.get('distrito')?.invalid && this.form.get('distrito')?.touched"
+                          aria-label="select-distritos" [pattern]="pattern1Digs">
+                          <option *ngFor="let dis of distritos" [value]="dis.id">{{ dis.nombreDistrito }}</option>
+                  </select>
+                  <i *ngIf="this.form.get('distrito')?.invalid && this.form.get('distrito')?.touched" 
+                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                    title="Campo requerido"></i>
+                  <!-- <i *ngIf="this.form.get('distrito')?.valid && this.form.get('distrito')?.touched" 
+                          class="position-icon-select fa-solid fa-check-circle text-success"></i> -->
+                </div>            
+              </div>
+              <div class="row my-2">
+                <div class="col-3 mt-1">
+                  Sector:
+                </div>
+                <div class="col-3" style="position: relative;">
+                  <select name="sector" #SelSect
+                          formControlName="sector"
+                          (change)="onChangeSelSector(SelSect.value, false)"
+                          class="form-select form-select-sm border focus-ring"
+                          [class.border-success]="this.form.get('sector')?.valid"
+                          [class.focus-ring-success]="this.form.get('sector')?.valid"
+                          [class.border-danger]="this.form.get('sector')?.invalid && this.form.get('sector')?.touched"
+                          [class.focus-ring-danger]="this.form.get('sector')?.invalid && this.form.get('sector')?.touched"
+                          aria-label="select-sector" [pattern]="pattern1Digs">
+                          <option *ngFor="let sec of sectores" [value]="sec.idSector">{{ sec.codigoSector }}</option>
+                  </select>
+                  <!-- <i *ngIf="this.form.get('sector')?.invalid && this.form.get('sector')?.touched" 
+                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                    title="Campo requerido"></i> -->
+                  <!-- <input type="text" formControlName="sector"                         
+                        class="form-control form-control-sm border focus-ring" 
+                        [class.border-success]="this.form.get('sector')?.valid"
+                        [class.focus-ring-success]="this.form.get('sector')?.valid"
+                        [class.border-danger]="this.form.get('sector')?.invalid && this.form.get('sector')?.touched"
+                        [class.focus-ring-danger]="this.form.get('sector')?.invalid && this.form.get('sector')?.touched"
+                        mask='00' [pattern]="pattern2Digs" [(ngModel)]="datos.sector">
+                  <i *ngIf="this.form.get('sector')?.invalid && this.form.get('sector')?.touched" 
+                        class="position-icon-input fa-solid fa-exclamation-circle text-danger"
+                        title="Campo requerido"></i> -->
+                </div>
+                <div class="col-3 mt-1">
+                  Manzana:
+                </div>
+                <div class="col-3" style="position: relative;">
+                  <select name="manzana" #SelManz
+                          formControlName="manzana"
+                          class="form-select form-select-sm border focus-ring"
+                          [class.border-success]="this.form.get('manzana')?.valid"
+                          [class.focus-ring-success]="this.form.get('manzana')?.valid"
+                          [class.border-danger]="this.form.get('manzana')?.invalid && this.form.get('manzana')?.touched"
+                          [class.focus-ring-danger]="this.form.get('manzana')?.invalid && this.form.get('manzana')?.touched"
+                          aria-label="select-sector" [pattern]="pattern1Digs">
+                          <option *ngFor="let man of manzanas" [value]="man.idManzana">{{ man.codigoManzana }}</option>
+                  </select>                  
+                  <!-- <input type="text" formControlName="manzana" 
+                        class="form-control form-control-sm border focus-ring" 
+                        [class.border-success]="this.form.get('manzana')?.valid"
+                        [class.focus-ring-success]="this.form.get('manzana')?.valid"
+                        [class.border-danger]="this.form.get('manzana')?.invalid && this.form.get('manzana')?.touched"
+                        [class.focus-ring-danger]="this.form.get('manzana')?.invalid && this.form.get('manzana')?.touched"
+                        mask='000' [pattern]="pattern3Digs" [(ngModel)]="datos.manzana"> -->
+                  <!-- <i *ngIf="this.form.get('manzana')?.invalid && this.form.get('manzana')?.touched" 
+                        class="position-icon-input fa-solid fa-exclamation-circle text-danger"
+                        title="Campo requerido"></i> -->
+                  <!-- <i *ngIf="this.form.get('manzana')?.valid && this.form.get('manzana')?.touched" 
+                        class="position-icon-input fa-solid fa-check-circle text-success"></i>                         -->
+                </div>
+              </div>
+              <div class="row my-2">
+                <div class="col-3 mt-1">
+                  Lote:
+                </div>
+                <div class="col-3" style="position: relative;">
+                  <input type="text" formControlName="lote" 
+                        class="form-control form-control-sm border focus-ring" 
+                        [class.border-success]="this.form.get('lote')?.valid"
+                        [class.focus-ring-success]="this.form.get('lote')?.valid"
+                        [class.border-danger]="this.form.get('lote')?.invalid && this.form.get('lote')?.touched"
+                        [class.focus-ring-danger]="this.form.get('lote')?.invalid && this.form.get('lote')?.touched"
+                        mask='000' [pattern]="pattern3Digs">
+                  <i *ngIf="this.form.get('lote')?.invalid && this.form.get('lote')?.touched" 
+                        class="position-icon-input fa-solid fa-exclamation-circle text-danger"
+                        title="Campo requerido"></i>
+                  <!-- <i *ngIf="this.form.get('lote')?.valid && this.form.get('lote')?.touched" 
+                        class="position-icon-input fa-solid fa-check-circle text-success"></i>                           -->
+                </div>
+                <div class="col-3 mt-1">
+                  Edifica:
+                </div>
+                <div class="col-3" style="position: relative;">
+                  <input type="text" formControlName="edifica" 
+                          class="form-control form-control-sm border focus-ring" 
+                          [class.border-success]="this.form.get('edifica')?.valid"
+                          [class.focus-ring-success]="this.form.get('edifica')?.valid"
+                          [class.border-danger]="this.form.get('edifica')?.invalid && this.form.get('edifica')?.touched"
+                          [class.focus-ring-danger]="this.form.get('edifica')?.invalid && this.form.get('edifica')?.touched"
+                          mask='00' [pattern]="pattern2Digs">
+                    <i *ngIf="this.form.get('edifica')?.invalid && this.form.get('edifica')?.touched" 
+                          class="position-icon-input fa-solid fa-exclamation-circle text-danger"
+                          title="Campo requerido"></i>
+                    <!-- <i *ngIf="this.form.get('edifica')?.valid && this.form.get('edifica')?.touched" 
+                          class="position-icon-input fa-solid fa-check-circle text-success"></i>                            -->
+                </div>
+              </div>
+              <div class="row my-2">
+                <div class="col-3 mt-1">
+                  Entrada:
+                </div>
+                <div class="col-3" style="position: relative;">
+                  <input type="text" formControlName="entrada" 
+                          class="form-control form-control-sm border focus-ring" 
+                          [class.border-success]="this.form.get('entrada')?.valid"
+                          [class.focus-ring-success]="this.form.get('entrada')?.valid"
+                          [class.border-danger]="this.form.get('entrada')?.invalid && this.form.get('entrada')?.touched"
+                          [class.focus-ring-danger]="this.form.get('entrada')?.invalid && this.form.get('entrada')?.touched"
+                          mask='00' [pattern]="pattern2Digs">
+                    <i *ngIf="this.form.get('entrada')?.invalid && this.form.get('entrada')?.touched" 
+                          class="position-icon-input fa-solid fa-exclamation-circle text-danger"
+                          title="Campo requerido"></i>
+                    <!-- <i *ngIf="this.form.get('entrada')?.valid && this.form.get('entrada')?.touched" 
+                          class="position-icon-input fa-solid fa-check-circle text-success"></i>                            -->
+                </div>
+                <div class="col-3 mt-1">
+                  Piso:
+                </div>
+                <div class="col-3" style="position: relative;">
+                  <input type="text" formControlName="piso" 
+                        class="form-control form-control-sm border focus-ring" 
+                        [class.border-success]="this.form.get('piso')?.valid"
+                        [class.focus-ring-success]="this.form.get('piso')?.valid"
+                        [class.border-danger]="this.form.get('piso')?.invalid && this.form.get('piso')?.touched"
+                        [class.focus-ring-danger]="this.form.get('piso')?.invalid && this.form.get('piso')?.touched"
+                        mask='00' [pattern]="pattern2Digs">
+                  <i *ngIf="this.form.get('piso')?.invalid && this.form.get('piso')?.touched" 
+                        class="position-icon-input fa-solid fa-exclamation-circle text-danger"
+                        title="Campo requerido"></i>
+                  <!-- <i *ngIf="this.form.get('piso')?.valid && this.form.get('piso')?.touched" 
+                        class="position-icon-input fa-solid fa-check-circle text-success"></i>                          -->
+                </div>
+              </div>
+              <div class="row my-2">
+                <div class="col-3 mt-1">
+                  Unidad:
+                </div>
+                <div class="col-3" style="position: relative;">
+                  <input type="text" formControlName="unidad" 
+                          class="form-control form-control-sm border focus-ring" 
+                          [class.border-success]="this.form.get('unidad')?.valid"
+                          [class.focus-ring-success]="this.form.get('unidad')?.valid"
+                          [class.border-danger]="this.form.get('unidad')?.invalid && this.form.get('unidad')?.touched"
+                          [class.focus-ring-danger]="this.form.get('unidad')?.invalid && this.form.get('unidad')?.touched"
+                          mask='000' [pattern]="pattern3Digs">
+                    <i *ngIf="this.form.get('unidad')?.invalid && this.form.get('unidad')?.touched" 
+                          class="position-icon-input fa-solid fa-exclamation-circle text-danger"
+                          title="Campo requerido"></i>
+                    <!-- <i *ngIf="this.form.get('unidad')?.valid && this.form.get('unidad')?.touched" 
+                          class="position-icon-input fa-solid fa-check-circle text-success"></i>                             -->
+                </div>
+                <div class="col-3 mt-1">
+                  DC:
+                </div>
+                <div class="col-3" style="position: relative;">
+                  <input type="text" formControlName="dc" 
+                        class="form-control form-control-sm border focus-ring" 
+                        [class.border-success]="this.form.get('dc')?.valid"
+                        [class.focus-ring-success]="this.form.get('dc')?.valid"
+                        [class.border-danger]="this.form.get('dc')?.invalid && this.form.get('dc')?.touched"
+                        [class.focus-ring-danger]="this.form.get('dc')?.invalid && this.form.get('dc')?.touched"
+                        mask='0' [pattern]="pattern1Digs">
+                  <i *ngIf="this.form.get('dc')?.invalid && this.form.get('dc')?.touched" 
+                        class="position-icon-input fa-solid fa-exclamation-circle text-danger"
+                        title="Campo requerido"></i>
+                  <!-- <i *ngIf="this.form.get('dc')?.valid && this.form.get('dc')?.touched" 
+                        class="position-icon-input fa-solid fa-check-circle text-success"></i>                          -->
+                </div>
+              </div>          
+            </mat-card-content>
+          </mat-card>      
+        </div>
+    </div>
+    
+  </div>
+  <div mat-dialog-actions class="d-flex justify-content-end">  
+    <button type="submit" class="btn btn-sm btn-primary bg-cofopri text-white" 
+            [disabled]="form.invalid"
+            (click)="guardar()">Aceptar</button>
+    <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
+  </div>
+</form>

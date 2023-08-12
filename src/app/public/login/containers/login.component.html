@@ -1,0 +1,47 @@
+<!-- 
+    <mat-card class="mt-5">
+        <mat-card-header>
+            <div mat-card-avatar class="circle-header-image"></div>
+            <mat-card-title class="text-start">COFOPRI</mat-card-title>
+            <mat-card-subtitle class="text-start">Organismo de formalización de la propiedad informal</mat-card-subtitle>
+          </mat-card-header>
+        <form (submit)="login()"  name="loginForm" [formGroup]="loginForm">
+            <div class="user-input p-2" style="text-align: start;">
+                <h2 style="padding-left: 60px;">Ingrese su usuario y contraseña de autenticación</h2>
+            </div>
+            <div class="user-input p-2">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Usuario</mat-label>
+                    <input formControlName="usuario" matInput required />
+                    <mat-error *ngIf="Usuario.errors?.['required']">
+                        El usuario es requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="user-input p-2">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" 
+                    (keydown.enter)="$event.preventDefault()"/>
+                    <button mat-icon-button matSuffix (click)="hide = !hide; $event.preventDefault()" tabindex="-1"
+                        [attr.aria-label]="'Hide Password'" [attr.aira-pressed]="hide"
+                        (keydown.enter)="$event.preventDefault()">
+                        <mat-icon>{{ hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="Password.errors?.['required']">
+                        El password es requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="user-input pl-2" style="text-align:left; margin-left: 60px;">
+                <div class="text-danger">{{ loginError }}</div>
+            </div>
+            <div class="user-input p-2" style="text-align: end; margin-right: 60px;">
+                <button class="btn btn-sm btn-outline-primary mb-3" type="submit">
+                    Iniciar Sesión</button>
+            </div>
+        </form>
+        <mat-card-footer *ngIf="viewProgress">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </mat-card-footer>
+    </mat-card> -->

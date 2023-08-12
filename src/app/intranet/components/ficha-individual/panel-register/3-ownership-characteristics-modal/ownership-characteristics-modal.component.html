@@ -1,0 +1,118 @@
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <h1 mat-dialog-title class="bg-cofopri text-white">Características de la Titularidad</h1>
+  <div mat-dialog-content class="px-4" style="font-size: 0.9rem;">
+    <div class="row my-2">    
+        <div class="col-12 mt-1">
+          <mat-card class="example-card">
+            <mat-card-content>
+              <div class="row">
+                <div class="col-5 mt-1">
+                  Condición del Titular:
+                </div>
+                <div class="col-7" style="position: relative;">
+                  <select name="condiciontitular" #SelCondTitular
+                          formControlName="condiciontitular"
+                          class="form-select form-select-sm border focus-ring" 
+                          [class.border-success]="this.form.get('condiciontitular')?.valid"
+                          [class.focus-ring-success]="this.form.get('condiciontitular')?.valid"
+                          [class.border-danger]="this.form.get('condiciontitular')?.invalid && this.form.get('condiciontitular')?.touched"
+                          [class.focus-ring-danger]="this.form.get('condiciontitular')?.invalid && this.form.get('condiciontitular')?.touched"
+                          aria-label="select-condiciontitular" [pattern]="pattern1Digs">
+                          <option *ngFor="let ct of listCondTitular" [value]="ct.value">{{ ct.text }}</option>
+                  </select>
+                  <i *ngIf="this.form.get('condiciontitular')?.invalid && this.form.get('condiciontitular')?.touched" 
+                          class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                          title="Campo requerido"></i>
+                  <!-- <i *ngIf="this.form.get('departamento')?.valid && this.form.get('departamento')?.touched" 
+                          class="position-icon-select fa-solid fa-check-circle text-success"></i> -->
+                </div>            
+              </div>
+              <div class="row mt-2">
+                <div class="col-5 mt-1">
+                  Forma de Adquisición:
+                </div>
+                <div class="col-7" style="position: relative;">      
+                  <select name="formaadquisicion" #SelFormAdquisicion
+                          formControlName="formaadquisicion"
+                          class="form-select form-select-sm border focus-ring" 
+                          [class.border-success]="this.form.get('formaadquisicion')?.valid"
+                          [class.focus-ring-success]="this.form.get('formaadquisicion')?.valid"
+                          [class.border-danger]="this.form.get('formaadquisicion')?.invalid && this.form.get('formaadquisicion')?.touched"
+                          [class.focus-ring-danger]="this.form.get('formaadquisicion')?.invalid && this.form.get('formaadquisicion')?.touched"
+                          aria-label="select-provincias" [pattern]="pattern1Digs">
+                          <option *ngFor="let fa of listFormaAdquision" [value]="fa.value">{{ fa.text }}</option>
+                  </select>
+                  <i *ngIf="this.form.get('formaadquisicion')?.invalid && this.form.get('formaadquisicion')?.touched" 
+                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                    title="Campo requerido"></i>
+                </div>            
+              </div>
+              <div class="row mt-2">
+                <div class="col-5 mt-1">
+                  Tipo de Documento:
+                </div>
+                <div class="col-7" style="position: relative;">      
+                  <select name="tipodocumento" #SelTipoDocumento
+                          formControlName="tipodocumento"
+                          class="form-select form-select-sm border focus-ring" 
+                          [class.border-success]="this.form.get('tipodocumento')?.valid"
+                          [class.focus-ring-success]="this.form.get('tipodocumento')?.valid"
+                          [class.border-danger]="this.form.get('tipodocumento')?.invalid && this.form.get('tipodocumento')?.touched"
+                          [class.focus-ring-danger]="this.form.get('tipodocumento')?.invalid && this.form.get('tipodocumento')?.touched"
+                          aria-label="select-tipodocumento" [pattern]="pattern1Digs">
+                          <option *ngFor="let fa of listTipoDocumento" [value]="fa.value">{{ fa.text }}</option>
+                  </select>
+                  <i *ngIf="this.form.get('tipodocumento')?.invalid && this.form.get('tipodocumento')?.touched" 
+                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                    title="Campo requerido"></i>
+                </div>            
+              </div>
+              <div class="row mt-2">
+                <div class="col-5 mt-1">
+                  Tipo de Partida Registral:
+                </div>
+                <div class="col-7" style="position: relative;">      
+                  <select name="tipopartidaregistral" #SelTipoPartida
+                          formControlName="tipopartidaregistral"
+                          class="form-select form-select-sm border focus-ring" 
+                          [class.border-success]="this.form.get('tipopartidaregistral')?.valid"
+                          [class.focus-ring-success]="this.form.get('tipopartidaregistral')?.valid"
+                          [class.border-danger]="this.form.get('tipopartidaregistral')?.invalid && this.form.get('tipopartidaregistral')?.touched"
+                          [class.focus-ring-danger]="this.form.get('tipopartidaregistral')?.invalid && this.form.get('tipopartidaregistral')?.touched"
+                          aria-label="select-tipopartidaregistral" [pattern]="pattern1Digs">
+                          <option *ngFor="let tpr of listTipoPartidaRegistral" [value]="tpr.value">{{ tpr.text }}</option>
+                  </select>
+                  <i *ngIf="this.form.get('tipopartidaregistral')?.invalid && this.form.get('tipopartidaregistral')?.touched" 
+                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                    title="Campo requerido"></i>
+                </div>            
+              </div>
+              <div class="row my-2">
+                <div class="col-5 mt-1">
+                  Número Partida Registral:
+                </div>
+                <div class="col-7" style="position: relative;">
+                  <input type="text" formControlName="numero" 
+                          class="form-control form-control-sm border focus-ring" 
+                          [class.border-success]="this.form.get('numero')?.valid"
+                          [class.focus-ring-success]="this.form.get('numero')?.valid"
+                          [class.border-danger]="this.form.get('numero')?.invalid && this.form.get('numero')?.touched"
+                          [class.focus-ring-danger]="this.form.get('numero')?.invalid && this.form.get('numero')?.touched">
+                    <i *ngIf="this.form.get('numero')?.invalid && this.form.get('numero')?.touched" 
+                          class="position-icon-input fa-solid fa-exclamation-circle text-danger"
+                          title="Campo requerido"></i>
+                </div>
+              </div>          
+            </mat-card-content>
+          </mat-card>      
+        </div>
+    </div>
+    
+  </div>
+  <div mat-dialog-actions class="d-flex justify-content-end">  
+    <button type="submit" class="btn btn-sm btn-primary bg-cofopri text-white" 
+            [disabled]="form.invalid"
+            (click)="guardar()">Aceptar</button>
+    <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
+  </div>
+</form>

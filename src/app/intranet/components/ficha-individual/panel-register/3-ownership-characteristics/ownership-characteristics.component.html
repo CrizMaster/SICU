@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-12 py-3">
+    <table class="table table-sm table-bordered border-dark" style="font-size: 11px;">
+      <thead class="m-2">
+        <tr>
+          <td colspan="12" class="bg-secondary-subtle px-3">
+            <button type="button" class="btn btn-sm btn-success rounded-pill"
+            [class.btn-success]="titleBtn == 'Agregar'"
+            [class.btn-primary.bg-cofopri]="titleBtn == 'Modificar'"
+            title="{{titleBtn}} código de referencia catastral" (click)="Agregar()">
+            <i class="bi bi-plus-circle"
+                [class.bi-plus-circle]="titleBtn == 'Agregar'"
+                [class.bi-pencil]="titleBtn == 'Modificar'"></i>&nbsp;{{titleBtn}}
+          </button>            
+          </td>
+        </tr>
+      </thead>
+      <tbody>                        
+        <tr>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">21</th>
+          <td class="text-center bg-info" style="width:130px">CONDICIÓN DEL TITULAR</td>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">22</th>
+          <td class="text-center bg-info" style="width:150px">FORMA DE ADQUISIÓN</td>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">23</th>
+          <td class="text-center bg-info" style="width:130px">TIPO DE DOCUMENTO</td>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">24</th>
+          <td class="text-center bg-info" style="width:110px">TIPO DE PARTIDA REGISTRAL</td>
+          <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">25</th>
+          <td class="text-center bg-info" style="width:110px">NÚMERO</td>
+        </tr>
+        <tr>
+          <td colspan="2">{{info.CondicionTitular}}</td>
+          <td colspan="2">{{info.FormaAdquision}}</td>
+          <td colspan="2">{{info.TipoDocumento}}</td>
+          <td colspan="2">{{info.TipoPartidaRegistral}}</td>
+          <td colspan="2">{{info.NumeroPartidaRegistral}}</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="progress">
+        <tr>
+          <td colspan="24"><span style="font-size: 0.85rem;">Guardando las características de la titularidad...</span>
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </td>
+        </tr>            
+      </tfoot>
+    </table>                                                
+  </div>
+</div>
+<div class="row">
+  <div class="col col-12">
+    <div class="input-group">
+      <button class="btn btn-dark btn-sm" style="width: 100px;" 
+        matStepperPrevious>
+        <i class="bi bi-arrow-up-circle"></i>&nbsp;Atrás</button>
+      <button class="btn btn-success btn-sm" style="width: 100px;" 
+        [disabled]="btnNextDisabled" (click)="goNext()">
+        Siguiente&nbsp;<i class="bi bi-arrow-down-circle"></i></button>
+    </div>
+  </div>
+</div>

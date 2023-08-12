@@ -1,0 +1,13 @@
+mat-list{
+    padding: 0 0;
+  }
+
+  mat-list-item:hover{
+    background-color: #fadb0c;
+    cursor: pointer;
+  }
+
+  mat-list-item:hover mat-panel-title{
+    color: #15448b;
+    cursor: pointer;
+  }

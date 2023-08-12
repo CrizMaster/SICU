@@ -1,0 +1,190 @@
+<form [formGroup]="form">
+  <div class="row" *ngIf="ctrlTipoTitular">
+    <div class="col-3 py-3">
+      <table class="table table-sm table-bordered border-dark" style="font-size: 11px;">
+        <tbody>                        
+          <tr>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">26</th>
+            <td class="text-center align-middle bg-info">TIPO DE TITULAR</td>
+          </tr>
+          <tr>
+            <td class="text-center" colspan="2">
+              <select name="tipotitular" #SelTipoTitular
+                  formControlName="tipotitular"
+                  (change)="onChangeSelTipoTitular(SelTipoTitular.value, false)"
+                  class="form-select form-select-sm border focus-ring" 
+                  [class.border-success]="this.form.get('tipotitular')?.valid"
+                  [class.focus-ring-success]="this.form.get('tipotitular')?.valid"
+                  [class.border-danger]="this.form.get('tipotitular')?.invalid && this.form.get('tipotitular')?.touched"
+                  [class.focus-ring-danger]="this.form.get('tipotitular')?.invalid && this.form.get('tipotitular')?.touched"
+                  aria-label="select-condiciontitular" [pattern]="pattern1Digs">
+                  <option *ngFor="let ct of listTipoTitular" [value]="ct.value">{{ ct.text }}</option>
+              </select>
+              <i *ngIf="this.form.get('tipotitular')?.invalid && this.form.get('tipotitular')?.touched" 
+                      class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                      title="Campo requerido"></i>       
+            </td>   
+          </tr>
+        </tbody>
+      </table>                                                
+    </div>
+  </div>
+  <div class="row" *ngIf="natural">
+    <div class="col-12">
+      <table class="table table-sm table-bordered border-dark" style="font-size: 11px;">
+        <thead class="m-2" *ngIf="btnAgregarNatural">
+          <tr>
+            <td colspan="20" class="bg-secondary-subtle px-3">
+              <button type="button" class="btn btn-sm btn-success rounded-pill"
+                [class.btn-success]="titleBtn == 'Agregar'" 
+                [class.btn-primary.bg-cofopri]="titleBtn == 'Modificar'"
+                title="Agregar Persona Natural" (click)="AgregarPersonaNatural()">
+                <i class="bi bi-plus-circle"
+                    [class.bi-plus-circle]="titleBtn == 'Agregar'"
+                    [class.bi-pencil]="titleBtn == 'Modificar'"></i>&nbsp;{{titleBtn}}
+              </button>            
+            </td>
+          </tr>
+        </thead>
+        <tbody>                        
+          <tr>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">27</th>
+            <td class="text-center bg-info">ESTADO CIVIL</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">28A</th>
+            <td class="text-center bg-info" style="width:130px">TIPO DOC. IDENTIDAD</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">29A</th>
+            <td colspan="9" class="text-center bg-info" style="width:150px">NRO. DOC. IDENTIDAD</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">30A</th>
+            <td class="text-center bg-info">NOMBRES</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">31A</th>
+            <td class="text-center bg-info">APELLIDO PATERNO</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">32A</th>
+            <td class="text-center bg-info">APELLIDO MATERNO</td>          
+          </tr>
+          <tr>
+            <td colspan="2" class="text-center">{{mTitular.EstadoCivil}}</td>
+            <td colspan="2" class="text-center">{{mTitular.TipoDocIdentidad}}</td>
+            <td class="text-center">{{mTitular.DocIdentidad[0]}}</td>
+            <td class="text-center">{{mTitular.DocIdentidad[1]}}</td>
+            <td class="text-center">{{mTitular.DocIdentidad[2]}}</td>
+            <td class="text-center">{{mTitular.DocIdentidad[3]}}</td>
+            <td class="text-center">{{mTitular.DocIdentidad[4]}}</td>
+            <td class="text-center">{{mTitular.DocIdentidad[5]}}</td>
+            <td class="text-center">{{mTitular.DocIdentidad[6]}}</td>
+            <td class="text-center">{{mTitular.DocIdentidad[7]}}</td>
+            <td class="text-center">{{mTitular.DocIdentidad[8]}}</td>
+            <td class="text-center">{{mTitular.DocIdentidad[9]}}</td>
+            <td colspan="2" class="text-center"><span *ngIf="sucesion" class="fw-bold">(SUC.)&nbsp;</span>{{displayName}}</td>
+            <td colspan="2" class="text-center">{{mTitular.ApellidoPaterno}}</td>
+            <td colspan="2" class="text-center">{{mTitular.ApellidoMaterno}}</td>
+          </tr>
+          <tr *ngIf="ctrlConConyugue">
+            <th colspan="2" rowspan="2" scope="row" class="text-center bg-secondary-subtle align-middle fw-bold ancho-column">CONYUGUE</th>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">28A</th>
+            <td class="text-center bg-info" style="width:130px">TIPO DOC. IDENTIDAD</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">29A</th>
+            <td colspan="9" class="text-center bg-info" style="width:150px">NRO. DOC. IDENTIDAD</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">30A</th>
+            <td class="text-center bg-info">NOMBRES</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">31A</th>
+            <td class="text-center bg-info">APELLIDO PATERNO</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">32A</th>
+            <td class="text-center bg-info">APELLIDO MATERNO</td>          
+          </tr>
+          <tr *ngIf="ctrlConConyugue">
+            <td colspan="2" class="text-center">{{mConyuge.TipoDocIdentidad}}</td>
+            <td class="text-center">{{mConyuge.DocIdentidad[0]}}</td>
+            <td class="text-center">{{mConyuge.DocIdentidad[1]}}</td>
+            <td class="text-center">{{mConyuge.DocIdentidad[2]}}</td>
+            <td class="text-center">{{mConyuge.DocIdentidad[3]}}</td>
+            <td class="text-center">{{mConyuge.DocIdentidad[4]}}</td>
+            <td class="text-center">{{mConyuge.DocIdentidad[5]}}</td>
+            <td class="text-center">{{mConyuge.DocIdentidad[6]}}</td>
+            <td class="text-center">{{mConyuge.DocIdentidad[7]}}</td>
+            <td class="text-center">{{mConyuge.DocIdentidad[8]}}</td>
+            <td class="text-center">{{mConyuge.DocIdentidad[9]}}</td>
+            <td colspan="2" class="text-center">{{mConyuge.Nombres}}</td>
+            <td colspan="2" class="text-center">{{mConyuge.ApellidoPaterno}}</td>
+            <td colspan="2" class="text-center">{{mConyuge.ApellidoMaterno}}</td>
+          </tr>
+        </tbody>
+        <tfoot *ngIf="progress">
+          <tr>
+            <td colspan="24"><span style="font-size: 0.85rem;">Registrando la identificación del titular catastral...</span>
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </td>
+          </tr>            
+        </tfoot>
+      </table>                                                
+    </div>
+  </div>
+  <div class="row" *ngIf="juridica">
+    <div class="col-12">
+      <table class="table table-sm table-bordered border-dark" style="font-size: 11px;">
+        <thead class="m-2">
+          <tr>
+            <td colspan="19" class="bg-secondary-subtle px-3">
+              <button type="button" class="btn btn-sm btn-success rounded-pill"
+              [class.btn-success]="titleBtn == 'Agregar'"
+              [class.btn-primary.bg-cofopri]="titleBtn == 'Modificar'"
+              title="{{titleBtn}} código de referencia catastral" (click)="AgregarPersonaJuridica()">
+            <i class="bi bi-plus-circle"
+                [class.bi-plus-circle]="titleBtnLegal == 'Agregar'"
+                [class.bi-pencil]="titleBtnLegal == 'Modificar'"></i>&nbsp;{{titleBtnLegal}}
+          </button>            
+            </td>
+          </tr>
+        </thead>
+        <tbody>                        
+          <tr>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">33</th>
+            <td class="text-center bg-info" style="width:130px">PERSONA JURÍDICA</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">34</th>
+            <td colspan="10" class="text-center bg-info" style="width:150px">NRO. DE RUC</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">35</th>
+            <td class="text-center bg-info">TELEFONO / ANEXO</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">36</th>
+            <td class="text-center bg-info">RAZÓN SOCIAL</td>
+            <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">37</th>
+            <td class="text-center bg-info">CORREO ELECTRÓNICO</td>          
+          </tr>
+          <tr>
+            <td colspan="2" class="text-center">{{mEmpresa.PersonaJuridica}}</td>
+            <td class="text-center">{{mEmpresa.DocIdentidad[0]}}</td>
+            <td class="text-center">{{mEmpresa.DocIdentidad[1]}}</td>
+            <td class="text-center">{{mEmpresa.DocIdentidad[2]}}</td>
+            <td class="text-center">{{mEmpresa.DocIdentidad[3]}}</td>
+            <td class="text-center">{{mEmpresa.DocIdentidad[4]}}</td>
+            <td class="text-center">{{mEmpresa.DocIdentidad[5]}}</td>
+            <td class="text-center">{{mEmpresa.DocIdentidad[6]}}</td>
+            <td class="text-center">{{mEmpresa.DocIdentidad[7]}}</td>
+            <td class="text-center">{{mEmpresa.DocIdentidad[8]}}</td>
+            <td class="text-center">{{mEmpresa.DocIdentidad[9]}}</td>
+            <td class="text-center">{{mEmpresa.DocIdentidad[10]}}</td>
+            <td colspan="2" class="text-center">{{mEmpresa.TelefonoAnexo}}</td>
+            <td colspan="2" class="text-center">{{mEmpresa.RazonSocial}}</td>
+            <td colspan="2" class="text-center">{{mEmpresa.Email}}</td>
+          </tr>
+        </tbody>
+        <tfoot *ngIf="progress">
+          <tr>
+            <td colspan="24"><span style="font-size: 0.85rem;">Registrando la ubicación del predio catastral...</span>
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </td>
+          </tr>            
+        </tfoot>
+      </table>                                                
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-12">
+      <div class="input-group">
+        <button class="btn btn-dark btn-sm" style="width: 100px;" matStepperPrevious>
+          <i class="bi bi-arrow-up-circle"></i>&nbsp;Atrás</button>
+        <button class="btn btn-success btn-sm" style="width: 100px;" 
+          [disabled]="btnNextDisabled"  (click)="goNext()">Siguiente&nbsp;
+          <i class="bi bi-arrow-down-circle"></i></button>
+      </div>
+    </div>
+  </div>
+</form>

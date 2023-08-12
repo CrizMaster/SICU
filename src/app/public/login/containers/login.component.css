@@ -1,0 +1,49 @@
+ mat-card{
+    max-width: 600px;
+    margin: 2em auto;
+    text-align: center;
+    max-height: 600px;
+ }
+
+ .header{
+    text-align: left;
+ }
+ .full-width {
+    width: 80%;
+ }
+ .forgot-password{
+    padding-left: 0px;
+ }
+
+ .aLink{
+    float: right;
+    padding-right: 60px;
+    text-decoration: none;
+ }
+ form{
+    float: right;
+    text-decoration: none;
+ }
+
+ .box{
+    margin: 20px 10px 30px 10px;
+    width: 320px;
+    height: 60px;
+    overflow: hidden;
+  }
+  .box img{
+    width: 100%;
+    height: auto;
+  }
+  @supports(object-fit: cover){
+      .box img{
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+      }
+  }
+
+  .circle-header-image {
+   background-image: url('../../../../assets/image/circleCOFOPRI.jpg');
+   background-size: cover;
+ }

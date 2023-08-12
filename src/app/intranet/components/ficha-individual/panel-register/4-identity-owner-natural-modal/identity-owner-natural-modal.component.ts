@@ -3,11 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { FichaIndividualService } from '../../ficha-individual.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
-import { Via } from '../../models/via.model';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { CatalogoMaster } from 'src/app/core/models/catalogo-master.model';
-import { CatalogoMasterEnum } from 'src/app/core/shared/enum/catalogo-master.enum';  
-import { UbicacionPredial } from '../../models/ubicacionPredial.model';
+import { CatalogoMasterEnum } from 'src/app/core/shared/enum/catalogo-master.enum';
 import { Owner } from '../../models/IdentityOwner/owner.model';
 
 @Component({

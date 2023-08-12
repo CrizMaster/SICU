@@ -3,12 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { FichaIndividualService } from '../../ficha-individual.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
-import { Via } from '../../models/via.model';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { CatalogoMaster } from 'src/app/core/models/catalogo-master.model';
-import { CatalogoMasterEnum } from 'src/app/core/shared/enum/catalogo-master.enum';  
-import { UbicacionPredial } from '../../models/ubicacionPredial.model';
-import { Owner } from '../../models/IdentityOwner/owner.model';
+import { CatalogoMasterEnum } from 'src/app/core/shared/enum/catalogo-master.enum';
 import { DescriptionPredio } from '../../models/DescriptionProperty/descriptionProperty.model';
 
 @Component({
@@ -54,8 +50,6 @@ export class DescriptionPropertyModalComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-
-
         if(this.data.IdClasificacionPredio == 0){
             console.log('nuevo');
         }
@@ -129,5 +123,4 @@ export class DescriptionPropertyModalComponent implements OnInit, OnDestroy {
         this.form.reset();
         this.dialogRef.close(this.resp);
     }
-
 }

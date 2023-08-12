@@ -101,14 +101,6 @@ export class PanelRegisterComponent implements OnInit, OnDestroy {
         this.subHabEdi$.unsubscribe();
     }
 
-    // Step1Complete<T>(data: T){
-    //   this.firstComplete = data.firsthComplete;
-    //   if(data.firsthComplete){
-    //     //Obtener las lista de vías
-    //     //this._fichaIndividualService.
-    //   }
-    // }
-
     Step1Complete(data: SharedData<SharedFirstData>){
       
       if(data.complete){

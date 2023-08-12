@@ -1,11 +1,7 @@
 import { Component, OnInit, Inject, OnDestroy, ChangeDetectorRef  } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import { Ubigeo } from 'src/app/core/models/ubigeo.model';
 import { FichaIndividualService } from '../../ficha-individual.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Sector } from '../../models/sector.model';
-import { Manzana } from '../../models/manzana.model';
-import { Observable, Subscription } from 'rxjs';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { CatalogoMasterEnum } from 'src/app/core/shared/enum/catalogo-master.enum';
 import { CatalogoMaster } from 'src/app/core/models/catalogo-master.model';
@@ -19,7 +15,6 @@ import { OwnershipCharacteristics } from '../../models/OwnershipCharacteristics/
 })
 export class OwnershipCharacteristicsModalComponent implements OnInit, OnDestroy {
 
-    //dataFirst: any;
     form: FormGroup;
     pattern1Digs = '^[1-9]|([1-9][0-9])$';
     pattern2Digs = '^((?!00).)*$';
@@ -31,18 +26,6 @@ export class OwnershipCharacteristicsModalComponent implements OnInit, OnDestroy
     listFormaAdquision: ItemSelect<number>[] = [];
     listTipoDocumento: ItemSelect<number>[] = [];
     listTipoPartidaRegistral: ItemSelect<number>[] = [];
-
-    //public listCondTitular$: Observable<ItemSelect<number>[]> = new Observable;
-
-    // provincias: Ubigeo[] = [{ id: 0, ubigeo: '000000', nombreProvincia: 'Seleccionar', ubigeoProvincia: '00' }];
-    // distritos: Ubigeo[] = [{ id: 0, ubigeo: '000000', nombreDistrito: 'Seleccionar', ubigeoDistrito: '00' }];
-    // sectores: Sector[] = [{ idSector:0 , codigoSector: 'Seleccionar'}];
-    // manzanas: Manzana[] = [{ idManzana:0 , codigoManzana: 'Seleccionar'}];     
-
-    // public listCondTitular$: Subscription = new Subscription;
-    // public listDist$: Subscription = new Subscription;
-    // public listSect$: Subscription = new Subscription;
-    // public listManz$: Subscription = new Subscription;
 
     constructor(
       public dialogRef: MatDialogRef<OwnershipCharacteristicsModalComponent>,
@@ -121,89 +104,6 @@ export class OwnershipCharacteristicsModalComponent implements OnInit, OnDestroy
           });
       }
     }
-
-    //onChangeSelCondTitular(newValue: string, sw: boolean){
-
-    //   this.listProv$ = this._fichaIndividualService.listarProvincias(newValueDpto).subscribe({
-    //     next:(result) => {
-    //       this.provincias = result;
-          
-    //       this.distritos = [];
-    //       this.sectores = [];
-    //       this.manzanas = [];
-    //       this.distritos.unshift({ id: 0, ubigeo: '000000', nombreDistrito: 'Seleccionar', ubigeoDistrito: '00' });
-    //       this.sectores.unshift({ idSector: 0, codigoSector: 'Seleccionar'});
-    //       this.manzanas.unshift({ idManzana: 0, codigoManzana: 'Seleccionar'});          
-
-    //       if(sw) {
-    //         this.form.patchValue({ provincia: this.dataFirst.provincia, distrito: parseInt(this.dataFirst.distrito) });
-    //         this.onChangeSelProv(this.dataFirst.provincia, this.dataFirst.departamento, true);
-    //       }
-    //       else{
-    //         this.form.patchValue({ provincia: '00', distrito: 0, sector: 0, manzana: 0 });
-    //       }
-    //     }
-    //   });
-    //}
-
-    // onChangeSelProv(newValueProv: string, newValueDpto: string, sw: boolean){
-
-    //   this.listDist$ = this._fichaIndividualService.listarDistritos(newValueProv, newValueDpto).subscribe(result => {
-
-    //     this.distritos = result;
-
-    //     this.sectores = [];
-    //     this.manzanas = [];
-    //     this.sectores.unshift({ idSector: 0, codigoSector: 'Seleccionar'});
-    //     this.manzanas.unshift({ idManzana: 0, codigoManzana: 'Seleccionar'});        
-
-    //     if(sw) {
-    //       this.form.patchValue({ distrito: parseInt(this.dataFirst.distrito) });
-    //       this.onChangeSelDist(this.dataFirst.distrito, true);
-    //     }
-    //     else{
-    //       this.form.patchValue({ distrito: 0, sector: 0, manzana: 0 });
-    //     }
-    //   });
-    // }
-
-    // onChangeSelDist(newValueDist: string, sw: boolean){
-
-    //   this.listSect$ = this._fichaIndividualService.listarSectores(parseInt(newValueDist)).subscribe(result => {
-
-    //     this.sectores = result;
-
-    //     this.manzanas = [];
-    //     this.manzanas.unshift({ idManzana: 0, codigoManzana: 'Seleccionar'});
-
-    //     if(sw) {
-    //       this.form.patchValue({ sector: parseInt(this.dataFirst.sector) });
-    //       this.onChangeSelSector(this.dataFirst.sector, true);
-    //     }
-    //     else{
-    //       this.form.patchValue({ sector: 0, manzana: 0 });
-    //     }
-    //   });
-    // }
-
-    // onChangeSelSector(newValueSect: string, sw: boolean){
-    //   let codSector = '';
-    //   this.sectores.forEach(sec => {
-    //     if(sec.idSector == parseInt(newValueSect)) codSector = sec.codigoSector;
-    //   });
-
-    //   this.listManz$ = this._fichaIndividualService.listarManzanas(codSector).subscribe(result => {
-
-    //     this.manzanas = result;
-        
-    //     if(sw) {
-    //       this.form.patchValue({ manzana: parseInt(this.dataFirst.manzana) });
-    //     }
-    //     else{
-    //       this.form.patchValue({ manzana: 0 });
-    //     }
-    //   });
-    // } 
 
     guardar(){
       let info = this.form.value;

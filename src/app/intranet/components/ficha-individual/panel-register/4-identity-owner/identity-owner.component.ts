@@ -77,8 +77,6 @@ export class IdentityOwnerComponent implements OnInit{
     ngOnInit(): void {        
         this._fichaIndividualService.obsSharedThirdData.subscribe({
             next:(data) => {
-                //console.log(data);
-
                 this.ctrlTipoTitular = true;
                 this.btnAgregarNatural = true;
                 this.ctrlConConyugue = true;
@@ -172,7 +170,6 @@ export class IdentityOwnerComponent implements OnInit{
             if(this.ctrlConConyugue) this.mConyuge = result.Conyuge;
             
             this.btnNextDisabled = false;
-            // this.secondComplete.emit(true);
             this.roomComplete.emit(false);
           }            
         });

@@ -1,5 +1,7 @@
+<app-network-status></app-network-status>
 <div class="bg-cofopri d-flex justify-content-center
 align-items-center vh-100">
+
 <!-- <div *ngIf="robot == true">
     <p>De momento eres un robot, presiona el botón</p>
 </div>
@@ -58,7 +60,7 @@ align-items-center vh-100">
                     </div>
                 </div>
                 <button class="btn btn-sm btn-primary bg-cofopri w-100 mt-1 fw-semibold
-                shadow-sm" type="submit">Iniciar Sesión
+                shadow-sm" type="submit" *ngIf="!offline">Iniciar Sesión
                     
                 </button>
                 <!-- <div class="d-flex gap-1 justify-content-center mt-1">

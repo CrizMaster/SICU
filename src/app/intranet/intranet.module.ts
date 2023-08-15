@@ -26,6 +26,8 @@ import { IdentityOwnerNaturalModalComponent } from "./components/ficha-individua
 import { IdentityOwnerLegalModalComponent } from "./components/ficha-individual/panel-register/4-identity-owner-legal-modal/identity-owner-legal-modal.component";
 import { DescriptionPropertyComponent } from "./components/ficha-individual/panel-register/5-description-property/description-property.component";
 import { DescriptionPropertyModalComponent } from "./components/ficha-individual/panel-register/5-description-property-modal/description-property-modal.component";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthInterceptor } from "../core/shared/interceptors/auth.interceptor";
 
 
 @NgModule({
@@ -60,6 +62,10 @@ import { DescriptionPropertyModalComponent } from "./components/ficha-individual
     ],
     exports: [],
     providers: [
+        { provide: HTTP_INTERCEPTORS,
+          useClass: AuthInterceptor,
+          multi: true 
+        },
         IntranetService,
         FichaIndividualService
     ]

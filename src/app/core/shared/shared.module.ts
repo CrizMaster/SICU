@@ -24,8 +24,18 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarModule,
+    MatSnackBarVerticalPosition,
+  } from '@angular/material/snack-bar';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConnectionServiceModule } from 'ngx-connection-service';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
+//import { AuthService } from '../../core/shared/services/auth.service';
 
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 import { TitleComponent } from "./components/title/title.component";
@@ -33,6 +43,8 @@ import { BreadcrumbComponent } from "./components/breadcrumb/breadcrumb.componen
 import { DisableControlDirective } from "./directive/disable-control.directive";
 import { ModalQuestionComponent } from "./components/modal-question/modal-question.component";
 import { NetworkStatusComponent } from "./components/network-status/network-status.component";
+import { TemplateSnackbarComponent } from "./components/network-status/template-snackbar/template-snackbar.component";
+import { AccessDeniedComponent } from "./components/access-denied/access-denied.component";
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -62,10 +74,13 @@ const maskConfig: Partial<IConfig> = {
         MatStepperModule,
         MatDialogModule,
         MatSlideToggleModule,
+        MatSnackBarModule,
         NgbModule,
         NgxMaskDirective, 
         NgxMaskPipe,
-        ReactiveFormsModule        
+        ReactiveFormsModule,
+        ConnectionServiceModule,
+        SweetAlert2Module.forRoot()
     ],
     declarations: [
         NotFoundComponent,
@@ -73,7 +88,9 @@ const maskConfig: Partial<IConfig> = {
         BreadcrumbComponent,
         ModalQuestionComponent,
         NetworkStatusComponent,
-        DisableControlDirective
+        TemplateSnackbarComponent,
+        DisableControlDirective,
+        AccessDeniedComponent
     ],
     exports: [
         HttpClientModule,
@@ -86,6 +103,7 @@ const maskConfig: Partial<IConfig> = {
         ModalQuestionComponent,
         NetworkStatusComponent,
         DisableControlDirective,
+        AccessDeniedComponent,
 
         MatTabsModule,
         MatCardModule,
@@ -106,14 +124,18 @@ const maskConfig: Partial<IConfig> = {
         MatStepperModule,
         MatDialogModule,
         MatSlideToggleModule,
+        MatSnackBarModule,
 
         NgbModule,
         NgxMaskDirective, 
         NgxMaskPipe,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ConnectionServiceModule,
+        SweetAlert2Module
     ],
     providers: [
-        provideEnvironmentNgxMask(maskConfig)
+        provideEnvironmentNgxMask(maskConfig),
+        //AuthService
     ]
 })
 

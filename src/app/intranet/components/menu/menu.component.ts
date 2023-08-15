@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IntranetService } from '../../intranet.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/shared/services/auth.service';
+import { LocalService } from 'src/app/core/shared/services/local.service';
   
 @Component({
     selector: 'app-menu',
@@ -15,14 +17,18 @@ export class MenuComponent implements OnInit{
     customExpandedHeight: string = '34px';
 
     constructor(private _intranetService: IntranetService,
+      private _authService: AuthService,
+      private _localService: LocalService,
       private route: Router){}
 
     ngOnInit(): void {
 
       this._intranetService.currentComponentMenu.subscribe({
         next:(menuData) => {
-            console.log('componente menu');
-            console.log(menuData);
+            this._localService.removeData("sicume");
+            this._localService.saveData("sicume", JSON.stringify(menuData));
+
+            //this._authService.listMenu.next(menuData);
             this.menus = menuData;
         }
       })

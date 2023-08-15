@@ -10,7 +10,9 @@ export const authGuard: CanMatchFn = () => {
 
   return authService.isAuthenticated().pipe(
     take(1),
-    tap((isLoggedIn: any) => !isLoggedIn ? router.navigate(['home']) : true
+    tap((isLoggedIn: any) => !isLoggedIn ? router.navigate(['login']) : true
     )
-  )
+  );
 };
+export { AuthService };
+

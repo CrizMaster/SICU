@@ -15,12 +15,32 @@
             {{email}}
           </div>
           <div class="col-12 text-primary mt-1 ms-3 me-1 ">
-            <div class="d-flex text-start align-items-center text-white">
+            <div class="d-flex mb-3 mt-2">
+              <div>
+                <mat-icon aria-hidden="false" fontIcon="notifications" style="color: #fadb0c;"></mat-icon>
+                <span class="mt-0">(3)</span>&nbsp;&nbsp;
+              </div>
+              <div>
+                <mat-icon aria-hidden="false" fontIcon="inbox" style="color: white;"></mat-icon>
+                <span>(1)</span>
+              </div>
+              <div class="ms-auto me-3">
+                <button mat-icon-button
+                      matTooltip="Cerrar sesión"
+                      matTooltipShowDelay ="500"
+                      matTooltipPosition="below"
+                      class="cerrar-sesion"
+                      (click)="CerrarSesion()">
+                  <mat-icon>exit_to_app</mat-icon>
+                </button>
+              </div>
+            </div>
+            <!-- <div class="d-flex text-start align-items-center text-white">
               <mat-icon aria-hidden="false" fontIcon="notifications" style="color: #fadb0c;"></mat-icon>
               <span>(3)</span>&nbsp;&nbsp;
               <mat-icon aria-hidden="false" fontIcon="inbox"></mat-icon>
               <span>(1)</span>&nbsp;&nbsp;
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

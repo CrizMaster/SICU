@@ -33,3 +33,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .alto-column{
     height: 26px;
   }
+
+.mat-mdc-snack-bar-container{
+    --mdc-snackbar-container-color: white;
+    --mdc-snackbar-supporting-text-color: black;
+    --mat-snack-bar-button-color: #15448b;
+    border: #15448b;
+    color: black;
+}
+
+.succesful{
+    margin-top: 78px !important;
+    margin-right: 28px !important;
+    position: absolute;
+}

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalService } from 'src/app/core/shared/services/local.service';
 import { IntranetService } from '../../intranet.service';
+import { AuthService } from 'src/app/core/shared/services/auth.service';
+import { Router } from '@angular/router';
 
 interface SelectValue {
   value: string;
@@ -35,7 +37,9 @@ export class UserComponent implements OnInit{
     perfiles: any[] = [{ nombrePerfil: 'Seleccione', idPerfil: 0 }];    
 
     constructor(private _localService: LocalService,
-      private _intranetService: IntranetService){}
+      private _intranetService: IntranetService,
+      private _authService: AuthService,
+      private route: Router){}
 
     ngOnInit(): void {
       let tk = this._localService.getData("Token");
@@ -91,14 +95,20 @@ export class UserComponent implements OnInit{
 
       this._intranetService.listaMenu(this.organizacionSeleccionada, this.perfilSeleccionado).subscribe({
         next:(menuData) => {
-            //console.log(menuData.data);
-            this._intranetService.currentComponentMenu.next(menuData.data);
+          console.log('aca');
+          this.route.navigateByUrl('/intranet');
+          this._intranetService.currentComponentMenu.next(menuData.data);            
         },
         error:(errorData) => {
             console.info('error');
             console.log(errorData);
         }
       });
-    }    
+    }
+
+    CerrarSesion(){
+      this._authService.isLoggedIn.next(false);
+      this.route.navigateByUrl('/login');
+    }  
 
 }

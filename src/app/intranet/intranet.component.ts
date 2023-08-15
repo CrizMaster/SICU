@@ -2,16 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../core/shared/services/auth.service';
 import { Router } from '@angular/router';
 
-// interface SelectValue {
-//   value: string;
-//   viewValue: string;
-// }
-
-// export interface Section {
-//     name: string;
-//     icon: string;
-//   }
-
 @Component({
     selector: 'app-public',
     templateUrl: './intranet.component.html',
@@ -26,15 +16,22 @@ export class IntranetComponent implements OnInit{
     mode: string = 'side';
     hasBackdrop: boolean = true;
     userLoginOn: boolean = false;
+    offline: boolean = false;
 
     ngOnInit(): void {
       const elemt = document.querySelectorAll('.mat-drawer-inner-container');
       elemt[0].className = "mat-drawer-content-notscrollx";
+
+      this._authService.isOffLine.subscribe({
+        next:(sw) => {
+          this.offline = sw;
+        }
+      });      
     }
 
     CerrarSesion(){
       this._authService.isLoggedIn.next(false);
-      this.route.navigateByUrl('');
+      this.route.navigateByUrl('/login');
     }    
 
 }

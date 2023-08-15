@@ -6,15 +6,11 @@ import { FichaCatastralFilter } from './models/fichaCatastralFilter.model'
 
 import { environment } from 'src/environments/environment';
 import { FichaCatastralResponse } from './models/fichaCatastralResponse.model';
-import { Sector } from './models/sector.model';
-import { Manzana } from './models/manzana.model';
 import { Ubigeo } from 'src/app/core/models/ubigeo.model';
 import { CatalogoMaster } from 'src/app/core/models/catalogo-master.model';
 import { SaveFichaIndividual } from './models/saveFichaIndividual.model';
 import { ResponseFichaIndividual } from './models/responseFichaIndividual.model';
 import { SharedFirstData, SharedThirdData } from './models/sharedFirstData.model';
-import { Via } from './models/via.model';
-import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { HabilitacionEdificacion } from './models/habilitacionEdificacion.model';
 
 @Injectable()

@@ -19,6 +19,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit{
 
+    offline: boolean = false;
+
     loginForm = this.fb.group({
         usuario: ['', Validators.required],
         password: ['', Validators.required]
@@ -38,8 +40,15 @@ export class LoginComponent implements OnInit{
 
     ngOnInit(): void {
         //this._publicService.isComponentLogin(true);
+        this._localService.clearData();
+
         this._publicService.currentComponentLogin.next(true);
         this._authService.isLoggedIn.next(false);
+        this._authService.isOffLine.subscribe({
+          next:(sw) => {
+            this.offline = sw;
+          }
+        }); 
     }
 
     login(){
@@ -100,7 +109,7 @@ export class LoginComponent implements OnInit{
           complete:() => {
               //console.info('completo');
               this.route.navigateByUrl('/intranet');
-              this.loginForm.reset();
+              //this.loginForm.reset();
               this.viewProgress = false;                  
           }
       });

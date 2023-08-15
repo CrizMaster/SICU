@@ -6,14 +6,27 @@ import { FichaIndividualComponent } from "./components/ficha-individual/ficha-in
 import { FichaCotitularidadComponent } from "./components/ficha-cotitularidad/ficha-cotitularidad.component";
 import { FichaBiencomunComponent } from "./components/ficha-biencomun/ficha-biencomun.component";
 import { PanelRegisterComponent } from "./components/ficha-individual/panel-register/panel-register.component";
+import { IntranetGuard } from "./guards/intranet.guard";
+import { AccessDeniedComponent } from "../core/shared/components/access-denied/access-denied.component";
 
 const routes: Routes = [
-    { path: '', component: IntranetComponent, 
-    children:
+    { path: '', component: IntranetComponent,      
+      children:
       [        
-        { path: 'individual', component: FichaIndividualComponent, pathMatch:'full'},
-        { path: 'cotitularidad', component: FichaCotitularidadComponent},
-        { path: 'biencomun', component: FichaBiencomunComponent},
+        { path: 'individual', 
+          component: FichaIndividualComponent, 
+          pathMatch:'full',
+          canMatch: [IntranetGuard],
+        },
+        { path: 'cotitularidad', 
+          component: FichaCotitularidadComponent,
+          canMatch: [IntranetGuard]
+        },
+        { path: 'biencomun', 
+          component: FichaBiencomunComponent,
+          pathMatch:'full',
+          canMatch: [IntranetGuard],          
+        },
         { path: 'registro', component: PanelRegisterComponent}
       ] 
     }

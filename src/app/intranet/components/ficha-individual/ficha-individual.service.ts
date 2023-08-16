@@ -8,10 +8,12 @@ import { environment } from 'src/environments/environment';
 import { FichaCatastralResponse } from './models/fichaCatastralResponse.model';
 import { Ubigeo } from 'src/app/core/models/ubigeo.model';
 import { CatalogoMaster } from 'src/app/core/models/catalogo-master.model';
-import { SaveFichaIndividual } from './models/saveFichaIndividual.model';
+import { SaveFichaIndividual, UbicacionPredioModel } from './models/saveFichaIndividual.model';
 import { ResponseFichaIndividual } from './models/responseFichaIndividual.model';
 import { SharedFirstData, SharedThirdData } from './models/sharedFirstData.model';
 import { HabilitacionEdificacion } from './models/habilitacionEdificacion.model';
+//import { internalIpV4 } from 'internal-ip';
+import { OwnershipCharacteristicsRequest } from './models/OwnershipCharacteristics/ownership-characteristics-request.model';
 
 @Injectable()
 
@@ -154,27 +156,6 @@ export class FichaIndividualService{
     }
 
     listarDistritos(idProv: string, idDpto: string):Observable<Ubigeo[]>{
-        
-        // let tk = this._localService.getData("Token");
-        // let user = JSON.parse(tk);
-     
-        // let queryParams = new HttpParams();
-        // queryParams = queryParams.append("CodigoProvincia",idProv);
-        // queryParams = queryParams.append("CodigoDepartamento",idDpto);
-
-        // const httpOptions = {
-        //     headers: { 'Authorization': 'Bearer ' + user.data.token },
-        //     params: queryParams            
-        // }
-        
-        // return this.http.get<Ubigeo[]>(environment.urlWebApiSICU + 'Customers/GetDistritosListByCodigoProvDptoAsync',
-        // httpOptions)
-        // .pipe(
-        //     tap((response) => {
-        //         response.unshift({ id: 0, ubigeo: '000000', nombreDistrito: 'Seleccionar', ubigeoDistrito: '00' });
-        //     }),
-        //     catchError(this.handlerError)
-        // );
 
         return this.http.post<any>(environment.urlWebApiSICU + 'C0002G0003',
         {
@@ -189,24 +170,7 @@ export class FichaIndividualService{
         );
     }
 
-    listarSectores(id: number):Observable<any>{
-        
-        // let tk = this._localService.getData("Token");
-        // let user = JSON.parse(tk);
-     
-        // const httpOptions = {
-        //     headers: { 'Authorization': 'Bearer ' + user.data.token },
-        //     params: {'IdDistrito': id }
-        // }
-
-        // return this.http.get<Sector[]>(environment.urlWebApiSecurity + 'Customers/GetSectoresListByIdDistrito',
-        // httpOptions)
-        // .pipe(
-        //     tap((response: Sector[]) => {
-        //         response.unshift({ idSector: 0, nombreSector: 'Seleccionar'});
-        //     }),
-        //     catchError(this.handlerError)
-        // );
+    listarSectores(id: number):Observable<any>{        
         return this.http.post<any>(environment.urlWebApiSICU + 'LocalizacionSectorList',
         {
             'codigoUbigeo': id
@@ -227,23 +191,6 @@ export class FichaIndividualService{
     }
 
     listarManzanas(id: string):Observable<any>{
-        
-        // let tk = this._localService.getData("Token");
-        // let user = JSON.parse(tk);
-     
-        // const httpOptions = {
-        //     headers: { 'Authorization': 'Bearer ' + user.data.token },
-        //     params: {'IdSector': id}
-        // }
-
-        // return this.http.get<any>(environment.urlWebApiSecurity + 'Customers/GetManzanasListByIdSector',
-        // httpOptions)
-        // .pipe(
-        //     tap((response: Manzana[]) => {
-        //         response.unshift({ idManzana: 0, nombreManzana: 'Seleccionar'});
-        //     }),
-        //     catchError(this.handlerError)
-        // );
         return this.http.post<any>(environment.urlWebApiSICU + 'LocalizacionManzanaList',
         {
             'codigoSector': id
@@ -264,7 +211,7 @@ export class FichaIndividualService{
     }
 
 
-    saveCodigoReferenciaCatastral(data: SaveFichaIndividual):Observable<ResponseFichaIndividual>{
+    saveCodigoReferenciaCatastral(data: SaveFichaIndividual):Observable<any>{
         return this.http.post<any>(environment.urlWebApiSICU + 'f0025CodigoReferenciaCatastral',
         {
             'idObjeto': data.idObjeto,
@@ -285,6 +232,22 @@ export class FichaIndividualService{
         );         
     }
 
+    saveUbicacionPredial(data: UbicacionPredioModel):Observable<any>{
+        return this.http.post<any>(environment.urlWebApiSICU + 'f0026TmpS2UbicacionPredio',
+        data)
+        .pipe(
+            catchError(this.handlerError)
+        );         
+    }
+
+    saveCaracteristicasTitularidad(data: OwnershipCharacteristicsRequest):Observable<any>{
+        return this.http.post<any>(environment.urlWebApiSICU + 'f0029TmpS3TitularPredio',
+        data)
+        .pipe(
+            catchError(this.handlerError)
+        );         
+    }
+
     listarVias(data: SharedFirstData):Observable<any>{
         return this.http.post<any>(environment.urlWebApiSICU + 'LocalizacionViaList',
         {
@@ -293,6 +256,9 @@ export class FichaIndividualService{
         })
         .pipe(
             tap((result)=>{
+
+                console.log(result);
+
                 this.GetHabilitacionEdificacion(data).subscribe(response => {
                     this.obsHabilitacionEdificacion.next(response.data);
                 });

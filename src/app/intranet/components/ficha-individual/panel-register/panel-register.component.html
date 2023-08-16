@@ -7,27 +7,29 @@
     <mat-card class="border_title">
 
         <mat-card-content class="border_title bg-secondary-subtle">      
-          <mat-stepper class="example-stepper"  orientation="vertical" #Stepper linear> <!--linear-->
+          <mat-stepper class="example-stepper"  orientation="vertical" #Stepper > <!--linear-->
             <mat-step [stepControl]="firstFormGroup" 
                 label="Código de Referencia Catastral" [completed]="firstComplete">
                 <div class="container-sm">                  
-                  <app-code-reference [codRefCatastral]="codRefCatastral"
-                                      [Stepper] = "Stepper"
-                                      (firstComplete)="Step1Complete($event)"></app-code-reference>
+                  <app-code-reference (firstComplete)="Step1Complete($event)"
+                                      [codRefCatastral]="codRefCatastral"
+                                      [Stepper] = "Stepper"></app-code-reference>
                 </div>
             </mat-step>
             <mat-step [stepControl]="secondFormGroup" 
                 label="Ubicación del Predio Catastral" [completed]="secondComplete">           
                 <div class="container-sm">
-                  <app-property-location [listaVias]="listaVias"
-                                         [Stepper] = "Stepper"
-                                         (secondComplete)="Step2Complete($event)"></app-property-location>
+                  <app-property-location  (secondComplete)="Step2Complete($event)"                                          
+                                          [idFicha] = "idFicha"
+                                          [listaVias]="listaVias"
+                                          [Stepper] = "Stepper"></app-property-location>
                 </div>        
             </mat-step>
             <mat-step [stepControl]="thirdFormGroup" 
                 label="Características de la Titularidad" [completed]="thirdComplete">
                 <div class="container-sm">
                   <app-ownership-characteristics (thirdComplete)="Step3Complete($event)"
+                                                 [idFicha] = "idFicha"
                                                  [Stepper] = "Stepper"></app-ownership-characteristics>
                 </div>  
             </mat-step>
@@ -35,6 +37,7 @@
                 label="Identificación del Titular Catastral" [completed]="roomComplete">
                 <div class="container-sm">
                   <app-identity-owner (roomComplete)="Step4Complete($event)"
+                                      [idFicha] = "idFicha"
                                       [Stepper] = "Stepper"></app-identity-owner>
                 </div>
             </mat-step>            
@@ -42,6 +45,7 @@
                 label="Descripción del Predio" [completed]="fifthComplete">
                 <div class="container-sm">
                   <app-description-property (fifthComplete)="Step5Complete($event)"
+                                            [idFicha] = "idFicha"
                                             [Stepper] = "Stepper"></app-description-property>
                 </div>
             </mat-step>

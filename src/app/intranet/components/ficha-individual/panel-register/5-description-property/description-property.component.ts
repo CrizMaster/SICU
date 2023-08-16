@@ -24,7 +24,7 @@ import { DescriptionPropertyModalComponent } from '../5-description-property-mod
 export class DescriptionPropertyComponent implements OnInit{
 
     @Output() fifthComplete = new EventEmitter<boolean>();
-
+    @Input() idFicha:number = 0;
     @Input() Stepper: MatStepper;
     
     progress: boolean = false;

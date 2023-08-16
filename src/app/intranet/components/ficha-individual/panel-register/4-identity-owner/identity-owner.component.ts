@@ -22,11 +22,9 @@ import { IdentityOwnerLegalModalComponent } from '../4-identity-owner-legal-moda
 export class IdentityOwnerComponent implements OnInit{
 
     @Output() roomComplete = new EventEmitter<boolean>();
-    
+    @Input() idFicha:number = 0;
     @Input() dataThirdShared: SharedThirdData;
-
-    @Input() Stepper: MatStepper;
-    
+    @Input() Stepper: MatStepper;    
     progress: boolean = false;
     form: FormGroup;
     pattern1Digs = '^[1-9]|([1-9][0-9])$';

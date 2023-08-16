@@ -13,15 +13,29 @@ export interface SaveFichaIndividual {
     dc?: number
 }
 
-/*"idObjeto": 0,
-  "codigoDepartamento": "string",
-  "codigoProvincia": "string",
-  "": "string",
-  "": "string",
-  "": "string",
-  "": "string",
-  "": "string",
-  "": "string",
-  "": "string",
-  "": "string",
-  "": 0 */
+export interface UbicacionPredioModel {
+  idObjeto: number,
+  usuarioCreacion?: string,
+  terminalCreacion?: string,
+  c11TipoEdificacion?: string,
+  c12NombreEdifica?: string,
+  c13TipoInterior?: string,
+  c14NroInterior?: string,
+  c15CodigoHu?: string,
+  c16NombreHu?: string,
+  c17ZonaSectorEtapa?: string,
+  c18Manzana?: string,
+  c19Lote?: string,
+  c20SubLote?: string,
+  ubicacionPredioDetalle?: UbicacionPredioDetalleModel[]
+}
+
+export interface UbicacionPredioDetalleModel{
+  idObjeto: number,
+  c05CodigoVia?: string,
+  c06TipoVia?: string,
+  c07Nombrevia?: string,
+  c08TipoPuerta?: string,
+  c09NroMunicipal?: string,
+  c10Numero?: string,
+}

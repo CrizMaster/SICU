@@ -44,7 +44,8 @@ export class PropertyLocationModalComponent implements OnInit, OnDestroy {
         this.form = this.fb.group({
             codigovia: ['0', Validators.required],
             tipovia: ['', Validators.required],
-            tipoviasel: ['0'],            
+            tipoviasel: ['0'],
+            codetipoviasel: ['0'],
             nombrevia: ['', Validators.required],
             tipopuerta: ['0', Validators.required],                       
             nromunicipal: ['', Validators.required],
@@ -77,6 +78,7 @@ export class PropertyLocationModalComponent implements OnInit, OnDestroy {
                 codigovia: this.dataFirst.swSinCodigo ? 0 : this.dataFirst.IdVia,
                 tipovia: this.dataFirst.swSinCodigo ? '' : this.dataFirst.TipoVia,
                 tipoviasel: this.dataFirst.swSinCodigo ? this.dataFirst.IdTipoVia : 0,
+                codetipoviasel: this.dataFirst.swSinCodigo ? this.dataFirst.CodeTipoVia : 0,
                 nombrevia: this.dataFirst.NombreVia,
                 tipopuerta: this.dataFirst.IdTipoPuerta,
                 nromunicipal: this.dataFirst.NroMunicipal,
@@ -149,7 +151,9 @@ export class PropertyLocationModalComponent implements OnInit, OnDestroy {
         this.listCodevia.forEach(cv => {
             if(cv.value == parseInt(newValueCodevia)){
                 let info = cv.data;
-                this.form.patchValue({ tipovia: info?.nombreEspecifico, nombrevia: info?.nombreVia });
+                this.form.patchValue({
+                    tipovia: info?.nombreEspecifico, 
+                    nombrevia: info?.nombreVia });
             }
         });
     }
@@ -170,6 +174,7 @@ export class PropertyLocationModalComponent implements OnInit, OnDestroy {
                   this.resp.CodeVia5 = codeVia[4];
                   this.resp.CodeVia6 = codeVia[5];
 
+                  this.resp.CodeTipoVia = cv.data.codigoEspecifico;
                   this.resp.TipoVia = cv.data.nombreEspecifico;
                   this.resp.NombreVia = cv.data.nombreVia;
                 }
@@ -188,6 +193,7 @@ export class PropertyLocationModalComponent implements OnInit, OnDestroy {
             this.listaTipovia.forEach(tv => {
                 if(tv.value == info.tipoviasel) { 
                     this.resp.TipoVia = tv.text;
+                    this.resp.CodeTipoVia = tv.code;
                     this.resp.IdTipoVia = tv.value; 
                 }
               });
@@ -197,6 +203,7 @@ export class PropertyLocationModalComponent implements OnInit, OnDestroy {
         this.listaTipopuerta.forEach(tp => {
           if(tp.value == info.tipopuerta) {
             this.resp.TipoPuerta = tp.text;
+            this.resp.CodeTipoPuerta = tp.code;
             this.resp.IdTipoPuerta = tp.value;
           }
         });

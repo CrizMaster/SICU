@@ -1,4 +1,5 @@
 export interface SharedFirstData {
+    idFicha: number,
     codigoSector: string,
     codigoManzana: string
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PropertyLocationModalComponent } from '../2-property-location-modal/property-location-modal.component';
 import { UbicacionPredial } from '../../models/ubicacionPredial.model';
@@ -10,23 +10,31 @@ import { FichaIndividualService } from '../../ficha-individual.service';
 import { Edificacion, Habilitacion, HabilitacionEdificacion } from '../../models/habilitacionEdificacion.model';
 import { PropertyLocationHabiedifModalComponent } from '../2-property-location-habiedif-modal/property-location-habiedif-modal.component';
 import { MatStepper } from '@angular/material/stepper';
+import { UbicacionPredioDetalleModel, UbicacionPredioModel } from '../../models/saveFichaIndividual.model';
+import { Subscription } from 'rxjs';
+import { SharedData } from '../../models/sharedFirstData.model';
+import Swal from 'sweetalert2';
   
 @Component({
     selector: 'app-property-location',
     templateUrl: './property-location.component.html',
     styleUrls: ['./property-location.component.css']
 })
-export class PropertyLocationComponent implements OnInit{
+export class PropertyLocationComponent implements OnInit, OnDestroy {
 
     @Output() secondComplete = new EventEmitter<boolean>();
+    @Input() idFicha:number = 0;
     @Input() Stepper: MatStepper;
     @Input() listaVias: ItemSelect<Via>[] = [];
     @Input() listUbicacionPredial: UbicacionPredial[] = [];
 
+    public saveUP$: Subscription = new Subscription;
+    
     btnCompleteInfoDisabled: boolean = true;
     btnNextDisabled: boolean = true;
     dataFirst: UbicacionPredial;
     progress: boolean = false;
+    ipv4: string = '';
 
     habilitacion: Habilitacion = { codigoHabilitacion: '', nombreHabilitacion: '', sectorZonaEtapa: '', manzanaUrbana: ''};
     edificacion: Edificacion = { codigoEspecifico: '', nombreEdificacion: '' };
@@ -42,7 +50,15 @@ export class PropertyLocationComponent implements OnInit{
                     this.edificacion = data.edificacion;
                 }
             }
-          })                
+          })   
+          
+        // this._fichaIndividualService.getIpV4().then((result) => {
+        //     this.ipv4 = result;    
+        // });
+    }
+
+    ngOnDestroy(): void {
+        this.saveUP$.unsubscribe();
     }
 
     UbicacionPredial(enterAnimationDuration: string, exitAnimationDuration: string):void {
@@ -87,26 +103,6 @@ export class PropertyLocationComponent implements OnInit{
     }
 
     Agregar(){
-
-        // this._fichaIndividualService.listarVias({ codigoSector: '01', codigoManzana: '005' }).subscribe(result => {
-        
-        //     let items: ItemSelect<Via>[] = [];
-        //     items.unshift({ value: 0, text: 'Seleccionar', data: { id: 0, codigoVia: 'Seleccione', nombreVia: '' }});
-    
-        //     let con = 0;
-        //     result.forEach(item => {
-        //         con++;
-        //         items.push({
-        //             value: con,
-        //             text: item.nombreVia,
-        //             data: item
-        //         });
-        //     });
-    
-        //     this.listaVias = items;
-            
-        //   }); 
-
         this.dataFirst = { id:0, listaVias: this.listaVias };
         this.UbicacionPredial('300ms', '300ms');
     }
@@ -174,34 +170,65 @@ export class PropertyLocationComponent implements OnInit{
     goNext(){
         this.progress = true;
 
-        // let request: SaveFichaIndividual = 
-        // {   idObjeto: this.dataFirst.idObjeto, 
-        //     codigoReferenciaCatastral: this.dataFirst.CRC 
-        // };
+        let detalle: UbicacionPredioDetalleModel[] = [];
+        this.listUbicacionPredial.forEach(item => {
+            detalle.push({ 
+                idObjeto: this.idFicha,
+                c05CodigoVia: item.CodeVia,
+                c06TipoVia: item.CodeTipoVia,
+                c07Nombrevia: item.NombreVia,
+                c08TipoPuerta: item.CodeTipoPuerta,
+                c09NroMunicipal: item.NroMunicipal,
+                c10Numero: item.CondNumeracion
+            });
+        });
 
-        // this.saveCRC$ = this._fichaIndividualService.saveCodigoReferenciaCatastral(request).subscribe(result => {
-            
-        //     let shDataFirst: SharedFirstData = {          
-        //         codigoSector: this.dataFirst.codigoSector,
-        //         codigoManzana: this.dataFirst.codigoManzana
-        //     }
-        //     let data: SharedData<SharedFirstData> = { complete: true, data: shDataFirst }
-        //     this.firstComplete.emit(data);
-            
-            setTimeout(() => {
-                //this.dataFirst.idObjeto = result.idObjeto;
+        let request: UbicacionPredioModel = 
+        {   idObjeto: this.idFicha,
+            terminalCreacion: this.ipv4,
+            ubicacionPredioDetalle: detalle,
+            c11TipoEdificacion: '',
+            c12NombreEdifica: '',
+            c13TipoInterior: this.edificacion.codigoTipoInterior,
+            c14NroInterior: this.edificacion.numeroInterior,
+            c15CodigoHu: '',
+            c16NombreHu: '',
+            c17ZonaSectorEtapa: '',
+            c18Manzana: '',
+            c19Lote: this.habilitacion.lote,
+            c20SubLote: this.habilitacion.sublote
+        };
+
+        this.saveUP$ = this._fichaIndividualService.saveUbicacionPredial(request)
+        .subscribe(result => {
+            if(result.success){
                 this.secondComplete.emit(true);
 
                 setTimeout(() => {
-                    //this.dataFirst.idObjeto = result.idObjeto;
                     this.progress = false;
                     this.btnNextDisabled = true;
                     this.Stepper.next();
                     
-                  }, 500);                 
-                
-              }, 2000);  
-        // });
+                  }, 500); 
+            }
+            else{
+                this.progress = false;
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                      confirmButton: 'btn btn-primary bg-cofopri'
+                    },
+                    buttonsStyling: false
+                  });
+                  
+                swalWithBootstrapButtons.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: result.message,
+                    confirmButtonText: 'Cerrar'
+                  });
+                console.log(result.message);
+            }
+        });
     }    
 
 }

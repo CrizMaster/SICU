@@ -94,10 +94,10 @@ export class UserComponent implements OnInit{
     getMenu(){
 
       this._intranetService.listaMenu(this.organizacionSeleccionada, this.perfilSeleccionado).subscribe({
-        next:(menuData) => {
-          console.log('aca');
+        next:(menuData) => {                    
+          this._intranetService.currentComponentMenu.next(menuData.data);
+          console.log('cambio de menú');
           this.route.navigateByUrl('/intranet');
-          this._intranetService.currentComponentMenu.next(menuData.data);            
         },
         error:(errorData) => {
             console.info('error');

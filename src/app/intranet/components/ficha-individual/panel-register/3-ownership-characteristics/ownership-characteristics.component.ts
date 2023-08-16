@@ -13,6 +13,9 @@ import { OwnershipCharacteristics } from '../../models/OwnershipCharacteristics/
 import { OwnershipCharacteristicsModalComponent } from '../3-ownership-characteristics-modal/ownership-characteristics-modal.component';
 import { MatStepper } from '@angular/material/stepper';
 import { SharedData, SharedThirdData } from '../../models/sharedFirstData.model';
+import { OwnershipCharacteristicsRequest } from '../../models/OwnershipCharacteristics/ownership-characteristics-request.model';
+import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
   
 @Component({
     selector: 'app-ownership-characteristics',
@@ -23,23 +26,25 @@ export class OwnershipCharacteristicsComponent implements OnInit{
 
     @Output() thirdComplete = new EventEmitter<SharedData<SharedThirdData>>();
     @Input() Stepper: MatStepper;
-    
+    @Input() idFicha:number = 0;
+
     info: OwnershipCharacteristics = {};
     titleBtn: string = 'Agregar';
     progress: boolean = false;
-
+    ipv4: string = '';
     btnCompleteInfoDisabled: boolean = true;
     btnNextDisabled: boolean = true;
-    dataFirst: OwnershipCharacteristics;
+    //dataFirst: OwnershipCharacteristics;
 
-    // habilitacion: Habilitacion = { codigoHabilitacion: '', nombreHabilitacion: '', sectorZonaEtapa: '', manzanaUrbana: ''};
-    // edificacion: Edificacion = { codigoEspecifico: '', nombreEdificacion: '' };
+    public saveOC$: Subscription = new Subscription;
 
     constructor(public dialog: MatDialog,
         private _fichaIndividualService: FichaIndividualService) { }
 
     ngOnInit(): void {
-              
+        // this._fichaIndividualService.getIpV4().then((result) => {
+        //     this.ipv4 = result;    
+        // });              
     }
 
     CaracteristicasTitularidad(enterAnimationDuration: string, exitAnimationDuration: string):void {
@@ -71,47 +76,49 @@ export class OwnershipCharacteristicsComponent implements OnInit{
     goNext(){
         this.progress = true;
         
-        // let request: SaveFichaIndividual = 
-        // {   idObjeto: this.dataFirst.idObjeto, 
-        //     codigoReferenciaCatastral: this.dataFirst.CRC 
-        // };
+        let request: OwnershipCharacteristicsRequest = 
+        {   idObjeto: this.idFicha, 
+            terminalCreacion: this.ipv4,
+            c21CodigoCondicion: this.info.CodeCondicionTitular,
+            c22FormaAdquisicion: this.info.CodeFormaAdquision,
+            c23CodigoTipoDocumento: this.info.CodeTipoDocumento,
+            c24TipoPartida: this.info.CodeTipoPartidaRegistral,
+            c25Numero: this.info.NumeroPartidaRegistral
+        };
 
-        // this.saveCRC$ = this._fichaIndividualService.saveCodigoReferenciaCatastral(request).subscribe(result => {
+        this.saveOC$ = this._fichaIndividualService.saveCaracteristicasTitularidad(request)
+        .subscribe(result => {
             
-        //     let shDataFirst: SharedFirstData = {          
-        //         codigoSector: this.dataFirst.codigoSector,
-        //         codigoManzana: this.dataFirst.codigoManzana
-        //     }
-        //     let data: SharedData<SharedFirstData> = { complete: true, data: shDataFirst }
-        //     this.firstComplete.emit(data);
-            
-        //     setTimeout(() => {
-        //         this.dataFirst.idObjeto = result.idObjeto;
-        //         this.progress = false;
-        //         this.btnNextDisabled = true;
-        //         this.Stepper.next();
-        //       }, 500);  
-        // });
-            setTimeout(() => {
-
+            if(result.success){
                 let shDataThird: SharedThirdData = {          
                     codigoCondicionTitular: this.info.CodeCondicionTitular
                 }
                 let data: SharedData<SharedThirdData> = { complete: true, data: shDataThird }
                 this.thirdComplete.emit(data);
-
+                
                 setTimeout(() => {
                     this.progress = false;
                     this.btnNextDisabled = true;
                     this.Stepper.next();
-                  }, 500);
-              }, 2000);         
+                  }, 500); 
+            }
+            else{
+                this.progress = false;
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                      confirmButton: 'btn btn-primary bg-cofopri'
+                    },
+                    buttonsStyling: false
+                  });
+                  
+                swalWithBootstrapButtons.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: result.message,
+                    confirmButtonText: 'Cerrar'
+                  });
+                console.log(result.message);
+            }
+        });        
     }
-
-    // Editar(up: UbicacionPredial){
-    //     this.dataFirst = up;
-    //     this.UbicacionPredial('300ms', '300ms');
-    // }
-
-
 }

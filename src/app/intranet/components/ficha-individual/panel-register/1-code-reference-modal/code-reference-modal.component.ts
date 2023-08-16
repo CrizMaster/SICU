@@ -8,6 +8,7 @@ import { Manzana } from '../../models/manzana.model';
 import { Observable, Subscription } from 'rxjs';
 
 
+
 @Component({
     selector: 'app-code-reference-modal',
     templateUrl: './code-reference-modal.component.html',
@@ -52,7 +53,7 @@ export class CodeReferenceModalComponent implements OnInit, OnDestroy {
         entrada: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
         piso: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
         unidad: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
-        dc: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(1)]],
+        //dc: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(1)]],
       });
 
       this.dataFirst = data;
@@ -84,7 +85,7 @@ export class CodeReferenceModalComponent implements OnInit, OnDestroy {
           entrada: this.dataFirst.entrada,
           piso: this.dataFirst.piso,
           unidad: this.dataFirst.unidad,
-          dc: this.dataFirst.dc,
+          //dc: this.dataFirst.dc,
           departamento: this.dataFirst.departamento
         });
 
@@ -179,10 +180,10 @@ export class CodeReferenceModalComponent implements OnInit, OnDestroy {
       let info = this.form.value;
 
       if(this.dataFirst === undefined){
-        info.idObjeto = 0
+        info.idFicha = 0
       }
       else{ 
-        info.idObjeto = this.dataFirst.idObjeto; 
+        info.idFicha = this.dataFirst.idFicha; 
       }
 
       this.distritos.forEach(dist => {

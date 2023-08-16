@@ -29,6 +29,7 @@ export class PanelRegisterComponent implements OnInit, OnDestroy {
 
     catalogoMaster: CatalogoMaster[] = [];
 
+    idFicha: number = 0;
     listaVias: ItemSelect<Via>[] = [];
     habilEdific: HabilitacionEdificacion;
     //dataThirdShared: SharedThirdData = { codigoCondicionTitular : '' };
@@ -105,7 +106,9 @@ export class PanelRegisterComponent implements OnInit, OnDestroy {
       
       if(data.complete){
         //cargando vías
-        this.listVias$ = this._fichaIndividualService.listarVias(data.data).subscribe(result => {
+        this.idFicha = data.data.idFicha;
+        this.listVias$ = this._fichaIndividualService.listarVias(data.data)
+        .subscribe(result => {
           
           let items: ItemSelect<Via>[] = [];
           items.unshift({ value: 0, text: 'Seleccionar', data: { id: 0, codigoVia: 'Seleccione', nombreVia: '' }});
@@ -116,6 +119,7 @@ export class PanelRegisterComponent implements OnInit, OnDestroy {
               items.push({
                   value: con,
                   text: item.nombreVia,
+                  code: item.codigoEspecifico,
                   data: item
               });
           });

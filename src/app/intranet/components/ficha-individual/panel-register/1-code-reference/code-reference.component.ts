@@ -7,6 +7,8 @@ import { FichaIndividualService } from '../../ficha-individual.service';
 import { SaveFichaIndividual } from 'src/app/intranet/components/ficha-individual/models/saveFichaIndividual.model';
 import { Subscription } from 'rxjs';
 import { SharedData, SharedFirstData } from '../../models/sharedFirstData.model';
+import Swal from 'sweetalert2';
+
 
 @Component({
     selector: 'app-code-reference',
@@ -17,9 +19,9 @@ export class CodeReferenceComponent implements OnInit, OnDestroy {
 
     @Output() firstComplete = new EventEmitter<SharedData<SharedFirstData>>();
 
-    @Input() codRefCatastral: any[] = ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'];
-    
+    @Input() codRefCatastral: any[] = ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'];    
     @Input() Stepper: MatStepper;
+    @Input() idFicha: number = 0;
     
     btnNextDisabled: boolean = true;
     dataFirst: any;
@@ -32,7 +34,8 @@ export class CodeReferenceComponent implements OnInit, OnDestroy {
         public dialog: MatDialog,
         private _fichaIndividualService: FichaIndividualService) { }
 
-    ngOnInit(): void { }
+    ngOnInit(): void { 
+    }
 
     ngOnDestroy(): void {
         this.saveCRC$.unsubscribe();
@@ -52,10 +55,22 @@ export class CodeReferenceComponent implements OnInit, OnDestroy {
           if(result != ''){
             this.dataFirst = result;
             let codigo = result.codigoUbigeo + result.codigoSector + result.codigoManzana + result.lote + 
-            result.edifica + result.entrada + result.piso + result.unidad + result.dc;
+            result.edifica + result.entrada + result.piso + result.unidad;
             this.dataFirst.CRC = codigo;
 
+            let codigoRefCatastral = codigo.split('');
+
+            //calculando el DC
+            let cont = 0;
+            codigoRefCatastral.forEach(item => {
+                cont = cont + parseInt(item);
+                if(cont >= 9) cont = cont - 9;
+            });
+
+            codigo = codigo + String(cont);
+
             this.codRefCatastral = codigo.split('');
+
             this.btnNextDisabled = false;            
             this.titleBtn = 'Modificar';
 
@@ -67,10 +82,9 @@ export class CodeReferenceComponent implements OnInit, OnDestroy {
 
     goNext(){
         this.progress = true;
-        console.log(this.dataFirst);
 
         let request: SaveFichaIndividual = 
-        {   idObjeto: this.dataFirst.idObjeto, 
+        {   idObjeto: this.dataFirst.idFicha, 
             codigoDepartamento: this.dataFirst.departamento,
             codigoProvincia: this.dataFirst.provincia,
             codigoDistrito: this.dataFirst.codigoDistrito,
@@ -84,22 +98,72 @@ export class CodeReferenceComponent implements OnInit, OnDestroy {
             dc: this.dataFirst.dc
         };
 
-        this.saveCRC$ = this._fichaIndividualService.saveCodigoReferenciaCatastral(request).subscribe(result => {
-            
-            let shDataFirst: SharedFirstData = {          
-                codigoSector: this.dataFirst.codigoSector,
-                codigoManzana: this.dataFirst.codigoManzana
+        this.saveCRC$ = this._fichaIndividualService.saveCodigoReferenciaCatastral(request)
+        .subscribe(result => {           
+
+            if(result.success){
+                let shDataFirst: SharedFirstData = {
+                    idFicha: result.data.idObjeto,
+                    codigoSector: this.dataFirst.codigoSector,
+                    codigoManzana: this.dataFirst.codigoManzana
+                }
+                let data: SharedData<SharedFirstData> = { complete: true, data: shDataFirst }
+                this.firstComplete.emit(data);
+    
+                setTimeout(() => {
+                    this.dataFirst.idFicha = result.idObjeto;
+                    this.progress = false;
+                    this.btnNextDisabled = true;
+                    this.Stepper.next();
+                  }, 500); 
             }
-            let data: SharedData<SharedFirstData> = { complete: true, data: shDataFirst }
-            this.firstComplete.emit(data);
-            
-            setTimeout(() => {
-                this.dataFirst.idObjeto = result.idObjeto;
+            else{
                 this.progress = false;
-                this.btnNextDisabled = true;
-                this.Stepper.next();
-              }, 500);  
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                      confirmButton: 'btn btn-primary bg-cofopri'
+                      
+                    },
+                    buttonsStyling: false
+                  });
+                  
+                swalWithBootstrapButtons.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: result.message,
+                    confirmButtonText: 'Cerrar'
+                  });
+                console.log(result.message);
+            } 
         });
+    }
+
+    Popup(){
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: 'btn btn-primary bg-cofopri',
+              cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+          });
+          
+        swalWithBootstrapButtons.fire({
+            icon: 'error',
+            title: 'Oops...',
+            confirmButtonText: 'Cerrar',
+            text: 'Este es un nuevo mensaje de error ocurrido durante el registro de la ubicación catastral....'
+          });
+    }
+
+    Popup2(){
+
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 4000
+          })
     }
 
 }

@@ -24,6 +24,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatBadgeModule} from '@angular/material/badge';
 import {
     MatSnackBar,
     MatSnackBarHorizontalPosition,
@@ -31,11 +32,12 @@ import {
     MatSnackBarVerticalPosition,
   } from '@angular/material/snack-bar';
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
+import localeEsPE from '@angular/common/locales/es-PE';
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConnectionServiceModule } from 'ngx-connection-service';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-
-//import { AuthService } from '../../core/shared/services/auth.service';
 
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 import { TitleComponent } from "./components/title/title.component";
@@ -45,6 +47,8 @@ import { ModalQuestionComponent } from "./components/modal-question/modal-questi
 import { NetworkStatusComponent } from "./components/network-status/network-status.component";
 import { TemplateSnackbarComponent } from "./components/network-status/template-snackbar/template-snackbar.component";
 import { AccessDeniedComponent } from "./components/access-denied/access-denied.component";
+import { ModalMessageComponent } from "./components/modal-message/modal-message.component";
+import { ModalLoadingComponent } from "./components/modal-loading/modal-loading.component";
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -75,22 +79,26 @@ const maskConfig: Partial<IConfig> = {
         MatDialogModule,
         MatSlideToggleModule,
         MatSnackBarModule,
+        MatBadgeModule,
+        MatDatepickerModule,
+
         NgbModule,
         NgxMaskDirective, 
         NgxMaskPipe,
         ReactiveFormsModule,
-        ConnectionServiceModule,
-        SweetAlert2Module.forRoot()
+        ConnectionServiceModule
     ],
     declarations: [
         NotFoundComponent,
         TitleComponent,
         BreadcrumbComponent,
         ModalQuestionComponent,
+        ModalMessageComponent,
         NetworkStatusComponent,
         TemplateSnackbarComponent,
         DisableControlDirective,
-        AccessDeniedComponent
+        AccessDeniedComponent,
+        ModalLoadingComponent
     ],
     exports: [
         HttpClientModule,
@@ -101,9 +109,11 @@ const maskConfig: Partial<IConfig> = {
         TitleComponent,
         BreadcrumbComponent,
         ModalQuestionComponent,
+        ModalMessageComponent,
         NetworkStatusComponent,
         DisableControlDirective,
         AccessDeniedComponent,
+        ModalLoadingComponent,
 
         MatTabsModule,
         MatCardModule,
@@ -125,13 +135,14 @@ const maskConfig: Partial<IConfig> = {
         MatDialogModule,
         MatSlideToggleModule,
         MatSnackBarModule,
+        MatBadgeModule,
+        MatDatepickerModule,
 
         NgbModule,
         NgxMaskDirective, 
         NgxMaskPipe,
         ReactiveFormsModule,
-        ConnectionServiceModule,
-        SweetAlert2Module
+        ConnectionServiceModule
     ],
     providers: [
         provideEnvironmentNgxMask(maskConfig),

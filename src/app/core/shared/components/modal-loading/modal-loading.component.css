@@ -1,0 +1,17 @@
+.circle-header-image {
+    background-image: url('../../../../../assets/image/circleCOFOPRI.jpg');
+    background-size: cover;
+  }
+.mat-mdc-progress-bar {
+    --mdc-linear-progress-active-indicator-color: #15448b;
+    --mdc-linear-progress-track-color: #e5eaf1;
+}
+.mensaje{
+    animation: fadeIn 1s infinite;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+@keyframes fadeIn {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+  }

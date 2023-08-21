@@ -34,7 +34,7 @@ export class PanelRegisterComponent implements OnInit, OnDestroy {
     habilEdific: HabilitacionEdificacion;
     //dataThirdShared: SharedThirdData = { codigoCondicionTitular : '' };
 
-    public listVias$: Subscription = new Subscription;
+    //public listVias$: Subscription = new Subscription;
     public subHabEdi$: Subscription = new Subscription;
     
     verPaso4: boolean = true;
@@ -98,35 +98,16 @@ export class PanelRegisterComponent implements OnInit, OnDestroy {
     } 
 
     ngOnDestroy(): void {
-        this.listVias$.unsubscribe();
         this.subHabEdi$.unsubscribe();
     }
 
-    Step1Complete(data: SharedData<SharedFirstData>){
+    Step1Complete(data: SharedFirstData<ItemSelect<Via>[]>){
       
       if(data.complete){
-        //cargando vías
-        this.idFicha = data.data.idFicha;
-        this.listVias$ = this._fichaIndividualService.listarVias(data.data)
-        .subscribe(result => {
+        this.idFicha = data.idFicha;
+        this.listaVias = data.data;
           
-          let items: ItemSelect<Via>[] = [];
-          items.unshift({ value: 0, text: 'Seleccionar', data: { id: 0, codigoVia: 'Seleccione', nombreVia: '' }});
-  
-          let con = 0;
-          result.data.forEach(item => {
-              con++;
-              items.push({
-                  value: con,
-                  text: item.nombreVia,
-                  code: item.codigoEspecifico,
-                  data: item
-              });
-          });
-  
-          this.listaVias = items;
-          
-        });
+        this._fichaIndividualService.obsHabilitacionEdificacion.next(data.habUrbana);
       }
 
       this.firstComplete = data.complete;
@@ -136,15 +117,15 @@ export class PanelRegisterComponent implements OnInit, OnDestroy {
       this.secondComplete = sw;
     }
 
-    Step3Complete(data: SharedData<SharedThirdData>){      
+    Step3Complete(data: SharedThirdData){      
       if(data.complete){
         
-        if(data.data.codigoCondicionTitular == '05') {
+        if(data.codigoCondicionTitular == '05') {
           this.verPaso4 = false;
         }
         else { this.verPaso4 = true; }
 
-        this._fichaIndividualService.obsSharedThirdData.next(data.data);
+        this._fichaIndividualService.obsSharedThirdData.next(data);
       }
       this.thirdComplete = data.complete;
     }

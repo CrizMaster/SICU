@@ -28,6 +28,8 @@ import { DescriptionPropertyComponent } from "./components/ficha-individual/pane
 import { DescriptionPropertyModalComponent } from "./components/ficha-individual/panel-register/5-description-property-modal/description-property-modal.component";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from "../core/shared/interceptors/auth.interceptor";
+import { BuildingsComponent } from "./components/ficha-individual/panel-register/6-buildings/buildings.component";
+import { BuildingsModalComponent } from "./components/ficha-individual/panel-register/6-buildings-modal/buildings-modal.component";
 
 
 @NgModule({
@@ -58,7 +60,9 @@ import { AuthInterceptor } from "../core/shared/interceptors/auth.interceptor";
         IdentityOwnerNaturalModalComponent,
         IdentityOwnerLegalModalComponent,
         DescriptionPropertyComponent,
-        DescriptionPropertyModalComponent
+        DescriptionPropertyModalComponent,
+        BuildingsComponent,
+        BuildingsModalComponent
     ],
     exports: [],
     providers: [

@@ -20,9 +20,10 @@ export class PropertyLocationHabiedifModalComponent implements OnInit, OnDestroy
 
     form: FormGroup;
 
-    resp:UbicacionPredial = { id: 0 };
+    resp:UbicacionPredial = { id:0 };
 
     listCatalogoMaster: CatalogoMaster[] = [];
+    listTipoedificacion: ItemSelect<number>[] = [];
     listTipointerior: ItemSelect<number>[] = [];
 
     constructor(
@@ -33,26 +34,40 @@ export class PropertyLocationHabiedifModalComponent implements OnInit, OnDestroy
       private changeDetector: ChangeDetectorRef
     ){
         this.form = this.fb.group({
+            tipoedificacion: [0, Validators.required],
+            nombreedificacion: ['', Validators.required],
             tipointerior: [0, Validators.required],
-            numerointerior: ['', Validators.required],  
+            numerointerior: ['', Validators.required],
             lote: ['', Validators.required],                      
             sublote: ['', Validators.required]
         });
 
         this.listCatalogoMaster = _fichaIndividualService.getCatalogoMaster();
-        this.listTipointerior = this.getList<number>(CatalogoMasterEnum.TipoInterior);          
+        this.listTipoedificacion = this.getList<number>(CatalogoMasterEnum.TipoEdificacion);
+        this.listTipointerior = this.getList<number>(CatalogoMasterEnum.TipoInterior);
     }
 
     ngAfterContentChecked(): void {
       this.changeDetector.detectChanges();
     }
 
-    ngOnInit(): void {      
+    ngOnInit(): void {
+        if(this.data.IdTipoEdificacion == 0){
+            console.log('nuevo');          
+        }
+        else{
+            this.form.patchValue({ 
+                tipoedificacion: this.data.IdTipoEdificacion ? this.data.IdTipoEdificacion : 0,
+                nombreedificacion: this.data.NombreEdificacion,
+                tipointerior: this.data.IdTipoInterior ? this.data.IdTipoInterior : 0,
+                numerointerior: this.data.NumeroInterior,
+                lote: this.data.Lote,
+                sublote: this.data.Sublote
+            });
+        }
     }
 
     ngOnDestroy(): void {
-    //   this.listProv$.unsubscribe();
-    //   this.listDist$.unsubscribe();
     }
 
     getList<T>(Grupo: string) : ItemSelect<T>[]{
@@ -81,14 +96,17 @@ export class PropertyLocationHabiedifModalComponent implements OnInit, OnDestroy
         list.unshift({ value: 0, text: 'Seleccionar'});
 
         return list;
-    }    
-
-    onChangeSelTipointerior(newValueCodevia: string, sw: boolean){
-
     }
 
     guardar(){
         let info = this.form.value;
+
+        this.listTipoedificacion.forEach(tp => {
+            if(tp.value == info.tipoedificacion) {
+              this.resp.IdTipoEdificacion = tp.value;
+              this.resp.CodeTipoEdificacion = tp.code;
+            }
+        });
 
         this.listTipointerior.forEach(tp => {
           if(tp.value == info.tipointerior) {
@@ -97,9 +115,11 @@ export class PropertyLocationHabiedifModalComponent implements OnInit, OnDestroy
           }
         });
 
+        this.resp.NombreEdificacion = info.nombreedificacion;
         this.resp.NumeroInterior = info.numerointerior;
         this.resp.Lote = info.lote;
         this.resp.Sublote = info.sublote;
+        this.resp.id = this.resp.IdTipoEdificacion;
 
         this.form.reset();
         this.dialogRef.close(this.resp);

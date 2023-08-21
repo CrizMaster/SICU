@@ -7,13 +7,13 @@ import { Title } from 'src/app/core/models/title.model';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { Via } from '../../models/via.model';
 import { FichaIndividualService } from '../../ficha-individual.service';
-import { Edificacion, Habilitacion, HabilitacionEdificacion } from '../../models/habilitacionEdificacion.model';
+import { Edificacion, Habilitacion } from '../../models/habilitacionEdificacion.model';
 import { PropertyLocationHabiedifModalComponent } from '../2-property-location-habiedif-modal/property-location-habiedif-modal.component';
 import { MatStepper } from '@angular/material/stepper';
 import { UbicacionPredioDetalleModel, UbicacionPredioModel } from '../../models/saveFichaIndividual.model';
 import { Subscription } from 'rxjs';
-import { SharedData } from '../../models/sharedFirstData.model';
-import Swal from 'sweetalert2';
+import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
+import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
   
 @Component({
     selector: 'app-property-location',
@@ -29,28 +29,29 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
     @Input() listUbicacionPredial: UbicacionPredial[] = [];
 
     public saveUP$: Subscription = new Subscription;
+    public dataHab$: Subscription = new Subscription;
     
     btnCompleteInfoDisabled: boolean = true;
     btnNextDisabled: boolean = true;
     dataFirst: UbicacionPredial;
-    progress: boolean = false;
+    dataEdiHab: UbicacionPredial;
+    //progress: boolean = false;
     ipv4: string = '';
 
     habilitacion: Habilitacion = { codigoHabilitacion: '', nombreHabilitacion: '', sectorZonaEtapa: '', manzanaUrbana: ''};
-    edificacion: Edificacion = { codigoEspecifico: '', nombreEdificacion: '' };
+    edificacion: Edificacion = {};
 
     constructor(public dialog: MatDialog,
         private _fichaIndividualService: FichaIndividualService) { }
 
     ngOnInit(): void {
-        this._fichaIndividualService.obsHabilitacionEdificacion.subscribe({
+        this.dataHab$ = this._fichaIndividualService.obsHabilitacionEdificacion.subscribe({
             next:(data) => {
-                if(data.edificacion !== undefined ){
-                    this.habilitacion = data.habilitacion;
-                    this.edificacion = data.edificacion;
+                if(data !== undefined ){
+                    this.habilitacion = data;
                 }
             }
-          })   
+          });
           
         // this._fichaIndividualService.getIpV4().then((result) => {
         //     this.ipv4 = result;    
@@ -59,6 +60,7 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.saveUP$.unsubscribe();
+        this.dataHab$.unsubscribe();
     }
 
     UbicacionPredial(enterAnimationDuration: string, exitAnimationDuration: string):void {
@@ -143,18 +145,21 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
 
     CompletarInfo(){
         const dialogRef = this.dialog.open(PropertyLocationHabiedifModalComponent, {
-            width: '400px',
+            width: '550px',
             enterAnimationDuration: '300ms',
             exitAnimationDuration: '300ms',
             disableClose: true,
-            data: this.dataFirst
+            data: this.dataEdiHab
         });
 
         dialogRef.afterClosed().subscribe(resp => {
-            if(resp){                
+            if(resp){
+                this.dataEdiHab = resp;
                 this.habilitacion.lote = resp.Lote;
                 this.habilitacion.sublote = resp.Sublote;
 
+                this.edificacion.codigoTipoEdificacion = resp.CodeTipoEdificacion;
+                this.edificacion.nombreEdificacion = resp.NombreEdificacion;
                 this.edificacion.idTipoInterior = resp.IdTipoInterior;
                 this.edificacion.codigoTipoInterior = resp.CodeTipoInterior;
                 this.edificacion.numeroInterior = resp.NumeroInterior;
@@ -167,8 +172,24 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
           });        
     }
 
+    ModalMessage(): any {     
+        let modal: Title = { 
+          Title: 'Registrando la ubicación del predio catastral...'}
+        let dgRef = this.dialog.open(ModalLoadingComponent, {
+            width: '400px',
+            height: '95px',
+            enterAnimationDuration: '300ms',
+            exitAnimationDuration: '300ms',
+            disableClose: true,
+            data: modal
+        }); 
+  
+        return dgRef;
+      }
+          
     goNext(){
-        this.progress = true;
+        //this.progress = true;
+        let dg = this.ModalMessage();
 
         let detalle: UbicacionPredioDetalleModel[] = [];
         this.listUbicacionPredial.forEach(item => {
@@ -185,48 +206,45 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
 
         let request: UbicacionPredioModel = 
         {   idObjeto: this.idFicha,
+            usuarioCreacion: 'carevalo',
             terminalCreacion: this.ipv4,
             ubicacionPredioDetalle: detalle,
-            c11TipoEdificacion: '',
-            c12NombreEdifica: '',
+            c11TipoEdificacion: this.edificacion.codigoTipoEdificacion,
+            c12NombreEdifica: this.edificacion.nombreEdificacion,
             c13TipoInterior: this.edificacion.codigoTipoInterior,
             c14NroInterior: this.edificacion.numeroInterior,
-            c15CodigoHu: '',
-            c16NombreHu: '',
-            c17ZonaSectorEtapa: '',
-            c18Manzana: '',
             c19Lote: this.habilitacion.lote,
             c20SubLote: this.habilitacion.sublote
         };
 
-        this.saveUP$ = this._fichaIndividualService.saveUbicacionPredial(request)
+        this.saveUP$ = this._fichaIndividualService.save2UbicacionPredial(request)
         .subscribe(result => {
+            
+            dg.close();
+
             if(result.success){
                 this.secondComplete.emit(true);
 
                 setTimeout(() => {
-                    this.progress = false;
+                    //this.progress = false;
                     this.btnNextDisabled = true;
                     this.Stepper.next();
                     
                   }, 500); 
             }
             else{
-                this.progress = false;
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                      confirmButton: 'btn btn-primary bg-cofopri'
-                    },
-                    buttonsStyling: false
+                //this.progress = false;
+                let modal: Title = { 
+                    Title: 'Opss...', 
+                    Subtitle: result.message, 
+                    Icon: 'error' }
+                  this.dialog.open(ModalMessageComponent, {
+                      width: '500px',
+                      enterAnimationDuration: '300ms',
+                      exitAnimationDuration: '300ms',
+                      disableClose: true,
+                      data: modal
                   });
-                  
-                swalWithBootstrapButtons.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: result.message,
-                    confirmButtonText: 'Cerrar'
-                  });
-                console.log(result.message);
             }
         });
     }    

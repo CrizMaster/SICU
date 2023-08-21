@@ -97,7 +97,7 @@ export class UserComponent implements OnInit{
         next:(menuData) => {                    
           this._intranetService.currentComponentMenu.next(menuData.data);
           console.log('cambio de menú');
-          this.route.navigateByUrl('/intranet');
+          //this.route.navigateByUrl('/intranet');
         },
         error:(errorData) => {
             console.info('error');

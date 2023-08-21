@@ -23,9 +23,14 @@ export interface UbicacionPredial {
     CondNumeracion?: string,
     swSinCodigo?: boolean,
 
+    IdTipoEdificacion?: number,
+    CodeTipoEdificacion?: string,
+    TipoEdificacion?: string,
+    NombreEdificacion?: string,
     IdTipoInterior?: number,
     CodeTipoInterior?: string,
     NumeroInterior?: string,
+    
     Lote?: string,
     Sublote?: string,
 

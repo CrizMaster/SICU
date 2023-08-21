@@ -13,7 +13,7 @@ export interface Habilitacion {
 }
 
 export interface Edificacion {
-    codigoEspecifico?: string,
+    codigoTipoEdificacion?: string,
     nombreEdificacion?: string,
     idTipoInterior?: number,
     codigoTipoInterior?: string,

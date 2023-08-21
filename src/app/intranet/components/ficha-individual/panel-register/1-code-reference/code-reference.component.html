@@ -12,6 +12,10 @@
                     [class.bi-plus-circle]="titleBtn == 'Agregar'"
                     [class.bi-pencil]="titleBtn == 'Modificar'"></i>&nbsp;{{titleBtn}}
               </button>
+              <!-- <button type="button" class="btn btn-sm btn-primary rounded-pill"
+                  title="{{titleBtn}} código de referencia catastral" (click)="ModalMessage()">
+                <i class="bi bi-plus-circle"></i>&nbsp;popup
+              </button> -->
               <!-- &nbsp;&nbsp;
               <button type="button" class="btn btn-sm btn-primary rounded-pill"
                   title="{{titleBtn}} código de referencia catastral" (click)="Popup()">
@@ -73,13 +77,13 @@
               <td class="text-center align-middle fw-bold">{{codRefCatastral[23]}}</td>
             </tr>
           </tbody>
-          <tfoot *ngIf="progress">
+          <!-- <tfoot *ngIf="progress">
             <tr>
               <td colspan="24"><span style="font-size: 0.85rem;">Registrando ficha catastral individual urbana...</span>
                 <mat-progress-bar mode="indeterminate"></mat-progress-bar>
               </td>
             </tr>            
-          </tfoot>
+          </tfoot> -->
       </table>
       
   </div>

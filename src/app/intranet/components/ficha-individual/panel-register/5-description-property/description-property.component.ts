@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { FichaIndividualService } from '../../ficha-individual.service';
@@ -6,30 +6,32 @@ import { OwnershipCharacteristics } from '../../models/OwnershipCharacteristics/
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CatalogoMasterEnum } from 'src/app/core/shared/enum/catalogo-master.enum';
 import { CatalogoMaster } from 'src/app/core/models/catalogo-master.model';
-import { SharedThirdData } from '../../models/sharedFirstData.model';
 import { MatStepper } from '@angular/material/stepper';
-import { IdentityOwnerNaturalModalComponent } from '../4-identity-owner-natural-modal/identity-owner-natural-modal.component';
-import { PersonNatural } from '../../models/IdentityOwner/personNatural.model';
-import { PersonLegal } from '../../models/IdentityOwner/personLegal.model';
-import { Owner } from '../../models/IdentityOwner/owner.model';
-import { IdentityOwnerLegalModalComponent } from '../4-identity-owner-legal-modal/identity-owner-legal-modal.component';
 import { DescriptionPredio } from '../../models/DescriptionProperty/descriptionProperty.model';
 import { DescriptionPropertyModalComponent } from '../5-description-property-modal/description-property-modal.component';
+import { Subscription } from 'rxjs';
+import { DescriptionPropertyRequest } from '../../models/DescriptionProperty/description-property-request.model';
+import { Title } from 'src/app/core/models/title.model';
+import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
+import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
   
 @Component({
     selector: 'app-description-property',
     templateUrl: './description-property.component.html',
     styleUrls: ['./description-property.component.css']
 })
-export class DescriptionPropertyComponent implements OnInit{
+export class DescriptionPropertyComponent implements OnInit, OnDestroy {
 
     @Output() fifthComplete = new EventEmitter<boolean>();
     @Input() idFicha:number = 0;
     @Input() Stepper: MatStepper;
     
-    progress: boolean = false;
+    //progress: boolean = false;
     form: FormGroup;
     pattern1Digs = '^[1-9]|([1-9][0-9])$';
+    ipv4: string = '';
+
+    public saveDP$: Subscription = new Subscription;
     
     mDescPredio: DescriptionPredio = { IdClasificacionPredio: 0, CodeUso: ['','','','','',''] };
     // mTitular: PersonNatural = { DocIdentidad: ['','','','','','','','','','']};
@@ -73,6 +75,10 @@ export class DescriptionPropertyComponent implements OnInit{
 
     }
 
+    ngOnDestroy(): void {
+        this.saveDP$.unsubscribe();
+    }    
+
     getList<T>(Grupo: string) : ItemSelect<T>[]{
         let list: ItemSelect<T>[] = [];
       
@@ -113,8 +119,10 @@ export class DescriptionPropertyComponent implements OnInit{
         dialogRef.afterClosed().subscribe((result:any) => {
           if(result !== ''){
             this.mDescPredio = result;
+            this.mDescPredio.CodeUso = result.CodigoUso.split('');
             this.titleBtn = 'Modificar';
             this.btnNextDisabled = false;
+
             this.fifthComplete.emit(false);
           }            
         });
@@ -124,23 +132,68 @@ export class DescriptionPropertyComponent implements OnInit{
         this.AgregarModal('300ms', '300ms');
     }
 
+    ModalMessage(): any {     
+        let modal: Title = { 
+          Title: 'Registrando la descripción del predio...'
+        }
+        let dgRef = this.dialog.open(ModalLoadingComponent, {
+            width: '400px',
+            height: '95px',
+            enterAnimationDuration: '300ms',
+            exitAnimationDuration: '300ms',
+            disableClose: true,
+            data: modal
+        }); 
+  
+        return dgRef;
+    }
+
     goNext(){
-        this.progress = true;
-        
-            setTimeout(() => {
+        //this.progress = true;
+        let dg = this.ModalMessage();
 
-                // let shDataThird: SharedThirdData = {          
-                //     codigoCondicionTitular: this.info.CodeCondicionTitular
-                // }
-                // let data: SharedData<SharedThirdData> = { complete: true, data: shDataThird }
-                this.fifthComplete.emit(true);
+        let request: DescriptionPropertyRequest = 
+        {   idObjeto: this.idFicha, 
+            usuarioCreacion: 'carevalo',
+            terminalCreacion: this.ipv4,
+            c38ClasificacionPredio: this.mDescPredio.CodeClasificacionPredio,
+            c39PredioEn: this.mDescPredio.CodePredioCatastralEn,
+            c40CodigoUso: this.mDescPredio.CodigoUso,
+            c41DescripcionUso: this.mDescPredio.DescripcionUso,
+            c42AreaTerreno: String(this.mDescPredio.AreaTerrenoVerificada)
+        };
 
+        this.fifthComplete.emit(true);
+
+        this.saveDP$ = this._fichaIndividualService.saveDescripcionPredio(request)
+        .subscribe(result => {
+            
+            dg.close();
+
+            if(result.success){
+                this.fifthComplete.emit(true);                
                 setTimeout(() => {
-                    this.progress = false;
+                    //this.progress = false;
                     this.btnNextDisabled = true;
                     this.Stepper.next();
-                  }, 500);
-              }, 2000);         
+                  }, 500); 
+            }
+            else{
+                //this.progress = false;
+                let modal: Title = { 
+                    Title: 'Opss...', 
+                    Subtitle: result.message, 
+                    Icon: 'error' }
+                  this.dialog.open(ModalMessageComponent, {
+                      width: '500px',
+                      enterAnimationDuration: '300ms',
+                      exitAnimationDuration: '300ms',
+                      disableClose: true,
+                      data: modal
+                  });
+                console.log(result.message);
+            }
+        });     
     }
 
 }

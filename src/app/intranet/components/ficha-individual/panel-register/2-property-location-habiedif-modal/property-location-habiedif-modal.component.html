@@ -10,12 +10,44 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-4">
+                  Tipo de Edificación:
+                </div>
+                <div class="col-8" style="position: relative;">
+                  <select name="tipoedificacion" #SelTipoedificacion
+                          formControlName="tipoedificacion"
+                          class="form-select form-select-sm border focus-ring" 
+                          [class.border-success]="this.form.get('tipoedificacion')?.valid"
+                          [class.focus-ring-success]="this.form.get('tipoedificacion')?.valid"
+                          [class.border-danger]="this.form.get('tipoedificacion')?.invalid && this.form.get('tipoedificacion')?.touched"
+                          [class.focus-ring-danger]="this.form.get('tipoedificacion')?.invalid && this.form.get('tipoedificacion')?.touched"
+                          aria-label="select-tipoedificacion" [pattern]="pattern1Digs">
+                          <option *ngFor="let cv of listTipoedificacion" [value]="cv.value">{{ cv.text }}</option>
+                  </select>
+                  <i *ngIf="this.form.get('tipoedificacion')?.invalid && this.form.get('tipoedificacion')?.touched" 
+                          class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                          title="Campo requerido"></i>
+                </div>
+              </div>
+              <div class="row my-2">
+                <div class="col-4 mt-1">
+                  Nombre Edificación:
+                </div>
+                <div class="col-8" style="position: relative;">
+                  <input type="text" formControlName="nombreedificacion"
+                        class="form-control form-control-sm border focus-ring"
+                        [class.border-success]="this.form.get('nombreedificacion')?.valid"
+                        [class.focus-ring-success]="this.form.get('nombreedificacion')?.valid"
+                        [class.border-danger]="this.form.get('nombreedificacion')?.invalid && this.form.get('nombreedificacion')?.touched"
+                        [class.focus-ring-danger]="this.form.get('nombreedificacion')?.invalid && this.form.get('nombreedificacion')?.touched">                        
+                </div>
+              </div>
+              <div class="row my-2">
+                <div class="col-4">
                   Tipo Interior:
                 </div>
                 <div class="col-8" style="position: relative;">
                   <select name="tipointerior" #SelTipointerior
                           formControlName="tipointerior"
-                          (change)="onChangeSelTipointerior(SelTipointerior.value, false)"
                           class="form-select form-select-sm border focus-ring" 
                           [class.border-success]="this.form.get('tipointerior')?.valid"
                           [class.focus-ring-success]="this.form.get('tipointerior')?.valid"

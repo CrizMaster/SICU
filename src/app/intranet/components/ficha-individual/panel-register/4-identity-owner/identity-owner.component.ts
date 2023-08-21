@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { FichaIndividualService } from '../../ficha-individual.service';
@@ -13,19 +13,26 @@ import { PersonNatural } from '../../models/IdentityOwner/personNatural.model';
 import { PersonLegal } from '../../models/IdentityOwner/personLegal.model';
 import { Owner } from '../../models/IdentityOwner/owner.model';
 import { IdentityOwnerLegalModalComponent } from '../4-identity-owner-legal-modal/identity-owner-legal-modal.component';
+import { Title } from 'src/app/core/models/title.model';
+import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
+import { IdentityOwnerRequest } from '../../models/IdentityOwner/identity-owner-request.model';
+import { Subscription } from 'rxjs';
+import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
   
 @Component({
     selector: 'app-identity-owner',
     templateUrl: './identity-owner.component.html',
     styleUrls: ['./identity-owner.component.css']
 })
-export class IdentityOwnerComponent implements OnInit{
+export class IdentityOwnerComponent implements OnInit, OnDestroy  {
 
     @Output() roomComplete = new EventEmitter<boolean>();
     @Input() idFicha:number = 0;
     @Input() dataThirdShared: SharedThirdData;
     @Input() Stepper: MatStepper;    
-    progress: boolean = false;
+    //progress: boolean = false;
+
+    public saveIT$: Subscription = new Subscription;
     form: FormGroup;
     pattern1Digs = '^[1-9]|([1-9][0-9])$';
     
@@ -34,6 +41,7 @@ export class IdentityOwnerComponent implements OnInit{
     mConyuge: PersonNatural = { DocIdentidad: ['','','','','','','','','','']};
     mEmpresa: PersonLegal = { IdPersonaJuridica: 0,  DocIdentidad: ['','','','','','','','','','']};
     info: OwnershipCharacteristics = {};
+    dataSave: IdentityOwnerRequest = { idObjeto: 0 };
     titleBtn: string = 'Agregar';
     titleBtnLegal: string = 'Agregar';
     displayName: string = '';
@@ -122,6 +130,10 @@ export class IdentityOwnerComponent implements OnInit{
         });
     }
 
+    ngOnDestroy(): void {
+        this.saveIT$.unsubscribe();
+    }
+
     getList<T>(Grupo: string) : ItemSelect<T>[]{
         let list: ItemSelect<T>[] = [];
       
@@ -149,30 +161,6 @@ export class IdentityOwnerComponent implements OnInit{
         return list;
     }
 
-    PersonaNaturalModal(enterAnimationDuration: string, exitAnimationDuration: string):void {
-
-        const dialogPerNatural = this.dialog.open(IdentityOwnerNaturalModalComponent, {
-            width: '500px',
-            enterAnimationDuration,
-            exitAnimationDuration,
-            disableClose: true,
-            data: this.mOwner
-        });
-    
-        dialogPerNatural.afterClosed().subscribe((result:any) => {
-          if(result !== ''){
-            this.mOwner = result;
-            this.titleBtn = 'Modificar';
-            this.mTitular = result.Titular;
-            this.displayName = result.Titular.Nombres;
-            if(this.ctrlConConyugue) this.mConyuge = result.Conyuge;
-            
-            this.btnNextDisabled = false;
-            this.roomComplete.emit(false);
-          }            
-        });
-    }
-
     onChangeSelTipoTitular(newValue: string, sw: boolean){
 
         this.natural = false;
@@ -188,6 +176,46 @@ export class IdentityOwnerComponent implements OnInit{
                     this.juridica = true;
                 }
             }            
+        });
+    }
+
+    PersonaNaturalModal(enterAnimationDuration: string, exitAnimationDuration: string):void {
+
+        const dialogPerNatural = this.dialog.open(IdentityOwnerNaturalModalComponent, {
+            width: '500px',
+            enterAnimationDuration,
+            exitAnimationDuration,
+            disableClose: true,
+            data: this.mOwner
+        });
+    
+        dialogPerNatural.afterClosed().subscribe((result:any) => {
+          if(result !== ''){
+            this.mOwner = result;
+
+            this.dataSave.c26TipoTitular = '01';
+            this.dataSave.c27EstadoCivil = result.Titular.CodeEstadoCivil;
+            this.dataSave.c28aTipoDocumento = result.Titular.CodeTipoDocIdentidad;
+            this.dataSave.c29aNroDocumento = result.Titular.NroDocIdentidad;
+            this.dataSave.c30aNombres = result.Titular.Nombres;
+            this.dataSave.c31aApellidoPaterno = result.Titular.ApellidoPaterno;
+            this.dataSave.c32aApellidoMaterno = result.Titular.ApellidoMaterno;
+            if(result.Titular.ConConyuge){
+                this.dataSave.c28bTipoDocumento = result.Conyuge.CodeTipoDocIdentidad;
+                this.dataSave.c29bNroDocumento = result.Conyuge.NroDocIdentidad;
+                this.dataSave.c30bNombres = result.Conyuge.Nombres;
+                this.dataSave.c31bApellidoPaterno = result.Conyuge.ApellidoPaterno;
+                this.dataSave.c32bApellidoMaterno = result.Conyuge.ApellidoMaterno;                
+            }
+
+            this.titleBtn = 'Modificar';
+            this.mTitular = result.Titular;
+            this.displayName = result.Titular.Nombres;
+            if(this.ctrlConConyugue) this.mConyuge = result.Conyuge;
+            
+            this.btnNextDisabled = false;
+            this.roomComplete.emit(false);
+          }            
         });
     }
 
@@ -208,6 +236,14 @@ export class IdentityOwnerComponent implements OnInit{
         dialogPerJuridica.afterClosed().subscribe((result:any) => {
           if(result !== ''){
             this.mEmpresa = result.Empresa;
+
+            this.dataSave.c26TipoTitular = '02';
+            this.dataSave.c33PersonaJuridica = result.Empresa.CodePersonaJuridica;
+            this.dataSave.c34Ruc = result.Empresa.RUC;
+            this.dataSave.c35TelefonoAnexo = result.Empresa.TelefonoAnexo;
+            this.dataSave.c36RazonSocial = result.Empresa.RazonSocial;
+            this.dataSave.c37CorreoElectronico = result.Empresa.Email;
+
             this.titleBtnLegal = 'Modificar';
             this.btnNextDisabled = false;
             this.roomComplete.emit(false);
@@ -219,28 +255,55 @@ export class IdentityOwnerComponent implements OnInit{
         this.PersonaJuridicaModal('300ms', '300ms');
     }
 
-    // Editar(up: UbicacionPredial){
-    //     this.dataFirst = up;
-    //     this.UbicacionPredial('300ms', '300ms');
-    // }
-
-    goNext(){
-        this.progress = true;
-        
-            setTimeout(() => {
-
-                // let shDataThird: SharedThirdData = {          
-                //     codigoCondicionTitular: this.info.CodeCondicionTitular
-                // }
-                // let data: SharedData<SharedThirdData> = { complete: true, data: shDataThird }
-                this.roomComplete.emit(true);
-
-                setTimeout(() => {
-                    this.progress = false;
-                    this.btnNextDisabled = true;
-                    this.Stepper.next();
-                  }, 500);
-              }, 2000);         
+    ModalMessage(): any {     
+        let modal: Title = { 
+          Title: 'Guardando las características de la titularidad...'}
+        let dgRef = this.dialog.open(ModalLoadingComponent, {
+            width: '400px',
+            height: '95px',
+            enterAnimationDuration: '300ms',
+            exitAnimationDuration: '300ms',
+            disableClose: true,
+            data: modal
+        }); 
+  
+        return dgRef;
     }
 
+    goNext(){
+
+        let dg = this.ModalMessage();
+
+        this.dataSave.idObjeto = this.idFicha;
+        this.dataSave.usuarioCreacion = 'carevalo';
+        this.dataSave.terminalCreacion = "";
+
+        this.saveIT$ = this._fichaIndividualService.save4IdentificacionTitular(this.dataSave)
+        .subscribe(result => {
+            
+            dg.close();
+
+            if(result.success){
+                this.roomComplete.emit(true);                
+                setTimeout(() => {
+                    this.btnNextDisabled = true;
+                    this.Stepper.next();
+                  }, 500); 
+            }
+            else{
+                let modal: Title = { 
+                    Title: 'Opss...', 
+                    Subtitle: result.message, 
+                    Icon: 'error' }
+                  this.dialog.open(ModalMessageComponent, {
+                      width: '500px',
+                      enterAnimationDuration: '300ms',
+                      exitAnimationDuration: '300ms',
+                      disableClose: true,
+                      data: modal
+                  });
+                console.log(result.message);
+            }
+        });        
+    }
 }

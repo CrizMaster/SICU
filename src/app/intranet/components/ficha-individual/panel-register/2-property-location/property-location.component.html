@@ -50,7 +50,7 @@
           <td class="text-center align-middle ancho-column">{{pl.CodeVia5}}</td>
           <td class="text-center align-middle ancho-column">{{pl.CodeVia6}}</td>
           <td colspan="2" class="text-center align-middle">{{pl.TipoVia}}</td>
-          <td colspan="2" class="text-left align-middle">{{pl.NombreVia}}</td>
+          <td colspan="2" class="text-center align-middle">{{pl.NombreVia}}</td>
           <td colspan="2" class="text-center align-middle">{{pl.TipoPuerta}}</td>
           <td colspan="2" class="text-center align-middle">{{pl.NroMunicipal}}</td>
           <td colspan="2" class="text-center align-middle">{{pl.CondNumeracion}}</td>
@@ -75,10 +75,10 @@
         <tr>
           <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">11</th>
           <td class="text-center bg-info" style="width:130px">TIPO DE EDIFICACIÓN</td>
-          <td class="text-center ancho-column">{{edificacion.codigoEspecifico}}</td>
+          <td class="text-center ancho-column">{{edificacion.codigoTipoEdificacion}}</td>
           <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">12</th>
           <td class="text-center bg-info" style="width:150px">NOMBRE DE EDIFICACIÓN</td>
-          <td class="text-center">{{edificacion.nombreEdificacion}}</td>
+          <td class="text-left">{{edificacion.nombreEdificacion}}</td>
           <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">13</th>
           <td class="text-center bg-info" style="width:130px">TIPO DE INTERIOR</td>
           <td class="text-center ancho-column">{{edificacion.codigoTipoInterior}}</td>
@@ -123,13 +123,13 @@
           <td colspan="2" class="text-center">{{habilitacion.sublote}}</td>
         </tr>                          
       </tbody>
-      <tfoot *ngIf="progress">
+      <!-- <tfoot *ngIf="progress">
         <tr>
           <td colspan="24"><span style="font-size: 0.85rem;">Registrando la ubicación del predio catastral...</span>
             <mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </td>
         </tr>            
-      </tfoot>
+      </tfoot> -->
     </table>                                                
   </div>
 </div>

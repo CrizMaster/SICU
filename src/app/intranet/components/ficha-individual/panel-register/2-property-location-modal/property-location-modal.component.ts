@@ -70,7 +70,7 @@ export class PropertyLocationModalComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
         if(this.dataFirst.id == 0){
-            console.log('nuevo');          
+            console.log('nuevo');
         }
         else{
             this.listCodevia = this.dataFirst.listaVias;

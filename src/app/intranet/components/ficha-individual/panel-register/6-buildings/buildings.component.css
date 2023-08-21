@@ -1,0 +1,32 @@
+.ancho-column{
+    width: 30px;
+  }
+  .alto-column{
+    height: 30px;
+  }
+.no-borde{
+  border: none;
+}
+.borde-xy{
+  border: 1px solid;
+}
+.borde-x{
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+.borde-y{
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+}
+.borde-t{
+  border-top: 1px solid;
+}
+.borde-b{
+  border-bottom: 1px solid;
+}
+.borde-l{
+  border-left: 1px solid;
+}
+.borde-r{
+  border-right: 1px solid;
+}

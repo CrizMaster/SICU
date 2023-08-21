@@ -1,14 +1,20 @@
-export interface SharedFirstData {
-    idFicha: number,
-    codigoSector: string,
-    codigoManzana: string
-}
-
-export interface SharedThirdData {
-    codigoCondicionTitular: string
-}
+import { Habilitacion } from "./habilitacionEdificacion.model"
 
 export interface SharedData<T> {
     complete: boolean,
-    data: T
+    idFicha: number,
+    info: T
+}
+
+export interface SharedThirdData {
+    complete: boolean,
+    idFicha: number,
+    codigoCondicionTitular: string
+}
+
+export interface SharedFirstData<T> {    
+    complete: boolean,
+    idFicha: number,
+    habUrbana?: Habilitacion,
+    data?: T
 }

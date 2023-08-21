@@ -116,7 +116,7 @@ export class DescriptionPropertyModalComponent implements OnInit, OnDestroy {
             }
         });       
             
-        this.resp.CodeUso = info.codigouso;
+        this.resp.CodigoUso = info.codigouso;
         this.resp.DescripcionUso = info.descripcionuso;
         this.resp.AreaTerrenoVerificada = info.areaterrenoverificada;
 

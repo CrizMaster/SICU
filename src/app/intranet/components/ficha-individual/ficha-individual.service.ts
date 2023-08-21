@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
 import { LocalService } from 'src/app/core/shared/services/local.service';
 import { FichaCatastralFilter } from './models/fichaCatastralFilter.model'
 
@@ -11,9 +11,12 @@ import { CatalogoMaster } from 'src/app/core/models/catalogo-master.model';
 import { SaveFichaIndividual, UbicacionPredioModel } from './models/saveFichaIndividual.model';
 import { ResponseFichaIndividual } from './models/responseFichaIndividual.model';
 import { SharedFirstData, SharedThirdData } from './models/sharedFirstData.model';
-import { HabilitacionEdificacion } from './models/habilitacionEdificacion.model';
+import { Habilitacion, HabilitacionEdificacion } from './models/habilitacionEdificacion.model';
 //import { internalIpV4 } from 'internal-ip';
 import { OwnershipCharacteristicsRequest } from './models/OwnershipCharacteristics/ownership-characteristics-request.model';
+import { DescriptionPropertyRequest } from './models/DescriptionProperty/description-property-request.model';
+import { IdentityOwnerRequest } from './models/IdentityOwner/identity-owner-request.model';
+import { ItemSelect } from 'src/app/core/models/item-select.model';
 
 @Injectable()
 
@@ -24,9 +27,9 @@ export class FichaIndividualService{
         data: []
     });
 
-    obsHabilitacionEdificacion: BehaviorSubject<HabilitacionEdificacion> = new BehaviorSubject<HabilitacionEdificacion>({});
+    obsHabilitacionEdificacion: BehaviorSubject<Habilitacion> = new BehaviorSubject<Habilitacion>({});
 
-    obsSharedThirdData: BehaviorSubject<SharedThirdData> = new BehaviorSubject<SharedThirdData>({ codigoCondicionTitular: ''});
+    obsSharedThirdData: BehaviorSubject<SharedThirdData> = new BehaviorSubject<SharedThirdData>({ complete: false, idFicha: 0, codigoCondicionTitular: ''});
 
     //obsCatalogoMaster: BehaviorSubject<CatalogoMaster[]> = new BehaviorSubject<CatalogoMaster[]>([]);
 
@@ -41,7 +44,7 @@ export class FichaIndividualService{
         return this.DataTableFI.asObservable();
     }
 
-    get getHabilitacionEdificacion():Observable<HabilitacionEdificacion>{
+    get getHabilitacionEdificacion():Observable<Habilitacion>{
         return this.obsHabilitacionEdificacion.asObservable();
     }
 
@@ -210,29 +213,39 @@ export class FichaIndividualService{
         );         
     }
 
+    listarCategoriaValoresUnitarios():Observable<any>{
+        return this.http.post<any>(environment.urlWebApiSICU + 'f0031CategoriaValoresUnitarios',
+        null)
+        .pipe(
+            // map((response: any) => {
+            //     if(response.success){
+            //         let con = 0;
+            //         let lista: ItemSelect<number>[] = [];
+            //         response.data.forEach(item => {
+            //             con++;
+            //             lista.push({
+            //                 value: con,
+            //                 code: item.codigoCategoria,
+            //                 text: item.nombreCategoria
+            //             })
+            //         });
+            //         lista.unshift({ value: 0, code: 'Seleccionar', text: 'Seleccionar' });
+            //         response.data = lista;
+            //     }
+            // }),
+            catchError(this.handlerError)
+        );         
+    }    
 
-    saveCodigoReferenciaCatastral(data: SaveFichaIndividual):Observable<any>{
-        return this.http.post<any>(environment.urlWebApiSICU + 'f0025CodigoReferenciaCatastral',
-        {
-            'idObjeto': data.idObjeto,
-            'codigoDepartamento': data.codigoDepartamento,
-            'codigoProvincia': data.codigoProvincia,
-            'codigoDistrito': data.codigoDistrito,
-            'sector': data.sector,
-            'manzana': data.manzana,
-            'lote': data.lote,
-            'edifica': data.edifica,
-            'entrada': data.entrada,
-            'piso': data.piso,
-            'unidad': data.unidad,
-            'dc': data.dc
-        })
+    save1CodigoReferenciaCatastral(data: SaveFichaIndividual):Observable<any>{
+        return this.http.post<any>(environment.urlWebApiSICU + 'f0001TmpS1UnidadAdministrativa',
+        data)
         .pipe(
             catchError(this.handlerError)
         );         
     }
 
-    saveUbicacionPredial(data: UbicacionPredioModel):Observable<any>{
+    save2UbicacionPredial(data: UbicacionPredioModel):Observable<any>{ 
         return this.http.post<any>(environment.urlWebApiSICU + 'f0026TmpS2UbicacionPredio',
         data)
         .pipe(
@@ -240,7 +253,7 @@ export class FichaIndividualService{
         );         
     }
 
-    saveCaracteristicasTitularidad(data: OwnershipCharacteristicsRequest):Observable<any>{
+    save3CaracteristicasTitularidad(data: OwnershipCharacteristicsRequest):Observable<any>{
         return this.http.post<any>(environment.urlWebApiSICU + 'f0029TmpS3TitularPredio',
         data)
         .pipe(
@@ -248,35 +261,52 @@ export class FichaIndividualService{
         );         
     }
 
-    listarVias(data: SharedFirstData):Observable<any>{
-        return this.http.post<any>(environment.urlWebApiSICU + 'LocalizacionViaList',
-        {
-            'codigoSector': data.codigoSector,
-            'codigoManzana': data.codigoManzana
-        })
+    save4IdentificacionTitular(data: IdentityOwnerRequest):Observable<any>{
+        return this.http.post<any>(environment.urlWebApiSICU + 'f0030TmpS4IdentificacionTitular',
+        data)
         .pipe(
-            tap((result)=>{
-
-                console.log(result);
-
-                this.GetHabilitacionEdificacion(data).subscribe(response => {
-                    this.obsHabilitacionEdificacion.next(response.data);
-                });
-            }),
             catchError(this.handlerError)
         );         
     }
 
-    GetHabilitacionEdificacion(data: SharedFirstData):Observable<any>{
-        return this.http.post(environment.urlWebApiSICU + 'localizacionHabiEdiList',
-        {
-            'codigoSector': data.codigoSector,
-            'codigoManzana': data.codigoManzana
-        })
-        .pipe( 
+    saveDescripcionPredio(data: DescriptionPropertyRequest):Observable<any>{
+        return this.http.post<any>(environment.urlWebApiSICU + 'TmpS5DescripcionPredio',
+        data)
+        .pipe(
             catchError(this.handlerError)
         );         
     }
+
+    
+    // listarVias(data: SharedFirstData):Observable<any>{
+    //     return this.http.post<any>(environment.urlWebApiSICU + 'LocalizacionViaList',
+    //     {
+    //         'codigoSector': data.codigoSector,
+    //         'codigoManzana': data.codigoManzana
+    //     })
+    //     .pipe(
+    //         tap((result)=>{
+
+    //             console.log(result);
+
+    //             this.GetHabilitacionEdificacion(data).subscribe(response => {
+    //                 this.obsHabilitacionEdificacion.next(response.data);
+    //             });
+    //         }),
+    //         catchError(this.handlerError)
+    //     );         
+    // }
+
+    // GetHabilitacionEdificacion(data: SharedFirstData):Observable<any>{
+    //     return this.http.post(environment.urlWebApiSICU + 'localizacionHabiEdiList',
+    //     {
+    //         'codigoSector': data.codigoSector,
+    //         'codigoManzana': data.codigoManzana
+    //     })
+    //     .pipe( 
+    //         catchError(this.handlerError)
+    //     );         
+    // }
 
 
     private handlerError(error: HttpErrorResponse) {

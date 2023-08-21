@@ -1,5 +1,7 @@
 export interface SaveFichaIndividual {
     idObjeto: number,
+    usuarioCreacion?: string,
+    terminalCreacion?: string,
     codigoDepartamento?: string,
     codigoProvincia?: string,
     codigoDistrito?: string,
@@ -21,10 +23,10 @@ export interface UbicacionPredioModel {
   c12NombreEdifica?: string,
   c13TipoInterior?: string,
   c14NroInterior?: string,
-  c15CodigoHu?: string,
-  c16NombreHu?: string,
-  c17ZonaSectorEtapa?: string,
-  c18Manzana?: string,
+  // c15CodigoHu?: string,
+  // c16NombreHu?: string,
+  // c17ZonaSectorEtapa?: string,
+  // c18Manzana?: string,
   c19Lote?: string,
   c20SubLote?: string,
   ubicacionPredioDetalle?: UbicacionPredioDetalleModel[]

@@ -42,7 +42,7 @@ export class IdentityOwnerNaturalModalComponent implements OnInit, OnDestroy {
             apellidopaterno: ['', Validators.required],
             apellidomaterno: [''],
             tipodocidentidadconyuge: [0, Validators.required],
-            nrodocidentidadconyuge: ['', [Validators.required,, Validators.pattern('[0-9]+')]],
+            nrodocidentidadconyuge: ['', [Validators.required, Validators.pattern('[0-9]+')]],
             nombresconyuge: ['', Validators.required],
             apellidopaternoconyuge: ['', Validators.required],
             apellidomaternoconyuge: ['']

@@ -14,6 +14,8 @@
                   <app-code-reference (firstComplete)="Step1Complete($event)"
                                       [codRefCatastral]="codRefCatastral"
                                       [Stepper] = "Stepper"></app-code-reference>
+
+                  
                 </div>
             </mat-step>
             <mat-step [stepControl]="secondFormGroup" 
@@ -51,10 +53,8 @@
             </mat-step>
             <mat-step [stepControl]="sixthFormGroup" 
                 label="Construcciones" [completed]="sixthComplete">
-                <div class="container-sm mt-4">
-                  <div class="alert alert-warning" role="alert">
-                    FORMULARIO EN CONSTRUCCION
-                  </div>
+                <div class="container-sm">
+                  <app-buildings></app-buildings>
                 </div>
             </mat-step>
             <mat-step [stepControl]="seventhFormGroup" 

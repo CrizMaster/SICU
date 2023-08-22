@@ -138,6 +138,10 @@ export class PanelRegisterComponent implements OnInit, OnDestroy {
       this.fifthComplete = sw;
     }
 
+    Step6Complete(sw: boolean){
+      this.sixthComplete = sw;
+    }
+
     // FichaInidividualModal(enterAnimationDuration: string, exitAnimationDuration: string):void {
     //     const dialogRef = this.dialog.open(CodeReferenceModalComponent, {
     //         width: '500px',

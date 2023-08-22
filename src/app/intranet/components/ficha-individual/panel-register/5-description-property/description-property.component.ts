@@ -165,7 +165,7 @@ export class DescriptionPropertyComponent implements OnInit, OnDestroy {
 
         this.fifthComplete.emit(true);
 
-        this.saveDP$ = this._fichaIndividualService.saveDescripcionPredio(request)
+        this.saveDP$ = this._fichaIndividualService.save5DescripcionPredio(request)
         .subscribe(result => {
             
             dg.close();

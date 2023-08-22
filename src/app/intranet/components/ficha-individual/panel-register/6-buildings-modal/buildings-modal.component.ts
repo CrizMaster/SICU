@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { FichaIndividualService } from '../../ficha-individual.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -12,6 +12,7 @@ import {default as _rollupMoment, Moment} from 'moment';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { CatalogoMaster } from 'src/app/core/models/catalogo-master.model';
 import { CatalogoMasterEnum } from 'src/app/core/shared/enum/catalogo-master.enum';
+import { BuildingsRequest } from '../../models/Buildings/buildings-request.model';
 
 const moment = _rollupMoment || _moment;
 
@@ -43,12 +44,13 @@ export const MY_FORMATS = {
 export class BuildingsModalComponent implements OnInit, OnDestroy {
 
     maxDate: Date;
-
-    dataFirst: any;
+    //dataFirst: any;
     form: FormGroup;
     pattern1Digs = '^[1-9]|([1-9][0-9])$';
     pattern2Digs = '^((?!00).)*$';
     pattern3Digs = '^((?!000).)*$';
+
+    datos: BuildingsRequest = { idObjeto: 0 };
 
     listCatalogoMaster: CatalogoMaster[] = [];
     listaMEP: ItemSelect<number>[] = [];
@@ -85,11 +87,8 @@ export class BuildingsModalComponent implements OnInit, OnDestroy {
       const currentMonth = new Date().getMonth();
       this.maxDate = new Date(currentYear, currentMonth, 1);
 
-      const m = moment('');
-      // let fec = new Date(2021,8,1);
-      // let newFec = moment(fec);
-      // m.set(newFec.toObject());
-
+      let m = moment('');
+      
       this.form = this.fb.group({
         pisosotano: ['', [Validators.required, Validators.pattern('[0-9]+')]],
         mesanio: [m, Validators.required],
@@ -109,7 +108,6 @@ export class BuildingsModalComponent implements OnInit, OnDestroy {
         // unidad: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]]
       });
 
-      // this.dataFirst = data;
       this.listCatalogoMaster = _fichaIndividualService.getCatalogoMaster();
       this.listaMEP = this.getList<number>(CatalogoMasterEnum.MaterialEstructuralPredominante);
       this.listaECS = this.getList<number>(CatalogoMasterEnum.EstadoConservacion);
@@ -152,20 +150,18 @@ export class BuildingsModalComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
       this.listCatValUnit$.unsubscribe();
-      // this.listDist$.unsubscribe();
-      // this.listSect$.unsubscribe();
-      // this.listManz$.unsubscribe();
     }
 
     ngOnInit(): void {
       this.adapter.setLocale(moment.locale('es-PE'));
 
-      this.listCatValUnit$ = this._fichaIndividualService.listarCategoriaValoresUnitarios().subscribe(result => {
+      this.listCatValUnit$ = this._fichaIndividualService.listarCategoriaValoresUnitarios()
+      .subscribe(result => {
 
         let lista: ItemSelect<number>[] = [];
         if(result.success){
           let con = 0;
-          
+            
           result.data.forEach(item => {
             con++;
             lista.push({
@@ -182,23 +178,31 @@ export class BuildingsModalComponent implements OnInit, OnDestroy {
         this.listaCatPuertasVentanas = lista;
       });
 
-      // if(this.dataFirst === undefined){
-      //   console.log('nuevo');
-      // }
-      // else{
+      if(this.data.idObjeto == 0){
+        console.log('Nuevo registro');
+      }
+      else{
 
-      //   this.form.patchValue({ 
-      //     lote: this.dataFirst.lote, 
-      //     edifica: this.dataFirst.edifica, 
-      //     entrada: this.dataFirst.entrada,
-      //     piso: this.dataFirst.piso,
-      //     unidad: this.dataFirst.unidad,
-      //     //dc: this.dataFirst.dc,
-      //     departamento: this.dataFirst.departamento
-      //   });
+        let mom = moment('');
+        if(this.data.c44FechaConstruccion){
+          let fec = this.data.c44FechaConstruccion;
+          mom = moment(fec);
+        }
 
-      //   this.onChangeSelDepa(this.dataFirst.departamento, true);
-      // }
+        this.form.patchValue({ 
+          pisosotano: this.data.c43PisoSotano,
+          mesanio: mom,
+          mep: this.data.c45IdMep,
+          ecs: this.data.c46IdEcs,
+          ecc: this.data.c47IdEcc,
+          muroscolumnas: this.data.c48IdMurosColumna,
+          techos: this.data.c49IdTecho,
+          puertasventanas: this.data.c50IdPuertasVentanas,
+          areaverificada: this.data.c51AreaVerificada,
+          ciiu: this.data.c52ActividadEconomica,
+          uca: this.data.c53IdUca
+        });
+      }
     }
 
     setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
@@ -209,127 +213,87 @@ export class BuildingsModalComponent implements OnInit, OnDestroy {
 
       this.form.patchValue({ mesanio: normalizedMonthAndYear });
 
-      let info = this.form.value;
-      const ctrlValue = info.mesanio.toDate();
-      console.log(ctrlValue.getMonth() + 1);
-      console.log(ctrlValue.getFullYear());
+      // let info = this.form.value;
+      // const ctrlValue = info.mesanio.toDate();
+      // console.log(ctrlValue.getMonth() + 1);
+      // console.log(ctrlValue.getFullYear());
 
-      console.log('desde aqui');
-      console.log(this.form.get('mesanio'));
+      // console.log('desde aqui');
+      // console.log(this.form.get('mesanio'));
 
       datepicker.close();
     }
 
-    // onChangeSelDepa(newValueDpto: string, sw: boolean){
-
-    //   this.listProv$ = this._fichaIndividualService.listarProvincias(newValueDpto).subscribe({
-    //     next:(result) => {
-    //       this.provincias = result;
-          
-    //       this.distritos = [];
-    //       this.sectores = [];
-    //       this.manzanas = [];
-    //       this.distritos.unshift({ id: 0, ubigeo: '000000', nombreDistrito: 'Seleccionar', ubigeoDistrito: '00' });
-    //       this.sectores.unshift({ idSector: 0, codigoSector: 'Seleccionar'});
-    //       this.manzanas.unshift({ idManzana: 0, codigoManzana: 'Seleccionar'});          
-
-    //       if(sw) {
-    //         this.form.patchValue({ provincia: this.dataFirst.provincia, distrito: parseInt(this.dataFirst.distrito) });
-    //         this.onChangeSelProv(this.dataFirst.provincia, this.dataFirst.departamento, true);
-    //       }
-    //       else{
-    //         this.form.patchValue({ provincia: '00', distrito: 0, sector: 0, manzana: 0 });
-    //       }
-    //     }
-    //   });
-    // }
-
-    // onChangeSelProv(newValueProv: string, newValueDpto: string, sw: boolean){
-
-    //   this.listDist$ = this._fichaIndividualService.listarDistritos(newValueProv, newValueDpto).subscribe(result => {
-
-    //     this.distritos = result;
-
-    //     this.sectores = [];
-    //     this.manzanas = [];
-    //     this.sectores.unshift({ idSector: 0, codigoSector: 'Seleccionar'});
-    //     this.manzanas.unshift({ idManzana: 0, codigoManzana: 'Seleccionar'});        
-
-    //     if(sw) {
-    //       this.form.patchValue({ distrito: parseInt(this.dataFirst.distrito) });
-    //       this.onChangeSelDist(this.dataFirst.distrito, true);
-    //     }
-    //     else{
-    //       this.form.patchValue({ distrito: 0, sector: 0, manzana: 0 });
-    //     }
-    //   });
-    // }
-
-    // onChangeSelDist(newValueDist: string, sw: boolean){
-
-    //   this.listSect$ = this._fichaIndividualService.listarSectores(parseInt(newValueDist)).subscribe(result => {
-
-    //     this.sectores = result.data;
-
-    //     this.manzanas = [];
-    //     this.manzanas.unshift({ idManzana: 0, codigoManzana: 'Seleccionar'});
-
-    //     if(sw) {
-    //       this.form.patchValue({ sector: parseInt(this.dataFirst.sector) });
-    //       this.onChangeSelSector(this.dataFirst.sector, true);
-    //     }
-    //     else{
-    //       this.form.patchValue({ sector: 0, manzana: 0 });
-    //     }
-    //   });
-    // }
-
-    // onChangeSelSector(newValueSect: string, sw: boolean){
-    //   let codSector = '';
-    //   this.sectores.forEach(sec => {
-    //     if(sec.idSector == parseInt(newValueSect)) codSector = sec.codigoSector;
-    //   });
-
-    //   this.listManz$ = this._fichaIndividualService.listarManzanas(codSector).subscribe(result => {
-
-    //     this.manzanas = result.data;
-        
-    //     if(sw) {
-    //       this.form.patchValue({ manzana: parseInt(this.dataFirst.manzana) });
-    //     }
-    //     else{
-    //       this.form.patchValue({ manzana: 0 });
-    //     }
-    //   });
-    // } 
-
     guardar(){
-    //   let info = this.form.value;
+      let info = this.form.value;
 
-    //   if(this.dataFirst === undefined){
-    //     info.idFicha = 0
-    //   }
-    //   else{ 
-    //     info.idFicha = this.dataFirst.idFicha; 
-    //   }
+      this.datos.id = this.data.id;
+      this.datos.usuarioCreacion = 'carevalo';
+      this.datos.terminalCreacion = '';
+      this.datos.c43PisoSotano = info.pisosotano;
 
-    //   this.distritos.forEach(dist => {
-    //     if(dist.id == info.distrito) { 
-    //       info.codigoUbigeo = dist.ubigeo; 
-    //       info.codigoDistrito = dist.ubigeoDistrito; 
-    //     }
-    //   });
+      const ctrlValue = info.mesanio.toDate();
+      this.datos.c44FechaConstruccion = ctrlValue;
+      let mes = ctrlValue.getMonth() + 1;      
+      if(mes < 10) this.datos.c44FechaMes = '0' + mes;
+      else this.datos.c44FechaMes = '0' + String(mes);
 
-    //   this.sectores.forEach(sect => {
-    //     if(sect.idSector == info.sector) info.codigoSector = sect.codigoSector;
-    //   });
+      let anio = ctrlValue.getFullYear();
+      this.datos.c44FechaAnio = String(anio);
 
-    //   this.manzanas.forEach(manz => {
-    //     if(manz.idManzana == info.manzana) info.codigoManzana = manz.codigoManzana;
-    //   });
+      this.listaMEP.forEach(mep => {
+        if(mep.value == info.mep) { 
+          this.datos.c45Mep = mep.code;
+          this.datos.c45IdMep = mep.value;
+        }
+      });
 
-    //   this.dialogRef.close(info);
+      this.listaECS.forEach(ecs => {
+        if(ecs.value == info.ecs) { 
+          this.datos.c46Ecs = ecs.code;
+          this.datos.c46IdEcs = ecs.value;
+        }
+      });
+
+      this.listaECC.forEach(ecc => {
+        if(ecc.value == info.ecc) { 
+          this.datos.c47Ecc = ecc.code;
+          this.datos.c47IdEcc = ecc.value;
+        }
+      });
+
+      this.listaCatMurosColumnas.forEach(mc => {
+        if(mc.value == info.muroscolumnas) { 
+          this.datos.c48MurosColumna = mc.text;
+          this.datos.c48IdMurosColumna = mc.value;
+        }
+      });
+
+      this.listaCatTechos.forEach(t => {
+        if(t.value == info.techos) { 
+          this.datos.c49Techo = t.text;
+          this.datos.c49IdTecho = t.value;
+        }
+      });
+
+      this.listaCatPuertasVentanas.forEach(pv => {
+        if(pv.value == info.puertasventanas) { 
+          this.datos.c50PuertasVentanas = pv.text;
+          this.datos.c50IdPuertasVentanas = pv.value;
+        }
+      });
+
+      this.datos.c51AreaVerificada = info.areaverificada;
+      this.datos.c52ActividadEconomica = info.ciiu;
+      this.datos.c52CIIU = info.ciiu.split('');
+
+      this.listaUCA.forEach(uca => {
+        if(uca.value == info.uca) { 
+          this.datos.c53Uca = uca.code;
+          this.datos.c53IdUca = uca.value;
+        }
+      });
+      
+      this.dialogRef.close(this.datos);
     }
-
-
 }

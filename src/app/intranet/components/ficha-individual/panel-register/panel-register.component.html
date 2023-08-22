@@ -54,7 +54,9 @@
             <mat-step [stepControl]="sixthFormGroup" 
                 label="Construcciones" [completed]="sixthComplete">
                 <div class="container-sm">
-                  <app-buildings></app-buildings>
+                  <app-buildings (sixthComplete)="Step6Complete($event)"
+                                  [idFicha] = "idFicha"
+                                  [Stepper] = "Stepper"></app-buildings>
                 </div>
             </mat-step>
             <mat-step [stepControl]="seventhFormGroup" 

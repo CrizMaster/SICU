@@ -2,21 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
 import { LocalService } from 'src/app/core/shared/services/local.service';
-import { FichaCatastralFilter } from './models/fichaCatastralFilter.model'
+import { FichaCatastralFilter } from './models/fichaCatastralFilter.model';
 
 import { environment } from 'src/environments/environment';
 import { FichaCatastralResponse } from './models/fichaCatastralResponse.model';
 import { Ubigeo } from 'src/app/core/models/ubigeo.model';
 import { CatalogoMaster } from 'src/app/core/models/catalogo-master.model';
 import { SaveFichaIndividual, UbicacionPredioModel } from './models/saveFichaIndividual.model';
-import { ResponseFichaIndividual } from './models/responseFichaIndividual.model';
-import { SharedFirstData, SharedThirdData } from './models/sharedFirstData.model';
-import { Habilitacion, HabilitacionEdificacion } from './models/habilitacionEdificacion.model';
+import { SharedThirdData } from './models/sharedFirstData.model';
+import { Habilitacion } from './models/habilitacionEdificacion.model';
 //import { internalIpV4 } from 'internal-ip';
 import { OwnershipCharacteristicsRequest } from './models/OwnershipCharacteristics/ownership-characteristics-request.model';
 import { DescriptionPropertyRequest } from './models/DescriptionProperty/description-property-request.model';
 import { IdentityOwnerRequest } from './models/IdentityOwner/identity-owner-request.model';
-import { ItemSelect } from 'src/app/core/models/item-select.model';
+import { BuildingsRequest } from './models/Buildings/buildings-request.model';
 
 @Injectable()
 
@@ -30,8 +29,6 @@ export class FichaIndividualService{
     obsHabilitacionEdificacion: BehaviorSubject<Habilitacion> = new BehaviorSubject<Habilitacion>({});
 
     obsSharedThirdData: BehaviorSubject<SharedThirdData> = new BehaviorSubject<SharedThirdData>({ complete: false, idFicha: 0, codigoCondicionTitular: ''});
-
-    //obsCatalogoMaster: BehaviorSubject<CatalogoMaster[]> = new BehaviorSubject<CatalogoMaster[]>([]);
 
     dataCatalogoMaster: CatalogoMaster[] = [];
 
@@ -55,6 +52,9 @@ export class FichaIndividualService{
     getCatalogoMaster(): CatalogoMaster[]{
               
         let cm = this._localService.getData("cmsicu");
+        console.log(cm);
+        console.log(cm.length);
+        
         return JSON.parse(cm);
     }
 
@@ -269,8 +269,16 @@ export class FichaIndividualService{
         );         
     }
 
-    saveDescripcionPredio(data: DescriptionPropertyRequest):Observable<any>{
+    save5DescripcionPredio(data: DescriptionPropertyRequest):Observable<any>{
         return this.http.post<any>(environment.urlWebApiSICU + 'TmpS5DescripcionPredio',
+        data)
+        .pipe(
+            catchError(this.handlerError)
+        );         
+    }
+
+    save6Construcciones(data: BuildingsRequest[]):Observable<any>{
+        return this.http.post<any>(environment.urlWebApiSICU + 'TmpS6Construcciones',
         data)
         .pipe(
             catchError(this.handlerError)

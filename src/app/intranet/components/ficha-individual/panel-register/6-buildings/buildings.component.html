@@ -4,7 +4,7 @@
     <table class="table table-sm table-borderless align-middle" style="font-size: 11px;">
       <thead class="m-2">
         <tr>
-          <td colspan="26" class="bg-secondary-subtle px-3 borde-xy">            
+          <td colspan="27" class="bg-secondary-subtle px-3 borde-xy">            
             <button type="button" class="btn btn-success btn-sm rounded-pill" 
                 title="Agregar construcción" (click)="Agregar()">
               <i class="bi bi-plus-circle"></i>&nbsp;Agregar
@@ -12,10 +12,8 @@
           </td>
         </tr>
         <tr>
-          <!-- <td scope="row" class="text-center fw-bold" style="width: 100px;">Acción</td> -->
-          <!-- <td class="text-center align-middle">
-              <span matBadge="34" matBadgePosition="before" matBadgeColor="primary" class="px-3" >N° PISO SÓTANO MEZZANINE</span>
-          </td> -->
+          <td rowspan="3" scope="row" class="text-center align-middle bg-secondary-subtle fw-bold borde-xy" style="width: 100px;">Acción
+          </td>
 
           <td class="text-center bg-secondary fw-bold ancho-column borde-xy">43</td>
           <td class="text-center bg-info no-borde borde-x borde-t">N° PISO</td>
@@ -72,22 +70,32 @@
         </tr>        
       </thead>
       <tbody>
-        <tr>
-          <td colspan="2" class="borde-xy"></td>
-          <td colspan="2" class="borde-xy"></td>
-          <td colspan="2" class="borde-xy"></td>
-          <td colspan="2" class="borde-xy"></td>
-          <td colspan="2" class="borde-xy"></td>
-          <td colspan="2" class="borde-xy"></td>
-          <td colspan="2" class="borde-xy"></td>
-          <td colspan="2" class="borde-xy"></td>
-          <td colspan="2" class="borde-xy"></td>
-          <td colspan="2" class="borde-xy"></td>          
-          <td class="borde-xy"></td>
-          <td class="borde-xy"></td>
-          <td class="borde-xy"></td>
-          <td class="borde-xy"></td>
-          <td colspan="2" class="borde-xy"></td>
+        <tr *ngFor="let b of listaBuildings">
+          <td class="text-center align-middle alto-column borde-xy">
+            <button type="button" class="btn btn-primary btn-sm rounded-circle" 
+              title="Modificar" (click)="Editar(b)">
+              <i class="bi bi-pencil"></i>
+            </button>&nbsp;
+            <button type="button" class="btn btn-danger btn-sm rounded-circle" 
+              title="Borrar" (click)="Borrar(b)">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </td>
+          <td colspan="2" class="borde-xy text-center align-middle">{{b.c43PisoSotano}}</td>
+          <td colspan="2" class="borde-xy text-center align-middle">{{b.c44FechaMes}}</td>
+          <td colspan="2" class="borde-xy text-center align-middle">{{b.c44FechaAnio}}</td>
+          <td colspan="2" class="borde-xy text-center align-middle">{{b.c45Mep}}</td>
+          <td colspan="2" class="borde-xy text-center align-middle">{{b.c46Ecs}}</td>
+          <td colspan="2" class="borde-xy text-center align-middle">{{b.c47Ecc}}</td>
+          <td colspan="2" class="borde-xy text-center align-middle">{{b.c48MurosColumna}}</td>
+          <td colspan="2" class="borde-xy text-center align-middle">{{b.c49Techo}}</td>
+          <td colspan="2" class="borde-xy text-center align-middle">{{b.c50PuertasVentanas}}</td>
+          <td colspan="2" class="borde-xy text-center align-middle">{{b.c51AreaVerificada}}</td>          
+          <td class="borde-xy text-center align-middle">{{b.c52CIIU[0]}}</td>
+          <td class="borde-xy text-center align-middle">{{b.c52CIIU[1]}}</td>
+          <td class="borde-xy text-center align-middle">{{b.c52CIIU[2]}}</td>
+          <td class="borde-xy text-center align-middle">{{b.c52CIIU[3]}}</td>
+          <td colspan="2" class="borde-xy text-center align-middle">{{b.c53Uca}}</td>
         </tr>
         <!-- <tr *ngFor="let pl of listUbicacionPredial">
           <td class="text-center alto-column">
@@ -199,7 +207,7 @@
         matStepperPrevious>
         <i class="bi bi-arrow-up-circle"></i>&nbsp;Atrás</button>
       <button class="btn btn-success btn-sm" style="width: 100px;" 
-      [disabled]="btnNextDisabled" >
+      [disabled]="btnNextDisabled" (click)="goNext()">
         Siguiente&nbsp;<i class="bi bi-arrow-down-circle"></i></button>
     </div>
   </div>

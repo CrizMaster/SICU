@@ -48,6 +48,8 @@ export class DatatableFIComponent implements OnInit{
           this.loading = false;
           let datos = Data.data;
           datos.length = Data.total;
+          
+          console.log(Data);
 
           this.dataSource = new MatTableDataSource<FichaCatastral>(datos);
           this.dataSource.paginator = this.paginator;

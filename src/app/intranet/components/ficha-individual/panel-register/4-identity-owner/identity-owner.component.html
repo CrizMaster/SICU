@@ -1,6 +1,6 @@
 <form [formGroup]="form">
-  <div class="row" *ngIf="ctrlTipoTitular">
-    <div class="col-3 py-3">
+  <div class="row mt-4" *ngIf="ctrlTipoTitular">
+    <div class="col-3">
       <table class="table table-sm table-bordered border-dark" style="font-size: 11px;">
         <tbody>                        
           <tr>
@@ -11,6 +11,7 @@
             <td class="text-center" colspan="2">
               <select name="tipotitular" #SelTipoTitular
                   formControlName="tipotitular"
+                  [disableControl]="disabledTipoTitular"
                   (change)="onChangeSelTipoTitular(SelTipoTitular.value, false)"
                   class="form-select form-select-sm border focus-ring" 
                   [class.border-success]="this.form.get('tipotitular')?.valid"
@@ -27,6 +28,11 @@
           </tr>
         </tbody>
       </table>                                                
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12" *ngIf="msgTipoTitular">
+      <span class="text-danger"><i class="bi bi-exclamation-circle-fill text-danger"></i>&nbsp;Debe de seleccionar la condición del titular de la sección anterior.</span>
     </div>
   </div>
   <div class="row" *ngIf="natural">
@@ -166,25 +172,16 @@
             <td colspan="2" class="text-center">{{mEmpresa.Email}}</td>
           </tr>
         </tbody>
-        <!-- <tfoot *ngIf="progress">
-          <tr>
-            <td colspan="24"><span style="font-size: 0.85rem;">Registrando la ubicación del predio catastral...</span>
-              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-            </td>
-          </tr>            
-        </tfoot> -->
       </table>                                                
     </div>
   </div>
-  <div class="row">
-    <div class="col col-12">
-      <div class="input-group">
-        <button class="btn btn-dark btn-sm" style="width: 100px;" matStepperPrevious>
-          <i class="bi bi-arrow-up-circle"></i>&nbsp;Atrás</button>
-        <button class="btn btn-success btn-sm" style="width: 100px;" 
-          [disabled]="btnNextDisabled"  (click)="goNext()">Siguiente&nbsp;
-          <i class="bi bi-arrow-down-circle"></i></button>
-      </div>
+  <!-- <mat-divider></mat-divider>
+  <div class="row mt-3">
+    <div class="col col-12 text-end">
+          <button class="btn btn-primary btn-sm bg-cofopri" style="width: 170px;" 
+          [disabled]="btnNextDisabled"  (click)="goNext()">
+          <i class="bi bi-database-check"></i>&nbsp;Guardar y continuar...
+        </button>
     </div>
-  </div>
+  </div> -->
 </form>

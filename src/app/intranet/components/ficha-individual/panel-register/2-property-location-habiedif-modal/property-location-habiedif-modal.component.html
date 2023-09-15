@@ -20,7 +20,7 @@
                           [class.focus-ring-success]="this.form.get('tipoedificacion')?.valid"
                           [class.border-danger]="this.form.get('tipoedificacion')?.invalid && this.form.get('tipoedificacion')?.touched"
                           [class.focus-ring-danger]="this.form.get('tipoedificacion')?.invalid && this.form.get('tipoedificacion')?.touched"
-                          aria-label="select-tipoedificacion" [pattern]="pattern1Digs">
+                          aria-label="select-tipoedificacion">
                           <option *ngFor="let cv of listTipoedificacion" [value]="cv.value">{{ cv.text }}</option>
                   </select>
                   <i *ngIf="this.form.get('tipoedificacion')?.invalid && this.form.get('tipoedificacion')?.touched" 
@@ -53,7 +53,7 @@
                           [class.focus-ring-success]="this.form.get('tipointerior')?.valid"
                           [class.border-danger]="this.form.get('tipointerior')?.invalid && this.form.get('tipointerior')?.touched"
                           [class.focus-ring-danger]="this.form.get('tipointerior')?.invalid && this.form.get('tipointerior')?.touched"
-                          aria-label="select-tipointerior" [pattern]="pattern1Digs">
+                          aria-label="select-tipointerior">
                           <option *ngFor="let cv of listTipointerior" [value]="cv.value">{{ cv.text }}</option>
                   </select>
                   <i *ngIf="this.form.get('tipointerior')?.invalid && this.form.get('tipointerior')?.touched" 

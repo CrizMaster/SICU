@@ -18,6 +18,7 @@ import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-load
 import { IdentityOwnerRequest } from '../../models/IdentityOwner/identity-owner-request.model';
 import { Subscription } from 'rxjs';
 import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
+import { FichaCatastralIndividual } from '../../models/fichaCatastralIndividual.model';
   
 @Component({
     selector: 'app-identity-owner',
@@ -26,13 +27,20 @@ import { ModalMessageComponent } from 'src/app/core/shared/components/modal-mess
 })
 export class IdentityOwnerComponent implements OnInit, OnDestroy  {
 
+    @Output() outputSeccion = new EventEmitter<IdentityOwnerRequest>();
+
+    @Input() inputSeccion: IdentityOwnerRequest = { idObjeto: 0 };
+
     @Output() roomComplete = new EventEmitter<boolean>();
-    @Input() idFicha:number = 0;
-    @Input() dataThirdShared: SharedThirdData;
+    // @Input() idFicha:number = 0;
+    // @Input() dataThirdShared: SharedThirdData;
     @Input() Stepper: MatStepper;    
     //progress: boolean = false;
+    disabledTipoTitular: boolean = false;
 
     public saveIT$: Subscription = new Subscription;
+    public editData$: Subscription = new Subscription;
+    
     form: FormGroup;
     pattern1Digs = '^[1-9]|([1-9][0-9])$';
     
@@ -46,8 +54,10 @@ export class IdentityOwnerComponent implements OnInit, OnDestroy  {
     titleBtnLegal: string = 'Agregar';
     displayName: string = '';
     sucesion: boolean = false;
+    dataEdit: FichaCatastralIndividual;
 
-    ctrlTipoTitular: boolean = true;
+    msgTipoTitular: boolean = false;
+    ctrlTipoTitular: boolean = false;
     ctrlConConyugue: boolean = true;
 
     btnAgregarNatural: boolean = true;
@@ -83,7 +93,14 @@ export class IdentityOwnerComponent implements OnInit, OnDestroy  {
     ngOnInit(): void {        
         this._fichaIndividualService.obsSharedThirdData.subscribe({
             next:(data) => {
-                this.ctrlTipoTitular = true;
+
+                this.msgTipoTitular = true;
+                if(data.codigoCondicionTitular != '') { 
+                    this.ctrlTipoTitular = true; 
+                    this.msgTipoTitular = false;
+                }
+
+                this.disabledTipoTitular = false;
                 this.btnAgregarNatural = true;
                 this.ctrlConConyugue = true;
                 this.natural = false;
@@ -94,10 +111,16 @@ export class IdentityOwnerComponent implements OnInit, OnDestroy  {
                 this.mEmpresa = { IdPersonaJuridica: 0, DocIdentidad: ['','','','','','','','','','']};
                 this.sucesion = false;
 
+                this.inputSeccion.c26TipoTitular = '';
+                this.inputSeccion.conTitular = false;
+                this.inputSeccion.conConyuge = false;
+                this.inputSeccion.conEmpresa = false;
+
                 this.form.patchValue({ 
                     tipotitular: 0
                 });
 
+                console.log(data.codigoCondicionTitular);
                 if(data.codigoCondicionTitular == '01'//PROPIETARIO UNICO
                     || data.codigoCondicionTitular == '02'//SUCESION INTESTADA
                 ) 
@@ -108,30 +131,62 @@ export class IdentityOwnerComponent implements OnInit, OnDestroy  {
                 else if(data.codigoCondicionTitular == '04') //SOCIEDAD CONYUGAL
                 {
                     this.ctrlConConyugue = true;
+                    this.disabledTipoTitular = true;
+
+                    this.listTipoTitular.forEach(item => {
+                        if(item.code == '01') {
+                            this.form.patchValue({ 
+                                tipotitular: item.value
+                            });
+                            this.inputSeccion.c26TipoTitular = item.code;
+                        }           
+                    });                    
+
+                    this.natural = true;
+                    this.juridica = false;
+
+                    let tt = this.form.get('tipotitular');
+                    
+                    tt.disable();
+                    tt.updateValueAndValidity();                    
+
                 }
                 else if(data.codigoCondicionTitular == '05') //COTITULARIDAD
                 {
                     this.ctrlTipoTitular = false;
+                    this.msgTipoTitular = false;
                     this.roomComplete.next(true);
                     setTimeout(() => {
                         this.Stepper.next();
                       }, 500); 
                 }
-                else if(data.codigoCondicionTitular == '06') //LITIGIO
+                else if(data.codigoCondicionTitular == '06' //LITIGIO
+                        || data.codigoCondicionTitular == '07'//OTROS
+                ) 
                 {
                     this.ctrlTipoTitular = false;
+                    this.msgTipoTitular = false;
                     this.natural = true;
                     this.btnAgregarNatural = false;
                     this.ctrlConConyugue = false;
                     this.displayName = 'NNN';
                     this.btnNextDisabled = false;
                 }
+
+                this.outputSeccion.next(this.inputSeccion);
             }
         });
+
+        // this.editData$ = this._fichaIndividualService.obsEditFichaCatastralIndividual.subscribe({
+        //     next:(data) => {
+        //         this.dataEdit = data;
+        //     }
+        //   });
     }
 
     ngOnDestroy(): void {
         this.saveIT$.unsubscribe();
+        this.editData$.unsubscribe();
     }
 
     getList<T>(Grupo: string) : ItemSelect<T>[]{
@@ -175,8 +230,10 @@ export class IdentityOwnerComponent implements OnInit, OnDestroy  {
                     this.natural = false;
                     this.juridica = true;
                 }
+                this.inputSeccion.c26TipoTitular = item.code;
             }            
-        });
+        });        
+        this.outputSeccion.next(this.inputSeccion);        
     }
 
     PersonaNaturalModal(enterAnimationDuration: string, exitAnimationDuration: string):void {
@@ -193,19 +250,21 @@ export class IdentityOwnerComponent implements OnInit, OnDestroy  {
           if(result !== ''){
             this.mOwner = result;
 
-            this.dataSave.c26TipoTitular = '01';
-            this.dataSave.c27EstadoCivil = result.Titular.CodeEstadoCivil;
-            this.dataSave.c28aTipoDocumento = result.Titular.CodeTipoDocIdentidad;
-            this.dataSave.c29aNroDocumento = result.Titular.NroDocIdentidad;
-            this.dataSave.c30aNombres = result.Titular.Nombres;
-            this.dataSave.c31aApellidoPaterno = result.Titular.ApellidoPaterno;
-            this.dataSave.c32aApellidoMaterno = result.Titular.ApellidoMaterno;
-            if(result.Titular.ConConyuge){
-                this.dataSave.c28bTipoDocumento = result.Conyuge.CodeTipoDocIdentidad;
-                this.dataSave.c29bNroDocumento = result.Conyuge.NroDocIdentidad;
-                this.dataSave.c30bNombres = result.Conyuge.Nombres;
-                this.dataSave.c31bApellidoPaterno = result.Conyuge.ApellidoPaterno;
-                this.dataSave.c32bApellidoMaterno = result.Conyuge.ApellidoMaterno;                
+            this.inputSeccion.c26TipoTitular = '01';
+            this.inputSeccion.c27EstadoCivil = result.Titular.CodeEstadoCivil;
+            this.inputSeccion.c28aTipoDocumento = result.Titular.CodeTipoDocIdentidad;
+            this.inputSeccion.c29aNroDocumento = result.Titular.NroDocIdentidad;
+            this.inputSeccion.c30aNombres = result.Titular.Nombres;
+            this.inputSeccion.c31aApellidoPaterno = result.Titular.ApellidoPaterno;
+            this.inputSeccion.c32aApellidoMaterno = result.Titular.ApellidoMaterno;
+            this.inputSeccion.conTitular = true;
+            if(result.ConConyuge){
+                this.inputSeccion.c28bTipoDocumento = result.Conyuge.CodeTipoDocIdentidad;
+                this.inputSeccion.c29bNroDocumento = result.Conyuge.NroDocIdentidad;
+                this.inputSeccion.c30bNombres = result.Conyuge.Nombres;
+                this.inputSeccion.c31bApellidoPaterno = result.Conyuge.ApellidoPaterno;
+                this.inputSeccion.c32bApellidoMaterno = result.Conyuge.ApellidoMaterno;
+                this.inputSeccion.conConyuge = true;
             }
 
             this.titleBtn = 'Modificar';
@@ -213,8 +272,9 @@ export class IdentityOwnerComponent implements OnInit, OnDestroy  {
             this.displayName = result.Titular.Nombres;
             if(this.ctrlConConyugue) this.mConyuge = result.Conyuge;
             
-            this.btnNextDisabled = false;
-            this.roomComplete.emit(false);
+            this.outputSeccion.next(this.inputSeccion);
+            //this.btnNextDisabled = false;
+            //this.roomComplete.emit(false);
           }            
         });
     }
@@ -237,16 +297,19 @@ export class IdentityOwnerComponent implements OnInit, OnDestroy  {
           if(result !== ''){
             this.mEmpresa = result.Empresa;
 
-            this.dataSave.c26TipoTitular = '02';
-            this.dataSave.c33PersonaJuridica = result.Empresa.CodePersonaJuridica;
-            this.dataSave.c34Ruc = result.Empresa.RUC;
-            this.dataSave.c35TelefonoAnexo = result.Empresa.TelefonoAnexo;
-            this.dataSave.c36RazonSocial = result.Empresa.RazonSocial;
-            this.dataSave.c37CorreoElectronico = result.Empresa.Email;
+            this.inputSeccion.c26TipoTitular = '02';
+            this.inputSeccion.c33PersonaJuridica = result.Empresa.CodePersonaJuridica;
+            this.inputSeccion.c34Ruc = result.Empresa.RUC;
+            this.inputSeccion.c35TelefonoAnexo = result.Empresa.TelefonoAnexo;
+            this.inputSeccion.c36RazonSocial = result.Empresa.RazonSocial;
+            this.inputSeccion.c37CorreoElectronico = result.Empresa.Email;
+            this.inputSeccion.conEmpresa = true;
 
             this.titleBtnLegal = 'Modificar';
-            this.btnNextDisabled = false;
-            this.roomComplete.emit(false);
+
+            this.outputSeccion.next(this.inputSeccion);
+            //this.btnNextDisabled = false;
+            //this.roomComplete.emit(false);
           }            
         });
     }
@@ -255,55 +318,59 @@ export class IdentityOwnerComponent implements OnInit, OnDestroy  {
         this.PersonaJuridicaModal('300ms', '300ms');
     }
 
-    ModalMessage(): any {     
-        let modal: Title = { 
-          Title: 'Guardando las características de la titularidad...'}
-        let dgRef = this.dialog.open(ModalLoadingComponent, {
-            width: '400px',
-            height: '95px',
-            enterAnimationDuration: '300ms',
-            exitAnimationDuration: '300ms',
-            disableClose: true,
-            data: modal
-        }); 
+    // ModalMessage(): any {     
+    //     let modal: Title = { 
+    //       Title: 'Guardando las características de la titularidad...'}
+    //     let dgRef = this.dialog.open(ModalLoadingComponent, {
+    //         width: '400px',
+    //         height: '95px',
+    //         enterAnimationDuration: '300ms',
+    //         exitAnimationDuration: '300ms',
+    //         disableClose: true,
+    //         data: modal
+    //     }); 
   
-        return dgRef;
-    }
+    //     return dgRef;
+    // }
 
-    goNext(){
+    // goNext(){
 
-        let dg = this.ModalMessage();
+    //     let dg = this.ModalMessage();
 
-        this.dataSave.idObjeto = this.idFicha;
-        this.dataSave.usuarioCreacion = 'carevalo';
-        this.dataSave.terminalCreacion = "";
+    //     //this.dataSave.idObjeto = this.idFicha;
+    //     this.dataSave.usuarioCreacion = 'carevalo';
+    //     this.dataSave.terminalCreacion = "";
 
-        this.saveIT$ = this._fichaIndividualService.save4IdentificacionTitular(this.dataSave)
-        .subscribe(result => {
+    //     this.saveIT$ = this._fichaIndividualService.save4IdentificacionTitular(this.dataSave)
+    //     .subscribe(result => {
             
-            dg.close();
+    //         dg.close();
 
-            if(result.success){
-                this.roomComplete.emit(true);                
-                setTimeout(() => {
-                    this.btnNextDisabled = true;
-                    this.Stepper.next();
-                  }, 500); 
-            }
-            else{
-                let modal: Title = { 
-                    Title: 'Opss...', 
-                    Subtitle: result.message, 
-                    Icon: 'error' }
-                  this.dialog.open(ModalMessageComponent, {
-                      width: '500px',
-                      enterAnimationDuration: '300ms',
-                      exitAnimationDuration: '300ms',
-                      disableClose: true,
-                      data: modal
-                  });
-                console.log(result.message);
-            }
-        });        
-    }
+    //         if(result.success){
+
+    //             this.dataEdit.seccion4 = this.dataSave;
+    //             this._fichaIndividualService.obsEditFichaCatastralIndividual.next(this.dataEdit);
+
+    //             this.roomComplete.emit(true);                
+    //             setTimeout(() => {
+    //                 this.btnNextDisabled = true;
+    //                 this.Stepper.next();
+    //               }, 500); 
+    //         }
+    //         else{
+    //             let modal: Title = { 
+    //                 Title: 'Opss...', 
+    //                 Subtitle: result.message, 
+    //                 Icon: 'error' }
+    //               this.dialog.open(ModalMessageComponent, {
+    //                   width: '500px',
+    //                   enterAnimationDuration: '300ms',
+    //                   exitAnimationDuration: '300ms',
+    //                   disableClose: true,
+    //                   data: modal
+    //               });
+    //             console.log(result.message);
+    //         }
+    //     });        
+    // }
 }

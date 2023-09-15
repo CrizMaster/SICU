@@ -97,6 +97,39 @@ export class DescriptionPropertyModalComponent implements OnInit, OnDestroy {
         return list;
     }    
 
+    onChangeSelClasificacionPredio(newValue: string){
+        let codigo = '';
+        const prediocatastralen = this.form.get('prediocatastralen');
+        //prediocatastralen.enable();
+
+        this.listClasificacionPredio.forEach(item => {
+            if(item.value == parseInt(newValue)){
+                if(item.code=='04'){
+                    this.listPredioCatastralEn.forEach(it => {
+                        if(it.code == '07'){
+                            this.form.patchValue({ prediocatastralen: it.value });
+                            //prediocatastralen.disable();
+                        };
+                    });
+                }
+            };
+        });
+
+        // const nrodocidentidadconyuge = this.form.get('nrodocidentidadconyuge');
+        // if(codigo == "01"){            
+        //     this.form.patchValue({ nrodocidentidadconyuge: '' });
+        //     nrodocidentidadconyuge.disable();
+        //     nrodocidentidadconyuge.clearValidators();            
+        //     //this.form.get('nrodocidentidad').updateValueAndValidity();
+        // }
+        // else{
+        //     nrodocidentidadconyuge.addValidators(Validators.required);
+        //     nrodocidentidadconyuge.enable();
+        // }
+
+        // nrodocidentidadconyuge.updateValueAndValidity();
+    }
+
     guardar(){
         let info = this.form.value;
 

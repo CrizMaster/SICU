@@ -21,5 +21,9 @@ export interface IdentityOwnerRequest {
     c34Ruc?: string,
     c35TelefonoAnexo?: string,
     c36RazonSocial?: string,
-    c37CorreoElectronico?: string
+    c37CorreoElectronico?: string,
+    conTitular?: boolean,
+    conConyuge?: boolean,
+    conEmpresa?: boolean,
+    tipoTitular?: string
 }

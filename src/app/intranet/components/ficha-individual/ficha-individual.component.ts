@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from 'src/app/core/models/title.model';
 import { Breadcrumb } from 'src/app/core/models/breadcrumb.model';
+import { FichaIndividualService } from './ficha-individual.service';
 // import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 // import Swal from 'sweetalert2';
 
@@ -12,16 +13,17 @@ import { Breadcrumb } from 'src/app/core/models/breadcrumb.model';
 })
 export class FichaIndividualComponent implements OnInit{
 
-    tituloForm: Title = { Title: 'FICHAS CATASTRALES INDIVIDUALES', Subtitle : 'Bandeja Principal', Icon : 'person' };
-    BreadcrumbForm: Breadcrumb[] = [{ name : "Fichas Catastrales" },{ name : "Individual" },{ name : "Bandeja Principal" }];    
+    tituloForm: Title = { Title: 'FICHAS CATASTRALES INDIVIDUALES', Subtitle : 'Bandeja de Trabajo', Icon : 'person' };
+    BreadcrumbForm: Breadcrumb[] = [{ name : "Fichas Catastrales" },{ name : "Individual" },{ name : "Bandeja de Trabajo" }];    
 
     // @ViewChild('deleteSwal')
     // public readonly deleteSwal!: SwalComponent;
 
-    constructor(){
+    constructor(private _fichaIndividualService: FichaIndividualService){
     }
 
-    ngOnInit(): void {        
+    ngOnInit(): void {
+        this._fichaIndividualService.setCatalogoMaster(); 
     } 
 
     // Prueba(){

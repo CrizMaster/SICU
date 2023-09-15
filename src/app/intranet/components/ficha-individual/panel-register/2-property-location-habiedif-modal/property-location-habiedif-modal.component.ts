@@ -27,19 +27,19 @@ export class PropertyLocationHabiedifModalComponent implements OnInit, OnDestroy
     listTipointerior: ItemSelect<number>[] = [];
 
     constructor(
-      public dialogRef: MatDialogRef<PropertyLocationHabiedifModalComponent>,
+      public dialogHabEdif: MatDialogRef<PropertyLocationHabiedifModalComponent>,
       @Inject(MAT_DIALOG_DATA) public data: UbicacionPredial,
       private _fichaIndividualService: FichaIndividualService,
       private fb: FormBuilder,
       private changeDetector: ChangeDetectorRef
     ){
         this.form = this.fb.group({
-            tipoedificacion: [0, Validators.required],
-            nombreedificacion: ['', Validators.required],
-            tipointerior: [0, Validators.required],
-            numerointerior: ['', Validators.required],
-            lote: ['', Validators.required],                      
-            sublote: ['', Validators.required]
+            tipoedificacion: [0],
+            nombreedificacion: [''],
+            tipointerior: [0],
+            numerointerior: [''],
+            lote: [''],                      
+            sublote: ['']
         });
 
         this.listCatalogoMaster = _fichaIndividualService.getCatalogoMaster();
@@ -121,8 +121,10 @@ export class PropertyLocationHabiedifModalComponent implements OnInit, OnDestroy
         this.resp.Sublote = info.sublote;
         this.resp.id = this.resp.IdTipoEdificacion;
 
-        this.form.reset();
-        this.dialogRef.close(this.resp);
+        //this.form.reset();
+        console.log('respuesta modal');
+        console.log(this.resp);
+        this.dialogHabEdif.close(this.resp);
     }
 
 }

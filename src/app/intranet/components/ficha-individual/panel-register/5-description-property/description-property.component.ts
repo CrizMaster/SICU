@@ -14,6 +14,7 @@ import { DescriptionPropertyRequest } from '../../models/DescriptionProperty/des
 import { Title } from 'src/app/core/models/title.model';
 import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
 import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
+import { FichaCatastralIndividual } from '../../models/fichaCatastralIndividual.model';
   
 @Component({
     selector: 'app-description-property',
@@ -22,31 +23,26 @@ import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-load
 })
 export class DescriptionPropertyComponent implements OnInit, OnDestroy {
 
-    @Output() fifthComplete = new EventEmitter<boolean>();
-    @Input() idFicha:number = 0;
+    // @Output() fifthComplete = new EventEmitter<boolean>();
+    // @Input() idFicha:number = 0;
     @Input() Stepper: MatStepper;
     
+    @Output() outputSeccion = new EventEmitter<DescriptionPropertyRequest>();
+
+    @Input() inputSeccion: DescriptionPropertyRequest = { idObjeto: 0 };  
+
     //progress: boolean = false;
     form: FormGroup;
     pattern1Digs = '^[1-9]|([1-9][0-9])$';
     ipv4: string = '';
 
     public saveDP$: Subscription = new Subscription;
+    public editData$: Subscription = new Subscription;
     
+    dataEdit: FichaCatastralIndividual;
     mDescPredio: DescriptionPredio = { IdClasificacionPredio: 0, CodeUso: ['','','','','',''] };
-    // mTitular: PersonNatural = { DocIdentidad: ['','','','','','','','','','']};
-    // mConyuge: PersonNatural = { DocIdentidad: ['','','','','','','','','','']};
-    // mEmpresa: PersonLegal = { IdPersonaJuridica: 0,  DocIdentidad: ['','','','','','','','','','']};
-    //info: OwnershipCharacteristics = {};
     titleBtn: string = 'Agregar';
 
-    // ctrlTipoTitular: boolean = true;
-    // ctrlConConyugue: boolean = true;
-
-    // btnAgregarNatural: boolean = true;
-
-    // natural: boolean = false;
-    // juridica: boolean = false;
 
     btnNextDisabled: boolean = true;
     dataFirst: OwnershipCharacteristics = {};
@@ -72,11 +68,16 @@ export class DescriptionPropertyComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {        
-
+        this.editData$ = this._fichaIndividualService.obsEditFichaCatastralIndividual.subscribe({
+            next:(data) => {
+                this.dataEdit = data;
+            }
+          });
     }
 
     ngOnDestroy(): void {
         this.saveDP$.unsubscribe();
+        this.editData$.unsubscribe();
     }    
 
     getList<T>(Grupo: string) : ItemSelect<T>[]{
@@ -121,9 +122,27 @@ export class DescriptionPropertyComponent implements OnInit, OnDestroy {
             this.mDescPredio = result;
             this.mDescPredio.CodeUso = result.CodigoUso.split('');
             this.titleBtn = 'Modificar';
-            this.btnNextDisabled = false;
+            // this.btnNextDisabled = false;
 
-            this.fifthComplete.emit(false);
+            // let request: DescriptionPropertyRequest = 
+            // {   idObjeto: this.idFicha, 
+            //     usuarioCreacion: 'carevalo',
+            //     terminalCreacion: this.ipv4,
+            //     c38ClasificacionPredio: this.mDescPredio.CodeClasificacionPredio,
+            //     c39PredioEn: this.mDescPredio.CodePredioCatastralEn,
+            //     c40CodigoUso: this.mDescPredio.CodigoUso,
+            //     c41DescripcionUso: this.mDescPredio.DescripcionUso,
+            //     c42AreaTerreno: String(this.mDescPredio.AreaTerrenoVerificada)
+            // };
+            this.inputSeccion.ClasificacionPredio = this.mDescPredio.ClasificacionPredio;
+            this.inputSeccion.c38ClasificacionPredio = this.mDescPredio.CodeClasificacionPredio;
+            this.inputSeccion.c39PredioEn = this.mDescPredio.CodePredioCatastralEn;
+            this.inputSeccion.c40CodigoUso = this.mDescPredio.CodigoUso;
+            this.inputSeccion.c41DescripcionUso = this.mDescPredio.DescripcionUso;
+            this.inputSeccion.c42AreaTerreno = String(this.mDescPredio.AreaTerrenoVerificada);
+
+            this.outputSeccion.emit(this.inputSeccion);
+            //this.fifthComplete.emit(false);
           }            
         });
     }
@@ -132,68 +151,72 @@ export class DescriptionPropertyComponent implements OnInit, OnDestroy {
         this.AgregarModal('300ms', '300ms');
     }
 
-    ModalMessage(): any {     
-        let modal: Title = { 
-          Title: 'Registrando la descripción del predio...'
-        }
-        let dgRef = this.dialog.open(ModalLoadingComponent, {
-            width: '400px',
-            height: '95px',
-            enterAnimationDuration: '300ms',
-            exitAnimationDuration: '300ms',
-            disableClose: true,
-            data: modal
-        }); 
+    // ModalMessage(): any {     
+    //     let modal: Title = { 
+    //       Title: 'Registrando la descripción del predio...'
+    //     }
+    //     let dgRef = this.dialog.open(ModalLoadingComponent, {
+    //         width: '400px',
+    //         height: '95px',
+    //         enterAnimationDuration: '300ms',
+    //         exitAnimationDuration: '300ms',
+    //         disableClose: true,
+    //         data: modal
+    //     }); 
   
-        return dgRef;
-    }
+    //     return dgRef;
+    // }
 
-    goNext(){
-        //this.progress = true;
-        let dg = this.ModalMessage();
+    // goNext(){
+    //     //this.progress = true;
+    //     let dg = this.ModalMessage();
 
-        let request: DescriptionPropertyRequest = 
-        {   idObjeto: this.idFicha, 
-            usuarioCreacion: 'carevalo',
-            terminalCreacion: this.ipv4,
-            c38ClasificacionPredio: this.mDescPredio.CodeClasificacionPredio,
-            c39PredioEn: this.mDescPredio.CodePredioCatastralEn,
-            c40CodigoUso: this.mDescPredio.CodigoUso,
-            c41DescripcionUso: this.mDescPredio.DescripcionUso,
-            c42AreaTerreno: String(this.mDescPredio.AreaTerrenoVerificada)
-        };
+    //     let request: DescriptionPropertyRequest = 
+    //     {   idObjeto: this.idFicha, 
+    //         usuarioCreacion: 'carevalo',
+    //         terminalCreacion: this.ipv4,
+    //         c38ClasificacionPredio: this.mDescPredio.CodeClasificacionPredio,
+    //         c39PredioEn: this.mDescPredio.CodePredioCatastralEn,
+    //         c40CodigoUso: this.mDescPredio.CodigoUso,
+    //         c41DescripcionUso: this.mDescPredio.DescripcionUso,
+    //         c42AreaTerreno: String(this.mDescPredio.AreaTerrenoVerificada)
+    //     };
 
-        this.fifthComplete.emit(true);
+    //     this.fifthComplete.emit(true);
 
-        this.saveDP$ = this._fichaIndividualService.save5DescripcionPredio(request)
-        .subscribe(result => {
+    //     this.saveDP$ = this._fichaIndividualService.save5DescripcionPredio(request)
+    //     .subscribe(result => {
             
-            dg.close();
+    //         dg.close();
 
-            if(result.success){
-                this.fifthComplete.emit(true);                
-                setTimeout(() => {
-                    //this.progress = false;
-                    this.btnNextDisabled = true;
-                    this.Stepper.next();
-                  }, 500); 
-            }
-            else{
-                //this.progress = false;
-                let modal: Title = { 
-                    Title: 'Opss...', 
-                    Subtitle: result.message, 
-                    Icon: 'error' }
-                  this.dialog.open(ModalMessageComponent, {
-                      width: '500px',
-                      enterAnimationDuration: '300ms',
-                      exitAnimationDuration: '300ms',
-                      disableClose: true,
-                      data: modal
-                  });
-                console.log(result.message);
-            }
-        });     
-    }
+    //         if(result.success){
+
+    //             this.dataEdit.seccion5 = request;
+    //             this._fichaIndividualService.obsEditFichaCatastralIndividual.next(this.dataEdit);
+
+    //             this.fifthComplete.emit(true);                
+    //             setTimeout(() => {
+    //                 //this.progress = false;
+    //                 this.btnNextDisabled = true;
+    //                 this.Stepper.next();
+    //               }, 500); 
+    //         }
+    //         else{
+    //             //this.progress = false;
+    //             let modal: Title = { 
+    //                 Title: 'Opss...', 
+    //                 Subtitle: result.message, 
+    //                 Icon: 'error' }
+    //               this.dialog.open(ModalMessageComponent, {
+    //                   width: '500px',
+    //                   enterAnimationDuration: '300ms',
+    //                   exitAnimationDuration: '300ms',
+    //                   disableClose: true,
+    //                   data: modal
+    //               });
+    //             console.log(result.message);
+    //         }
+    //     });     
+    // }
 
 }

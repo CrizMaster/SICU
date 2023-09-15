@@ -111,6 +111,52 @@ export class IdentityOwnerNaturalModalComponent implements OnInit, OnDestroy {
         }
     }
 
+    onChangeSelDocIdent(newValue: string){
+        let codigo = '';
+        this.listTipoDocIdent.forEach(item => {
+            if(item.value == parseInt(newValue)){
+                codigo = item.code;
+            };
+        });
+        
+        const nrodocidentidad = this.form.get('nrodocidentidad');
+        if(codigo == "01"){            
+            this.form.patchValue({ nrodocidentidadconyuge: '' });
+            nrodocidentidad.disable();
+            nrodocidentidad.clearValidators();            
+            //this.form.get('nrodocidentidad').updateValueAndValidity();
+        }
+        else{
+            nrodocidentidad.addValidators(Validators.required);
+            nrodocidentidad.enable();
+        }
+
+        nrodocidentidad.updateValueAndValidity();
+    }
+
+    onChangeSelDocIdentConyugue(newValue: string){
+        let codigo = '';
+        this.listTipoDocIdent.forEach(item => {
+            if(item.value == parseInt(newValue)){
+                codigo = item.code;
+            };
+        });
+
+        const nrodocidentidadconyuge = this.form.get('nrodocidentidadconyuge');
+        if(codigo == "01"){            
+            this.form.patchValue({ nrodocidentidadconyuge: '' });
+            nrodocidentidadconyuge.disable();
+            nrodocidentidadconyuge.clearValidators();            
+            //this.form.get('nrodocidentidad').updateValueAndValidity();
+        }
+        else{
+            nrodocidentidadconyuge.addValidators(Validators.required);
+            nrodocidentidadconyuge.enable();
+        }
+
+        nrodocidentidadconyuge.updateValueAndValidity();
+    }
+
     ngOnDestroy(): void {
     //   this.listProv$.unsubscribe();
     //   this.listDist$.unsubscribe();
@@ -163,8 +209,10 @@ export class IdentityOwnerNaturalModalComponent implements OnInit, OnDestroy {
             }
           });
 
-        this.resp.Titular.NroDocIdentidad = info.nrodocidentidad;
-        let nrodoc = info.nrodocidentidad.split('');
+        this.resp.Titular.NroDocIdentidad = '';
+        if(info.nrodocidentidad != undefined ) this.resp.Titular.NroDocIdentidad = info.nrodocidentidad;
+
+        let nrodoc = this.resp.Titular.NroDocIdentidad.split('');
         for (let i = 0; i < nrodoc.length; i++) {
             this.resp.Titular.DocIdentidad[i] = nrodoc[i];
         }
@@ -183,8 +231,10 @@ export class IdentityOwnerNaturalModalComponent implements OnInit, OnDestroy {
                 }
               });
     
-            this.resp.Conyuge.NroDocIdentidad = info.nrodocidentidadconyuge;
-            let nrodoc = info.nrodocidentidadconyuge.split('');
+            this.resp.Conyuge.NroDocIdentidad = '';
+            if(info.nrodocidentidadconyuge != undefined ) this.resp.Conyuge.NroDocIdentidad = info.nrodocidentidadconyuge;
+
+            let nrodoc = this.resp.Conyuge.NroDocIdentidad.split('');
             for (let i = 0; i < nrodoc.length; i++) {
                 this.resp.Conyuge.DocIdentidad[i] = nrodoc[i];
             }

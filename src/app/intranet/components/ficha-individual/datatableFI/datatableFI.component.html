@@ -28,22 +28,22 @@
                 <td mat-cell *matCellDef="let element"> {{element.numeroFicha}} </td>
               </ng-container>
           
-              <ng-container matColumnDef="fichaLote">
+              <!-- <ng-container matColumnDef="fichaLote">
                 <th mat-header-cell *matHeaderCellDef> Ficha por lote </th>
                 <td mat-cell *matCellDef="let element"> {{element.fichaLote}} </td>
-              </ng-container>
+              </ng-container> -->
           
-              <ng-container matColumnDef="codigoUnicoCatastral">
+              <!-- <ng-container matColumnDef="codigoUnicoCatastral">
                 <th mat-header-cell *matHeaderCellDef> Código Único Catastral </th>
                 <td mat-cell *matCellDef="let element"> {{element.codigoUnicoCatastral}} </td>
-              </ng-container>
+              </ng-container> -->
           
               <ng-container matColumnDef="codigoRefenciaCatastral">
                 <th mat-header-cell *matHeaderCellDef> Código de Refencia Catastral </th>
                 <td mat-cell *matCellDef="let element"> {{element.codigoRefenciaCatastral}} </td>
               </ng-container>
           
-              <ng-container matColumnDef="codigoContribuyenteRenta">
+              <!-- <ng-container matColumnDef="codigoContribuyenteRenta">
                 <th mat-header-cell *matHeaderCellDef> Código Contribuyente de Rentas </th>
                 <td mat-cell *matCellDef="let element"> {{element.codigoContribuyenteRenta}} </td>
               </ng-container>
@@ -51,7 +51,7 @@
               <ng-container matColumnDef="codigoPredialRentas">
                 <th mat-header-cell *matHeaderCellDef> Código Predial de Rentas </th>
                 <td mat-cell *matCellDef="let element"> {{element.codigoPredialRentas}} </td>
-              </ng-container>
+              </ng-container> -->
           
               <ng-container matColumnDef="condicionTitular">
                 <th mat-header-cell *matHeaderCellDef> Condición del Titular</th>
@@ -91,6 +91,19 @@
               <ng-container matColumnDef="estado">
                 <th mat-header-cell *matHeaderCellDef> Estado</th>
                 <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="accion">
+                <th mat-header-cell *matHeaderCellDef> Acción</th>
+                <td mat-cell *matCellDef="let element">
+                  <button type="button" class="btn btn-primary btn-sm rounded-circle" title="Completar" 
+                    (click)="EditarRegistro(element)">
+                    <i class="bi bi-pencil"></i>
+                  </button>&nbsp;
+                  <button type="button" class="btn btn-danger btn-sm rounded-circle" title="Borrar" >
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                </td>
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

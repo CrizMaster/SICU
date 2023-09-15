@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Sector } from '../../models/sector.model';
 import { Manzana } from '../../models/manzana.model';
 import { Observable, Subscription } from 'rxjs';
+import { SaveFichaIndividual } from '../../models/saveFichaIndividual.model';
 
 
 
@@ -16,7 +17,7 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class CodeReferenceModalComponent implements OnInit, OnDestroy {
 
-    dataFirst: any;
+    dataFirst: SaveFichaIndividual;
     form: FormGroup;
     pattern1Digs = '^[1-9]|([1-9][0-9])$';
     pattern2Digs = '^((?!00).)*$';
@@ -36,15 +37,15 @@ export class CodeReferenceModalComponent implements OnInit, OnDestroy {
 
     constructor(
       public dialogRef: MatDialogRef<CodeReferenceModalComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: any,
+      @Inject(MAT_DIALOG_DATA) public data: SaveFichaIndividual,
       private _fichaIndividualService: FichaIndividualService,
       private fb: FormBuilder,
       private changeDetector: ChangeDetectorRef
     ){
 
       this.form = this.fb.group({
-        departamento: ['00', Validators.required],
-        provincia: ['00', Validators.required],
+        codigoDepartamento: ['00', Validators.required],
+        codigoProvincia: ['00', Validators.required],
         distrito: [0, Validators.required],
         sector: [0, Validators.required],
         manzana: [0, Validators.required],
@@ -74,7 +75,7 @@ export class CodeReferenceModalComponent implements OnInit, OnDestroy {
 
       this.listDpto$ = this._fichaIndividualService.listarDepartamentos();
 
-      if(this.dataFirst === undefined){
+      if(this.dataFirst.idObjeto == 0){
         console.log('nuevo');
       }
       else{
@@ -85,11 +86,10 @@ export class CodeReferenceModalComponent implements OnInit, OnDestroy {
           entrada: this.dataFirst.entrada,
           piso: this.dataFirst.piso,
           unidad: this.dataFirst.unidad,
-          //dc: this.dataFirst.dc,
-          departamento: this.dataFirst.departamento
+          codigoDepartamento: this.dataFirst.codigoDepartamento
         });
 
-        this.onChangeSelDepa(this.dataFirst.departamento, true);
+        this.onChangeSelDepa(this.dataFirst.codigoDepartamento, true);
       }
     }
 
@@ -107,11 +107,11 @@ export class CodeReferenceModalComponent implements OnInit, OnDestroy {
           this.manzanas.unshift({ idManzana: 0, codigoManzana: 'Seleccionar'});          
 
           if(sw) {
-            this.form.patchValue({ provincia: this.dataFirst.provincia, distrito: parseInt(this.dataFirst.distrito) });
-            this.onChangeSelProv(this.dataFirst.provincia, this.dataFirst.departamento, true);
+            this.form.patchValue({ codigoProvincia: this.dataFirst.codigoProvincia, distrito: parseInt(this.dataFirst.distrito) });
+            this.onChangeSelProv(this.dataFirst.codigoProvincia, this.dataFirst.codigoDepartamento, true);
           }
           else{
-            this.form.patchValue({ provincia: '00', distrito: 0, sector: 0, manzana: 0 });
+            this.form.patchValue({ codigoProvincia: '00', distrito: 0, sector: 0, manzana: 0 });
           }
         }
       });
@@ -129,6 +129,11 @@ export class CodeReferenceModalComponent implements OnInit, OnDestroy {
         this.manzanas.unshift({ idManzana: 0, codigoManzana: 'Seleccionar'});        
 
         if(sw) {
+
+          this.distritos.forEach(e => {
+            if(e.ubigeoDistrito == this.dataFirst.codigoDistrito) this.dataFirst.distrito = String(e.id);
+          });
+
           this.form.patchValue({ distrito: parseInt(this.dataFirst.distrito) });
           this.onChangeSelDist(this.dataFirst.distrito, true);
         }
@@ -179,17 +184,18 @@ export class CodeReferenceModalComponent implements OnInit, OnDestroy {
     guardar(){
       let info = this.form.value;
 
-      if(this.dataFirst === undefined){
-        info.idFicha = 0
-      }
-      else{ 
-        info.idFicha = this.dataFirst.idFicha; 
-      }
+      // if(this.dataFirst === undefined){
+      //   info.idFicha = 0
+      // }
+      // else{ 
+      //   info.idFicha = this.dataFirst.idFicha; 
+      // }
 
       this.distritos.forEach(dist => {
         if(dist.id == info.distrito) { 
           info.codigoUbigeo = dist.ubigeo; 
-          info.codigoDistrito = dist.ubigeoDistrito; 
+          info.codigoDistrito = dist.ubigeoDistrito;
+          info.distrito = dist.id;
         }
       });
 

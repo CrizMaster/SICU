@@ -10,10 +10,11 @@ import { FichaIndividualService } from '../../ficha-individual.service';
 import { Edificacion, Habilitacion } from '../../models/habilitacionEdificacion.model';
 import { PropertyLocationHabiedifModalComponent } from '../2-property-location-habiedif-modal/property-location-habiedif-modal.component';
 import { MatStepper } from '@angular/material/stepper';
-import { UbicacionPredioDetalleModel, UbicacionPredioModel } from '../../models/saveFichaIndividual.model';
+import { UbicacionPredioModel } from '../../models/saveFichaIndividual.model';
 import { Subscription } from 'rxjs';
-import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
 import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
+import * as ip from 'ip';
+import { FichaCatastralIndividual } from '../../models/fichaCatastralIndividual.model';
   
 @Component({
     selector: 'app-property-location',
@@ -28,42 +29,55 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
     @Input() listaVias: ItemSelect<Via>[] = [];
     @Input() listUbicacionPredial: UbicacionPredial[] = [];
 
+    @Output() outputSeccion = new EventEmitter<UbicacionPredioModel>();
+
+    @Input() inputSeccion: UbicacionPredioModel = { idObjeto: 0 };
+
     public saveUP$: Subscription = new Subscription;
     public dataHab$: Subscription = new Subscription;
+    public editData$: Subscription = new Subscription;
     
     btnCompleteInfoDisabled: boolean = true;
     btnNextDisabled: boolean = true;
     dataFirst: UbicacionPredial;
-    dataEdiHab: UbicacionPredial;
-    //progress: boolean = false;
+    dataEdiHab: UbicacionPredial = { IdTipoEdificacion: 0, id: 0 };
+    dataEdit: FichaCatastralIndividual;
+    
     ipv4: string = '';
 
-    habilitacion: Habilitacion = { codigoHabilitacion: '', nombreHabilitacion: '', sectorZonaEtapa: '', manzanaUrbana: ''};
+    seccion2?: UbicacionPredioModel;
+    habilitacion: Habilitacion = { c15CodigoHabilitacion: '', c16NombreHabilitacion: '', c17SectorZonaEtapa: '', c18ManzanaUrbana: ''};
     edificacion: Edificacion = {};
 
     constructor(public dialog: MatDialog,
         private _fichaIndividualService: FichaIndividualService) { }
 
     ngOnInit(): void {
-        this.dataHab$ = this._fichaIndividualService.obsHabilitacionEdificacion.subscribe({
-            next:(data) => {
-                if(data !== undefined ){
-                    this.habilitacion = data;
-                }
-            }
-          });
-          
-        // this._fichaIndividualService.getIpV4().then((result) => {
-        //     this.ipv4 = result;    
+        // this.dataHab$ = this._fichaIndividualService.obsHabilitacionEdificacion.subscribe({
+        //     next:(data) => {
+        //         if(data !== undefined ){
+        //             this.habilitacion = data;
+        //         }
+        //     }
+        // });
+
+        // this.editData$ = this._fichaIndividualService.obsEditFichaCatastralIndividual.subscribe({
+        //     next:(data) => {
+        //         this.dataEdit = data;
+        //         this.seccion2 = data.seccion2;
+        //     }
         // });
     }
 
     ngOnDestroy(): void {
         this.saveUP$.unsubscribe();
-        this.dataHab$.unsubscribe();
+        // this.dataHab$.unsubscribe();
+        // this.editData$.unsubscribe();
     }
 
     UbicacionPredial(enterAnimationDuration: string, exitAnimationDuration: string):void {
+
+        //this.dataFirst.listaVias = this.inputSeccion.listaVias;
 
         const dialogRef = this.dialog.open(PropertyLocationModalComponent, {
             width: '680px',
@@ -75,6 +89,9 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
     
         dialogRef.afterClosed().subscribe(result => {
           if(result != ''){
+
+            this.dataFirst = result;
+
             if(result.id == 0){
                 if(this.listUbicacionPredial.length > 0){
                     const max = this.listUbicacionPredial.reduce(function(prev, current) {
@@ -98,14 +115,14 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
                 });
                 this.listUbicacionPredial = lista;
             }
-            this.btnCompleteInfoDisabled = false;
-            this.secondComplete.emit(false);
+
+            this.EnviarInformacion();
           }            
         });
     }
 
     Agregar(){
-        this.dataFirst = { id:0, listaVias: this.listaVias };
+        this.dataFirst = { id:0, listaVias: this.inputSeccion.listaVias };
         this.UbicacionPredial('300ms', '300ms');
     }
 
@@ -126,6 +143,7 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
 
         dialogModal.afterClosed().subscribe(resp => {
             if(resp){
+
                 let lista: UbicacionPredial[] = [];
                 this.listUbicacionPredial.forEach(item => {
                     if(item.id !== up.id){
@@ -134,17 +152,36 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
                 });
                 this.listUbicacionPredial = lista;
 
-                if(this.listUbicacionPredial.length == 0) { 
-                    this.btnNextDisabled = true;
-                    this.btnCompleteInfoDisabled = false;
-                    this.secondComplete.emit(false);
-                }
+                this.EnviarInformacion();
+
+                // if(this.listUbicacionPredial.length == 0) { 
+                //     this.btnNextDisabled = true;
+                //     this.btnCompleteInfoDisabled = false;
+                //     this.secondComplete.emit(false);
+                // }
             }            
           });
     }
 
+    EnviarInformacion(){
+        this.inputSeccion.ubicacionPredioDetalle = [];
+        this.listUbicacionPredial.forEach(e => {
+            this.inputSeccion.ubicacionPredioDetalle.push({
+                idObjeto: this.inputSeccion.idObjeto,
+                c05CodigoVia: e.CodeVia,
+                c06TipoVia: e.CodeTipoVia,
+                c07Nombrevia: e.NombreVia,
+                c08TipoPuerta: e.CodeTipoPuerta,
+                c09NroMunicipal: e.NroMunicipal,
+                c10Numero: e.CodeCondNumeracion
+            });
+        });
+
+        this.outputSeccion.emit(this.inputSeccion);        
+    }
+
     CompletarInfo(){
-        const dialogRef = this.dialog.open(PropertyLocationHabiedifModalComponent, {
+        const dialogHabEdif = this.dialog.open(PropertyLocationHabiedifModalComponent, {
             width: '550px',
             enterAnimationDuration: '300ms',
             exitAnimationDuration: '300ms',
@@ -152,8 +189,9 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
             data: this.dataEdiHab
         });
 
-        dialogRef.afterClosed().subscribe(resp => {
+        dialogHabEdif.afterClosed().subscribe(resp => {
             if(resp){
+                console.log(resp);
                 this.dataEdiHab = resp;
                 this.habilitacion.lote = resp.Lote;
                 this.habilitacion.sublote = resp.Sublote;
@@ -164,10 +202,12 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
                 this.edificacion.codigoTipoInterior = resp.CodeTipoInterior;
                 this.edificacion.numeroInterior = resp.NumeroInterior;
 
-                if(this.listUbicacionPredial.length > 0) { 
-                    this.btnNextDisabled = false;
-                    this.secondComplete.emit(false);
-                }
+                this.inputSeccion.c19Lote = resp.Lote;
+                this.inputSeccion.c20SubLote = resp.Sublote;
+                // if(this.listUbicacionPredial.length > 0) { 
+                //     this.btnNextDisabled = false;
+                //     this.secondComplete.emit(false);
+                // }
             }            
           });        
     }
@@ -187,66 +227,70 @@ export class PropertyLocationComponent implements OnInit, OnDestroy {
         return dgRef;
       }
           
-    goNext(){
-        //this.progress = true;
-        let dg = this.ModalMessage();
+    // goNext(){
+    //     //this.progress = true;
+    //     let dg = this.ModalMessage();
 
-        let detalle: UbicacionPredioDetalleModel[] = [];
-        this.listUbicacionPredial.forEach(item => {
-            detalle.push({ 
-                idObjeto: this.idFicha,
-                c05CodigoVia: item.CodeVia,
-                c06TipoVia: item.CodeTipoVia,
-                c07Nombrevia: item.NombreVia,
-                c08TipoPuerta: item.CodeTipoPuerta,
-                c09NroMunicipal: item.NroMunicipal,
-                c10Numero: item.CondNumeracion
-            });
-        });
+    //     let detalle: UbicacionPredioDetalleModel[] = [];
+    //     this.listUbicacionPredial.forEach(item => {
+    //         detalle.push({ 
+    //             idObjeto: this.idFicha,
+    //             c05CodigoVia: item.CodeVia,
+    //             c06TipoVia: item.CodeTipoVia,
+    //             c07Nombrevia: item.NombreVia,
+    //             c08TipoPuerta: item.CodeTipoPuerta,
+    //             c09NroMunicipal: item.NroMunicipal,
+    //             c10Numero: item.CondNumeracion
+    //         });
+    //     });
 
-        let request: UbicacionPredioModel = 
-        {   idObjeto: this.idFicha,
-            usuarioCreacion: 'carevalo',
-            terminalCreacion: this.ipv4,
-            ubicacionPredioDetalle: detalle,
-            c11TipoEdificacion: this.edificacion.codigoTipoEdificacion,
-            c12NombreEdifica: this.edificacion.nombreEdificacion,
-            c13TipoInterior: this.edificacion.codigoTipoInterior,
-            c14NroInterior: this.edificacion.numeroInterior,
-            c19Lote: this.habilitacion.lote,
-            c20SubLote: this.habilitacion.sublote
-        };
+    //     let request: UbicacionPredioModel = 
+    //     {   idObjeto: this.idFicha,
+    //         usuarioCreacion: 'carevalo',
+    //         terminalCreacion: this.ipv4,
+    //         ubicacionPredioDetalle: detalle,
+    //         c11TipoEdificacion: this.edificacion.codigoTipoEdificacion,
+    //         c12NombreEdifica: this.edificacion.nombreEdificacion,
+    //         c13TipoInterior: this.edificacion.codigoTipoInterior,
+    //         c14NroInterior: this.edificacion.numeroInterior,
+    //         c19Lote: this.habilitacion.lote,
+    //         c20SubLote: this.habilitacion.sublote
+    //     };
 
-        this.saveUP$ = this._fichaIndividualService.save2UbicacionPredial(request)
-        .subscribe(result => {
+    //     this.saveUP$ = this._fichaIndividualService.save2UbicacionPredial(request)
+    //     .subscribe(result => {
             
-            dg.close();
+    //         dg.close();
 
-            if(result.success){
-                this.secondComplete.emit(true);
+    //         if(result.success){
 
-                setTimeout(() => {
-                    //this.progress = false;
-                    this.btnNextDisabled = true;
-                    this.Stepper.next();
+    //             this.dataEdit.seccion2 = request;
+    //             this._fichaIndividualService.obsEditFichaCatastralIndividual.next(this.dataEdit);
+
+    //             this.secondComplete.emit(true);
+
+    //             setTimeout(() => {
+    //                 //this.progress = false;
+    //                 this.btnNextDisabled = true;
+    //                 this.Stepper.next();
                     
-                  }, 500); 
-            }
-            else{
-                //this.progress = false;
-                let modal: Title = { 
-                    Title: 'Opss...', 
-                    Subtitle: result.message, 
-                    Icon: 'error' }
-                  this.dialog.open(ModalMessageComponent, {
-                      width: '500px',
-                      enterAnimationDuration: '300ms',
-                      exitAnimationDuration: '300ms',
-                      disableClose: true,
-                      data: modal
-                  });
-            }
-        });
-    }    
+    //               }, 500); 
+    //         }
+    //         else{
+    //             //this.progress = false;
+    //             let modal: Title = { 
+    //                 Title: 'Opss...', 
+    //                 Subtitle: result.message, 
+    //                 Icon: 'error' }
+    //               this.dialog.open(ModalMessageComponent, {
+    //                   width: '500px',
+    //                   enterAnimationDuration: '300ms',
+    //                   exitAnimationDuration: '300ms',
+    //                   disableClose: true,
+    //                   data: modal
+    //               });
+    //         }
+    //     });
+    // }    
 
 }

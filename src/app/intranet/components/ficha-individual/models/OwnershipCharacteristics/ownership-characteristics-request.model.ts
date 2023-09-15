@@ -5,6 +5,7 @@ export interface OwnershipCharacteristicsRequest {
     usuarioModificacion?: string,
     terminalModificacion?: string,
     c21CodigoCondicion?: string,
+    CondicionTitular?: string,
     c22FormaAdquisicion?: string,
     c23CodigoTipoDocumento?: string,
     c24TipoPartida?: string,

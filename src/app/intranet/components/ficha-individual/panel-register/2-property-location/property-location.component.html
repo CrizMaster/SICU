@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="col-12 py-3">
+<div class="row mt-4">
+  <div class="col-12">
     <table class="table table-sm table-bordered border-dark" style="font-size: 11px;">
       <thead class="m-2">
         <tr>
@@ -30,7 +30,7 @@
           <td class="text-center bg-info" style="width: 100px;">N° MUNICIPAL</td>
 
           <th scope="row" class="text-center bg-secondary align-middle fw-bold ancho-column">10</th>
-          <td class="text-center bg-info" style="width: 100px;">COND. NÚMER.</td>
+          <td class="text-center bg-info" style="width: 200px;">CONDICIÓN DE NÚMERACIÓN</td>
         </tr>
         <tr *ngFor="let pl of listUbicacionPredial">
           <td class="text-center align-middle alto-column">
@@ -64,7 +64,7 @@
         <tr>
           <td colspan="12" class="bg-secondary-subtle px-3">            
             <button type="button" class="btn btn-primary btn-sm rounded-pill" 
-                title="Agregar ubicación" [disabled]="btnCompleteInfoDisabled"
+                title="Agregar ubicación"
                 (click)="CompletarInfo()">
               <i class="bi bi-book-half"></i>&nbsp;Completar Información
             </button>
@@ -108,40 +108,29 @@
         </tr>
         <tr>
           <td colspan="2" class="text-center alto-column">
-            {{habilitacion.codigoHabilitacion}}
+            {{inputSeccion.c15CodigoHabilitacion}}
           </td>
           <td colspan="2" class="text-center">
-            {{habilitacion.nombreHabilitacion}}
+            {{inputSeccion.c16NombreHabilitacion}}
           </td>
           <td colspan="2" class="text-center">
-            {{habilitacion.sectorZonaEtapa}}
+            {{inputSeccion.c17SectorZonaEtapa}}
           </td>
           <td colspan="2" class="text-center">
-            {{habilitacion.manzanaUrbana}}
+            {{inputSeccion.c18ManzanaUrbana}}
           </td>
-          <td colspan="2" class="text-center">{{habilitacion.lote}}</td>
-          <td colspan="2" class="text-center">{{habilitacion.sublote}}</td>
+          <td colspan="2" class="text-center">{{inputSeccion.c19Lote}}</td>
+          <td colspan="2" class="text-center">{{inputSeccion.c20SubLote}}</td>
         </tr>                          
       </tbody>
-      <!-- <tfoot *ngIf="progress">
-        <tr>
-          <td colspan="24"><span style="font-size: 0.85rem;">Registrando la ubicación del predio catastral...</span>
-            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-          </td>
-        </tr>            
-      </tfoot> -->
     </table>                                                
   </div>
 </div>
-<div class="row">
-  <div class="col col-12">
-    <div class="input-group">
-      <button class="btn btn-dark btn-sm" style="width: 100px;" 
-        matStepperPrevious>
-        <i class="bi bi-arrow-up-circle"></i>&nbsp;Atrás</button>
-      <button class="btn btn-success btn-sm" style="width: 100px;" 
-      [disabled]="btnNextDisabled" (click)="goNext()">
-        Siguiente&nbsp;<i class="bi bi-arrow-down-circle"></i></button>
-    </div>
+<!-- <mat-divider></mat-divider>
+<div class="row mt-3">
+  <div class="col col-12 text-end">
+    <button class="btn btn-primary btn-sm bg-cofopri" style="width: 175px;" 
+    [disabled]="btnNextDisabled" (click)="goNext()">
+    <i class="bi bi-database-check"></i>&nbsp;Guardar y continuar...</button>
   </div>
-</div>
+</div> -->

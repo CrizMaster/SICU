@@ -20,6 +20,7 @@ export interface UbicacionPredial {
     TipoPuerta?: string,
     NroMunicipal?: string,
     IdCondNumeracion?: number,
+    CodeCondNumeracion?: string,
     CondNumeracion?: string,
     swSinCodigo?: boolean,
 

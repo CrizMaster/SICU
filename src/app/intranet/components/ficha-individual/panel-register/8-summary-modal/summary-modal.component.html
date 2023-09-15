@@ -1,0 +1,141 @@
+<form>
+  <h1 mat-dialog-title class="bg-cofopri text-white">Obras complementarias / Otras instalaciones</h1>
+  <div mat-dialog-content class="px-4" style="font-size: 0.9rem;">
+    <div class="row my-2">
+      <div class="col col-12">
+        <div class="card">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col col-6">
+                  <b>1. Código de Referencia Catastral:</b>
+                </div>
+                <div class="col col-6 position-relative" [class.text-danger]="crc.length != 24">
+                  <i class="bi bi-upc-scan"></i>&nbsp;{{crc}}
+                  <i class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                  title="Código de referencia catrastal incompleto" *ngIf="crc.length != 24"></i>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col col-md-6" >
+                  <b>2. Ubicación del Predio Catastral:</b>
+                </div>
+                <div class="col col-6 position-relative" [class.text-danger]="validSeccion2">
+                  <i class="bi bi-geo-alt"></i>&nbsp;{{seccion2.ubicacionPredioDetalle.length == 0 ? "Sin registro de vías" : 
+                  seccion2.ubicacionPredioDetalle.length + " vía(s) registrada(s)" }}
+                  <i class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                  title="Debe de registrar mínimo una vía principal" *ngIf="validSeccion2"></i>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col col-md-6" >
+                  <b>3. Caracteristicas de la Titularidad:</b>
+                </div>
+                <div class="col col-6 position-relative" [class.text-danger]="validSeccion3">
+                  <i class="bi bi-gear"></i>&nbsp;{{seccion3.CondicionTitular}}
+                  <i class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                  title="{{msgValidSeccion3}}" *ngIf="validSeccion3"></i>
+                </div>
+              </div>              
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col col-md-6" >
+                  <b>4. Identificación del Titular:</b>
+                </div>
+                <div class="col col-6 position-relative" *ngIf="seccion3.c21CodigoCondicion == '06' || seccion3.c21CodigoCondicion == '07'">
+                  <i class="bi bi-person"></i>&nbsp;NNN
+                </div>
+                <div class="col col-6 position-relative" *ngIf="seccion3.c21CodigoCondicion != '06' && seccion3.c21CodigoCondicion != '07' && validSeccion4" 
+                  [class.text-danger]="validSeccion4">
+                  <i class="bi bi-person"></i>&nbsp;{{seccion4.tipoTitular}}
+                  <i class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                  title="{{msgValidSeccion4}}" *ngIf="validSeccion4"></i>
+                </div>
+                <div class="col col-md-6">
+                  <div class="row" *ngIf="seccion4.c26TipoTitular == '01'">
+
+                    <div class="col col-md-12" *ngIf="seccion4.conTitular">
+                      <i class="bi bi-person"></i>&nbsp;
+                      {{seccion3.c21CodigoCondicion == '02' ?'(SUC.) ':''}}
+                      {{seccion4.c30aNombres}}&nbsp;{{seccion4.c31aApellidoPaterno}}&nbsp;{{seccion4.c32aApellidoMaterno}}
+                    </div>
+                    <div class="col col-md-12 position-relative text-danger" *ngIf="!seccion4.conTitular">
+                      <i class="bi bi-person"></i>&nbsp;Sin registro del titular
+                      <i class="position-icon-input bi bi-exclamation-circle-fill text-danger" title="Debe de ingresar los datos del titular"></i>
+                    </div>
+
+                    <div class="col col-md-12" *ngIf="seccion3.c21CodigoCondicion == '04' && seccion4.conConyuge">
+                      <i class="bi bi-person-heart"></i>&nbsp;{{seccion4.c30bNombres}}&nbsp;{{seccion4.c31bApellidoPaterno}}&nbsp;{{seccion4.c32bApellidoMaterno}}
+                    </div>
+                    <div class="col col-md-12 position-relative text-danger" *ngIf="seccion3.c21CodigoCondicion == '04' && !seccion4.conConyuge">
+                      <i class="bi bi-person-heart"></i>&nbsp;Sin registro del conyuge
+                      <i class="position-icon-input bi bi-exclamation-circle-fill text-danger" title="Debe de ingresar los datos del conyuge"></i>
+                    </div>
+
+                  </div>
+                  <div class="row" *ngIf="seccion4.c26TipoTitular == '02'">
+
+                    <div class="col col-md-12" *ngIf="seccion4.conEmpresa">
+                      <i class="bi bi-shop"></i>&nbsp;{{seccion4.c36RazonSocial}}
+                    </div>
+                    <div class="col col-md-12 position-relative text-danger" *ngIf="!seccion4.conEmpresa">
+                      <i class="bi bi-shop"></i>&nbsp;Sin registro de la persona jurídica
+                      <i class="position-icon-input bi bi-exclamation-circle-fill text-danger" title="Debe de ingresar los datos de la persona jurídica"></i>
+                    </div>
+
+
+                  </div> 
+                </div>
+              </div>              
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col col-md-6" >
+                  <b>5. Descripción del Predio:</b>
+                </div>
+                <div class="col col-6 position-relative" [class.text-danger]="validSeccion5">
+                  <i class="bi bi-house-door"></i>&nbsp;{{seccion5.ClasificacionPredio.length == 0 ? "Sin clasificación del predio" : 
+                  seccion5.ClasificacionPredio }}
+                  <i class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                  title="Debe de seleccionar de la clasificación del predio" *ngIf="validSeccion5"></i>
+                </div>
+              </div>              
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col col-md-6" >
+                  <b>6. Construcciones:</b>
+                </div>
+                <div class="col col-md-6">
+                  <i class="bi bi-building"></i>&nbsp;{{msgValidSeccion6}}
+                </div>
+              </div>              
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col col-md-6" >
+                  <b>7. Obras Complementarias e Instalaciones:</b>
+                </div>
+                <div class="col col-md-6">
+                  <i class="bi bi-buildings"></i>&nbsp;{{msgValidSeccion7}}
+                </div>
+              </div>              
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>    
+  </div>
+  <div mat-dialog-actions class="d-flex justify-content-end">  
+    <button type="submit" class="btn btn-sm btn-primary bg-cofopri text-white" 
+            
+            >Aceptar</button>
+    <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
+  </div>
+</form>

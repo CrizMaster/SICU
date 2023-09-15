@@ -1,0 +1,221 @@
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <h1 mat-dialog-title class="bg-cofopri text-white">Obras complementarias / Otras instalaciones</h1>
+  <div mat-dialog-content class="px-4" style="font-size: 0.9rem;">
+    <div class="row my-2">
+        <div class="col-12 mt-1">
+          <mat-card class="example-card">
+            <mat-card-content>
+              <div class="row">
+                <div class="col-12">
+                  Obras complementarias e instalaciones fijas y permanentes 2023:
+                </div>
+                <div class="col-12" style="position: relative;">
+
+                  <input type="text"
+                    matInput
+                    formControlName="grupoobrainstalacion"
+                    [matAutocomplete]="autoGroup"
+                    class="form-control form-control-sm border focus-ring"
+                    [class.border-success]="this.form.get('grupoobrainstalacion')?.valid"
+                    [class.focus-ring-success]="this.form.get('grupoobrainstalacion')?.valid"
+                    [class.border-danger]="this.form.get('grupoobrainstalacion')?.invalid && this.form.get('grupoobrainstalacion')?.touched"
+                    [class.focus-ring-danger]="this.form.get('grupoobrainstalacion')?.invalid && this.form.get('grupoobrainstalacion')?.touched">
+                  <mat-autocomplete #autoGroup="matAutocomplete">
+                    <mat-optgroup *ngFor="let group of stateGroupOptions | async" [label]="group.name">
+                      <mat-option *ngFor="let subgrupo of group.obras" [value]="subgrupo.name"
+                      (onSelectionChange)="getIdGrupoObra($event, subgrupo)">
+                        <span style="font-size: 0.85rem;">{{subgrupo.name}}</span>
+                      </mat-option>
+                    </mat-optgroup>
+                  </mat-autocomplete>
+
+                  <!-- <select name="grupoobrainstalacion" #SelGrupoObraInstalacion
+                          formControlName="grupoobrainstalacion"
+                          class="form-select form-select-sm border focus-ring" 
+                          [class.border-success]="this.form.get('grupoobrainstalacion')?.valid"
+                          [class.focus-ring-success]="this.form.get('grupoobrainstalacion')?.valid"
+                          [class.border-danger]="this.form.get('grupoobrainstalacion')?.invalid && this.form.get('grupoobrainstalacion')?.touched"
+                          [class.focus-ring-danger]="this.form.get('grupoobrainstalacion')?.invalid && this.form.get('grupoobrainstalacion')?.touched"
+                          aria-label="select-grupoobrainstalacion" [pattern]="pattern1Digs">
+                          <option *ngFor="let cv of listGrupoObraInstalacion" [value]="cv.value">{{ cv.text }}</option>
+                  </select>
+                  <i *ngIf="this.form.get('grupoobrainstalacion')?.invalid && this.form.get('grupoobrainstalacion')?.touched" 
+                          class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                          title="Campo requerido"></i> -->
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-7" title="Fecha de construcción (Mes/Año)">
+                      Fecha de construcción:
+                    </div>
+                    <div class="col-5" style="position: relative;">
+                      <input matInput [matDatepicker]="dp" formControlName="mesanio" 
+                      [max]="maxDate"
+                      readonly="true" style="width: 72px;"
+                      class="form-control form-control-sm border focus-ring" 
+                      [class.border-success]="this.form.get('mesanio')?.valid"
+                      [class.focus-ring-success]="this.form.get('mesanio')?.valid"
+                      [class.border-danger]="this.form.get('mesanio')?.invalid && this.form.get('mesanio')?.touched"
+                      [class.focus-ring-danger]="this.form.get('mesanio')?.invalid && this.form.get('mesanio')?.touched">
+                      <mat-datepicker-toggle matIconSuffix [for]="dp" class="position-absolute" style="top: -8px; left:85px"></mat-datepicker-toggle>
+                      <mat-datepicker #dp
+                                      startView="multi-year"
+                                      (monthSelected)="setMonthAndYear($event, dp)"
+                                      panelClass="example-month-picker">
+                      </mat-datepicker>
+                      <i *ngIf="this.form.get('mesanio')?.invalid && this.form.get('mesanio')?.touched" 
+                      class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                      title="Campo requerido"></i>                       
+                    </div>
+                  </div>                 
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-2 pt-1" title="Material estructural predominante (MEP)">
+                      MEP: 
+                    </div>
+                    <div class="col-10">
+                      <select name="mep"
+                      formControlName="mep"
+                      class="form-select form-select-sm border focus-ring"
+                      [class.border-success]="this.form.get('mep')?.valid"
+                      [class.focus-ring-success]="this.form.get('mep')?.valid"
+                      [class.border-danger]="this.form.get('mep')?.invalid && this.form.get('mep')?.touched"
+                      [class.focus-ring-danger]="this.form.get('mep')?.invalid && this.form.get('mep')?.touched"
+                      aria-label="select-mep" [pattern]="pattern1Digs">
+                      <option *ngFor="let mep of listaMEP" [value]="mep.value">{{ mep.text }}</option>
+                      </select>
+                      <i *ngIf="this.form.get('mep')?.invalid && this.form.get('mep')?.touched" 
+                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        title="Campo requerido"></i>
+                    </div>
+                  </div>                
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-2 pt-1" title="Estado de Conservación (ECS)">
+                      ECS:
+                    </div>
+                    <div class="col-10">
+                      <select name="ecs"
+                              formControlName="ecs"
+                              class="form-select form-select-sm border focus-ring"
+                              [class.border-success]="this.form.get('ecs')?.valid"
+                              [class.focus-ring-success]="this.form.get('ecs')?.valid"
+                              [class.border-danger]="this.form.get('ecs')?.invalid && this.form.get('ecs')?.touched"
+                              [class.focus-ring-danger]="this.form.get('ecs')?.invalid && this.form.get('ecs')?.touched"
+                              aria-label="select-ecs" [pattern]="pattern1Digs">
+                              <option *ngFor="let ecs of listaECS" [value]="ecs.value">{{ ecs.text }}</option>
+                      </select>
+                      <i *ngIf="this.form.get('ecs')?.invalid && this.form.get('ecs')?.touched" 
+                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        title="Campo requerido"></i>   
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-2 pt-1" title="Estado de la Construcción (ECC)">
+                      ECC:
+                    </div>
+                    <div class="col-10">
+                      <select name="ecc"
+                              formControlName="ecc"
+                              class="form-select form-select-sm border focus-ring"
+                              [class.border-success]="this.form.get('ecc')?.valid"
+                              [class.focus-ring-success]="this.form.get('ecc')?.valid"
+                              [class.border-danger]="this.form.get('ecc')?.invalid && this.form.get('ecc')?.touched"
+                              [class.focus-ring-danger]="this.form.get('ecc')?.invalid && this.form.get('ecc')?.touched"
+                              aria-label="select-ecc" [pattern]="pattern1Digs">
+                              <option *ngFor="let ecc of listaECC" [value]="ecc.value">{{ ecc.text }}</option>
+                      </select>
+                      <i *ngIf="this.form.get('ecc')?.invalid && this.form.get('ecc')?.touched" 
+                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        title="Campo requerido"></i>
+                    </div>
+                  </div>
+                </div>         
+              </div>
+              <div class="row mt-3">
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6 pt-1">
+                      Producto Total:
+                    </div>
+                    <div class="col-6">
+                      <input type="text" formControlName="productototal"
+                      class="form-control form-control-sm border focus-ring" 
+                      [class.border-success]="this.form.get('productototal')?.valid"
+                      [class.focus-ring-success]="this.form.get('productototal')?.valid"
+                      [class.border-danger]="this.form.get('productototal')?.invalid && this.form.get('productototal')?.touched"
+                      [class.focus-ring-danger]="this.form.get('productototal')?.invalid && this.form.get('productototal')?.touched">                  
+                      <i *ngIf="this.form.get('productototal')?.invalid && this.form.get('productototal')?.touched" 
+                              class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                              title="Campo requerido"></i>
+                    </div>
+                  </div>
+                </div> 
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6 pt-1">
+                      Unidad Medida:
+                    </div>
+                    <div class="col-6">
+                      <select name="unidadmedida"
+                              formControlName="unidadmedida"
+                              class="form-select form-select-sm border focus-ring"
+                              [class.border-success]="this.form.get('unidadmedida')?.valid"
+                              [class.focus-ring-success]="this.form.get('unidadmedida')?.valid"
+                              [class.border-danger]="this.form.get('unidadmedida')?.invalid && this.form.get('unidadmedida')?.touched"
+                              [class.focus-ring-danger]="this.form.get('unidadmedida')?.invalid && this.form.get('unidadmedida')?.touched"
+                              aria-label="select-unidadmedida" [pattern]="pattern1Digs">
+                              <option *ngFor="let mc of listaUnidadMedida" [value]="mc.value">{{ mc.text }}</option>
+                      </select>
+                      <i *ngIf="this.form.get('unidadmedida')?.invalid && this.form.get('unidadmedida')?.touched" 
+                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        title="Campo requerido"></i>
+                    </div>
+                  </div>
+                </div>             
+              </div>
+              <div class="row mt-3">
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-2 pt-1" title="Unidad de Construcción Antirreglamentaria (UCA)">
+                      UCA:
+                    </div>
+                    <div class="col-10">
+                      <select name="uca"
+                              formControlName="uca"
+                              class="form-select form-select-sm border focus-ring"
+                              [class.border-success]="this.form.get('uca')?.valid"
+                              [class.focus-ring-success]="this.form.get('uca')?.valid"
+                              [class.border-danger]="this.form.get('uca')?.invalid && this.form.get('uca')?.touched"
+                              [class.focus-ring-danger]="this.form.get('uca')?.invalid && this.form.get('uca')?.touched"
+                              aria-label="select-uca" [pattern]="pattern1Digs">
+                              <option *ngFor="let ecc of listaUCA" [value]="ecc.value">{{ ecc.text }}</option>
+                      </select>
+                      <i *ngIf="this.form.get('uca')?.invalid && this.form.get('uca')?.touched" 
+                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        title="Campo requerido"></i> 
+                    </div>
+                  </div>
+                </div>  
+              </div>
+            </mat-card-content>
+          </mat-card>      
+        </div>
+    </div>
+    
+  </div>
+  <div mat-dialog-actions class="d-flex justify-content-end">  
+    <button type="submit" class="btn btn-sm btn-primary bg-cofopri text-white" 
+            [disabled]="form.invalid"
+            >Aceptar</button>
+    <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
+  </div>
+</form>

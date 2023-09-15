@@ -7,8 +7,8 @@ export interface SharedData<T> {
 }
 
 export interface SharedThirdData {
-    complete: boolean,
-    idFicha: number,
+    // complete: boolean,
+    // idFicha: number,
     codigoCondicionTitular: string
 }
 

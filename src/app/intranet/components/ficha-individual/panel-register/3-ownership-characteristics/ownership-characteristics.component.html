@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="col-12 py-3">
+<div class="row mt-4">
+  <div class="col-12">
     <table class="table table-sm table-bordered border-dark" style="font-size: 11px;">
       <thead class="m-2">
         <tr>
@@ -31,8 +31,8 @@
         <tr>
           <td colspan="2">{{info.CondicionTitular}}</td>
           <td colspan="2">{{info.FormaAdquision}}</td>
-          <td colspan="2">{{info.TipoDocumento}}</td>
-          <td colspan="2">{{info.TipoPartidaRegistral}}</td>
+          <td colspan="2">{{info.IdTipoDocumento != 0 ? info.TipoDocumento : '-'}}</td>
+          <td colspan="2">{{info.IdTipoPartidaRegistral != 0 ? info.TipoPartidaRegistral : '-'}}</td>
           <td colspan="2">{{info.NumeroPartidaRegistral}}</td>
         </tr>
       </tbody>
@@ -46,15 +46,12 @@
     </table>                                                
   </div>
 </div>
-<div class="row">
-  <div class="col col-12">
-    <div class="input-group">
-      <button class="btn btn-dark btn-sm" style="width: 100px;" 
-        matStepperPrevious>
-        <i class="bi bi-arrow-up-circle"></i>&nbsp;Atrás</button>
-      <button class="btn btn-success btn-sm" style="width: 100px;" 
-        [disabled]="btnNextDisabled" (click)="goNext()">
-        Siguiente&nbsp;<i class="bi bi-arrow-down-circle"></i></button>
-    </div>
+<!-- <mat-divider></mat-divider>
+<div class="row mt-3">
+  <div class="col col-12 text-end">
+    <button class="btn btn-primary btn-sm bg-cofopri" style="width: 175px;" 
+    [disabled]="btnNextDisabled" (click)="goNext()">
+    <i class="bi bi-database-check"></i>&nbsp;Guardar y continuar...
+  </button>  
   </div>
-</div>
+</div> -->

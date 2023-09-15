@@ -178,7 +178,7 @@ export class BuildingsModalComponent implements OnInit, OnDestroy {
         this.listaCatPuertasVentanas = lista;
       });
 
-      if(this.data.idObjeto == 0){
+      if(this.data.id == 0){
         console.log('Nuevo registro');
       }
       else{

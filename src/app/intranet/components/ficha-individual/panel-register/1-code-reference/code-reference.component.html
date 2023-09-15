@@ -1,5 +1,5 @@
 <div class="row mt-4">
-  <div class="col-8 mx-3">    
+  <div class="col-12">    
       <table class="table table-sm table-bordered border-dark" style="font-size: 11px;">
         <thead class="m-2">
           <tr>
@@ -12,20 +12,6 @@
                     [class.bi-plus-circle]="titleBtn == 'Agregar'"
                     [class.bi-pencil]="titleBtn == 'Modificar'"></i>&nbsp;{{titleBtn}}
               </button>
-              <!-- <button type="button" class="btn btn-sm btn-primary rounded-pill"
-                  title="{{titleBtn}} código de referencia catastral" (click)="ModalMessage()">
-                <i class="bi bi-plus-circle"></i>&nbsp;popup
-              </button> -->
-              <!-- &nbsp;&nbsp;
-              <button type="button" class="btn btn-sm btn-primary rounded-pill"
-                  title="{{titleBtn}} código de referencia catastral" (click)="Popup()">
-                <i class="bi bi-plus-circle"></i>&nbsp;popup
-              </button>
-              &nbsp;&nbsp;
-              <button type="button" class="btn btn-sm btn-primary rounded-pill"
-                  title="{{titleBtn}} código de referencia catastral" (click)="Popup2()">
-                <i class="bi bi-plus-circle"></i>&nbsp;popup2
-              </button> -->
             </td>
           </tr>
         </thead>
@@ -77,21 +63,13 @@
               <td class="text-center align-middle fw-bold">{{codRefCatastral[23]}}</td>
             </tr>
           </tbody>
-          <!-- <tfoot *ngIf="progress">
-            <tr>
-              <td colspan="24"><span style="font-size: 0.85rem;">Registrando ficha catastral individual urbana...</span>
-                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-              </td>
-            </tr>            
-          </tfoot> -->
-      </table>
-      
+      </table>      
   </div>
 </div>
-<mat-divider></mat-divider>
+<!-- <mat-divider></mat-divider>
 <div class="row mt-3">
-  <div class="col col-12 mx-3">
-    <button class="btn btn-success btn-sm" [disabled]="btnNextDisabled" (click)="goNext()">
-      Siguiente&nbsp;<i class="bi bi-arrow-down-circle"></i></button>
+  <div class="col col-12 text-end">
+    <button class="btn btn-primary btn-sm bg-cofopri" (click)="goNext()">
+      <i class="bi bi-database-check"></i> &nbsp; Guardar y continuar...</button>
   </div>
-</div>
+</div> -->

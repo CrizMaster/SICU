@@ -21,7 +21,7 @@
                           <option *ngFor="let cv of listEstadoCivil" [value]="cv.value">{{ cv.text }}</option>
                   </select>
                   <i *ngIf="this.form.get('estadocivil')?.invalid && this.form.get('estadocivil')?.touched" 
-                          class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                           title="Campo requerido"></i>
                 </div>
               </div>
@@ -32,6 +32,7 @@
                 <div class="col col-7" style="position: relative;">
                   <select name="tipodocidentidad" #SelDocIdent
                           formControlName="tipodocidentidad"
+                          (change)="onChangeSelDocIdent(SelDocIdent.value)"
                           class="form-select form-select-sm border focus-ring" 
                           [class.border-success]="this.form.get('tipodocidentidad')?.valid"
                           [class.focus-ring-success]="this.form.get('tipodocidentidad')?.valid"
@@ -41,7 +42,7 @@
                           <option *ngFor="let cv of listTipoDocIdent" [value]="cv.value">{{ cv.text }}</option>
                   </select>
                   <i *ngIf="this.form.get('tipodocidentidad')?.invalid && this.form.get('tipodocidentidad')?.touched" 
-                          class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                           title="Campo requerido"></i>                      
                 </div>
               </div>
@@ -55,7 +56,10 @@
                         [class.border-success]="this.form.get('nrodocidentidad')?.valid"
                         [class.focus-ring-success]="this.form.get('nrodocidentidad')?.valid"
                         [class.border-danger]="this.form.get('nrodocidentidad')?.invalid && this.form.get('nrodocidentidad')?.touched"
-                        [class.focus-ring-danger]="this.form.get('nrodocidentidad')?.invalid && this.form.get('nrodocidentidad')?.touched">                        
+                        [class.focus-ring-danger]="this.form.get('nrodocidentidad')?.invalid && this.form.get('nrodocidentidad')?.touched">
+                  <i *ngIf="this.form.get('nrodocidentidad')?.invalid && this.form.get('nrodocidentidad')?.touched" 
+                        class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                        title="Campo requerido"></i>                        
                 </div>
               </div>
               <div class="row my-2">
@@ -68,7 +72,10 @@
                         [class.border-success]="this.form.get('nombres')?.valid"
                         [class.focus-ring-success]="this.form.get('nombres')?.valid"
                         [class.border-danger]="this.form.get('nombres')?.invalid && this.form.get('nombres')?.touched"
-                        [class.focus-ring-danger]="this.form.get('nombres')?.invalid && this.form.get('nombres')?.touched">                        
+                        [class.focus-ring-danger]="this.form.get('nombres')?.invalid && this.form.get('nombres')?.touched">
+                  <i *ngIf="this.form.get('nombres')?.invalid && this.form.get('nombres')?.touched" 
+                        class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                        title="Campo requerido"></i>                         
                 </div>
               </div>
               <div class="row my-2">
@@ -81,7 +88,10 @@
                         [class.border-success]="this.form.get('apellidopaterno')?.valid"
                         [class.focus-ring-success]="this.form.get('apellidopaterno')?.valid"
                         [class.border-danger]="this.form.get('apellidopaterno')?.invalid && this.form.get('apellidopaterno')?.touched"
-                        [class.focus-ring-danger]="this.form.get('apellidopaterno')?.invalid && this.form.get('apellidopaterno')?.touched">                        
+                        [class.focus-ring-danger]="this.form.get('apellidopaterno')?.invalid && this.form.get('apellidopaterno')?.touched">
+                  <i *ngIf="this.form.get('apellidopaterno')?.invalid && this.form.get('apellidopaterno')?.touched" 
+                        class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                        title="Campo requerido"></i>                         
                 </div>
               </div>
               <div class="row my-2">
@@ -106,8 +116,9 @@
                 Tipo Doc. Identidad:
               </div>
               <div class="col col-7" style="position: relative;">
-                <select name="tipodocidentidadconyuge" #SelDocIdent
+                <select name="tipodocidentidadconyuge" #SelDocIdentConyuge
                         formControlName="tipodocidentidadconyuge"
+                        (change)="onChangeSelDocIdentConyugue(SelDocIdentConyuge.value)"
                         class="form-select form-select-sm border focus-ring" 
                         [class.border-success]="this.form.get('tipodocidentidadconyuge')?.valid"
                         [class.focus-ring-success]="this.form.get('tipodocidentidadconyuge')?.valid"
@@ -117,7 +128,7 @@
                         <option *ngFor="let cv of listTipoDocIdentConyuge" [value]="cv.value">{{ cv.text }}</option>
                 </select>
                 <i *ngIf="this.form.get('tipodocidentidadconyuge')?.invalid && this.form.get('tipodocidentidadconyuge')?.touched" 
-                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                         title="Campo requerido"></i>                      
               </div>
             </div>
@@ -131,8 +142,10 @@
                       [class.border-success]="this.form.get('nrodocidentidadconyuge')?.valid"
                       [class.focus-ring-success]="this.form.get('nrodocidentidadconyuge')?.valid"
                       [class.border-danger]="this.form.get('nrodocidentidadconyuge')?.invalid && this.form.get('nrodocidentidadconyuge')?.touched"
-                      [class.focus-ring-danger]="this.form.get('nrodocidentidadconyuge')?.invalid && this.form.get('nrodocidentidadconyuge')?.touched"
-                      >                        
+                      [class.focus-ring-danger]="this.form.get('nrodocidentidadconyuge')?.invalid && this.form.get('nrodocidentidadconyuge')?.touched">
+                <i *ngIf="this.form.get('nrodocidentidadconyuge')?.invalid && this.form.get('nrodocidentidadconyuge')?.touched" 
+                      class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                      title="Campo requerido"></i>                       
               </div>
             </div>
             <div class="row my-2">
@@ -145,7 +158,10 @@
                       [class.border-success]="this.form.get('nombresconyuge')?.valid"
                       [class.focus-ring-success]="this.form.get('nombresconyuge')?.valid"
                       [class.border-danger]="this.form.get('nombresconyuge')?.invalid && this.form.get('nombresconyuge')?.touched"
-                      [class.focus-ring-danger]="this.form.get('nombresconyuge')?.invalid && this.form.get('nombresconyuge')?.touched">                        
+                      [class.focus-ring-danger]="this.form.get('nombresconyuge')?.invalid && this.form.get('nombresconyuge')?.touched">
+                <i *ngIf="this.form.get('nombresconyuge')?.invalid && this.form.get('nombresconyuge')?.touched" 
+                      class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                      title="Campo requerido"></i>                       
               </div>
             </div>
             <div class="row my-2">
@@ -158,7 +174,10 @@
                       [class.border-success]="this.form.get('apellidopaternoconyuge')?.valid"
                       [class.focus-ring-success]="this.form.get('apellidopaternoconyuge')?.valid"
                       [class.border-danger]="this.form.get('apellidopaternoconyuge')?.invalid && this.form.get('apellidopaternoconyuge')?.touched"
-                      [class.focus-ring-danger]="this.form.get('apellidopaternoconyuge')?.invalid && this.form.get('apellidopaternoconyuge')?.touched">                        
+                      [class.focus-ring-danger]="this.form.get('apellidopaternoconyuge')?.invalid && this.form.get('apellidopaternoconyuge')?.touched">
+                <i *ngIf="this.form.get('apellidopaternoconyuge')?.invalid && this.form.get('apellidopaternoconyuge')?.touched" 
+                      class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                      title="Campo requerido"></i>                                               
               </div>
             </div>
             <div class="row my-2">

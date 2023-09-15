@@ -8,5 +8,6 @@ export interface DescriptionPropertyRequest {
     c39PredioEn?: string,
     c40CodigoUso?: string,
     c41DescripcionUso?: string,
-    c42AreaTerreno?: string
+    c42AreaTerreno?: string,
+    ClasificacionPredio?: string
 }

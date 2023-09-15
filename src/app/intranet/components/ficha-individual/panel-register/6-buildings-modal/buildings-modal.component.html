@@ -11,7 +11,7 @@
                     <div class="col-8">
                       N° Piso, Sótano Mezzanine:
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 position-relative" >
                       <input type="text" formControlName="pisosotano"
                       class="form-control form-control-sm border focus-ring" 
                       [class.border-success]="this.form.get('pisosotano')?.valid"
@@ -19,7 +19,7 @@
                       [class.border-danger]="this.form.get('pisosotano')?.invalid && this.form.get('pisosotano')?.touched"
                       [class.focus-ring-danger]="this.form.get('pisosotano')?.invalid && this.form.get('pisosotano')?.touched">                  
                       <i *ngIf="this.form.get('pisosotano')?.invalid && this.form.get('pisosotano')?.touched" 
-                              class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                              class="position-icon-input bi bi-exclamation-circle-fill text-danger"
                               title="Campo requerido"></i>
                     </div>
                   </div>                  
@@ -57,7 +57,7 @@
                     <div class="col-2 pt-1" title="Material estructural predominante (MEP)">
                       MEP: 
                     </div>
-                    <div class="col-10">
+                    <div class="col-10 position-relative">
                       <select name="mep"
                       formControlName="mep"
                       class="form-select form-select-sm border focus-ring"
@@ -69,7 +69,7 @@
                       <option *ngFor="let mep of listaMEP" [value]="mep.value">{{ mep.text }}</option>
                       </select>
                       <i *ngIf="this.form.get('mep')?.invalid && this.form.get('mep')?.touched" 
-                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                         title="Campo requerido"></i>
                     </div>
                   </div>                
@@ -79,7 +79,7 @@
                     <div class="col-2 pt-1" title="Estado de Conservación (ECS)">
                       ECS:
                     </div>
-                    <div class="col-10">
+                    <div class="col-10 position-relative">
                       <select name="ecs"
                               formControlName="ecs"
                               class="form-select form-select-sm border focus-ring"
@@ -91,7 +91,7 @@
                               <option *ngFor="let ecs of listaECS" [value]="ecs.value">{{ ecs.text }}</option>
                       </select>
                       <i *ngIf="this.form.get('ecs')?.invalid && this.form.get('ecs')?.touched" 
-                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                         title="Campo requerido"></i>   
                     </div>
                   </div>
@@ -103,7 +103,7 @@
                     <div class="col-2 pt-1" title="Estado de la Construcción (ECC)">
                       ECC:
                     </div>
-                    <div class="col-10">
+                    <div class="col-10 position-relative">
                       <select name="ecc"
                               formControlName="ecc"
                               class="form-select form-select-sm border focus-ring"
@@ -115,7 +115,7 @@
                               <option *ngFor="let ecc of listaECC" [value]="ecc.value">{{ ecc.text }}</option>
                       </select>
                       <i *ngIf="this.form.get('ecc')?.invalid && this.form.get('ecc')?.touched" 
-                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                         title="Campo requerido"></i>
                     </div>
                   </div>
@@ -125,7 +125,7 @@
                     <div class="col-2 pt-1" title="Unidad de Construcción Antirreglamentaria (UCA)">
                       UCA:
                     </div>
-                    <div class="col-10">
+                    <div class="col-10 position-relative">
                       <select name="uca"
                               formControlName="uca"
                               class="form-select form-select-sm border focus-ring"
@@ -137,7 +137,7 @@
                               <option *ngFor="let ecc of listaUCA" [value]="ecc.value">{{ ecc.text }}</option>
                       </select>
                       <i *ngIf="this.form.get('uca')?.invalid && this.form.get('uca')?.touched" 
-                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                         title="Campo requerido"></i> 
                     </div>
                   </div>
@@ -149,7 +149,7 @@
                     <div class="col-6 pt-1">
                       Muros y Columnas:
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 position-relative">
                       <select name="muroscolumnas"
                               formControlName="muroscolumnas"
                               class="form-select form-select-sm border focus-ring"
@@ -161,7 +161,7 @@
                               <option *ngFor="let mc of listaCatMurosColumnas" [value]="mc.value">{{ mc.text }}</option>
                       </select>
                       <i *ngIf="this.form.get('muroscolumnas')?.invalid && this.form.get('muroscolumnas')?.touched" 
-                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                         title="Campo requerido"></i>
                     </div>
                   </div>
@@ -171,7 +171,7 @@
                     <div class="col-6 pt-1">
                       Techos:   
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 position-relative">
                       <select name="techos"
                               formControlName="techos"
                               class="form-select form-select-sm border focus-ring"
@@ -183,7 +183,7 @@
                               <option *ngFor="let ecc of listaCatMurosColumnas" [value]="ecc.value">{{ ecc.text }}</option>
                       </select>
                       <i *ngIf="this.form.get('techos')?.invalid && this.form.get('techos')?.touched" 
-                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                         title="Campo requerido"></i>
                     </div>
                   </div>
@@ -195,7 +195,7 @@
                     <div class="col-6 pt-1">
                       Puertas y Ventanas:
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 position-relative">
                       <select name="puertasventanas"
                               formControlName="puertasventanas"
                               class="form-select form-select-sm border focus-ring"
@@ -207,7 +207,7 @@
                               <option *ngFor="let ecc of listaCatMurosColumnas" [value]="ecc.value">{{ ecc.text }}</option>
                       </select>
                       <i *ngIf="this.form.get('puertasventanas')?.invalid && this.form.get('puertasventanas')?.touched" 
-                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                         title="Campo requerido"></i>
                     </div>
                   </div>
@@ -217,16 +217,16 @@
                     <div class="col-6 pt-1">
                       Area verificada:
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 position-relative">
                       <input type="text" formControlName="areaverificada"
-                      class="form-control form-control-sm border focus-ring" 
-                      [class.border-success]="this.form.get('areaverificada')?.valid"
-                      [class.focus-ring-success]="this.form.get('areaverificada')?.valid"
-                      [class.border-danger]="this.form.get('areaverificada')?.invalid && this.form.get('areaverificada')?.touched"
-                      [class.focus-ring-danger]="this.form.get('areaverificada')?.invalid && this.form.get('areaverificada')?.touched">                  
+                            class="form-control form-control-sm border focus-ring" 
+                            [class.border-success]="this.form.get('areaverificada')?.valid"
+                            [class.focus-ring-success]="this.form.get('areaverificada')?.valid"
+                            [class.border-danger]="this.form.get('areaverificada')?.invalid && this.form.get('areaverificada')?.touched"
+                            [class.focus-ring-danger]="this.form.get('areaverificada')?.invalid && this.form.get('areaverificada')?.touched">                  
                       <i *ngIf="this.form.get('areaverificada')?.invalid && this.form.get('areaverificada')?.touched" 
-                              class="position-icon-select fa-solid fa-exclamation-circle text-danger"
-                              title="Campo requerido"></i>
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>
                     </div>
                   </div>
                 </div> 
@@ -237,16 +237,16 @@
                     <div class="col-6 pt-1" title="Código de Actividad Económica (CIIU)">
                       CIIU:
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 position-relative">
                       <input type="text" formControlName="ciiu"
-                      class="form-control form-control-sm border focus-ring" 
-                      [class.border-success]="this.form.get('ciiu')?.valid"
-                      [class.focus-ring-success]="this.form.get('ciiu')?.valid"
-                      [class.border-danger]="this.form.get('ciiu')?.invalid && this.form.get('ciiu')?.touched"
-                      [class.focus-ring-danger]="this.form.get('ciiu')?.invalid && this.form.get('ciiu')?.touched" mask="0000">                  
+                            class="form-control form-control-sm border focus-ring" 
+                            [class.border-success]="this.form.get('ciiu')?.valid"
+                            [class.focus-ring-success]="this.form.get('ciiu')?.valid"
+                            [class.border-danger]="this.form.get('ciiu')?.invalid && this.form.get('ciiu')?.touched"
+                            [class.focus-ring-danger]="this.form.get('ciiu')?.invalid && this.form.get('ciiu')?.touched" mask="0000">                  
                       <i *ngIf="this.form.get('ciiu')?.invalid && this.form.get('ciiu')?.touched" 
-                              class="position-icon-select fa-solid fa-exclamation-circle text-danger"
-                              title="Campo requerido"></i> 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i> 
                     </div>
                   </div>
                 </div>          

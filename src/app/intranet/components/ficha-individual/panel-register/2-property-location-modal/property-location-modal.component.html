@@ -6,14 +6,13 @@
           <mat-card class="example-card">
             <mat-card-content>
               <div class="row">
-                <div class="col-4 mt-1">
+                <div class="col-5 mt-1">
                   Código de Vía:
                 </div>
                 <div class="col-5" style="position: relative;">
                   <select name="codigovia" #SelCodevia
                           formControlName="codigovia"
                           (change)="onChangeSelCodevia(SelCodevia.value, false)"
-                          [disableControl]="swSincodigo"
                           class="form-select form-select-sm border focus-ring" 
                           [class.border-success]="this.form.get('codigovia')?.valid"
                           [class.focus-ring-success]="this.form.get('codigovia')?.valid"
@@ -23,24 +22,24 @@
                           <option *ngFor="let cv of listCodevia" [value]="cv.value">{{ cv.data.codigoVia }}</option>
                   </select>
                   <i *ngIf="this.form.get('codigovia')?.invalid && this.form.get('codigovia')?.touched" 
-                          class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                           title="Campo requerido"></i>
                 </div>                
-                <div class="col-3 mt-1 text-cofopri">
+                <!-- <div class="col-3 mt-1 text-cofopri">
                   <mat-slide-toggle formControlName="sincodigo"
                                   (change)="onChangeSelSinCode($event)"
                                     [color]="color">Sin Código</mat-slide-toggle>
-                </div>
+                </div> -->
               </div>
               <div class="row mt-2">
-                <div class="col-4 mt-1">
+                <div class="col-5 mt-1">
                   Tipo de Vía:
                 </div>
-                <div class="col-8" style="position: relative;">
+                <div class="col-7" style="position: relative;">
                   <input type="text" formControlName="tipovia"
-                        *ngIf="!swSincodigo" [readonly]="true"
+                        [readonly]="true"
                         class="form-control form-control-sm border focus-ring">
-                  <select name="tipoviasel"
+                  <!-- <select name="tipoviasel"
                         formControlName="tipoviasel" *ngIf="swSincodigo"
                         class="form-select form-select-sm border focus-ring" 
                         [class.border-success]="this.form.get('tipoviasel')?.valid"
@@ -49,24 +48,24 @@
                         [class.focus-ring-danger]="this.form.get('tipoviasel')?.invalid && this.form.get('tipoviasel')?.touched"
                         aria-label="select-tipoviasel">
                         <option *ngFor="let cv of listaTipovia" [value]="cv.value">{{ cv.text }}</option>
-                  </select>                        
+                  </select>                         -->
                 </div>
               </div>
               <div class="row mt-2">
-                <div class="col-4 mt-1">
+                <div class="col-5 mt-1">
                   Nombre de Vía:
                 </div>
-                <div class="col-8" style="position: relative;">
+                <div class="col-7" style="position: relative;">
                   <input type="text" formControlName="nombrevia"
                         class="form-control form-control-sm border focus-ring" 
-                        [readOnly]="!swSincodigo">
+                        [readOnly]="true">
                 </div>
               </div>
               <div class="row my-2">
-                <div class="col-4 mt-1">
+                <div class="col-5 mt-1">
                   Tipo de Puerta:
                 </div>
-                <div class="col-8" style="position: relative;">
+                <div class="col-7" style="position: relative;">
                   <select name="tipopuerta" #SelSect
                           formControlName="tipopuerta"                          
                           class="form-select form-select-sm border focus-ring"
@@ -77,32 +76,19 @@
                           aria-label="select-tipopuerta" [pattern]="pattern1Digs">
                           <option *ngFor="let tp of listaTipopuerta" [value]="tp.value">{{ tp.text }}</option>
                   </select>
+                  <i *ngIf="this.form.get('tipopuerta')?.invalid && this.form.get('tipopuerta')?.touched" 
+                          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                          title="Campo requerido"></i>                  
                 </div>
-              </div>
-              <div class="row my-2">
-                <div class="col-4 mt-1">
-                  Número Municipal:
-                </div>
-                <div class="col-8" style="position: relative;">
-                  <input type="text" formControlName="nromunicipal"
-                        class="form-control form-control-sm border focus-ring"
-                        [class.border-success]="this.form.get('nromunicipal')?.valid"
-                        [class.focus-ring-success]="this.form.get('nromunicipal')?.valid"
-                        [class.border-danger]="this.form.get('nromunicipal')?.invalid && this.form.get('nromunicipal')?.touched"
-                        [class.focus-ring-danger]="this.form.get('nromunicipal')?.invalid && this.form.get('nromunicipal')?.touched"
-                        aria-label="input-nromunicipal">
-                  <i *ngIf="this.form.get('nromunicipal')?.invalid && this.form.get('nromunicipal')?.touched" 
-                        class="position-icon-select fa-solid fa-exclamation-circle text-danger"
-                        title="Campo requerido"></i>
-                </div>  
               </div>
               <div class="row mt-2">
-                <div class="col-4 mt-1">
+                <div class="col-5 mt-1">
                   Condición de Númeración:
                 </div>
-                <div class="col-8" style="position: relative;">
+                <div class="col-7" style="position: relative;">
                   <select name="condnumeracion" #SelCond
                           formControlName="condnumeracion"
+                          (change)="onChangeSelCondNumeracion(SelCond.value, false)"
                           class="form-select form-select-sm border focus-ring"
                           [class.border-success]="this.form.get('condnumeracion')?.valid"
                           [class.focus-ring-success]="this.form.get('condnumeracion')?.valid"
@@ -111,7 +97,27 @@
                           aria-label="select-condnumeracion" [pattern]="pattern1Digs">
                           <option *ngFor="let cn of listaCondNumeracion" [value]="cn.value">{{ cn.text }}</option>
                   </select>
+                  <i *ngIf="this.form.get('condnumeracion')?.invalid && this.form.get('condnumeracion')?.touched" 
+                          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                          title="Campo requerido"></i>                  
                 </div>            
+              </div>              
+              <div class="row my-2">
+                <div class="col-5 mt-1">
+                  Número Municipal:
+                </div>
+                <div class="col-7" style="position: relative;">
+                  <input type="text" formControlName="nromunicipal"
+                        class="form-control form-control-sm border focus-ring"
+                        [class.border-success]="this.form.get('nromunicipal')?.valid"
+                        [class.focus-ring-success]="this.form.get('nromunicipal')?.valid"
+                        [class.border-danger]="this.form.get('nromunicipal')?.invalid && this.form.get('nromunicipal')?.touched"
+                        [class.focus-ring-danger]="this.form.get('nromunicipal')?.invalid && this.form.get('nromunicipal')?.touched"
+                        aria-label="input-nromunicipal" [readonly]="readOnlyNroMuni">
+                  <i *ngIf="this.form.get('nromunicipal')?.invalid && this.form.get('nromunicipal')?.touched" 
+                        class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                        title="Campo requerido"></i>
+                </div>  
               </div>
             </mat-card-content>
           </mat-card>      

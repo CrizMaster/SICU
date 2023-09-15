@@ -12,6 +12,7 @@ import { ModalMessageComponent } from 'src/app/core/shared/components/modal-mess
 import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { Via } from '../../models/via.model';
 import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
+import { FichaCatastralIndividual } from '../../models/fichaCatastralIndividual.model';
 
 
 @Component({
@@ -21,28 +22,32 @@ import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-load
 })
 export class CodeReferenceComponent implements OnInit, OnDestroy {
 
-    @Output() firstComplete = new EventEmitter<SharedFirstData<ItemSelect<Via>[]>>();
+    @Output() outputSeccion = new EventEmitter<SaveFichaIndividual>();
 
-    @Input() codRefCatastral: any[] = ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'];    
-    @Input() Stepper: MatStepper;
-    @Input() idFicha: number = 0;
+    @Input() inputSeccion: SaveFichaIndividual = { idObjeto: 0 };    
+
+    codRefCatastral: any[] = ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'];    
     
-    btnNextDisabled: boolean = true;
-    dataFirst: any;
-    //progress: boolean = false;
+    //btnNextDisabled: boolean = true;
+    //dataFirst: any;
     titleBtn: string = 'Agregar';
+    //dataEdit: FichaCatastralIndividual;
 
-    public saveCRC$: Subscription = new Subscription;
+    // public saveCRC$: Subscription = new Subscription;
+    // public editData$: Subscription = new Subscription;
 
     constructor(
         public dialog: MatDialog,
-        private _fichaIndividualService: FichaIndividualService) { }
+        //private _fichaIndividualService: FichaIndividualService
+        ) { }
 
-    ngOnInit(): void { 
+    ngOnInit(): void {
+        this.codRefCatastral = this.inputSeccion.crc.split('');
     }
 
     ngOnDestroy(): void {
-        this.saveCRC$.unsubscribe();
+        // this.saveCRC$.unsubscribe();
+        // this.editData$.unsubscribe();
     }
 
     Agregar(enterAnimationDuration: string, exitAnimationDuration: string):void {
@@ -52,16 +57,16 @@ export class CodeReferenceComponent implements OnInit, OnDestroy {
             enterAnimationDuration,
             exitAnimationDuration,
             disableClose: true,
-            data: this.dataFirst
+            data: this.inputSeccion
         });
 
         dialogRef.afterClosed().subscribe(result => {
           if(result != ''){
-            this.dataFirst = result;
+            this.inputSeccion = result;
             let codigo = result.codigoUbigeo + result.codigoSector + result.codigoManzana + result.lote + 
             result.edifica + result.entrada + result.piso + result.unidad;
-            this.dataFirst.CRC = codigo;
-
+            this.inputSeccion.crc = codigo;
+                
             let codigoRefCatastral = codigo.split('');
 
             //calculando el DC
@@ -70,124 +75,129 @@ export class CodeReferenceComponent implements OnInit, OnDestroy {
                 cont = cont + parseInt(item);
                 if(cont >= 9) cont = cont - 9;
             });
-
             codigo = codigo + String(cont);
 
             this.codRefCatastral = codigo.split('');
-
-            this.btnNextDisabled = false;            
+            
+            let request: SaveFichaIndividual = 
+            {   idObjeto: this.inputSeccion.idObjeto,
+                usuarioCreacion: 'carevalo',
+                terminalCreacion: '',
+                codigoDepartamento: result.codigoDepartamento,
+                codigoProvincia: result.codigoProvincia,
+                codigoDistrito: result.codigoDistrito,
+                sector: result.codigoSector,
+                manzana: result.codigoManzana,
+                lote: result.lote,
+                edifica: result.edifica,
+                entrada: result.entrada,
+                piso: result.piso,
+                unidad: result.unidad,
+                dc: cont,
+                crc: codigo
+            };
+        
             this.titleBtn = 'Modificar';
 
-            let data: SharedFirstData<ItemSelect<Via>[]> = { complete: false, idFicha: this.idFicha }
-            this.firstComplete.emit(data);            
+            this.outputSeccion.emit(request);
           }            
         });        
     }
 
-    goNext(){
-        //this.progress = true;
-        let dg = this.ModalMessage();
+    // goNext(){
+    //     let dg = this.ModalMessage();
 
-        let request: SaveFichaIndividual = 
-        {   idObjeto: this.dataFirst.idFicha,
-            usuarioCreacion: 'carevalo',
-            terminalCreacion: '',
-            codigoDepartamento: this.dataFirst.departamento,
-            codigoProvincia: this.dataFirst.provincia,
-            codigoDistrito: this.dataFirst.codigoDistrito,
-            sector: this.dataFirst.codigoSector,
-            manzana: this.dataFirst.codigoManzana,
-            lote: this.dataFirst.lote,
-            edifica: this.dataFirst.edifica,
-            entrada: this.dataFirst.entrada,
-            piso: this.dataFirst.piso,
-            unidad: this.dataFirst.unidad,
-            dc: this.dataFirst.dc
-        };
+    //     let request: SaveFichaIndividual = 
+    //     {   idObjeto: this.inputSeccion.idObjeto,
+    //         usuarioCreacion: 'carevalo',
+    //         terminalCreacion: '',
+    //         codigoDepartamento: this.dataFirst.codigoDepartamento,
+    //         codigoProvincia: this.dataFirst.codigoProvincia,
+    //         codigoDistrito: this.dataFirst.codigoDistrito,
+    //         sector: this.dataFirst.codigoSector,
+    //         manzana: this.dataFirst.codigoManzana,
+    //         lote: this.dataFirst.lote,
+    //         edifica: this.dataFirst.edifica,
+    //         entrada: this.dataFirst.entrada,
+    //         piso: this.dataFirst.piso,
+    //         unidad: this.dataFirst.unidad,
+    //         dc: this.dataFirst.dc
+    //     };
 
-        this.saveCRC$ = this._fichaIndividualService.save1CodigoReferenciaCatastral(request)
-        .subscribe(result => {
+    //     this.saveCRC$ = this._fichaIndividualService.save1CodigoReferenciaCatastral(request)
+    //     .subscribe(result => {
 
-            dg.close();
+    //         dg.close();
 
-            if(result.success){
+    //         if(result.success){
 
-                this.codRefCatastral[23] = result.data[0].controlDigit;
-
-                let items: ItemSelect<Via>[] = [];
-                if(result.data && result.data.length > 0){
+    //             let items: ItemSelect<Via>[] = [];
+    //             if(result.data && result.data.length > 0){
                     
-                    let info = result.data[0];
+    //                 let info = result.data[0];
+    //                 console.log(info);
 
-                    items.unshift({ value: 0, text: 'Seleccionar', data: { id: 0, codigoVia: 'Seleccione', nombreVia: '' }});
+    //                 this.codRefCatastral[23] = info.controlDigit;
+    //                 request.dc = info.controlDigit;
+    //                 request.crc = this.dataFirst.CRC + request.dc;
+    //                 request.idObjeto = info.idObjeto;
 
-                    let con = 0;
-                    if(info.listVias && info.listVias.length > 0){
-                        info.listVias.forEach(item => {
-                            con++;
-                            items.push({
-                                value: con,
-                                text: item.nombreVia,
-                                code: item.codigoEspecifico,
-                                data: item
-                            });
-                        });
-                    }
+    //                 items.unshift({ value: 0, text: 'Seleccionar', data: { id: 0, codigoVia: 'Seleccione', nombreVia: '' }});
 
-                    let resp: SharedFirstData<ItemSelect<Via>[]> = { 
-                        complete: true, 
-                        idFicha: info.idObjeto, 
-                        habUrbana: {
-                            codigoHabilitacion: info.codigoHabilitacion,
-                            nombreHabilitacion: info.nombreHabilitacion,
-                            sectorZonaEtapa: info.sectorZonaEtapa,
-                            manzanaUrbana: info.manzanaUrbana
-                        },
-                        data: items 
-                    }
+    //                 let con = 0;
+    //                 if(info.listVias && info.listVias.length > 0){
+    //                     info.listVias.forEach(item => {
+    //                         con++;
+    //                         items.push({
+    //                             value: con,
+    //                             text: item.nombreVia,
+    //                             code: item.codigoEspecifico,
+    //                             data: item
+    //                         });
+    //                     });
+    //                 }
 
-                    this.firstComplete.emit(resp);
+    //                 let resp: SharedFirstData<ItemSelect<Via>[]> = { 
+    //                     complete: true, 
+    //                     idFicha: info.idObjeto,
+    //                     data: items 
+    //                 }
 
-                    setTimeout(() => {
-                        this.dataFirst.idFicha = result.idObjeto;
-                        //this.progress = false;
-                        this.btnNextDisabled = true;
-                        this.Stepper.next();
-                      }, 500);                     
-                }
-                else{
-                    //this.progress = false;
-                    let modal: Title = { 
-                      Title: 'Opss...', 
-                      Subtitle: 'No se puedo recuperar la información para continuar con el registro. Por favor contacte con el administrador del sistema.',
-                      Icon: 'error' }
-                    this.dialog.open(ModalMessageComponent, {
-                        width: '500px',
-                        enterAnimationDuration: '300ms',
-                        exitAnimationDuration: '300ms',
-                        disableClose: true,
-                        data: modal
-                    });
-                }
+    //                 this.dataEdit.seccion1 = request;
+    //                 this.outputSeccion.emit(request);                    
+    //             }
+    //             else{
+    //                 let modal: Title = { 
+    //                   Title: 'Opss...', 
+    //                   Subtitle: 'No se puedo recuperar la información para continuar con el registro. Por favor contacte con el administrador del sistema.',
+    //                   Icon: 'error' }
+    //                 this.dialog.open(ModalMessageComponent, {
+    //                     width: '500px',
+    //                     enterAnimationDuration: '300ms',
+    //                     exitAnimationDuration: '300ms',
+    //                     disableClose: true,
+    //                     data: modal
+    //                 });
+    //             }
 
-            }
-            else{
-                //this.progress = false;
-                let modal: Title = { 
-                    Title: 'Opss...', 
-                    Subtitle: result.message, 
-                    Icon: 'error' 
-                };
-                this.dialog.open(ModalMessageComponent, {
-                    width: '500px',
-                    enterAnimationDuration: '300ms',
-                    exitAnimationDuration: '300ms',
-                    disableClose: true,
-                    data: modal
-                });
-            } 
-        });
-    }
+    //         }
+    //         else{
+    //             //this.progress = false;
+    //             let modal: Title = { 
+    //                 Title: 'Opss...', 
+    //                 Subtitle: result.message, 
+    //                 Icon: 'error' 
+    //             };
+    //             this.dialog.open(ModalMessageComponent, {
+    //                 width: '500px',
+    //                 enterAnimationDuration: '300ms',
+    //                 exitAnimationDuration: '300ms',
+    //                 disableClose: true,
+    //                 data: modal
+    //             });
+    //         } 
+    //     });
+    // }
 
     ModalMessage(): any {     
       let modal: Title = { 
@@ -203,33 +213,4 @@ export class CodeReferenceComponent implements OnInit, OnDestroy {
 
       return dgRef;
     }
-
-    // Popup(){
-    //     const swalWithBootstrapButtons = Swal.mixin({
-    //         customClass: {
-    //           confirmButton: 'btn btn-primary bg-cofopri',
-    //           cancelButton: 'btn btn-danger'
-    //         },
-    //         buttonsStyling: false
-    //       });
-          
-    //     swalWithBootstrapButtons.fire({
-    //         icon: 'error',
-    //         title: 'Oops...',
-    //         confirmButtonText: 'Cerrar',
-    //         text: 'Este es un nuevo mensaje de error ocurrido durante el registro de la ubicación catastral....'
-    //       });
-    // }
-
-    // Popup2(){
-
-    //       Swal.fire({
-    //         position: 'top-end',
-    //         icon: 'success',
-    //         title: 'Your work has been saved',
-    //         showConfirmButton: false,
-    //         timer: 4000
-    //       })
-    // }   
-
 }

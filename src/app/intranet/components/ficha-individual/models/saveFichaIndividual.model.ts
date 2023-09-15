@@ -1,5 +1,8 @@
+import { ItemSelect } from "src/app/core/models/item-select.model"
+import { Via } from "./via.model"
+
 export interface SaveFichaIndividual {
-    idObjeto: number,
+    idObjeto?: number,
     usuarioCreacion?: string,
     terminalCreacion?: string,
     codigoDepartamento?: string,
@@ -12,7 +15,9 @@ export interface SaveFichaIndividual {
     entrada?: string,
     piso?: string,
     unidad?: string,
-    dc?: number
+    dc?: number,
+    crc?: string,
+    distrito?: string
 }
 
 export interface UbicacionPredioModel {
@@ -23,13 +28,16 @@ export interface UbicacionPredioModel {
   c12NombreEdifica?: string,
   c13TipoInterior?: string,
   c14NroInterior?: string,
-  // c15CodigoHu?: string,
-  // c16NombreHu?: string,
-  // c17ZonaSectorEtapa?: string,
-  // c18Manzana?: string,
+
+  c15CodigoHabilitacion?: string,
+  c16NombreHabilitacion?: string,
+  c17SectorZonaEtapa?: string,
+  c18ManzanaUrbana?: string,
+
   c19Lote?: string,
   c20SubLote?: string,
-  ubicacionPredioDetalle?: UbicacionPredioDetalleModel[]
+  ubicacionPredioDetalle?: UbicacionPredioDetalleModel[],
+  listaVias?: ItemSelect<Via>[]
 }
 
 export interface UbicacionPredioDetalleModel{

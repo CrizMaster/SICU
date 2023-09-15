@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef  } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { FichaIndividualService } from '../../ficha-individual.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +13,7 @@ import { OwnershipCharacteristics } from '../../models/OwnershipCharacteristics/
     templateUrl: './ownership-characteristics-modal.component.html',
     styleUrls: ['./ownership-characteristics-modal.component.css']
 })
-export class OwnershipCharacteristicsModalComponent implements OnInit, OnDestroy {
+export class OwnershipCharacteristicsModalComponent implements OnInit {
 
     form: FormGroup;
     pattern1Digs = '^[1-9]|([1-9][0-9])$';
@@ -38,9 +38,9 @@ export class OwnershipCharacteristicsModalComponent implements OnInit, OnDestroy
       this.form = this.fb.group({
         condiciontitular: [0, Validators.required],
         formaadquisicion: [0, Validators.required],
-        tipodocumento: [0, Validators.required],
-        tipopartidaregistral: [0, Validators.required],
-        numero: ['', Validators.required]
+        tipodocumento: [0],
+        tipopartidaregistral: [0],
+        numero: ['']
       });
 
       this.listCatalogoMaster = _fichaIndividualService.getCatalogoMaster();
@@ -84,12 +84,6 @@ export class OwnershipCharacteristicsModalComponent implements OnInit, OnDestroy
       this.changeDetector.detectChanges();
     }
 
-    ngOnDestroy(): void {
-      // this.listDist$.unsubscribe();
-      // this.listSect$.unsubscribe();
-      // this.listManz$.unsubscribe();
-    }
-
     ngOnInit(): void {
       if(this.data.IdCondicionTitular == undefined){
         console.log('Nuevo');
@@ -103,6 +97,51 @@ export class OwnershipCharacteristicsModalComponent implements OnInit, OnDestroy
           numero: this.data.NumeroPartidaRegistral
           });
       }
+    }
+
+    onChangeSelCondTitular(newValue: string){
+
+      const tipopartida = this.form.get('tipopartidaregistral');
+      const numero = this.form.get('numero');
+
+      this.listCondTitular.forEach(item => {
+        if(item.value == parseInt(newValue)){
+          if(item.code == '01' //Propietario Unico
+          || item.code == '02' //Sucesión Intestada
+          || item.code == '04' //Sociedad Conyugal
+          || item.code == '05' //Cotitularidad
+          )
+          {
+            tipopartida.addValidators([Validators.required, Validators.pattern(this.pattern1Digs)]);
+            numero.addValidators(Validators.required);              
+          }
+        }
+        else{
+          tipopartida.clearValidators();
+          numero.clearValidators();          
+        }
+
+        tipopartida.updateValueAndValidity();
+        numero.updateValueAndValidity();
+
+        this.form.markAsUntouched();  
+
+      });
+
+    //     this.swSincodigo = event.checked;
+    //     if(this.swSincodigo){
+    //         this.form.get('tipoviasel').setValidators([Validators.required, Validators.pattern(this.pattern1Digs)]);
+    //         this.form.get('tipovia').clearValidators();
+    //     }
+    //     else{
+    //         this.form.get('tipovia').setValidators([Validators.required]);
+    //         this.form.get('tipoviasel').clearValidators();
+    //     }
+    //     this.form.get('tipoviasel').updateValueAndValidity();
+    //     this.form.get('tipovia').updateValueAndValidity();
+
+    //     this.form.patchValue({ codigovia:0, tipoviasel: 0, nombrevia: '', tipovia: ''});
+    //     this.form.markAsUntouched();      
     }
 
     guardar(){

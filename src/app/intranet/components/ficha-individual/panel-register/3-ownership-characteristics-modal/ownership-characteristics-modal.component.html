@@ -12,6 +12,7 @@
                 <div class="col-7" style="position: relative;">
                   <select name="condiciontitular" #SelCondTitular
                           formControlName="condiciontitular"
+                          (change)="onChangeSelCondTitular(SelCondTitular.value)"
                           class="form-select form-select-sm border focus-ring" 
                           [class.border-success]="this.form.get('condiciontitular')?.valid"
                           [class.focus-ring-success]="this.form.get('condiciontitular')?.valid"
@@ -21,7 +22,7 @@
                           <option *ngFor="let ct of listCondTitular" [value]="ct.value">{{ ct.text }}</option>
                   </select>
                   <i *ngIf="this.form.get('condiciontitular')?.invalid && this.form.get('condiciontitular')?.touched" 
-                          class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                           title="Campo requerido"></i>
                   <!-- <i *ngIf="this.form.get('departamento')?.valid && this.form.get('departamento')?.touched" 
                           class="position-icon-select fa-solid fa-check-circle text-success"></i> -->
@@ -43,8 +44,8 @@
                           <option *ngFor="let fa of listFormaAdquision" [value]="fa.value">{{ fa.text }}</option>
                   </select>
                   <i *ngIf="this.form.get('formaadquisicion')?.invalid && this.form.get('formaadquisicion')?.touched" 
-                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
-                    title="Campo requerido"></i>
+                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                        title="Campo requerido"></i>
                 </div>            
               </div>
               <div class="row mt-2">
@@ -59,12 +60,12 @@
                           [class.focus-ring-success]="this.form.get('tipodocumento')?.valid"
                           [class.border-danger]="this.form.get('tipodocumento')?.invalid && this.form.get('tipodocumento')?.touched"
                           [class.focus-ring-danger]="this.form.get('tipodocumento')?.invalid && this.form.get('tipodocumento')?.touched"
-                          aria-label="select-tipodocumento" [pattern]="pattern1Digs">
+                          aria-label="select-tipodocumento">
                           <option *ngFor="let fa of listTipoDocumento" [value]="fa.value">{{ fa.text }}</option>
                   </select>
                   <i *ngIf="this.form.get('tipodocumento')?.invalid && this.form.get('tipodocumento')?.touched" 
-                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
-                    title="Campo requerido"></i>
+                      class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                      title="Campo requerido"></i>
                 </div>            
               </div>
               <div class="row mt-2">
@@ -79,12 +80,12 @@
                           [class.focus-ring-success]="this.form.get('tipopartidaregistral')?.valid"
                           [class.border-danger]="this.form.get('tipopartidaregistral')?.invalid && this.form.get('tipopartidaregistral')?.touched"
                           [class.focus-ring-danger]="this.form.get('tipopartidaregistral')?.invalid && this.form.get('tipopartidaregistral')?.touched"
-                          aria-label="select-tipopartidaregistral" [pattern]="pattern1Digs">
+                          aria-label="select-tipopartidaregistral">
                           <option *ngFor="let tpr of listTipoPartidaRegistral" [value]="tpr.value">{{ tpr.text }}</option>
                   </select>
                   <i *ngIf="this.form.get('tipopartidaregistral')?.invalid && this.form.get('tipopartidaregistral')?.touched" 
-                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
-                    title="Campo requerido"></i>
+                      class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                      title="Campo requerido"></i>
                 </div>            
               </div>
               <div class="row my-2">
@@ -99,7 +100,7 @@
                           [class.border-danger]="this.form.get('numero')?.invalid && this.form.get('numero')?.touched"
                           [class.focus-ring-danger]="this.form.get('numero')?.invalid && this.form.get('numero')?.touched">
                     <i *ngIf="this.form.get('numero')?.invalid && this.form.get('numero')?.touched" 
-                          class="position-icon-input fa-solid fa-exclamation-circle text-danger"
+                          class="position-icon-input bi bi-exclamation-circle-fill text-danger"
                           title="Campo requerido"></i>
                 </div>
               </div>          

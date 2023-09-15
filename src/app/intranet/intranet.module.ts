@@ -30,6 +30,10 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from "../core/shared/interceptors/auth.interceptor";
 import { BuildingsComponent } from "./components/ficha-individual/panel-register/6-buildings/buildings.component";
 import { BuildingsModalComponent } from "./components/ficha-individual/panel-register/6-buildings-modal/buildings-modal.component";
+import { AdditionalWorkComponent } from "./components/ficha-individual/panel-register/7-additional-works/additional-works.component";
+import { AdditionalWorksModalComponent } from "./components/ficha-individual/panel-register/7-additional-works-modal/additional-works-modal.component";
+import { SummaryModalComponent } from "./components/ficha-individual/panel-register/8-summary-modal/summary-modal.component";
+
 
 
 @NgModule({
@@ -62,7 +66,10 @@ import { BuildingsModalComponent } from "./components/ficha-individual/panel-reg
         DescriptionPropertyComponent,
         DescriptionPropertyModalComponent,
         BuildingsComponent,
-        BuildingsModalComponent
+        BuildingsModalComponent,
+        AdditionalWorkComponent,
+        AdditionalWorksModalComponent,
+        SummaryModalComponent
     ],
     exports: [],
     providers: [

@@ -7,8 +7,9 @@
           Clasificación del Predio:
         </div>
         <div class="col col-7" style="position: relative;">
-          <select name="clasificacionpredio" #SelEstCivil
+          <select name="clasificacionpredio" #SelClasificacionPredio
                   formControlName="clasificacionpredio"
+                  (change)="onChangeSelClasificacionPredio(SelClasificacionPredio.value)"
                   class="form-select form-select-sm border focus-ring" 
                   [class.border-success]="this.form.get('clasificacionpredio')?.valid"
                   [class.focus-ring-success]="this.form.get('clasificacionpredio')?.valid"
@@ -18,7 +19,7 @@
                   <option *ngFor="let cv of listClasificacionPredio" [value]="cv.value">{{ cv.text }}</option>
           </select>
           <i *ngIf="this.form.get('clasificacionpredio')?.invalid && this.form.get('clasificacionpredio')?.touched" 
-                  class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                  class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                   title="Campo requerido"></i>
         </div>
       </div>
@@ -38,7 +39,7 @@
                   <option *ngFor="let cv of listPredioCatastralEn" [value]="cv.value">{{ cv.text }}</option>
           </select>
           <i *ngIf="this.form.get('prediocatastralen')?.invalid && this.form.get('prediocatastralen')?.touched" 
-                  class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                   title="Campo requerido"></i>                      
         </div>
       </div>
@@ -53,7 +54,10 @@
                 [class.focus-ring-success]="this.form.get('codigouso')?.valid"
                 [class.border-danger]="this.form.get('codigouso')?.invalid && this.form.get('codigouso')?.touched"
                 [class.focus-ring-danger]="this.form.get('codigouso')?.invalid && this.form.get('codigouso')?.touched"
-                mask="000000">                        
+                mask="000000">
+          <i *ngIf="this.form.get('codigouso')?.invalid && this.form.get('codigouso')?.touched" 
+                class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                title="Campo requerido"></i>
         </div>
       </div>
       <div class="row my-2">
@@ -66,7 +70,10 @@
                 [class.border-success]="this.form.get('descripcionuso')?.valid"
                 [class.focus-ring-success]="this.form.get('descripcionuso')?.valid"
                 [class.border-danger]="this.form.get('descripcionuso')?.invalid && this.form.get('descripcionuso')?.touched"
-                [class.focus-ring-danger]="this.form.get('descripcionuso')?.invalid && this.form.get('descripcionuso')?.touched">                        
+                [class.focus-ring-danger]="this.form.get('descripcionuso')?.invalid && this.form.get('descripcionuso')?.touched">
+          <i *ngIf="this.form.get('descripcionuso')?.invalid && this.form.get('descripcionuso')?.touched" 
+                class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                title="Campo requerido"></i>                
         </div>
       </div>
       <div class="row my-2">
@@ -79,7 +86,10 @@
                 [class.border-success]="this.form.get('areaterrenoverificada')?.valid"
                 [class.focus-ring-success]="this.form.get('areaterrenoverificada')?.valid"
                 [class.border-danger]="this.form.get('areaterrenoverificada')?.invalid && this.form.get('areaterrenoverificada')?.touched"
-                [class.focus-ring-danger]="this.form.get('areaterrenoverificada')?.invalid && this.form.get('areaterrenoverificada')?.touched">                        
+                [class.focus-ring-danger]="this.form.get('areaterrenoverificada')?.invalid && this.form.get('areaterrenoverificada')?.touched">
+          <i *ngIf="this.form.get('areaterrenoverificada')?.invalid && this.form.get('areaterrenoverificada')?.touched" 
+                class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                title="Campo requerido"></i>                                         
         </div>
       </div>  
     </div>    

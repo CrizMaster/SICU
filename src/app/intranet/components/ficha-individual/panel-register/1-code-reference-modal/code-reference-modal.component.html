@@ -10,19 +10,19 @@
                   Departamento:
                 </div>
                 <div class="col-9" style="position: relative;">
-                  <select name="departamento" #SelDepa
-                          formControlName="departamento"
+                  <select name="codigoDepartamento" #SelDepa
+                          formControlName="codigoDepartamento"
                           (change)="onChangeSelDepa(SelDepa.value, false)"
                           class="form-select form-select-sm border focus-ring" 
-                          [class.border-success]="this.form.get('departamento')?.valid"
-                          [class.focus-ring-success]="this.form.get('departamento')?.valid"
-                          [class.border-danger]="this.form.get('departamento')?.invalid && this.form.get('departamento')?.touched"
-                          [class.focus-ring-danger]="this.form.get('departamento')?.invalid && this.form.get('departamento')?.touched"
-                          aria-label="select-departamento" [pattern]="pattern2Digs">
+                          [class.border-success]="this.form.get('codigoDepartamento')?.valid"
+                          [class.focus-ring-success]="this.form.get('codigoDepartamento')?.valid"
+                          [class.border-danger]="this.form.get('codigoDepartamento')?.invalid && this.form.get('codigoDepartamento')?.touched"
+                          [class.focus-ring-danger]="this.form.get('codigoDepartamento')?.invalid && this.form.get('codigoDepartamento')?.touched"
+                          aria-label="select-codigoDepartamento" [pattern]="pattern2Digs">
                           <option *ngFor="let dep of listDpto$ | async" [value]="dep.ubigeoDepartamento">{{ dep.nombreDepartamento }}</option>
                   </select>
-                  <i *ngIf="this.form.get('departamento')?.invalid && this.form.get('departamento')?.touched" 
-                          class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                  <i *ngIf="this.form.get('codigoDepartamento')?.invalid && this.form.get('codigoDepartamento')?.touched" 
+                          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                           title="Campo requerido"></i>
                   <!-- <i *ngIf="this.form.get('departamento')?.valid && this.form.get('departamento')?.touched" 
                           class="position-icon-select fa-solid fa-check-circle text-success"></i> -->
@@ -33,19 +33,19 @@
                   Provincia:
                 </div>
                 <div class="col-9" style="position: relative;">      
-                  <select name="provincias" #SelProv
-                          formControlName="provincia"                          
+                  <select name="codigoProvincia" #SelProv
+                          formControlName="codigoProvincia"                          
                           (change)="onChangeSelProv(SelProv.value, SelDepa.value, false)"
                           class="form-select form-select-sm border focus-ring" 
-                          [class.border-success]="this.form.get('provincia')?.valid"
-                          [class.focus-ring-success]="this.form.get('provincia')?.valid"
-                          [class.border-danger]="this.form.get('provincia')?.invalid && this.form.get('provincia')?.touched"
-                          [class.focus-ring-danger]="this.form.get('provincia')?.invalid && this.form.get('provincia')?.touched"
-                          aria-label="select-provincias" [pattern]="pattern2Digs">
+                          [class.border-success]="this.form.get('codigoProvincia')?.valid"
+                          [class.focus-ring-success]="this.form.get('codigoProvincia')?.valid"
+                          [class.border-danger]="this.form.get('codigoProvincia')?.invalid && this.form.get('codigoProvincia')?.touched"
+                          [class.focus-ring-danger]="this.form.get('codigoProvincia')?.invalid && this.form.get('codigoProvincia')?.touched"
+                          aria-label="select-codigoProvincia" [pattern]="pattern2Digs">
                           <option *ngFor="let pro of provincias" [value]="pro.ubigeoProvincia">{{ pro.nombreProvincia }}</option>
                   </select>
-                  <i *ngIf="this.form.get('provincia')?.invalid && this.form.get('provincia')?.touched" 
-                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                  <i *ngIf="this.form.get('codigoProvincia')?.invalid && this.form.get('codigoProvincia')?.touched" 
+                    class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                     title="Campo requerido"></i>
                   <!-- <i *ngIf="this.form.get('provincia')?.valid && this.form.get('provincia')?.touched" 
                           class="position-icon-select fa-solid fa-check-circle text-success"></i> -->
@@ -68,10 +68,8 @@
                           <option *ngFor="let dis of distritos" [value]="dis.id">{{ dis.nombreDistrito }}</option>
                   </select>
                   <i *ngIf="this.form.get('distrito')?.invalid && this.form.get('distrito')?.touched" 
-                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                    class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                     title="Campo requerido"></i>
-                  <!-- <i *ngIf="this.form.get('distrito')?.valid && this.form.get('distrito')?.touched" 
-                          class="position-icon-select fa-solid fa-check-circle text-success"></i> -->
                 </div>            
               </div>
               <div class="row my-2">
@@ -91,18 +89,8 @@
                           <option *ngFor="let sec of sectores" [value]="sec.idSector">{{ sec.codigoSector }}</option>
                   </select>
                   <!-- <i *ngIf="this.form.get('sector')?.invalid && this.form.get('sector')?.touched" 
-                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                    class="position-icon-select bi bi-exclamation-circle-fill text-danger"
                     title="Campo requerido"></i> -->
-                  <!-- <input type="text" formControlName="sector"                         
-                        class="form-control form-control-sm border focus-ring" 
-                        [class.border-success]="this.form.get('sector')?.valid"
-                        [class.focus-ring-success]="this.form.get('sector')?.valid"
-                        [class.border-danger]="this.form.get('sector')?.invalid && this.form.get('sector')?.touched"
-                        [class.focus-ring-danger]="this.form.get('sector')?.invalid && this.form.get('sector')?.touched"
-                        mask='00' [pattern]="pattern2Digs" [(ngModel)]="datos.sector">
-                  <i *ngIf="this.form.get('sector')?.invalid && this.form.get('sector')?.touched" 
-                        class="position-icon-input fa-solid fa-exclamation-circle text-danger"
-                        title="Campo requerido"></i> -->
                 </div>
                 <div class="col-3 mt-1">
                   Manzana:
@@ -118,18 +106,9 @@
                           aria-label="select-sector" [pattern]="pattern1Digs">
                           <option *ngFor="let man of manzanas" [value]="man.idManzana">{{ man.codigoManzana }}</option>
                   </select>                  
-                  <!-- <input type="text" formControlName="manzana" 
-                        class="form-control form-control-sm border focus-ring" 
-                        [class.border-success]="this.form.get('manzana')?.valid"
-                        [class.focus-ring-success]="this.form.get('manzana')?.valid"
-                        [class.border-danger]="this.form.get('manzana')?.invalid && this.form.get('manzana')?.touched"
-                        [class.focus-ring-danger]="this.form.get('manzana')?.invalid && this.form.get('manzana')?.touched"
-                        mask='000' [pattern]="pattern3Digs" [(ngModel)]="datos.manzana"> -->
                   <!-- <i *ngIf="this.form.get('manzana')?.invalid && this.form.get('manzana')?.touched" 
-                        class="position-icon-input fa-solid fa-exclamation-circle text-danger"
-                        title="Campo requerido"></i> -->
-                  <!-- <i *ngIf="this.form.get('manzana')?.valid && this.form.get('manzana')?.touched" 
-                        class="position-icon-input fa-solid fa-check-circle text-success"></i>                         -->
+                    class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                    title="Campo requerido"></i> -->
                 </div>
               </div>
               <div class="row my-2">
@@ -145,10 +124,8 @@
                         [class.focus-ring-danger]="this.form.get('lote')?.invalid && this.form.get('lote')?.touched"
                         mask='000' [pattern]="pattern3Digs">
                   <i *ngIf="this.form.get('lote')?.invalid && this.form.get('lote')?.touched" 
-                        class="position-icon-input fa-solid fa-exclamation-circle text-danger"
+                        class="position-icon-input bi bi-exclamation-circle-fill text-danger"
                         title="Campo requerido"></i>
-                  <!-- <i *ngIf="this.form.get('lote')?.valid && this.form.get('lote')?.touched" 
-                        class="position-icon-input fa-solid fa-check-circle text-success"></i>                           -->
                 </div>
                 <div class="col-3 mt-1">
                   Edifica:
@@ -162,10 +139,8 @@
                           [class.focus-ring-danger]="this.form.get('edifica')?.invalid && this.form.get('edifica')?.touched"
                           mask='00' [pattern]="pattern2Digs">
                     <i *ngIf="this.form.get('edifica')?.invalid && this.form.get('edifica')?.touched" 
-                          class="position-icon-input fa-solid fa-exclamation-circle text-danger"
-                          title="Campo requerido"></i>
-                    <!-- <i *ngIf="this.form.get('edifica')?.valid && this.form.get('edifica')?.touched" 
-                          class="position-icon-input fa-solid fa-check-circle text-success"></i>                            -->
+                      class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                      title="Campo requerido"></i>
                 </div>
               </div>
               <div class="row my-2">
@@ -181,10 +156,8 @@
                           [class.focus-ring-danger]="this.form.get('entrada')?.invalid && this.form.get('entrada')?.touched"
                           mask='00' [pattern]="pattern2Digs">
                     <i *ngIf="this.form.get('entrada')?.invalid && this.form.get('entrada')?.touched" 
-                          class="position-icon-input fa-solid fa-exclamation-circle text-danger"
-                          title="Campo requerido"></i>
-                    <!-- <i *ngIf="this.form.get('entrada')?.valid && this.form.get('entrada')?.touched" 
-                          class="position-icon-input fa-solid fa-check-circle text-success"></i>                            -->
+                      class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                      title="Campo requerido"></i>
                 </div>
                 <div class="col-3 mt-1">
                   Piso:
@@ -198,10 +171,8 @@
                         [class.focus-ring-danger]="this.form.get('piso')?.invalid && this.form.get('piso')?.touched"
                         mask='00' [pattern]="pattern2Digs">
                   <i *ngIf="this.form.get('piso')?.invalid && this.form.get('piso')?.touched" 
-                        class="position-icon-input fa-solid fa-exclamation-circle text-danger"
-                        title="Campo requerido"></i>
-                  <!-- <i *ngIf="this.form.get('piso')?.valid && this.form.get('piso')?.touched" 
-                        class="position-icon-input fa-solid fa-check-circle text-success"></i>                          -->
+                    class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                    title="Campo requerido"></i>
                 </div>
               </div>
               <div class="row my-2">
@@ -217,26 +188,9 @@
                           [class.focus-ring-danger]="this.form.get('unidad')?.invalid && this.form.get('unidad')?.touched"
                           mask='000' [pattern]="pattern3Digs">
                     <i *ngIf="this.form.get('unidad')?.invalid && this.form.get('unidad')?.touched" 
-                          class="position-icon-input fa-solid fa-exclamation-circle text-danger"
-                          title="Campo requerido"></i>
-                    <!-- <i *ngIf="this.form.get('unidad')?.valid && this.form.get('unidad')?.touched" 
-                          class="position-icon-input fa-solid fa-check-circle text-success"></i>                             -->
+                      class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                      title="Campo requerido"></i>
                 </div>
-                <!-- <div class="col-3 mt-1">
-                  DC:
-                </div>
-                <div class="col-3" style="position: relative;">
-                  <input type="text" formControlName="dc" 
-                        class="form-control form-control-sm border focus-ring" 
-                        [class.border-success]="this.form.get('dc')?.valid"
-                        [class.focus-ring-success]="this.form.get('dc')?.valid"
-                        [class.border-danger]="this.form.get('dc')?.invalid && this.form.get('dc')?.touched"
-                        [class.focus-ring-danger]="this.form.get('dc')?.invalid && this.form.get('dc')?.touched"
-                        mask='0' [pattern]="pattern1Digs">
-                  <i *ngIf="this.form.get('dc')?.invalid && this.form.get('dc')?.touched" 
-                        class="position-icon-input fa-solid fa-exclamation-circle text-danger"
-                        title="Campo requerido"></i>
-                </div> -->
               </div>          
             </mat-card-content>
           </mat-card>      

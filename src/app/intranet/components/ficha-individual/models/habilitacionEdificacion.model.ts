@@ -4,10 +4,10 @@ export interface HabilitacionEdificacion {
 }
 
 export interface Habilitacion {
-    codigoHabilitacion?: string,
-    nombreHabilitacion?: string,
-    sectorZonaEtapa?: string,
-    manzanaUrbana?: string,
+    c15CodigoHabilitacion?: string,
+    c16NombreHabilitacion?: string,
+    c17SectorZonaEtapa?: string,
+    c18ManzanaUrbana?: string,
     lote?: string,
     sublote?: string
 }

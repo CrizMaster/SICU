@@ -25,6 +25,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {
     MatSnackBar,
     MatSnackBarHorizontalPosition,
@@ -80,6 +81,7 @@ const maskConfig: Partial<IConfig> = {
         MatSlideToggleModule,
         MatSnackBarModule,
         MatBadgeModule,
+        MatAutocompleteModule,
         MatDatepickerModule,
 
         NgbModule,
@@ -136,6 +138,7 @@ const maskConfig: Partial<IConfig> = {
         MatSlideToggleModule,
         MatSnackBarModule,
         MatBadgeModule,
+        MatAutocompleteModule,
         MatDatepickerModule,
 
         NgbModule,

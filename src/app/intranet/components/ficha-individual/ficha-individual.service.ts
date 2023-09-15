@@ -16,6 +16,7 @@ import { OwnershipCharacteristicsRequest } from './models/OwnershipCharacteristi
 import { DescriptionPropertyRequest } from './models/DescriptionProperty/description-property-request.model';
 import { IdentityOwnerRequest } from './models/IdentityOwner/identity-owner-request.model';
 import { BuildingsRequest } from './models/Buildings/buildings-request.model';
+import { FichaCatastralIndividual } from './models/fichaCatastralIndividual.model';
 
 @Injectable()
 
@@ -26,9 +27,11 @@ export class FichaIndividualService{
         data: []
     });
 
+    obsEditFichaCatastralIndividual: BehaviorSubject<FichaCatastralIndividual> = new BehaviorSubject<FichaCatastralIndividual>({});
+
     obsHabilitacionEdificacion: BehaviorSubject<Habilitacion> = new BehaviorSubject<Habilitacion>({});
 
-    obsSharedThirdData: BehaviorSubject<SharedThirdData> = new BehaviorSubject<SharedThirdData>({ complete: false, idFicha: 0, codigoCondicionTitular: ''});
+    obsSharedThirdData: BehaviorSubject<SharedThirdData> = new BehaviorSubject<SharedThirdData>({ codigoCondicionTitular: ''});
 
     dataCatalogoMaster: CatalogoMaster[] = [];
 
@@ -36,6 +39,10 @@ export class FichaIndividualService{
         private _localService: LocalService){
             this.setCatalogoMaster();
         }
+
+    get getEditFichaCatastralIndividual():Observable<FichaCatastralIndividual>{
+        return this.obsEditFichaCatastralIndividual.asObservable();
+    }
 
     get getDataTableFI():Observable<FichaCatastralResponse>{
         return this.DataTableFI.asObservable();
@@ -50,15 +57,22 @@ export class FichaIndividualService{
     }
 
     getCatalogoMaster(): CatalogoMaster[]{
-              
+
         let cm = this._localService.getData("cmsicu");
-        console.log(cm);
-        console.log(cm.length);
-        
-        return JSON.parse(cm);
+        if(cm.length == 0){
+            cm = this._localService.getData("cmsicu");
+            return JSON.parse(cm);
+        }
+        else{
+            return JSON.parse(cm);
+        }        
     }
 
     setCatalogoMaster():void{
+
+        let cm = this._localService.getData("cmsicu");
+        if(cm.length == 0){
+            
             this.http.post<CatalogoMaster[]>(environment.urlWebApiSICU + 'C0001G0001', null).subscribe({
                 next: data => {
                     let ctd = 0;
@@ -76,6 +90,7 @@ export class FichaIndividualService{
                     console.error('Error al recuperar el catalogo maestro:', error.message);
                 }
             });
+        }
     }    
 
     listarFichasCatastrales(filter: FichaCatastralFilter):Observable<FichaCatastralResponse>{

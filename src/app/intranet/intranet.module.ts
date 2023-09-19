@@ -33,6 +33,7 @@ import { BuildingsModalComponent } from "./components/ficha-individual/panel-reg
 import { AdditionalWorkComponent } from "./components/ficha-individual/panel-register/7-additional-works/additional-works.component";
 import { AdditionalWorksModalComponent } from "./components/ficha-individual/panel-register/7-additional-works-modal/additional-works-modal.component";
 import { SummaryModalComponent } from "./components/ficha-individual/panel-register/8-summary-modal/summary-modal.component";
+import { AsignacionCargaService } from "./components/asignacion-carga/asignacion-carga.service";
 
 
 
@@ -78,7 +79,8 @@ import { SummaryModalComponent } from "./components/ficha-individual/panel-regis
           multi: true 
         },
         IntranetService,
-        FichaIndividualService
+        FichaIndividualService,
+        AsignacionCargaService
     ]
 })
 

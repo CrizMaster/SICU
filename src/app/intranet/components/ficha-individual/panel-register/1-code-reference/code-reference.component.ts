@@ -24,7 +24,7 @@ export class CodeReferenceComponent implements OnInit, OnDestroy {
 
     @Output() outputSeccion = new EventEmitter<SaveFichaIndividual>();
 
-    @Input() inputSeccion: SaveFichaIndividual = { idObjeto: 0 };    
+    @Input() inputSeccion: SaveFichaIndividual = { idObjeto: 0 };
 
     codRefCatastral: any[] = ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'];    
     

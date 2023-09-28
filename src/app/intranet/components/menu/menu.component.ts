@@ -29,6 +29,7 @@ export class MenuComponent implements OnInit{
             this._localService.saveData("sicume", JSON.stringify(menuData));
 
             //this._authService.listMenu.next(menuData);
+            console.log(menuData);
             this.menus = menuData;
         }
       })

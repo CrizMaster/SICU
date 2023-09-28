@@ -26,7 +26,7 @@ import { IdentityOwnerNaturalModalComponent } from "./components/ficha-individua
 import { IdentityOwnerLegalModalComponent } from "./components/ficha-individual/panel-register/4-identity-owner-legal-modal/identity-owner-legal-modal.component";
 import { DescriptionPropertyComponent } from "./components/ficha-individual/panel-register/5-description-property/description-property.component";
 import { DescriptionPropertyModalComponent } from "./components/ficha-individual/panel-register/5-description-property-modal/description-property-modal.component";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AuthInterceptor } from "../core/shared/interceptors/auth.interceptor";
 import { BuildingsComponent } from "./components/ficha-individual/panel-register/6-buildings/buildings.component";
 import { BuildingsModalComponent } from "./components/ficha-individual/panel-register/6-buildings-modal/buildings-modal.component";
@@ -34,15 +34,19 @@ import { AdditionalWorkComponent } from "./components/ficha-individual/panel-reg
 import { AdditionalWorksModalComponent } from "./components/ficha-individual/panel-register/7-additional-works-modal/additional-works-modal.component";
 import { SummaryModalComponent } from "./components/ficha-individual/panel-register/8-summary-modal/summary-modal.component";
 import { AsignacionCargaService } from "./components/asignacion-carga/asignacion-carga.service";
-
-
+import { GenerarOrdenService } from "./components/asignacion-carga/generar-orden/generar-orden.service";
+import { GenerarOrdenComponent } from "./components/asignacion-carga/generar-orden/generar-orden.component";
+import { PanelFilterOrdenComponent } from "./components/asignacion-carga/generar-orden/panel-filter/panel-filter-orden.component";
+import { BandejaOrdenComponent } from "./components/asignacion-carga/generar-orden/bandeja/bandeja-orden.component";
+import { RegisterOrdenModalComponent } from "./components/asignacion-carga/generar-orden/register-orden-modal/register-orden-modal.component";
 
 @NgModule({
     imports: [
         FormsModule,
         IntranetRoutingModule,
         SharedModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HttpClientModule
     ],
     declarations: [
         IntranetComponent,
@@ -70,7 +74,12 @@ import { AsignacionCargaService } from "./components/asignacion-carga/asignacion
         BuildingsModalComponent,
         AdditionalWorkComponent,
         AdditionalWorksModalComponent,
-        SummaryModalComponent
+        SummaryModalComponent,
+
+        GenerarOrdenComponent,
+        PanelFilterOrdenComponent,
+        BandejaOrdenComponent,
+        RegisterOrdenModalComponent
     ],
     exports: [],
     providers: [
@@ -80,7 +89,8 @@ import { AsignacionCargaService } from "./components/asignacion-carga/asignacion
         },
         IntranetService,
         FichaIndividualService,
-        AsignacionCargaService
+        AsignacionCargaService,
+        GenerarOrdenService
     ]
 })
 

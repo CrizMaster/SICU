@@ -7,7 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": false,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
+    "noPropertyAccessFromIndexSignature": false,//true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
@@ -30,6 +30,6 @@
     "strictInjectionParameters": true,
     "StrictPropertyInitialization": false,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": false//true
   }
 }

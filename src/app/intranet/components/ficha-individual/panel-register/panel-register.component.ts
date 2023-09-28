@@ -110,7 +110,7 @@ export class PanelRegisterComponent implements OnInit, OnDestroy {
             .observe('(min-width: 800px)')
             .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
 
-          this._fichaIndividualService.setCatalogoMaster();
+          //this._fichaIndividualService.setCatalogoMaster();
       }
 
     ngOnInit(): void {

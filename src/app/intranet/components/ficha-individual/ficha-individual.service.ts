@@ -36,8 +36,9 @@ export class FichaIndividualService{
     dataCatalogoMaster: CatalogoMaster[] = [];
 
     constructor(private http: HttpClient,
-        private _localService: LocalService){
-            this.setCatalogoMaster();
+        private _localService: LocalService
+        ){
+            //this.setCatalogoMaster();
         }
 
     get getEditFichaCatastralIndividual():Observable<FichaCatastralIndividual>{
@@ -57,41 +58,35 @@ export class FichaIndividualService{
     }
 
     getCatalogoMaster(): CatalogoMaster[]{
-
-        let cm = this._localService.getData("cmsicu");
-        if(cm.length == 0){
-            cm = this._localService.getData("cmsicu");
-            return JSON.parse(cm);
-        }
-        else{
-            return JSON.parse(cm);
-        }        
+        let cm = this._localService.getData("sicucm");
+        console.log(JSON.parse(cm));
+        return JSON.parse(cm);      
     }
 
-    setCatalogoMaster():void{
+    // setCatalogoMaster():void{
 
-        let cm = this._localService.getData("cmsicu");
-        if(cm.length == 0){
+    //     let cm = this._localService.getData("sicucm");
+    //     if(cm.length == 0){
             
-            this.http.post<CatalogoMaster[]>(environment.urlWebApiSICU + 'C0001G0001', null).subscribe({
-                next: data => {
-                    let ctd = 0;
-                    let datosCatalogoMaster: CatalogoMaster[] = [];
-                    data.forEach(cv => {
-                        cv.id = ctd + 1;
-                        datosCatalogoMaster.push(cv);
-                        ctd++;
-                    });
+    //         this.http.post<CatalogoMaster[]>(environment.urlWebApiSICU + 'C0001G0001', null).subscribe({
+    //             next: data => {
+    //                 let ctd = 0;
+    //                 let datosCatalogoMaster: CatalogoMaster[] = [];
+    //                 data.forEach(cv => {
+    //                     cv.id = ctd + 1;
+    //                     datosCatalogoMaster.push(cv);
+    //                     ctd++;
+    //                 });
 
-                    this._localService.removeData("cmsicu");
-                    this._localService.saveData("cmsicu", JSON.stringify(datosCatalogoMaster))                    
-                },
-                error: error => {                    
-                    console.error('Error al recuperar el catalogo maestro:', error.message);
-                }
-            });
-        }
-    }    
+    //                 this._localService.removeData("sicucm");
+    //                 this._localService.saveData("sicucm", JSON.stringify(datosCatalogoMaster))                    
+    //             },
+    //             error: error => {                    
+    //                 console.error('Error al recuperar el catalogo maestro:', error.message);
+    //             }
+    //         });
+    //     }
+    // }    
 
     listarFichasCatastrales(filter: FichaCatastralFilter):Observable<FichaCatastralResponse>{
         
@@ -103,7 +98,7 @@ export class FichaIndividualService{
                     'Bearer ' + user.data.token
                 );
 
-        return this.http.post<FichaCatastralResponse>(environment.urlWebApiSecurity + 'Customers/ListFichasIndividualesAsync',
+        return this.http.post<FichaCatastralResponse>(environment.urlWebApiTest + 'Customers/ListFichasIndividualesAsync',
         filter,
         {
             headers: headers

@@ -51,8 +51,13 @@ export class UserComponent implements OnInit{
 
       this._intranetService.listaOrganizaciones().subscribe({
         next:(orgsData) => {
+            console.log(orgsData);
             this.organizaciones = orgsData.data;
             if(this.organizaciones.length > 0) { 
+
+              this._localService.removeData("sicuorg");
+              this._localService.saveData("sicuorg", JSON.stringify(this.organizaciones[0]));
+
               this.organizacionSeleccionada = parseInt(this.organizaciones[0].idOrganizacion);
               this.getPerfiles(this.organizaciones[0].idOrganizacion); 
             }
@@ -66,6 +71,14 @@ export class UserComponent implements OnInit{
     
     onChangeSelOrgs(newValue: string){
       //this.organizacionSeleccionada = parseInt(newValue);
+      this.organizaciones.forEach(org => {
+        if(org.idOrganizacion == parseInt(newValue))
+        {
+          this._localService.removeData("sicuorg");
+          this._localService.saveData("sicuorg", JSON.stringify(org));          
+        }
+      });
+
       this.getPerfiles(newValue);
     }
 

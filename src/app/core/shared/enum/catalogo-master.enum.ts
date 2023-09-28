@@ -20,5 +20,8 @@ export enum CatalogoMasterEnum {
     CondicionDeclarante = '20',
     TipoHabilitacionUrbana = '21',
     TipoPartidaRegistral = '22',
-    PersonaJuridica = '23'
+    PersonaJuridica = '23',
+    EstadoOrdenTrabajo = '24',
+    TipoPersonal = '25'
+    
   }

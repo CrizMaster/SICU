@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../core/shared/services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ModalMessageComponent } from '../core/shared/components/modal-message/modal-message.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Title } from '../core/models/title.model';
 
 @Component({
     selector: 'app-public',
@@ -11,6 +14,8 @@ export class IntranetComponent implements OnInit{
 
     constructor(private _authService: AuthService,
       private route: Router,
+      private actRoute: ActivatedRoute,
+      public dialog: MatDialog
       ){}
 
     mode: string = 'side';
@@ -26,7 +31,32 @@ export class IntranetComponent implements OnInit{
         next:(sw) => {
           this.offline = sw;
         }
-      });      
+      });
+
+      this.actRoute.data.subscribe(resp => {
+        console.log('resp');
+        console.log(resp);
+
+        if(!resp.datos.success) {
+            //console.log('Cerrando sesión. No se puede obtener el catalogo maestro.');
+            let modal: Title = { 
+              Title: 'Opss...', 
+              Subtitle: 'No se puedo recuperar la información necesaria para continuar con el sistema, verifique su conexión a internet o contacte con el administrador del sistema.',
+              Icon: 'error' 
+            };
+            let win = this.dialog.open(ModalMessageComponent, {
+                width: '500px',
+                enterAnimationDuration: '300ms',
+                exitAnimationDuration: '300ms',
+                disableClose: true,
+                data: modal
+            });
+
+            win.afterClosed().subscribe(result => {
+                this.CerrarSesion();          
+            });
+        }
+      });
     }
 
     CerrarSesion(){

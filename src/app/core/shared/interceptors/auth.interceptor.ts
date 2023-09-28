@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
     let url = request.url;
   
     
-    const isApiSecurity= url.includes(environment.urlWebApiSecurity);
+    const isApiSecurity= url.includes(environment.urlWebApiTest);
 
     if(isApiSecurity && this._localService.getData("Token")){
 

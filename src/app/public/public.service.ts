@@ -19,7 +19,7 @@ export class PublicService{
     constructor(private http: HttpClient){}
 
     login(credencials: LoginRequest):Observable<LoginResponse>{
-        return this.http.post<LoginResponse>(environment.urlWebApiSecurity + 'Users/Authenticate',
+        return this.http.post<LoginResponse>(environment.urlWebApiTest + 'Users/Authenticate',
         {   userName: credencials.usuario, 
             password: credencials.password
         }).pipe(
@@ -28,7 +28,7 @@ export class PublicService{
     }
 
     validarRecaptchaV3(token: string): Observable<any> {
-        return this.http.post<any>(environment.urlWebApiSecurity + 'Users/ValidarRecaptcha',
+        return this.http.post<any>(environment.urlWebApiTest + 'Users/ValidarRecaptcha',
         {
             Token: token
         })

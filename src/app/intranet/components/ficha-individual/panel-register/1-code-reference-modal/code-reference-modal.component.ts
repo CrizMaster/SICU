@@ -144,7 +144,7 @@ export class CodeReferenceModalComponent implements OnInit, OnDestroy {
     }
 
     onChangeSelDist(newValueDist: string, sw: boolean){
-
+      console.log(newValueDist);
       this.listSect$ = this._fichaIndividualService.listarSectores(parseInt(newValueDist)).subscribe(result => {
 
         this.sectores = result.data;
@@ -179,7 +179,7 @@ export class CodeReferenceModalComponent implements OnInit, OnDestroy {
           this.form.patchValue({ manzana: 0 });
         }
       });
-    } 
+    }
 
     guardar(){
       let info = this.form.value;

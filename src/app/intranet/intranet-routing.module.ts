@@ -8,6 +8,8 @@ import { FichaBiencomunComponent } from "./components/ficha-biencomun/ficha-bien
 import { PanelRegisterComponent } from "./components/ficha-individual/panel-register/panel-register.component";
 import { IntranetGuard } from "./guards/intranet.guard";
 import { AccessDeniedComponent } from "../core/shared/components/access-denied/access-denied.component";
+import { GenerarOrdenComponent } from "./components/asignacion-carga/generar-orden/generar-orden.component";
+import { SectorResolver } from "./resolvers/sector.resolver";
 
 const routes: Routes = [
     { path: '', component: IntranetComponent,      
@@ -26,6 +28,14 @@ const routes: Routes = [
           component: FichaBiencomunComponent,
           pathMatch:'full',
           canMatch: [IntranetGuard],          
+        },
+        { path: 'generarorden', 
+          component: GenerarOrdenComponent,
+          pathMatch:'full',
+          canMatch: [IntranetGuard],
+          resolve: {
+            resolve: SectorResolver
+          }
         },
         { path: 'registro', component: PanelRegisterComponent}
       ] 

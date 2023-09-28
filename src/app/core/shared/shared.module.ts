@@ -34,6 +34,7 @@ import {
   } from '@angular/material/snack-bar';
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import localeEsPE from '@angular/common/locales/es-PE';
 
@@ -83,6 +84,7 @@ const maskConfig: Partial<IConfig> = {
         MatBadgeModule,
         MatAutocompleteModule,
         MatDatepickerModule,
+        MatCheckboxModule,
 
         NgbModule,
         NgxMaskDirective, 
@@ -140,6 +142,7 @@ const maskConfig: Partial<IConfig> = {
         MatBadgeModule,
         MatAutocompleteModule,
         MatDatepickerModule,
+        MatCheckboxModule,
 
         NgbModule,
         NgxMaskDirective, 
@@ -149,6 +152,7 @@ const maskConfig: Partial<IConfig> = {
     ],
     providers: [
         provideEnvironmentNgxMask(maskConfig),
+        //GeneralService
         //AuthService
     ]
 })

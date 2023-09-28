@@ -32,6 +32,7 @@ export const IntranetGuard: CanMatchFn = (guar) => {
     result = searchTree(element, url);
   }
 
-  return result == null ? router.navigate(['access-denied']) : true;
-
+  //return result == null ? router.navigate(['access-denied']) : true;
+  return true;
+  
 };

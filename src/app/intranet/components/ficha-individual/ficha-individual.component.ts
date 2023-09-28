@@ -19,11 +19,12 @@ export class FichaIndividualComponent implements OnInit{
     // @ViewChild('deleteSwal')
     // public readonly deleteSwal!: SwalComponent;
 
-    constructor(private _fichaIndividualService: FichaIndividualService){
+    constructor(
+        private _fichaIndividualService: FichaIndividualService){
     }
 
     ngOnInit(): void {
-        this._fichaIndividualService.setCatalogoMaster(); 
+        //this._fichaIndividualService.setCatalogoMaster();
     } 
 
     // Prueba(){

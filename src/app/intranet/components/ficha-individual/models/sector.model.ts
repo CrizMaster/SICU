@@ -1,4 +1,4 @@
 export interface Sector {
     idSector?: number,
-    codigoSector: string
+    codigoSector?: string
 }

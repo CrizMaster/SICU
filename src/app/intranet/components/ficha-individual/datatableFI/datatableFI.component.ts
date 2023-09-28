@@ -106,7 +106,6 @@ export class DatatableFIComponent implements OnInit{
     this._fichaIndividualService.listarFichasCatastrales(this.filter).subscribe({
       next:(Data) => {
           this.loading = false;
-
           this.fi.length = previousSize;
           this.fi.push(...Data.data);
           this.fi.length = Data.total;

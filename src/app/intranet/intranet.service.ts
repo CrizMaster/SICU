@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, of, tap, throwError } from 'rxjs';
 import { LocalService } from '../core/shared/services/local.service';
 
 import { environment } from 'src/environments/environment';
+import { CatalogoMaster } from '../core/models/catalogo-master.model';
+import { StatusResponse } from '../core/models/statusResponse.model';
 
-@Injectable()
+@Injectable( {  providedIn: 'root' })
 
-export class IntranetService{
+export class IntranetService implements OnInit {
 
 
     currentComponentMenu: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -15,10 +17,57 @@ export class IntranetService{
     constructor(private http: HttpClient,
         private _localService: LocalService){}
 
+    ngOnInit(): void {
+        //this.setCatalogoMaster();
+    }
 
     get getCurrentComponentMenu():Observable<any>{
         return this.currentComponentMenu.asObservable();
     }
+
+    setMasterCatalog(): Observable<StatusResponse<CatalogoMaster[]>>{
+        let cm = this._localService.getData("sicucm");
+        if(cm.length == 0){
+            return this.http.post<StatusResponse<CatalogoMaster[]>>(environment.urlWebApiSICU + 'getDatosMaestros', null);
+        }
+        else{
+            let resp = JSON.parse(cm);
+            let data: StatusResponse<CatalogoMaster[]> = { success:true, data: resp, message: '', total:1, validations: [] };
+            
+            return of(data);
+        }        
+    }
+
+    // setCatalogoMaster():void{
+
+    //     let cm = this._localService.getData("sicucm");
+    //     if(cm.length == 0){
+            
+    //         this.http.post<CatalogoMaster[]>(environment.urlWebApiSICU + 'C0001G0001', null).subscribe({
+    //             next: data => {
+    //                 let ctd = 0;
+    //                 let datosCatalogoMaster: CatalogoMaster[] = [];
+    //                 data.forEach(cv => {
+    //                     cv.id = ctd + 1;
+    //                     datosCatalogoMaster.push(cv);
+    //                     ctd++;
+    //                 });
+
+    //                 console.log('carga del catalogo');
+
+    //                 let estados: CatalogoMaster[] = [];
+    //                 estados.push({ id: ctd + 1, orden: '1', nombre: 'ASIGNADO', grupo: '999' });
+    //                 estados.push({ id: ctd + 2, orden: '2', nombre: 'EN PROCESO', grupo: '999' });
+
+    //                 this._localService.removeData("sicucm");
+    //                 this._localService.saveData("sicucm", JSON.stringify(datosCatalogoMaster))                    
+    //             },
+    //             error: error => {                    
+    //                 console.error('Error al recuperar el catalogo maestro:', error.message);
+    //             }
+    //         });
+    //     }
+    // }
 
     listaOrganizaciones():Observable<any>{
         
@@ -27,7 +76,7 @@ export class IntranetService{
      
         const headers = { 'Authorization': 'Bearer ' + user.data.token }
 
-        return this.http.get<any>(environment.urlWebApiSecurity + 'Customers/GetListOrganizacionesAsync',
+        return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListOrganizacionesAsync',
         { headers })
         .pipe(
             catchError(this.handlerError)
@@ -44,7 +93,7 @@ export class IntranetService{
             params: {'idOrganizacion': id}
         }
 
-        return this.http.get<any>(environment.urlWebApiSecurity + 'Customers/GetListPerfilesAsync',
+        return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListPerfilesAsync',
         httpOptions)
         .pipe(
             catchError(this.handlerError)
@@ -67,7 +116,7 @@ export class IntranetService{
 
         //const headers = { 'Authorization': 'Bearer ' + user.data.token }
 
-        return this.http.get<any>(environment.urlWebApiSecurity + 'Customers/GetListMenuAsync',
+        return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListMenuAsync',
         httpOptions)
         .pipe(
             catchError(this.handlerError)

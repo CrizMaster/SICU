@@ -13,6 +13,7 @@ export interface UsuarioAsignado {
     codigoUsuario?: number,
     persona?: string,
     codigoPerfil?: number,
+    perfil?: string,
     codigoTipo?: string,
     fechaAsignacion?: string,
     tipo?: string

@@ -3,11 +3,11 @@ mat-list{
   }
 
   mat-list-item:hover{
-    background-color: #fadb0c;
+    background-color: #f2c43b;
     cursor: pointer;
   }
 
   mat-list-item:hover mat-panel-title{
-    color: #15448b;
+    color: #eb1e23;
     cursor: pointer;
   }

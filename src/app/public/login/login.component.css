@@ -2,6 +2,11 @@
     width: 100%;
  }
  .circle-header-image {
-    background-image: url('../../../assets/image/circleCOFOPRI.jpg');
+    background-image: url('../../../assets/image/Logo_MVCS.png');
     background-size: cover;
+    height: 60px;
+    width: 300px;
+    flex-shrink: 0;
+    margin-bottom: 16px;
+    object-fit: cover;
   }

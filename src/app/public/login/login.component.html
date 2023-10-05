@@ -1,15 +1,15 @@
 <app-network-status></app-network-status>
-<div class="bg-cofopri d-flex justify-content-center
-align-items-center vh-100">
+<div class="d-flex justify-content-center
+align-items-center vh-100" style="background-color: rgb(88, 89, 91);">
 
 <form (submit)="login()"  name="loginForm" [formGroup]="loginForm">
-    <div class="bg-cofopri p-4 rounded-4 shadow-md"
-        style="width: 30rem;">
+    <div class="p-4 rounded-4 shadow-md"
+        style="width: 30rem; background-color: rgb(88, 89, 91);">
         <mat-card>
             <mat-card-header>
-                <div mat-card-avatar class="circle-header-image"></div>
-                <mat-card-title class="text-start fs-6 text-cofopri">COFOPRI</mat-card-title>
-                <mat-card-subtitle class="text-start text-cofopri">Organismo de formalización de la propiedad informal</mat-card-subtitle>
+                <div class="circle-header-image"></div>
+                <!-- <mat-card-title class="text-start fs-6 text-cofopri">COFOPRI</mat-card-title>
+                <mat-card-subtitle class="text-start text-cofopri">Organismo de formalización de la propiedad informal</mat-card-subtitle> -->
             </mat-card-header>
         </mat-card>
         <mat-card class="mt-2">
@@ -49,11 +49,11 @@ align-items-center vh-100">
                         <div class="pt-1" style="font-size: 0.9rem;">Remember me</div>
                     </div> -->
                     <div style="text-align: right;">
-                        <a href="#" class="text-decoration-none text-primary 
+                        <a href="#" class="text-decoration-none text-danger
                         fst-italic" style="font-size: 0.9rem;">Olvidó su contraseña?</a>
                     </div>
                 </div>
-                <button class="btn btn-sm btn-primary bg-cofopri w-100 mt-1 fw-semibold
+                <button class="btn btn-sm btn-danger bg-cofopri w-100 mt-1 fw-semibold
                 shadow-sm" type="submit" *ngIf="!offline">Iniciar Sesión
                     
                 </button>

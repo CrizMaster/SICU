@@ -10,6 +10,8 @@ import { IntranetGuard } from "./guards/intranet.guard";
 import { AccessDeniedComponent } from "../core/shared/components/access-denied/access-denied.component";
 import { GenerarOrdenComponent } from "./components/asignacion-carga/generar-orden/generar-orden.component";
 import { SectorResolver } from "./resolvers/sector.resolver";
+import { SeguimientoComponent } from "./components/asignacion-carga/seguimiento-orden/seguimiento.component";
+import { VerOrdenComponent } from "./components/asignacion-carga/seguimiento-orden/ver-orden/ver-orden.component";
 
 const routes: Routes = [
     { path: '', component: IntranetComponent,      
@@ -37,7 +39,22 @@ const routes: Routes = [
             resolve: SectorResolver
           }
         },
-        { path: 'registro', component: PanelRegisterComponent}
+        { path: 'registro', 
+          component: PanelRegisterComponent
+        },
+        { path: 'seguimiento', 
+          component: SeguimientoComponent,
+          pathMatch:'full',
+          canMatch: [IntranetGuard],
+          resolve: {
+            resolve: SectorResolver
+          }
+        },
+        { path: 'verorden', 
+          component: VerOrdenComponent, 
+          pathMatch:'full',
+          canMatch: [IntranetGuard],
+        }
       ] 
     }
 ];

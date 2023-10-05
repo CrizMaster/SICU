@@ -39,6 +39,13 @@ import { GenerarOrdenComponent } from "./components/asignacion-carga/generar-ord
 import { PanelFilterOrdenComponent } from "./components/asignacion-carga/generar-orden/panel-filter/panel-filter-orden.component";
 import { BandejaOrdenComponent } from "./components/asignacion-carga/generar-orden/bandeja/bandeja-orden.component";
 import { RegisterOrdenModalComponent } from "./components/asignacion-carga/generar-orden/register-orden-modal/register-orden-modal.component";
+import { SeguimientoService } from "./components/asignacion-carga/seguimiento-orden/seguimiento.service";
+import { SeguimientoComponent } from "./components/asignacion-carga/seguimiento-orden/seguimiento.component";
+import { BandejaSeguimientoComponent } from "./components/asignacion-carga/seguimiento-orden/bandeja/bandeja-seguimiento.component";
+import { PanelFilterSeguimientoComponent } from "./components/asignacion-carga/seguimiento-orden/panel-filter/panel-filter-seguimiento.component";
+import { VerOrdenComponent } from "./components/asignacion-carga/seguimiento-orden/ver-orden/ver-orden.component";
+import { InfoOrdenComponent } from "./components/asignacion-carga/seguimiento-orden/ver-orden/info-orden/info-orden.component";
+import { BandejaLoteComponent } from "./components/asignacion-carga/seguimiento-orden/ver-orden/bandeja-lote/bandeja-lote.component";
 
 @NgModule({
     imports: [
@@ -79,7 +86,13 @@ import { RegisterOrdenModalComponent } from "./components/asignacion-carga/gener
         GenerarOrdenComponent,
         PanelFilterOrdenComponent,
         BandejaOrdenComponent,
-        RegisterOrdenModalComponent
+        RegisterOrdenModalComponent,
+        SeguimientoComponent,
+        BandejaSeguimientoComponent,
+        PanelFilterSeguimientoComponent,
+        VerOrdenComponent,
+        InfoOrdenComponent,
+        BandejaLoteComponent
     ],
     exports: [],
     providers: [
@@ -90,7 +103,8 @@ import { RegisterOrdenModalComponent } from "./components/asignacion-carga/gener
         IntranetService,
         FichaIndividualService,
         AsignacionCargaService,
-        GenerarOrdenService
+        GenerarOrdenService,
+        SeguimientoService
     ]
 })
 

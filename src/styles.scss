@@ -9,10 +9,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import 'bootstrap/scss/bootstrap';
 
 .bg-cofopri{
-    background-color: #15448b;
+    background-color: #eb1e23;
 }
 .text-cofopri{
-    color: #15448b;
+    color: rgb(88, 89, 91);
+}
+.text-50{
+    color: #a7a4a0;
 }
 .title_navbar{
     font-family: 'Roboto Condensed', sans-serif;
@@ -47,3 +50,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-right: 28px !important;
     position: absolute;
 }
+
+.mdc-linear-progress__bar-inner {  
+    border-color: rgb(235, 30, 35) !important;
+    }
+
+    .btn-custom {
+        color: #0055ff;
+        border-color: #b1b1b1;
+      }
+      .btn-custom:hover {
+        color: #0055ff;
+        border-color: #0055ff;
+        background-color: white;   
+      }
+
+      .btn-custom-danger {
+        color: #ff0303;
+        border-color: #b1b1b1;
+      }
+      .btn-custom-danger:hover {
+        color: #ff0303;
+        border-color: #ff0303;
+        background-color: white;   
+      }      

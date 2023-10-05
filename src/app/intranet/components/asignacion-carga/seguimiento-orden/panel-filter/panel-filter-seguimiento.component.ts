@@ -4,24 +4,19 @@ import { Sector } from '../../../ficha-individual/models/sector.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { LocalService } from 'src/app/core/shared/services/local.service';
-import { GenerarOrdenService } from '../generar-orden.service';
+import { SeguimientoService } from '../seguimiento.service';
 import { Subscription } from 'rxjs';
 import { CatalogoMasterEnum } from 'src/app/core/shared/enum/catalogo-master.enum';
 import { getFilterMasterCatalog } from 'src/app/core/shared/function/getFilterMasterCatalog';
 import { OrdenTrabajoFilter } from '../../models/ordenTrabajoFilter.model';
-// import { FichaCatastralFilter } from '../models/fichaCatastralFilter.model';
-// import { FichaIndividualService } from '../ficha-individual.service';
 
   
 @Component({
-    selector: 'app-panel-filter-orden',
-    templateUrl: './panel-filter-orden.component.html',
-    styleUrls: ['./panel-filter-orden.component.css']
+    selector: 'app-panel-filter-seguimiento',
+    templateUrl: './panel-filter-seguimiento.component.html',
+    styleUrls: ['./panel-filter-seguimiento.component.css']
 })
-export class PanelFilterOrdenComponent implements OnInit, OnDestroy {
-
-    @Input() sectores: Sector[];
-    public listManz$: Subscription = new Subscription;
+export class PanelFilterSeguimientoComponent implements OnInit, OnDestroy {
 
     step = 0;
     customCollapsedHeight: string = '36px';
@@ -29,16 +24,20 @@ export class PanelFilterOrdenComponent implements OnInit, OnDestroy {
     filter: OrdenTrabajoFilter;
 
     IdUbigeo: number = 0;
-
     form: FormGroup;
     
     manzanas: Manzana[] = [{ idManzana: 0, codigoManzana: 'Seleccionar'}];
+    estados: ItemSelect<string>[];
 
     listaEstadosOrden: ItemSelect<number>[] = [];
+
+    public listManz$: Subscription = new Subscription;
+
+    @Input() sectores: Sector[];
     
     constructor(
         private _localService: LocalService,
-        private _generarOrdenService: GenerarOrdenService,
+        private _seguimientoService: SeguimientoService,
         private fb: FormBuilder
         ){
             this.form = this.fb.group({
@@ -52,7 +51,7 @@ export class PanelFilterOrdenComponent implements OnInit, OnDestroy {
 
             let listEstados = getFilterMasterCatalog(CatalogoMasterEnum.EstadoOrdenTrabajo);
             listEstados.forEach(elem => {
-                if(elem.code == null || elem.code == '01') this.listaEstadosOrden.push(elem);
+                if(elem.code == null || elem.code == '02'|| elem.code == '04') this.listaEstadosOrden.push(elem);
             });
 
             let cm = this._localService.getData("sicuorg");
@@ -64,7 +63,7 @@ export class PanelFilterOrdenComponent implements OnInit, OnDestroy {
                     distrito: data.distrito
                 });
 
-                this.IdUbigeo = parseInt(data.idUbigeo);           
+                this.IdUbigeo =parseInt(data.idUbigeo);          
             }
     }
 
@@ -73,23 +72,25 @@ export class PanelFilterOrdenComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.listManz$.unsubscribe();
-    } 
+    }  
 
-    onChangeSelSector(newValueSect: string){
+    onChangeSelSector(newValueSect: string, sw: boolean){
         let codSector = '';
         this.sectores.forEach(sec => {
           if(sec.idSector == parseInt(newValueSect)) codSector = sec.codigoSector;
         });
   
-        this.listManz$ = this._generarOrdenService.listarManzanas(codSector).subscribe(result => {  
+        this.listManz$ = this._seguimientoService.listarManzanas(codSector).subscribe(result => {
+  
           this.manzanas = result.data;
+          
         });
       }    
 
     buscar(){
 
         let info = this.form.value;
-        
+
         this.filter = { 
             Page:1, 
             ItemsByPage: 10, 
@@ -116,7 +117,7 @@ export class PanelFilterOrdenComponent implements OnInit, OnDestroy {
                 }
             });
         }
-
+        
         let idest = parseInt(info.estado);
         if(idest != 0){
             this.listaEstadosOrden.forEach(el => {
@@ -124,12 +125,12 @@ export class PanelFilterOrdenComponent implements OnInit, OnDestroy {
                     this.filter.Estado = el.code;
                 }
             });
-        }        
-        
-        this._generarOrdenService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
+        }
+
+        this._seguimientoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
             next:(Data: any) => {
-                this._generarOrdenService.DataTableOT.next(Data);
+                this._seguimientoService.DataTableOT.next(Data);
             }
-          })
+          });
     }
 }

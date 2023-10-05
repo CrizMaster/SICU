@@ -1,16 +1,21 @@
 import { Component, OnInit, Inject, OnDestroy, ChangeDetectorRef  } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { GenerarOrdenService } from '../generar-orden.service';
-import { OrdenTrabajoResponse } from '../../models/ordenTrabajoResponse';
+import { OrdenTrabajoRequest, OrdenTrabajoResponse, UsuariosRequest } from '../../models/ordenTrabajoResponse';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { CatalogoMasterEnum } from 'src/app/core/shared/enum/catalogo-master.enum';
 import { getFilterMasterCatalog } from 'src/app/core/shared/function/getFilterMasterCatalog';
 import { MatTableDataSource } from '@angular/material/table';
-import { PersonalAsignado } from '../../models/personalAsignado.model';
+import { PersonalAsignado, UsuarioAsignado } from '../../models/personalAsignado.model';
 import { Perfil, PerfilFilter } from '../../models/perfil.model';
 import { Personal } from '../../models/personal.model';
+import { OrdenTrabajo } from '../../models/ordenTrabajo.model';
+import { Title } from 'src/app/core/models/title.model';
+import { ModalQuestionComponent } from 'src/app/core/shared/components/modal-question/modal-question.component';
+import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
+import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
 
 
 
@@ -28,23 +33,28 @@ export class RegisterOrdenModalComponent implements OnInit, OnDestroy {
     pattern3Digs = '^((?!000).)*$'; 
 
     msnAsignacion: boolean = false;
+    codigoOrden: number = 0;
+    titleBtnGuardar: string = 'Crear Orden';
 
     listPerfil: Perfil[] = [];
     listPersonal: Personal[] = [{ codigoUsuario:0, persona:'Seleccionar' }];
     listTipo: ItemSelect<number>[] = [{ value:0, text:'Seleccionar' }];
 
-    displayedColumns = ['perfil', 'personal', 'tipo', 'accion'];
-    dataSource = new MatTableDataSource<PersonalAsignado>();
+    displayedColumns = ['perfil', 'persona', 'tipo', 'accion'];
+    dataSource = new MatTableDataSource<UsuarioAsignado>();
 
     public subPersonal$: Subscription = new Subscription;
     public subPerfil$: Subscription = new Subscription;
+    public crearOT$: Subscription = new Subscription;
+    public addUser$: Subscription = new Subscription;
 
     constructor(
       public dialogRef: MatDialogRef<RegisterOrdenModalComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: OrdenTrabajoResponse,
+      @Inject(MAT_DIALOG_DATA) public data: OrdenTrabajo,
       private _generarOrdenService: GenerarOrdenService,
       private fb: FormBuilder,
-      private cd: ChangeDetectorRef
+      private cd: ChangeDetectorRef,
+      public subDialog: MatDialog
     ){
 
       this.form = this.fb.group({
@@ -54,7 +64,6 @@ export class RegisterOrdenModalComponent implements OnInit, OnDestroy {
       });
 
       this.listTipo = getFilterMasterCatalog(CatalogoMasterEnum.TipoPersonal);
-
     }
     
     ngAfterContentChecked(): void {
@@ -64,6 +73,8 @@ export class RegisterOrdenModalComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
       this.subPersonal$.unsubscribe();
       this.subPerfil$.unsubscribe();
+      this.crearOT$.unsubscribe();
+      this.addUser$.unsubscribe();
     }
 
     ngOnInit(): void {
@@ -74,6 +85,8 @@ export class RegisterOrdenModalComponent implements OnInit, OnDestroy {
         }
       });
 
+      this.codigoOrden = this.data.codigoOrden;
+      if(this.codigoOrden > 0) this.titleBtnGuardar = 'Asignar Personal';
     }
 
     onChangeSelPerfil(newValuePerfil: string){
@@ -99,79 +112,52 @@ export class RegisterOrdenModalComponent implements OnInit, OnDestroy {
     agregar(){
       this.msnAsignacion = false;
       let info = this.form.value;
-      let persAsign: PersonalAsignado = {};
+      let persAsign: UsuarioAsignado = {};
 
       this.listPerfil.forEach(it => {
         if(it.idPerfil == parseInt(info.perfil)){
-          persAsign.idPerfil = it.idPerfil;
+          persAsign.codigoPerfil = it.idPerfil;
           persAsign.perfil = it.nombrePerfil;
         }
       });
 
       this.listPersonal.forEach(it => {
         if(it.codigoUsuario == parseInt(info.personal)){
-          persAsign.idPersonal = it.codigoUsuario;
-          persAsign.personal = it.persona;
+          persAsign.codigoUsuario = it.codigoUsuario;
+          persAsign.persona = it.persona;
         }
       });
 
       this.listTipo.forEach(it => {
         if(it.value == parseInt(info.tipo)){
-          persAsign.idTipo = it.value;
+          persAsign.codigoTipo = String(it.code);
           persAsign.tipo = it.text;
         }
       });      
 
       let sw: boolean = true;
-      let listAsignada:PersonalAsignado[] = this.dataSource.data;
+      let listAsignada:UsuarioAsignado[] = this.dataSource.data;
 
       listAsignada.forEach(elem => {
-        if(elem.idPerfil == persAsign.idPerfil && elem.idPersonal == persAsign.idPersonal){
+        if(elem.codigoPerfil == persAsign.codigoPerfil && elem.codigoUsuario == persAsign.codigoUsuario){
           console.log('Personal ya se encuentra asignado');
           sw = false;
           this.msnAsignacion = true;
         }
       });
 
-      if(sw) { 
+      if(sw) {
         listAsignada.push(persAsign); 
-        this.dataSource = new MatTableDataSource<PersonalAsignado>(listAsignada);
+        this.dataSource = new MatTableDataSource<UsuarioAsignado>(listAsignada);
       }
-
-      // let per: PersonalAsignado[] = [persAsign]      
-
-      // if(this.dataFirst === undefined){
-      //   info.idFicha = 0
-      // }
-      // else{ 
-      //   info.idFicha = this.dataFirst.idFicha; 
-      // }
-
-      // this.distritos.forEach(dist => {
-      //   if(dist.id == info.distrito) { 
-      //     info.codigoUbigeo = dist.ubigeo; 
-      //     info.codigoDistrito = dist.ubigeoDistrito;
-      //     info.distrito = dist.id;
-      //   }
-      // });
-
-      // this.sectores.forEach(sect => {
-      //   if(sect.idSector == info.sector) info.codigoSector = sect.codigoSector;
-      // });
-
-      // this.manzanas.forEach(manz => {
-      //   if(manz.idManzana == info.manzana) info.codigoManzana = manz.codigoManzana;
-      // });
-
-      //this.dialogRef.close(info);
     }
 
-    quitar(elem: PersonalAsignado){
-      let newListAsignada:PersonalAsignado[] = [];
-      let listAsignada:PersonalAsignado[] = this.dataSource.data;
+    quitar(elem: UsuarioAsignado){
+      let newListAsignada:UsuarioAsignado[] = [];
+      let listAsignada:UsuarioAsignado[] = this.dataSource.data;
 
       listAsignada.forEach(item => {
-        if(!(elem.idPerfil == item.idPerfil && elem.idPersonal == item.idPersonal)) newListAsignada.push(item);
+        if(!(elem.codigoPerfil == item.codigoPerfil && elem.codigoUsuario == item.codigoUsuario)) newListAsignada.push(item);
       });
 
       this.dataSource = new MatTableDataSource<PersonalAsignado>(newListAsignada);
@@ -179,6 +165,150 @@ export class RegisterOrdenModalComponent implements OnInit, OnDestroy {
 
     guardar(){
 
+      let usuarios: UsuariosRequest[] = [];
+      this.dataSource.data.forEach(element => {
+        usuarios.push({
+          codigoOrden: 0,
+          codigoUsuario: element.codigoUsuario,
+          codigoPerfil: element.codigoPerfil,
+          codigoTipo: element.codigoTipo,
+          fechaAsignacion: "01/01/23"
+        });
+      });
+
+      let ot: OrdenTrabajoRequest = {
+        usuarioCreacion: 'carevalo',
+        terminalCreacion: '127.0.0.0',
+        fechaOrden: '01/01/23',
+        codigoOrden: this.codigoOrden,
+        manzanas: [{
+          codigoOrden: 0,
+          codigoRegistroCaracterizacion: this.data.codigoRegistroCaracterizacion,
+          codigoLote: ""
+        }],
+        usuarios: usuarios
+      };
+
+      let modal1: Title = { Title: '¿Está seguro de crear la orden?'}
+      if(this.codigoOrden > 0){
+        modal1.Title = '¿Está seguro de asignar el personal a la orden ' + this.data.orden +  ' ?';
+      }
+      
+      const subDialogModal = this.subDialog.open(ModalQuestionComponent, {
+          width: '450px',
+          enterAnimationDuration: '300ms',
+          exitAnimationDuration: '300ms',
+          disableClose: true,
+          data: modal1
+      });
+
+      subDialogModal.afterClosed().subscribe(resp => {
+          if(resp){
+            let dg = this.ModalLoading();
+
+            if(this.codigoOrden == 0){
+              this.crearOT$ = this._generarOrdenService.crearOrden(ot)
+              .subscribe(result => {    
+                setTimeout(() => {
+                  dg.close();
+                  if(result.success){ 
+                    
+                    let codigo = '0000'.concat(String(result.data));
+  
+                    let modal: Title = { 
+                      Title: 'Nueva orden ' + codigo.substring(codigo.length - 4, codigo.length), 
+                      Subtitle: 'La orden se creó satisfactoriamente.', 
+                      Icon: 'ok' 
+                    }
+  
+                    const okModal = this.subDialog.open(ModalMessageComponent, {
+                        width: '500px',
+                        enterAnimationDuration: '300ms',
+                        exitAnimationDuration: '300ms',
+                        disableClose: true,
+                        data: modal
+                    });
+  
+                    okModal.afterClosed().subscribe(resp => {
+                      if(resp) this.dialogRef.close(true);
+                    });
+  
+                  }
+                  else{
+                      let modal: Title = { 
+                          Title: 'Opss...', 
+                          Subtitle: result.message, 
+                          Icon: 'error' }
+                        this.subDialog.open(ModalMessageComponent, {
+                            width: '500px',
+                            enterAnimationDuration: '300ms',
+                            exitAnimationDuration: '300ms',
+                            disableClose: true,
+                            data: modal
+                        });
+                  }              
+                }, 500);
+              });
+            }
+            else{
+              this.addUser$ = this._generarOrdenService.agregarUsuario(ot)
+              .subscribe(result => {    
+                setTimeout(() => {
+                  dg.close();
+                  if(result.success){ 
+
+                    let modal: Title = { 
+                      Title: 'Personal asignado',
+                      Subtitle: 'El personal se asignó a la orden satisfactoriamente.', 
+                      Icon: 'ok' 
+                    }
+  
+                    const okModal = this.subDialog.open(ModalMessageComponent, {
+                        width: '500px',
+                        enterAnimationDuration: '300ms',
+                        exitAnimationDuration: '300ms',
+                        disableClose: true,
+                        data: modal
+                    });
+  
+                    okModal.afterClosed().subscribe(resp => {
+                      if(resp) this.dialogRef.close(true);
+                    });
+  
+                  }
+                  else{
+                      let modal: Title = { 
+                          Title: 'Opss...', 
+                          Subtitle: result.message, 
+                          Icon: 'error' }
+                        this.subDialog.open(ModalMessageComponent, {
+                            width: '500px',
+                            enterAnimationDuration: '300ms',
+                            exitAnimationDuration: '300ms',
+                            disableClose: true,
+                            data: modal
+                        });
+                  }              
+                }, 500);
+              });              
+            }
+          }            
+        });
     }
+
+    ModalLoading(): any {     
+      let modal: Title = { 
+        Title: 'Procesando su solicitud...'}
+      let dgRef = this.subDialog.open(ModalLoadingComponent, {
+          width: '400px',
+          height: '95px',
+          enterAnimationDuration: '300ms',
+          exitAnimationDuration: '300ms',
+          disableClose: true,
+          data: modal
+      }); 
+
+      return dgRef;
+    }    
 
 }

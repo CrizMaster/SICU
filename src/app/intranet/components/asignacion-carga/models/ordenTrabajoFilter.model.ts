@@ -2,7 +2,7 @@ export interface OrdenTrabajoFilter {
     IdUbigeo: number,
     Sector?: string,
     Manzana?: string,
-    Estado?: number,
+    Estado?: string,
     Page: number,
     ItemsByPage: number
 }

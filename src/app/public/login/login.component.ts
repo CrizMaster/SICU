@@ -53,79 +53,68 @@ export class LoginComponent implements OnInit{
 
     login(){
       this.loginError = '';
-      // this.msgStatus = 'Validando recaptchar...';
+      this.msgStatus = 'Validando recaptchar...';
+
 
       if(this.loginForm.valid)
       {
         this.viewProgress = true;
-        this.msgStatus = 'Iniciando sesión...';
-        setTimeout(() => {
-          this.iniciarSesion();
-        }, 1000);
-      }
+        this.recaptchaV3Service.execute('')
+        .subscribe((token) => {
 
-
-      // if(this.loginForm.valid)
-      // {
-      //   this.viewProgress = true;
-      //   this.recaptchaV3Service.execute('')
-      //   .subscribe((token) => {
-
-      //       const auxiliar = this._publicService.validarRecaptchaV3(token)
-      //       auxiliar.subscribe({
-      //         error: () => {
-      //           this.loginError = "A ocurrido un problema, recarge la página e intente nuevamente o contacte con area de soporte técnico.";
-      //           this.viewProgress = false;
-      //         },
-      //         next: (resultado: any) => {
-      //           if (resultado.success === true) {
-      //             //console.log('next');
-      //             this.msgStatus = 'Iniciando sesión...';
-      //             setTimeout(() => {
-      //               this.iniciarSesion();
-      //             }, 1000);
+            const auxiliar = this._publicService.validarRecaptchaV3(token)
+            auxiliar.subscribe({
+              error: () => {
+                this.loginError = "A ocurrido un problema, recarge la página e intente nuevamente o contacte con area de soporte técnico.";
+                this.viewProgress = false;
+              },
+              next: (resultado: any) => {
+                if (resultado.success === true) {
+                  //console.log('next');
+                  this.msgStatus = 'Iniciando sesión...';
+                  setTimeout(() => {
+                    this.iniciarSesion();
+                  }, 1000);
                   
-      //           } else {
-      //             console.error('Error en el captcha. Eres un robot');
-      //             this.loginError = 'Protección recaptcha activada. Intente nuevamente por favor.';
-      //             this.viewProgress = false;
-      //           }
-      //         }
-      //       });
+                } else {
+                  console.error('Error en el captcha. Eres un robot');
+                  this.loginError = 'Protección recaptcha activada. Intente nuevamente por favor.';
+                  this.viewProgress = false;
+                }
+              }
+            });
 
-      //     }
-      //   );
-      // }
-      // else{
-      //     this.loginForm.markAllAsTouched();
-      //     this.viewProgress = false;
-      // }   
+          }
+        );
+      }
+      else{
+          this.loginForm.markAllAsTouched();
+          this.viewProgress = false;
+      }   
     }
 
     iniciarSesion()
     {  
-      this.route.navigateByUrl('/intranet');
-      this.viewProgress = false;
-      // this._publicService.login(this.loginForm.value as LoginRequest).subscribe({
-      //     next:(userData) => {
-      //         //console.log(userData);
-      //         this._authService.isLoggedIn.next(true);
-      //         this._localService.removeData("Token");
-      //         this._localService.saveData("Token", JSON.stringify(userData))
-      //     },
-      //     error:(errorData) => {
-      //         // console.info('error');
-      //         // console.log(errorData);
-      //         this.loginError = errorData;
-      //         this.viewProgress = false;
-      //     },
-      //     complete:() => {
-      //         //console.info('completo');
-      //         this.route.navigateByUrl('/intranet');
-      //         //this.loginForm.reset();
-      //         this.viewProgress = false;                  
-      //     }
-      // });
+      this._publicService.login(this.loginForm.value as LoginRequest).subscribe({
+          next:(userData) => {
+              //console.log(userData);
+              this._authService.isLoggedIn.next(true);
+              this._localService.removeData("Token");
+              this._localService.saveData("Token", JSON.stringify(userData))
+          },
+          error:(errorData) => {
+              // console.info('error');
+              // console.log(errorData);
+              this.loginError = errorData;
+              this.viewProgress = false;
+          },
+          complete:() => {
+              //console.info('completo');
+              this.route.navigateByUrl('/intranet');
+              //this.loginForm.reset();
+              this.viewProgress = false;                  
+          }
+      });
     }
 
 

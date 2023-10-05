@@ -1,0 +1,53 @@
+<mat-card class="mt-2">
+    <mat-card-content>
+        <div class="row mb-2">
+            <div class="col-12">
+                <mat-chip-listbox aria-label="Personal asignado">
+                    <span class="mx-2 mt-2 fw-bold">Personal Asignado:</span>
+                    <mat-chip color="primary" *ngFor="let info of datos.usuarios">
+                        <i class="bi bi-person-fill"></i>&nbsp;{{info.persona}}
+                    </mat-chip>
+                </mat-chip-listbox>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="row my-2">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-3 mt-2 fw-bold">Sector:</div>
+                    <div class="col-3 ">                         
+                        <mat-chip-listbox aria-label="Personal asignado">
+                            <mat-chip color="primary">{{datos.codigoSector}}</mat-chip>
+                        </mat-chip-listbox>
+                    </div>
+                    <div class="col-3 mt-2 fw-bold">Fecha asignación:</div>
+                    <div class="col-3">
+                        <mat-chip-listbox  aria-label="Personal asignado">
+                            <mat-chip color="primary">{{datos.fechaOrden }} </mat-chip>
+                        </mat-chip-listbox>                            
+                    </div>                        
+                </div>                    
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="row mt-2">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-3 mt-2 fw-bold">Manzana:</div>
+                    <div class="col-3">
+                        <mat-chip-listbox  aria-label="Personal asignado">
+                            <mat-chip color="primary">{{datos.codigoManzana}}</mat-chip>
+                        </mat-chip-listbox>
+                    </div>
+                    <div class="col-3 mt-2 fw-bold">Estado:</div>
+                    <div class="col-3">
+                        <mat-chip-listbox  aria-label="Personal asignado">
+                            <mat-chip color="primary">{{datos.estadoOrden}}</mat-chip>
+                        </mat-chip-listbox>
+                    </div>                        
+                </div>                    
+            </div>
+        </div>
+
+    </mat-card-content>
+</mat-card>

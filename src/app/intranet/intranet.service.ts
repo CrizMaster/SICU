@@ -28,7 +28,7 @@ export class IntranetService implements OnInit {
     setMasterCatalog(): Observable<StatusResponse<CatalogoMaster[]>>{
         let cm = this._localService.getData("sicucm");
         if(cm.length == 0){
-            return this.http.post<StatusResponse<CatalogoMaster[]>>(environment.urlWebApiSICU + 'getDatosMaestros', null);
+            return this.http.post<StatusResponse<CatalogoMaster[]>>(environment.urlWebApiSICU + 'obtener', null);
         }
         else{
             let resp = JSON.parse(cm);

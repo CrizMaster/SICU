@@ -34,8 +34,6 @@ export class IntranetComponent implements OnInit{
       });
 
       this.actRoute.data.subscribe(resp => {
-        console.log('resp');
-        console.log(resp);
 
         if(!resp.datos.success) {
             //console.log('Cerrando sesión. No se puede obtener el catalogo maestro.');
@@ -52,9 +50,9 @@ export class IntranetComponent implements OnInit{
                 data: modal
             });
 
-            win.afterClosed().subscribe(result => {
-                this.CerrarSesion();          
-            });
+            // win.afterClosed().subscribe(result => {
+            //     this.CerrarSesion();          
+            // });
         }
       });
     }

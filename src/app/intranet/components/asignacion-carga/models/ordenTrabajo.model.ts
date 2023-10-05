@@ -2,6 +2,7 @@ import { UsuarioAsignado } from "./personalAsignado.model";
 
 export interface OrdenTrabajo {
     id: number,
+    codigoRegistroCaracterizacion: number,
     codigoDepartamento: string,
     departamento: string,
     codigoProvincia: string,
@@ -14,6 +15,7 @@ export interface OrdenTrabajo {
     codigoEstadoOrden: string,
     estadoOrden: string,
     personal: string,
+    personasAsignadas: number,
     orden: string,
     fechaOrden: string,    
     registros: number,

@@ -1,18 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Title } from 'src/app/core/models/title.model';
 import { Breadcrumb } from 'src/app/core/models/breadcrumb.model';
 import { ActivatedRoute } from '@angular/router';
 import { Sector } from '../../ficha-individual/models/sector.model';
   
 @Component({
-    selector: 'app-generar-orden',
-    templateUrl: './generar-orden.component.html',
-    styleUrls: ['./generar-orden.component.css']
+    selector: 'app-seguimiento',
+    templateUrl: './seguimiento.component.html',
+    styleUrls: ['./seguimiento.component.css']
 })
-export class GenerarOrdenComponent implements OnInit{
+export class SeguimientoComponent implements OnInit{
 
-    tituloForm: Title = { Title: 'GENERAR ORDEN', Subtitle : 'Bandeja de ordenes', Icon : 'assignment', Url: '' };
-    BreadcrumbForm: Breadcrumb[] = [{ name : "Asignación de carga" },{ name : "Generar Orden" },{ name : "Bandeja de ordenes" }];
+    tituloForm: Title = { Title: 'SEGUIMIENTO DE ORDEN', Subtitle : 'Bandeja de ordenes', Icon : 'assignment', Url: '' };
+    BreadcrumbForm: Breadcrumb[] = [{ name : "Asignación de carga" },{ name : "Seguimiento de orden" }];
 
     sectores: Sector[];
     

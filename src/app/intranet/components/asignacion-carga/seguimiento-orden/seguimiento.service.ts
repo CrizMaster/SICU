@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { OrdenTrabajo } from '../models/ordenTrabajo.model';
 import { OrdenTrabajoFilter } from '../models/ordenTrabajoFilter.model';
-import { OrdenTrabajoAction, OrdenTrabajoRequest, OrdenTrabajoResponse } from '../models/ordenTrabajoResponse';
+import { OrdenTrabajoAction, OrdenTrabajoRequest, OrdenTrabajoResponse, OrdenTrabajoView } from '../models/ordenTrabajoResponse';
 import { PersonalAsignado } from '../models/personalAsignado.model';
 import { StatusResponse } from 'src/app/core/models/statusResponse.model';
 import { Sector } from '../../ficha-individual/models/sector.model';
@@ -15,7 +15,7 @@ import { Personal } from '../models/personal.model';
 
 @Injectable()
 
-export class GenerarOrdenService{
+export class SeguimientoService{
 
     listaEstadosOrden: ItemSelect<number>[] = [];
     
@@ -26,6 +26,8 @@ export class GenerarOrdenService{
         data: []
     });
 
+    viewOrdenTrabajo: BehaviorSubject<OrdenTrabajoView> = new BehaviorSubject<OrdenTrabajoView>({});    
+
     constructor(private http: HttpClient,
         private _localService: LocalService){
     
@@ -34,6 +36,10 @@ export class GenerarOrdenService{
 
     get getDataTableOT():Observable<StatusResponse<OrdenTrabajo[]>>{
         return this.DataTableOT.asObservable();
+    }
+
+    get getViewOrdenTrabajo():Observable<OrdenTrabajoView>{
+        return this.viewOrdenTrabajo.asObservable();
     }
 
     listarSectores():Observable<StatusResponse<Sector[]>>{   
@@ -85,9 +91,7 @@ export class GenerarOrdenService{
         let cm = this._localService.getData("sicuorg");
         let data = JSON.parse(cm);
         
-        console.log('filter');
-
-        return this.http.post<StatusResponse<OrdenTrabajo[]>>(environment.urlWebApiSICU + 'listarInformacionSector',
+        return this.http.post<StatusResponse<OrdenTrabajo[]>>(environment.urlWebApiSICU + 'listarInformacionSectorEnProceso',
         {
             "page": filter.Page,
             "itemsByPage": filter.ItemsByPage,
@@ -98,8 +102,6 @@ export class GenerarOrdenService{
         })
         .pipe(
             tap((response: StatusResponse<OrdenTrabajo[]>) => {
-                console.log('response');
-                console.log(response);
                 if(response.success){
                     let con = 0;
                     response.data.forEach(elem => {
@@ -141,7 +143,7 @@ export class GenerarOrdenService{
     }
 
     crearOrden(data: OrdenTrabajoRequest):Observable<any>{
-        return this.http.post<any>(environment.urlWebApiSICU + 'CrearOrdenTrabajo',
+        return this.http.post<any>(environment.urlWebApiSICU + 'setOrdenTrabajo',
         data)
         .pipe(
             catchError(this.handlerError)

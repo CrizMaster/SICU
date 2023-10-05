@@ -3,10 +3,9 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { OrdenTrabajo } from '../../models/ordenTrabajo.model';
-import { GenerarOrdenService } from '../generar-orden.service';
+import { SeguimientoService } from '../seguimiento.service';
 import { OrdenTrabajoFilter } from '../../models/ordenTrabajoFilter.model';
 import { SelectionModel } from '@angular/cdk/collections';
-import { RegisterOrdenModalComponent } from '../register-orden-modal/register-orden-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { UsuarioAsignado } from '../../models/personalAsignado.model';
@@ -14,13 +13,13 @@ import { Title } from 'src/app/core/models/title.model';
 import { ModalQuestionComponent } from 'src/app/core/shared/components/modal-question/modal-question.component';
 import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
 import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
-import { OrdenTrabajoAction } from '../../models/ordenTrabajoResponse';
+import { OrdenTrabajoAction, OrdenTrabajoView } from '../../models/ordenTrabajoResponse';
 import { Subscription } from 'rxjs';
   
 @Component({
-    selector: 'app-bandeja-orden',
-    templateUrl: './bandeja-orden.component.html',
-    styleUrls: ['./bandeja-orden.component.css'],
+    selector: 'app-bandeja-seguimiento',
+    templateUrl: './bandeja-seguimiento.component.html',
+    styleUrls: ['./bandeja-seguimiento.component.css'],
     animations: [
       trigger('detailExpand', [
         state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -29,16 +28,12 @@ import { Subscription } from 'rxjs';
       ]),
     ]
 })
-export class BandejaOrdenComponent implements OnInit , OnDestroy {
+export class BandejaSeguimientoComponent implements OnInit , OnDestroy {
 
     filter: OrdenTrabajoFilter;
-    fi:OrdenTrabajo[]=[];
+    fi:any=[];
     loading: boolean = true;
     disablebtnAsignar: boolean = true;
-    //expandedElement: Boolean = false;
-    // displayedColumns: string[] = ['IdFichaCatastral','numeroFicha', 'fichaLote', 'codigoUnicoCatastral', 'codigoRefenciaCatastral',
-    // 'codigoContribuyenteRenta', 'codigoPredialRentas', 'condicionTitular', 'tipoTitular', 
-    // 'apellidoPaterno', 'apellidoMaterno', 'nombres', 'estado'];
     displayedColumns: string[] = ['Dpto', 'Prov', 'Dist', 'Sec', 
     'Mz', 'TotalLotes', 'NroOrden', 'EstadoOrden', 'FechaAsignacion', 'PersonalAsignado','seleccion'];
     columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
@@ -63,7 +58,7 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
     }
   
     constructor(
-      private _generarOrdenService: GenerarOrdenService,
+      private _seguimientoService: SeguimientoService,
       private route: Router,
       public dialog: MatDialog){
       this.filter = { Page:1, ItemsByPage: 10, Sector: '', Manzana: '', IdUbigeo: 0, Estado: '0'}
@@ -73,7 +68,7 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
   
       this.ListarOrdenes();
   
-      this._generarOrdenService.DataTableOT.subscribe({
+      this._seguimientoService.DataTableOT.subscribe({
         next:(Data) => {
   
           if(Data.total > 0){
@@ -100,7 +95,7 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
             }, 500);
           }
         }
-      })
+      });
   
     } 
 
@@ -110,7 +105,7 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
     }
 
     ListarOrdenes(){
-      this._generarOrdenService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
+      this._seguimientoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
         next:(Data) => {
 
           if(Data.success){
@@ -149,12 +144,8 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
       this.filter.Page = pageIndex + 1;
       this.filter.ItemsByPage = pageSize;
   
-      this._generarOrdenService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
+      this._seguimientoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
         next:(Data) => {
-            
-          console.log('Respuesta');
-          console.log(Data);
-
             this.loading = false;
   
             Data.data.forEach(elem => {
@@ -201,28 +192,46 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
 
       this.disablebtnAsignar = this.selection.selected.length == 0;
 
-      //console.log(this.selection.selected);
     }
 
-    CrearOrdenModal(data: OrdenTrabajo):void {
+    // CrearOrdenModal(data: OrdenTrabajo):void {
 
-      const dialogCrearOrden = this.dialog.open(RegisterOrdenModalComponent, {
-          width: '800px',
-          enterAnimationDuration : '300ms',
-          exitAnimationDuration: '300ms',
-          disableClose: true,
-          data: data
-      });
+    //   const dialogCrearOrden = this.dialog.open(RegisterOrdenModalComponent, {
+    //       width: '800px',
+    //       enterAnimationDuration : '300ms',
+    //       exitAnimationDuration: '300ms',
+    //       disableClose: true,
+    //       data: data
+    //   });
   
-      dialogCrearOrden.afterClosed().subscribe((result:boolean) => {
-        if(result){
-          this.ListarOrdenes();
-        }            
-      });
-    }
+    //   dialogCrearOrden.afterClosed().subscribe((result:boolean) => {
+    //     if(result){
+    //       this.ListarOrdenes();
+    //     }            
+    //   });
+    // }
 
-    CrearOrden(data: OrdenTrabajo){
-      this.CrearOrdenModal(data);
+    // CrearOrden(data: OrdenTrabajo){
+    //   this.CrearOrdenModal(data);
+    // }
+
+    VerOrden(data: OrdenTrabajo)
+    {
+
+      let ot: OrdenTrabajoView = {
+        orden: data.orden,
+        codigoOrden: data.codigoOrden,
+        fechaOrden: data.fechaOrden,
+        estadoOrden: data.estadoOrden,
+        codigoEstadoOrden: data.codigoEstadoOrden,
+        codigoSector: data.codigoSector,
+        codigoManzana: data.codigoManzana,
+        usuarios: data.usuarios
+      }
+      console.log(ot);
+      this._seguimientoService.viewOrdenTrabajo.next(ot);
+
+      this.route.navigateByUrl('/intranet/verorden');
     }
 
     AnularOrden(dato: OrdenTrabajo){
@@ -245,7 +254,7 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
             codigoOrden: dato.codigoOrden
           }
 
-          this.anularOT$ = this._generarOrdenService.anularOrden(data)
+          this.anularOT$ = this._seguimientoService.anularOrden(data)
           .subscribe(result => {    
             setTimeout(() => {
               mLoading.close();       
@@ -336,7 +345,7 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
             }]
           }
 
-          this.quitarUsuario$ = this._generarOrdenService.quitarUsuario(data)
+          this.quitarUsuario$ = this._seguimientoService.quitarUsuario(data)
           .subscribe(result => {    
             setTimeout(() => {
 
@@ -383,11 +392,7 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
               }              
             }, 500);
           });
-
         }            
       });
     }
-
-
-
 }

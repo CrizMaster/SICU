@@ -11,7 +11,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    console.log(this.determineLocalIp());
+    //console.log(this.determineLocalIp());
   }
 
   determineLocalIp(): any[] {

@@ -1,92 +1,140 @@
 
-  <h1 mat-dialog-title class="bg-cofopri text-white">Asignar Orden</h1>
+  <h1 mat-dialog-title class="bg-cofopri text-white">Asignar Personal a la Orden</h1>
   <div mat-dialog-content class="px-4" style="font-size: 0.9rem;">
     <div class="row my-2">    
         <div class="col-12 mt-1">
           <form [formGroup]="form" (ngSubmit)="agregar()">
-          <mat-card class="example-card">
-            <mat-card-content>
-              <div class="row">
-                <div class="col-3 mt-1">
-                  <div class="row">
-                    <div class="col-12 mt-1">
-                      Perfil:
+
+            <mat-card class="example-card mb-2">
+              <mat-card-content>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <div class="col-12">
+                        Ubigeo
+                      </div>
+                      <div class="col-12 text-black">
+                        {{data.departamento}} - {{data.provincia}} - {{data.distrito}}
+                      </div>
                     </div>
-                    <div class="col-12" style="position: relative;">
-                      <select name="perfil" #SelPerfil
-                              formControlName="perfil"
-                              (change)="onChangeSelPerfil(SelPerfil.value)"
-                              class="form-select form-select-sm border focus-ring" 
-                              [class.border-success]="this.form.get('perfil')?.valid"
-                              [class.focus-ring-success]="this.form.get('perfil')?.valid"
-                              [class.border-danger]="this.form.get('perfil')?.invalid && this.form.get('perfil')?.touched"
-                              [class.focus-ring-danger]="this.form.get('perfil')?.invalid && this.form.get('perfil')?.touched"
-                              aria-label="select-perfil" [pattern]="pattern1Digs">
-                              <option *ngFor="let per of listPerfil" [value]="per.idPerfil">{{ per.nombrePerfil }}</option>
-                      </select>
-                      <i *ngIf="this.form.get('perfil')?.invalid && this.form.get('perfil')?.touched" 
-                              class="position-icon-select bi bi-exclamation-circle-fill text-danger"
-                              title="Campo requerido"></i>
-                    </div> 
+                  </div>
+                  <div class="col-2">
+                    <div class="row">
+                      <div class="col-12">
+                        Sector
+                      </div>
+                      <div class="col-12 text-black">
+                        {{data.codigoSector}}
+                      </div>
+                    </div>               
+                  </div>
+                  <div class="col-2">
+                    <div class="row">
+                      <div class="col-12">
+                        Manzana
+                      </div>
+                      <div class="col-12 text-black">
+                        {{data.codigoManzana}}
+                      </div>
+                    </div>               
+                  </div>
+                  <div class="col-2">
+                    <div class="row">
+                      <div class="col-12">
+                        Orden
+                      </div>
+                      <div class="col-12 text-black">
+                        {{data.orden == null ? '-' : data.orden}}
+                      </div>
+                    </div>               
                   </div>
                 </div>
-                <div class="col-5 mt-1">
-                  <div class="row">
-                    <div class="col-12 mt-1">
-                      Personal:
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card class="example-card">
+              <mat-card-content>
+                <div class="row">
+                  <div class="col-3 mt-1">
+                    <div class="row">
+                      <div class="col-12 mt-1">
+                        Perfil:
+                      </div>
+                      <div class="col-12" style="position: relative;">
+                        <select name="perfil" #SelPerfil
+                                formControlName="perfil"
+                                (change)="onChangeSelPerfil(SelPerfil.value)"
+                                class="form-select form-select-sm border focus-ring" 
+                                [class.border-success]="this.form.get('perfil')?.valid"
+                                [class.focus-ring-success]="this.form.get('perfil')?.valid"
+                                [class.border-danger]="this.form.get('perfil')?.invalid && this.form.get('perfil')?.touched"
+                                [class.focus-ring-danger]="this.form.get('perfil')?.invalid && this.form.get('perfil')?.touched"
+                                aria-label="select-perfil" [pattern]="pattern1Digs">
+                                <option *ngFor="let per of listPerfil" [value]="per.idPerfil">{{ per.nombrePerfil }}</option>
+                        </select>
+                        <i *ngIf="this.form.get('perfil')?.invalid && this.form.get('perfil')?.touched" 
+                                class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                                title="Campo requerido"></i>
+                      </div> 
                     </div>
-                    <div class="col-12" style="position: relative;">      
-                      <select name="personal" #SelPersonal
-                              formControlName="personal"
-                              (change)="onChangeSelPersonal()"
-                              class="form-select form-select-sm border focus-ring" 
-                              [class.border-success]="this.form.get('personal')?.valid"
-                              [class.focus-ring-success]="this.form.get('personal')?.valid"
-                              [class.border-danger]="this.form.get('personal')?.invalid && this.form.get('personal')?.touched"
-                              [class.focus-ring-danger]="this.form.get('personal')?.invalid && this.form.get('personal')?.touched"
-                              aria-label="select-personal" [pattern]="pattern1Digs">
-                              <option *ngFor="let per of listPersonal" [value]="per.codigoUsuario">{{ per.persona }}</option>
-                      </select>
-                      <i *ngIf="this.form.get('personal')?.invalid && this.form.get('personal')?.touched" 
-                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
-                        title="Campo requerido"></i>
-                    </div>   
+                  </div>
+                  <div class="col-5 mt-1">
+                    <div class="row">
+                      <div class="col-12 mt-1">
+                        Personal:
+                      </div>
+                      <div class="col-12" style="position: relative;">      
+                        <select name="personal" #SelPersonal
+                                formControlName="personal"
+                                (change)="onChangeSelPersonal()"
+                                class="form-select form-select-sm border focus-ring" 
+                                [class.border-success]="this.form.get('personal')?.valid"
+                                [class.focus-ring-success]="this.form.get('personal')?.valid"
+                                [class.border-danger]="this.form.get('personal')?.invalid && this.form.get('personal')?.touched"
+                                [class.focus-ring-danger]="this.form.get('personal')?.invalid && this.form.get('personal')?.touched"
+                                aria-label="select-personal" [pattern]="pattern1Digs">
+                                <option *ngFor="let per of listPersonal" [value]="per.codigoUsuario">{{ per.persona }}</option>
+                        </select>
+                        <i *ngIf="this.form.get('personal')?.invalid && this.form.get('personal')?.touched" 
+                          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                          title="Campo requerido"></i>
+                      </div>   
+                    </div>
+                  </div>
+                  <div class="col-3 mt-1">
+                    <div class="row">
+                      <div class="col-12 mt-1">
+                        Tipo:
+                      </div>
+                      <div class="col-12" style="position: relative;">      
+                        <select name="tipo" #SelTipo
+                                formControlName="tipo"
+                                (change)="onChangeSelTipo()"
+                                class="form-select form-select-sm border focus-ring"
+                                [class.border-success]="this.form.get('tipo')?.valid"
+                                [class.focus-ring-success]="this.form.get('tipo')?.valid"
+                                [class.border-danger]="this.form.get('tipo')?.invalid && this.form.get('tipo')?.touched"
+                                [class.focus-ring-danger]="this.form.get('tipo')?.invalid && this.form.get('tipo')?.touched"
+                                aria-label="select-tipo" [pattern]="pattern1Digs">
+                                <option *ngFor="let tip of listTipo" [value]="tip.value">{{ tip.text }}</option>
+                        </select>
+                        <i *ngIf="this.form.get('tipo')?.invalid && this.form.get('tipo')?.touched" 
+                          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                          title="Campo requerido"></i>
+                      </div>                      
+                    </div>
+                  </div>
+                  <div class="col-1 mt-4">
+                    <button mat-mini-fab matTooltip="Agregar personal" 
+                      [disabled]="form.invalid"
+                      color="primary" class="my-1">
+                      <mat-icon>add</mat-icon>
+                    </button>
                   </div>
                 </div>
-                <div class="col-3 mt-1">
-                  <div class="row">
-                    <div class="col-12 mt-1">
-                      Tipo:
-                    </div>
-                    <div class="col-12" style="position: relative;">      
-                      <select name="tipo" #SelTipo
-                              formControlName="tipo"
-                              (change)="onChangeSelTipo()"
-                              class="form-select form-select-sm border focus-ring"
-                              [class.border-success]="this.form.get('tipo')?.valid"
-                              [class.focus-ring-success]="this.form.get('tipo')?.valid"
-                              [class.border-danger]="this.form.get('tipo')?.invalid && this.form.get('tipo')?.touched"
-                              [class.focus-ring-danger]="this.form.get('tipo')?.invalid && this.form.get('tipo')?.touched"
-                              aria-label="select-tipo" [pattern]="pattern1Digs">
-                              <option *ngFor="let tip of listTipo" [value]="tip.value">{{ tip.text }}</option>
-                      </select>
-                      <i *ngIf="this.form.get('tipo')?.invalid && this.form.get('tipo')?.touched" 
-                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
-                        title="Campo requerido"></i>
-                    </div>                      
-                  </div>
-                </div>
-                <div class="col-1 mt-4">
-                  <button mat-mini-fab matTooltip="Agregar personal" 
-                    [disabled]="form.invalid"
-                    color="primary" class="my-1">
-                    <mat-icon>add</mat-icon>
-                  </button>
-                </div>
-              </div>
-              <div *ngIf="msnAsignacion" class="text-danger m-2 fst-italic">El personal seleccionado ya se encuentra agregado.</div>   
-            </mat-card-content>
-          </mat-card>      
+                <div *ngIf="msnAsignacion" class="text-danger m-2 fst-italic">El personal seleccionado ya se encuentra agregado.</div>   
+              </mat-card-content>
+            </mat-card>      
           </form>
         </div>
     </div>
@@ -98,9 +146,9 @@
             <td mat-cell *matCellDef="let element"> {{element.perfil}} </td>
           </ng-container>
       
-          <ng-container matColumnDef="personal">
+          <ng-container matColumnDef="persona">
             <th mat-header-cell *matHeaderCellDef> Personal</th>
-            <td mat-cell *matCellDef="let element"> {{element.personal}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.persona}} </td>
           </ng-container>
       
           <ng-container matColumnDef="tipo">
@@ -126,8 +174,8 @@
     </div>
   </div>
   <div mat-dialog-actions class="d-flex justify-content-end">  
-    <button type="submit" class="btn btn-sm btn-primary bg-cofopri text-white" 
+    <button type="submit" class="btn btn-sm btn-danger bg-cofopri text-white" 
             [disabled]="dataSource.filteredData.length == 0"
-            (click)="guardar()">Asignar Orden</button>
+            (click)="guardar()">{{titleBtnGuardar}}</button>
     <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
   </div>

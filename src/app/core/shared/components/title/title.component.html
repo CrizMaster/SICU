@@ -1,13 +1,19 @@
 <div class="col-md-12">
     <mat-card class="border_title">
-        <mat-card-header class="text-cofopri">
+        <mat-card-header class="text-cofopri position-relativa">
             <div mat-card-avatar>
-                <button mat-mini-fab color="primary" style="background: #15448b;">
+                <button mat-mini-fab color="warn" style="background: rgb(235, 30, 35);">
                     <mat-icon>{{Data.Icon}}</mat-icon>
                 </button>
-            </div>                
-            <mat-card-title>{{Data.Title}}</mat-card-title>
-            <mat-card-subtitle class="mb-2">{{Data.Subtitle}}</mat-card-subtitle>
+            </div>
+            <div mat-card-avatar class="position-absolute" style="right: 100px;" *ngIf="Data.Url.length > 0">
+                <button class="btn btn-sm btn-custom btn-outline-secondary" style="width: 100px;"
+                (click)="regresar()">
+                    <i class="bi bi-arrow-left-circle"></i>&nbsp;&nbsp;Regresar
+              </button>
+            </div>
+            <mat-card-title><span class="text-cofopri">{{Data.Title}}</span></mat-card-title>
+            <mat-card-subtitle class="mb-2 text-50">{{Data.Subtitle}}</mat-card-subtitle>
         </mat-card-header>
     </mat-card>
 </div>

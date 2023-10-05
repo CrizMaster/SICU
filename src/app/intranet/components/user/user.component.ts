@@ -51,7 +51,7 @@ export class UserComponent implements OnInit{
 
       this._intranetService.listaOrganizaciones().subscribe({
         next:(orgsData) => {
-            console.log(orgsData);
+            //console.log(orgsData);
             this.organizaciones = orgsData.data;
             if(this.organizaciones.length > 0) { 
 
@@ -109,7 +109,7 @@ export class UserComponent implements OnInit{
       this._intranetService.listaMenu(this.organizacionSeleccionada, this.perfilSeleccionado).subscribe({
         next:(menuData) => {                    
           this._intranetService.currentComponentMenu.next(menuData.data);
-          console.log('cambio de menú');
+          //console.log('cambio de menú');
           //this.route.navigateByUrl('/intranet');
         },
         error:(errorData) => {

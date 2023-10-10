@@ -43,9 +43,11 @@ import { SeguimientoService } from "./components/asignacion-carga/seguimiento-or
 import { SeguimientoComponent } from "./components/asignacion-carga/seguimiento-orden/seguimiento.component";
 import { BandejaSeguimientoComponent } from "./components/asignacion-carga/seguimiento-orden/bandeja/bandeja-seguimiento.component";
 import { PanelFilterSeguimientoComponent } from "./components/asignacion-carga/seguimiento-orden/panel-filter/panel-filter-seguimiento.component";
-import { VerOrdenComponent } from "./components/asignacion-carga/seguimiento-orden/ver-orden/ver-orden.component";
-import { InfoOrdenComponent } from "./components/asignacion-carga/seguimiento-orden/ver-orden/info-orden/info-orden.component";
-import { BandejaLoteComponent } from "./components/asignacion-carga/seguimiento-orden/ver-orden/bandeja-lote/bandeja-lote.component";
+import { VerUnidadCatastralComponent } from "./components/asignacion-carga/seguimiento-orden/ver-unidad-catastral/ver-unidad-catastral.component";
+import { InfoOrdenComponent } from "./components/asignacion-carga/seguimiento-orden/info-orden/info-orden.component";
+import { BandejaLoteComponent } from "./components/asignacion-carga/seguimiento-orden/ver-lote/bandeja-lote/bandeja-lote.component";
+import { VerLoteComponent } from "./components/asignacion-carga/seguimiento-orden/ver-lote/ver-lote.component";
+import { BandejaLUnidadCatastralComponent } from "./components/asignacion-carga/seguimiento-orden/ver-unidad-catastral/bandeja-unidad-catastral/bandeja-unidad-catastral.component";
 
 @NgModule({
     imports: [
@@ -89,10 +91,12 @@ import { BandejaLoteComponent } from "./components/asignacion-carga/seguimiento-
         RegisterOrdenModalComponent,
         SeguimientoComponent,
         BandejaSeguimientoComponent,
-        PanelFilterSeguimientoComponent,
-        VerOrdenComponent,
+        PanelFilterSeguimientoComponent,        
         InfoOrdenComponent,
-        BandejaLoteComponent
+        BandejaLoteComponent,
+        VerLoteComponent,
+        VerUnidadCatastralComponent,
+        BandejaLUnidadCatastralComponent
     ],
     exports: [],
     providers: [

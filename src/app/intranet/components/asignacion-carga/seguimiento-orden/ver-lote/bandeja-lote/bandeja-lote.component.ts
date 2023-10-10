@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { LoteFilter, LoteResponse } from '../../../models/loteResponse';
 import { SeguimientoService } from '../../seguimiento.service';
 import { OrdenTrabajoFilter } from '../../../models/ordenTrabajoFilter.model';
+import { OrdenTrabajoView } from '../../../models/ordenTrabajoResponse';
   
 @Component({
     selector: 'app-bandeja-lote',
@@ -36,7 +37,8 @@ export class BandejaLoteComponent implements OnInit , OnDestroy {
     //columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
 
     //expandedElement: OrdenTrabajo | null;
-
+    @Input() datos: OrdenTrabajoView = {};
+    
     dataSource = new MatTableDataSource<LoteResponse>();
     //selection = new SelectionModel<OrdenTrabajo>(true, []);
   
@@ -222,24 +224,26 @@ export class BandejaLoteComponent implements OnInit , OnDestroy {
     //   this.CrearOrdenModal(data);
     // }
 
-    // VerOrden(data: OrdenTrabajo)
-    // {
+    VerUnidadCatastral(data: LoteResponse)
+    {
 
-    //   let ot: OrdenTrabajoView = {
-    //     orden: data.orden,
-    //     codigoOrden: data.codigoOrden,
-    //     fechaOrden: data.fechaOrden,
-    //     estadoOrden: data.estadoOrden,
-    //     codigoEstadoOrden: data.codigoEstadoOrden,
-    //     codigoSector: data.codigoSector,
-    //     codigoManzana: data.codigoManzana,
-    //     usuarios: data.usuarios
-    //   }
+      // let ot: OrdenTrabajoView = {
+      //   orden: data.orden,
+      //   codigoOrden: data.codigoOrden,
+      //   fechaOrden: data.fechaOrden,
+      //   estadoOrden: data.estadoOrden,
+      //   codigoEstadoOrden: data.codigoEstadoOrden,
+      //   codigoSector: data.codigoSector,
+      //   codigoManzana: data.codigoManzana,
+      //   usuarios: data.usuarios
+      // }
    
-    //   this._seguimientoService.viewOrdenTrabajo.next(ot);
+      let ot: OrdenTrabajoView = this.datos;
+      ot.nroLote = data.nroLote;
+      this._seguimientoService.viewOrdenTrabajo.next(ot);
 
-    //   this.route.navigateByUrl('/intranet/verorden');
-    // }
+      this.route.navigateByUrl('/intranet/verunidadcatastral');
+    }
 
     // AnularOrden(dato: OrdenTrabajo){
     //   let modal: Title = { Title: '¿Está seguro de anular la orden ' + dato.orden + ' ?', Subtitle: '', Icon: '' }

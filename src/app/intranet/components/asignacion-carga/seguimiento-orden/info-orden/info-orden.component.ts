@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { SeguimientoService } from '../../seguimiento.service';
-import { OrdenTrabajoView } from '../../../models/ordenTrabajoResponse';
+import { SeguimientoService } from '../seguimiento.service';
+import { OrdenTrabajoView } from '../../models/ordenTrabajoResponse';
   
 @Component({
     selector: 'app-info-orden',

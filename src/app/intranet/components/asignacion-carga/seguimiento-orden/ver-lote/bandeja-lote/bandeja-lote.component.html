@@ -49,7 +49,8 @@
                   Acción
                 </th>
                 <td mat-cell *matCellDef="let element" class="text-center">
-                  <button class="btn btn-custom btn-sm" [disabled]="element.codigoEstado == 2">
+                  <button class="btn btn-custom btn-sm" [disabled]="element.codigoEstado == 2"
+                    (click)="VerUnidadCatastral(element)">
                     <i class="bi bi-map"></i>&nbsp;Unidades Catastrales
                   </button>
                 </td>

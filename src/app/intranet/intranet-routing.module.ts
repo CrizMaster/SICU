@@ -11,7 +11,8 @@ import { AccessDeniedComponent } from "../core/shared/components/access-denied/a
 import { GenerarOrdenComponent } from "./components/asignacion-carga/generar-orden/generar-orden.component";
 import { SectorResolver } from "./resolvers/sector.resolver";
 import { SeguimientoComponent } from "./components/asignacion-carga/seguimiento-orden/seguimiento.component";
-import { VerOrdenComponent } from "./components/asignacion-carga/seguimiento-orden/ver-orden/ver-orden.component";
+import { VerLoteComponent } from "./components/asignacion-carga/seguimiento-orden/ver-lote/ver-lote.component";
+import { VerUnidadCatastralComponent } from "./components/asignacion-carga/seguimiento-orden/ver-unidad-catastral/ver-unidad-catastral.component";
 
 const routes: Routes = [
     { path: '', component: IntranetComponent,      
@@ -50,8 +51,13 @@ const routes: Routes = [
             resolve: SectorResolver
           }
         },
-        { path: 'verorden', 
-          component: VerOrdenComponent, 
+        { path: 'verlote', 
+          component: VerLoteComponent, 
+          pathMatch:'full',
+          canMatch: [IntranetGuard],
+        },
+        { path: 'verunidadcatastral', 
+          component: VerUnidadCatastralComponent, 
           pathMatch:'full',
           canMatch: [IntranetGuard],
         }

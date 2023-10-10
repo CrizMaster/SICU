@@ -215,7 +215,7 @@ export class BandejaSeguimientoComponent implements OnInit , OnDestroy {
     //   this.CrearOrdenModal(data);
     // }
 
-    VerOrden(data: OrdenTrabajo)
+    VerLote(data: OrdenTrabajo)
     {
 
       let ot: OrdenTrabajoView = {
@@ -228,10 +228,10 @@ export class BandejaSeguimientoComponent implements OnInit , OnDestroy {
         codigoManzana: data.codigoManzana,
         usuarios: data.usuarios
       }
-      console.log(ot);
+      //console.log(ot);
       this._seguimientoService.viewOrdenTrabajo.next(ot);
 
-      this.route.navigateByUrl('/intranet/verorden');
+      this.route.navigateByUrl('/intranet/verlote');
     }
 
     AnularOrden(dato: OrdenTrabajo){

@@ -6,17 +6,20 @@ import { SeguimientoService } from '../seguimiento.service';
 import { Subscription } from 'rxjs';
   
 @Component({
-    selector: 'app-ver-orden',
-    templateUrl: './ver-orden.component.html',
-    styleUrls: ['./ver-orden.component.css']
+    selector: 'app-ver-unidad-catastral',
+    templateUrl: './ver-unidad-catastral.component.html',
+    styleUrls: ['./ver-unidad-catastral.component.css']
 })
-export class VerOrdenComponent implements OnInit{
+export class VerUnidadCatastralComponent implements OnInit{
 
-    tituloForm: Title = { Title: 'ORDEN DE TRABAJO', Subtitle : 'Seguimiento de ordenes', 
-    Icon : 'assignment', Url:'/intranet/seguimiento' };
-    BreadcrumbForm: Breadcrumb[] = [{ name : "Asignación de carga" },
+    tituloForm: Title = { Title: 'ORDEN DE TRABAJO', Subtitle : 'Seguimiento de unidades catastrales', 
+    Icon : 'assignment', Url:'/intranet/verlote' };
+    
+    BreadcrumbForm: Breadcrumb[] = 
+    [{ name : "Asignación de carga" },
     { name : "Seguimiento de orden", navigate: '/intranet/seguimiento' },
-    { name : "Orden" }];
+    { name : "Lotes", navigate: '/intranet/verlote' },
+    { name : "Unidades catastrales"}];
 
     datos:OrdenTrabajoView = {};
 
@@ -31,7 +34,7 @@ export class VerOrdenComponent implements OnInit{
         this.viewOT$  = this._seguimientoService.viewOrdenTrabajo.subscribe({
             next:(Data) => {
                 this.datos = Data;
-                this.tituloForm.Title = 'ORDEN DE TRABAJO ' + this.datos.orden;
+                this.tituloForm.Title = 'ORDEN DE TRABAJO ' + this.datos.orden + ' > LOTE ' + this.datos.nroLote;
             }
           });
     }    

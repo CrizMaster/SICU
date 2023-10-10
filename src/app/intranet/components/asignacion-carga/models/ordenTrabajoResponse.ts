@@ -53,6 +53,7 @@ export interface OrdenTrabajoView {
     codigoEstadoOrden?: string,
     codigoSector?: string,
     codigoManzana?: string,
+    nroLote?: string,
 
     usuarios?: UsuarioAsignado[]
 }

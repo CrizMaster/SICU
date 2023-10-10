@@ -15,7 +15,7 @@ export class VerLoteComponent implements OnInit{
     tituloForm: Title = { Title: 'ORDEN DE TRABAJO', Subtitle : 'Seguimiento de lotes', 
     Icon : 'assignment', Url:'/intranet/seguimiento' };
     BreadcrumbForm: Breadcrumb[] = [{ name : "Asignación de carga" },
-    { name : "Seguimiento de orden", navigate: '/intranet/seguimiento' },
+    { name : "Seguimiento de orden de trabajo", navigate: '/intranet/seguimiento' },
     { name : "Lotes" }];
 
     datos:OrdenTrabajoView = {};

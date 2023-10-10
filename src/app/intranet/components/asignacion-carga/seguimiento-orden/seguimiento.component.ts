@@ -11,8 +11,8 @@ import { Sector } from '../../ficha-individual/models/sector.model';
 })
 export class SeguimientoComponent implements OnInit{
 
-    tituloForm: Title = { Title: 'SEGUIMIENTO DE ORDEN', Subtitle : 'Bandeja de ordenes', Icon : 'assignment', Url: '' };
-    BreadcrumbForm: Breadcrumb[] = [{ name : "Asignación de carga" },{ name : "Seguimiento de orden" }];
+    tituloForm: Title = { Title: 'SEGUIMIENTO DE ORDENES DE TRABAJO', Subtitle : 'Bandeja de ordenes de trabajo', Icon : 'assignment', Url: '' };
+    BreadcrumbForm: Breadcrumb[] = [{ name : "Asignación de carga" },{ name : "Seguimiento de orden de trabajo" }];
 
     sectores: Sector[];
     

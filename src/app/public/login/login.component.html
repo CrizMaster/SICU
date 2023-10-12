@@ -1,13 +1,13 @@
 <app-network-status></app-network-status>
 <div class="d-flex justify-content-center
-align-items-center vh-100" style="background-color: rgb(88, 89, 91);">
+align-items-center vh-100 bg-eyl-secondary">
 
 <form (submit)="login()"  name="loginForm" [formGroup]="loginForm">
-    <div class="p-4 rounded-4 shadow-md"
-        style="width: 30rem; background-color: rgb(88, 89, 91);">
+    <div class="p-4 rounded-4 shadow-md bg-eyl-secondary"
+        style="width: 30rem;">
         <mat-card>
             <mat-card-header>
-                <div class="circle-header-image"></div>
+                <div class="header-image"></div>
                 <!-- <mat-card-title class="text-start fs-6 text-cofopri">COFOPRI</mat-card-title>
                 <mat-card-subtitle class="text-start text-cofopri">Organismo de formalización de la propiedad informal</mat-card-subtitle> -->
             </mat-card-header>
@@ -15,7 +15,7 @@ align-items-center vh-100" style="background-color: rgb(88, 89, 91);">
         <mat-card class="mt-2">
             <mat-card-header>
 
-                <mat-card-title class="text-center fs-6 mx-2 display-6">SISTEMA DE INFORMACIÓN CATASTRAL URBANO</mat-card-title>
+                <mat-card-title class="text-center fs-6 mx-2 display-6">SISTEMA DE INFORMACIÓN DE GESTIÓN</mat-card-title>
                 <mat-card-subtitle class="text-start text-secondary m-2">Introduzca sus datos a continuación:</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
@@ -49,11 +49,11 @@ align-items-center vh-100" style="background-color: rgb(88, 89, 91);">
                         <div class="pt-1" style="font-size: 0.9rem;">Remember me</div>
                     </div> -->
                     <div style="text-align: right;">
-                        <a href="#" class="text-decoration-none text-danger
+                        <a href="#" class="text-decoration-none text-eyl-primary
                         fst-italic" style="font-size: 0.9rem;">Olvidó su contraseña?</a>
                     </div>
                 </div>
-                <button class="btn btn-sm btn-danger bg-cofopri w-100 mt-1 fw-semibold
+                <button class="btn btn-sm btn-primary bg-eyl-primary w-100 mt-1 fw-semibold
                 shadow-sm" type="submit" *ngIf="!offline">Iniciar Sesión
                     
                 </button>

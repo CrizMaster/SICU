@@ -1,12 +1,12 @@
 .full-width {
     width: 100%;
  }
- .circle-header-image {
-    background-image: url('../../../assets/image/Logo_MVCS.png');
+ .header-image {
+    background-image: url('../../../assets/image/logotipo2.png');
     background-size: cover;
-    height: 60px;
-    width: 300px;
+    height: 110px;
+    width: 380px;
     flex-shrink: 0;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     object-fit: cover;
   }

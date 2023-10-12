@@ -52,7 +52,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .mdc-linear-progress__bar-inner {  
-    border-color: rgb(235, 30, 35) !important;
+    border-color: rgb(0, 84, 140) !important;
     }
 
     .btn-custom {
@@ -83,3 +83,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         border-color: #26a851;
         background-color: white;   
       }      
+
+
+
+.bg-eyl-primary {
+  background-color: rgb(0, 84, 140);
+}
+.bg-eyl-secondary {
+  background-color: rgb(60, 60, 59);
+}
+.text-eyl-primary {
+  color: rgb(0, 84, 140);
+}
+.text-eyl-secondary {
+  color: rgb(60, 60, 59);
+}

@@ -36,18 +36,23 @@ import { SummaryModalComponent } from "./components/ficha-individual/panel-regis
 import { AsignacionCargaService } from "./components/asignacion-carga/asignacion-carga.service";
 import { GenerarOrdenService } from "./components/asignacion-carga/generar-orden/generar-orden.service";
 import { GenerarOrdenComponent } from "./components/asignacion-carga/generar-orden/generar-orden.component";
-import { PanelFilterOrdenComponent } from "./components/asignacion-carga/generar-orden/panel-filter/panel-filter-orden.component";
+
 import { BandejaOrdenComponent } from "./components/asignacion-carga/generar-orden/bandeja/bandeja-orden.component";
 import { RegisterOrdenModalComponent } from "./components/asignacion-carga/generar-orden/register-orden-modal/register-orden-modal.component";
 import { SeguimientoService } from "./components/asignacion-carga/seguimiento-orden/seguimiento.service";
 import { SeguimientoComponent } from "./components/asignacion-carga/seguimiento-orden/seguimiento.component";
 import { BandejaSeguimientoComponent } from "./components/asignacion-carga/seguimiento-orden/bandeja/bandeja-seguimiento.component";
-import { PanelFilterSeguimientoComponent } from "./components/asignacion-carga/seguimiento-orden/panel-filter/panel-filter-seguimiento.component";
+import { PanelFilterOrdenComponent } from "./components/asignacion-carga/panel-filter-orden/panel-filter-orden.component";
 import { VerUnidadCatastralComponent } from "./components/asignacion-carga/seguimiento-orden/ver-unidad-catastral/ver-unidad-catastral.component";
 import { InfoOrdenComponent } from "./components/asignacion-carga/seguimiento-orden/info-orden/info-orden.component";
 import { BandejaLoteComponent } from "./components/asignacion-carga/seguimiento-orden/ver-lote/bandeja-lote/bandeja-lote.component";
 import { VerLoteComponent } from "./components/asignacion-carga/seguimiento-orden/ver-lote/ver-lote.component";
 import { BandejaLUnidadCatastralComponent } from "./components/asignacion-carga/seguimiento-orden/ver-unidad-catastral/bandeja-unidad-catastral/bandeja-unidad-catastral.component";
+import { OrdenTrabajoComponent } from "./components/formularios/orden-trabajo/orden-trabajo.component";
+import { OrdenTrabajoService } from "./components/formularios/orden-trabajo/orden-trabajo.service";
+import { BandejaOrdenTrabajoComponent } from "./components/formularios/orden-trabajo/bandeja/bandeja-orden-trabajo.component";
+import { LoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/lote-orden.component";
+import { BandejaLoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/bandeja-lote-orden/bandeja-lote-orden.component";
 
 @NgModule({
     imports: [
@@ -85,18 +90,21 @@ import { BandejaLUnidadCatastralComponent } from "./components/asignacion-carga/
         AdditionalWorksModalComponent,
         SummaryModalComponent,
 
-        GenerarOrdenComponent,
-        PanelFilterOrdenComponent,
+        GenerarOrdenComponent,        
         BandejaOrdenComponent,
         RegisterOrdenModalComponent,
         SeguimientoComponent,
         BandejaSeguimientoComponent,
-        PanelFilterSeguimientoComponent,        
+        PanelFilterOrdenComponent,
         InfoOrdenComponent,
         BandejaLoteComponent,
         VerLoteComponent,
         VerUnidadCatastralComponent,
-        BandejaLUnidadCatastralComponent
+        BandejaLUnidadCatastralComponent,
+        OrdenTrabajoComponent,
+        BandejaOrdenTrabajoComponent,
+        LoteOrdenComponent,
+        BandejaLoteOrdenComponent
     ],
     exports: [],
     providers: [
@@ -108,7 +116,8 @@ import { BandejaLUnidadCatastralComponent } from "./components/asignacion-carga/
         FichaIndividualService,
         AsignacionCargaService,
         GenerarOrdenService,
-        SeguimientoService
+        SeguimientoService,
+        OrdenTrabajoService
     ]
 })
 

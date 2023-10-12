@@ -100,7 +100,7 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
             }, 500);
           }
         }
-      })
+      });
   
     } 
 
@@ -151,9 +151,6 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
   
       this._generarOrdenService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
         next:(Data) => {
-            
-          console.log('Respuesta');
-          console.log(Data);
 
             this.loading = false;
   

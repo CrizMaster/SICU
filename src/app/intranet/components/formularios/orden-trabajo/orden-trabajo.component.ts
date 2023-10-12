@@ -1,19 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Title } from 'src/app/core/models/title.model';
 import { Breadcrumb } from 'src/app/core/models/breadcrumb.model';
 import { ActivatedRoute } from '@angular/router';
 import { Sector } from '../../ficha-individual/models/sector.model';
-import { AsignacionCargaService } from '../asignacion-carga.service';
+import { AsignacionCargaService } from '../../asignacion-carga/asignacion-carga.service';
   
 @Component({
-    selector: 'app-generar-orden',
-    templateUrl: './generar-orden.component.html',
-    styleUrls: ['./generar-orden.component.css']
+    selector: 'app-orden-trabajo',
+    templateUrl: './orden-trabajo.component.html',
+    styleUrls: ['./orden-trabajo.component.css']
 })
-export class GenerarOrdenComponent implements OnInit{
+export class OrdenTrabajoComponent implements OnInit{
 
-    tituloForm: Title = { Title: 'GENERAR ORDEN DE TRABAJO', Subtitle : 'Bandeja de ordenes de trabajo', Icon : 'assignment', Url: '' };
-    BreadcrumbForm: Breadcrumb[] = [{ name : "Asignación de carga" },{ name : "Generar Orden de trabajo" },{ name : "Bandeja de ordenes de trabajo" }];
+    tituloForm: Title = { Title: 'ORDENES DE TRABAJO', Subtitle : 'Bandeja de ordenes de trabajo', Icon : 'assignment', Url: '' };
+    BreadcrumbForm: Breadcrumb[] = [{ name : "Formularios" },{ name : "Orden de trabajo" }];
 
     sectores: Sector[];
     
@@ -31,7 +31,7 @@ export class GenerarOrdenComponent implements OnInit{
             else{ console.log(resp.resolve.message); }
         });
 
-        this._asignacionCarga.OrigenFilter.next(1);
+        this._asignacionCarga.OrigenFilter.next(2);
     }    
 
 }

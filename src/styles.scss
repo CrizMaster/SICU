@@ -74,3 +74,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         border-color: #ff0303;
         background-color: white;   
       }      
+      .btn-custom-success {
+        color: #26a851;
+        border-color: #b1b1b1;
+      }
+      .btn-custom-success:hover {
+        color: #26a851;
+        border-color: #26a851;
+        background-color: white;   
+      }      

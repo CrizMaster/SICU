@@ -13,6 +13,8 @@ import { SectorResolver } from "./resolvers/sector.resolver";
 import { SeguimientoComponent } from "./components/asignacion-carga/seguimiento-orden/seguimiento.component";
 import { VerLoteComponent } from "./components/asignacion-carga/seguimiento-orden/ver-lote/ver-lote.component";
 import { VerUnidadCatastralComponent } from "./components/asignacion-carga/seguimiento-orden/ver-unidad-catastral/ver-unidad-catastral.component";
+import { OrdenTrabajoComponent } from "./components/formularios/orden-trabajo/orden-trabajo.component";
+import { LoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/lote-orden.component";
 
 const routes: Routes = [
     { path: '', component: IntranetComponent,      
@@ -58,6 +60,19 @@ const routes: Routes = [
         },
         { path: 'verunidadcatastral', 
           component: VerUnidadCatastralComponent, 
+          pathMatch:'full',
+          canMatch: [IntranetGuard],
+        },
+        { path: 'ordentrabajo', 
+          component: OrdenTrabajoComponent,
+          pathMatch:'full',
+          canMatch: [IntranetGuard],
+          resolve: {
+            resolve: SectorResolver
+          }
+        },
+        { path: 'loteOrden', 
+          component: LoteOrdenComponent, 
           pathMatch:'full',
           canMatch: [IntranetGuard],
         }

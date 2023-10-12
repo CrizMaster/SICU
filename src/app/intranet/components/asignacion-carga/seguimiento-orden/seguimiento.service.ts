@@ -26,7 +26,7 @@ export class SeguimientoService{
         data: []
     });
 
-    viewOrdenTrabajo: BehaviorSubject<OrdenTrabajoView> = new BehaviorSubject<OrdenTrabajoView>({});    
+    viewOrdenTrabajo: BehaviorSubject<OrdenTrabajoView> = new BehaviorSubject<OrdenTrabajoView>({});
 
     constructor(private http: HttpClient,
         private _localService: LocalService){
@@ -90,7 +90,7 @@ export class SeguimientoService{
 
         let cm = this._localService.getData("sicuorg");
         let data = JSON.parse(cm);
-        
+
         return this.http.post<StatusResponse<OrdenTrabajo[]>>(environment.urlWebApiSICU + 'listarInformacionSectorEnProceso',
         {
             "page": filter.Page,

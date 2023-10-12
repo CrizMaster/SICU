@@ -189,9 +189,9 @@ export class RegisterOrdenModalComponent implements OnInit, OnDestroy {
         usuarios: usuarios
       };
 
-      let modal1: Title = { Title: '¿Está seguro de crear la orden?'}
+      let modal1: Title = { Title: '¿Está seguro de crear la orden de trabajo?'}
       if(this.codigoOrden > 0){
-        modal1.Title = '¿Está seguro de asignar el personal a la orden ' + this.data.orden +  ' ?';
+        modal1.Title = '¿Está seguro de asignar el personal a la orden de trabajo ' + this.data.orden +  ' ?';
       }
       
       const subDialogModal = this.subDialog.open(ModalQuestionComponent, {
@@ -216,8 +216,8 @@ export class RegisterOrdenModalComponent implements OnInit, OnDestroy {
                     let codigo = '0000'.concat(String(result.data));
   
                     let modal: Title = { 
-                      Title: 'Nueva orden ' + codigo.substring(codigo.length - 4, codigo.length), 
-                      Subtitle: 'La orden se creó satisfactoriamente.', 
+                      Title: 'Nueva orden de trabajo ' + codigo.substring(codigo.length - 4, codigo.length), 
+                      Subtitle: 'La orden de trabajo se creó satisfactoriamente.', 
                       Icon: 'ok' 
                     }
   
@@ -259,7 +259,7 @@ export class RegisterOrdenModalComponent implements OnInit, OnDestroy {
 
                     let modal: Title = { 
                       Title: 'Personal asignado',
-                      Subtitle: 'El personal se asignó a la orden satisfactoriamente.', 
+                      Subtitle: 'El personal se asignó a la orden de trabajo satisfactoriamente.', 
                       Icon: 'ok' 
                     }
   

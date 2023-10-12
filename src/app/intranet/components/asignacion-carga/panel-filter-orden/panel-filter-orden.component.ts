@@ -1,22 +1,27 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Manzana } from '../../../ficha-individual/models/manzana.model';
-import { Sector } from '../../../ficha-individual/models/sector.model';
+import { Manzana } from '../../ficha-individual/models/manzana.model';
+import { Sector } from '../../ficha-individual/models/sector.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { LocalService } from 'src/app/core/shared/services/local.service';
-import { SeguimientoService } from '../seguimiento.service';
 import { Subscription } from 'rxjs';
 import { CatalogoMasterEnum } from 'src/app/core/shared/enum/catalogo-master.enum';
 import { getFilterMasterCatalog } from 'src/app/core/shared/function/getFilterMasterCatalog';
-import { OrdenTrabajoFilter } from '../../models/ordenTrabajoFilter.model';
+import { OrdenTrabajoFilter } from '../models/ordenTrabajoFilter.model';
+import { GenerarOrdenService } from '../generar-orden/generar-orden.service';
+import { SeguimientoService } from '../seguimiento-orden/seguimiento.service';
+import { AsignacionCargaService } from '../asignacion-carga.service';
 
-  
 @Component({
-    selector: 'app-panel-filter-seguimiento',
-    templateUrl: './panel-filter-seguimiento.component.html',
-    styleUrls: ['./panel-filter-seguimiento.component.css']
+    selector: 'app-panel-filter-orden',
+    templateUrl: './panel-filter-orden.component.html',
+    styleUrls: ['./panel-filter-orden.component.css']
 })
-export class PanelFilterSeguimientoComponent implements OnInit, OnDestroy {
+export class PanelFilterOrdenComponent implements OnInit, OnDestroy {
+
+    @Input() sectores: Sector[];
+    origen: number = 0;
+    public listManz$: Subscription = new Subscription;
 
     step = 0;
     customCollapsedHeight: string = '36px';
@@ -24,20 +29,19 @@ export class PanelFilterSeguimientoComponent implements OnInit, OnDestroy {
     filter: OrdenTrabajoFilter;
 
     IdUbigeo: number = 0;
+
     form: FormGroup;
     
     manzanas: Manzana[] = [{ idManzana: 0, codigoManzana: 'Seleccionar'}];
-    estados: ItemSelect<string>[];
 
+    listaEstados: ItemSelect<number>[] = [];
     listaEstadosOrden: ItemSelect<number>[] = [];
-
-    public listManz$: Subscription = new Subscription;
-
-    @Input() sectores: Sector[];
     
     constructor(
         private _localService: LocalService,
+        private _generarOrdenService: GenerarOrdenService,
         private _seguimientoService: SeguimientoService,
+        private _asignacionCarga: AsignacionCargaService,
         private fb: FormBuilder
         ){
             this.form = this.fb.group({
@@ -49,11 +53,6 @@ export class PanelFilterSeguimientoComponent implements OnInit, OnDestroy {
                 estado: [0]
               });
 
-            let listEstados = getFilterMasterCatalog(CatalogoMasterEnum.EstadoOrdenTrabajo);
-            listEstados.forEach(elem => {
-                if(elem.code == null || elem.code == '02'|| elem.code == '04') this.listaEstadosOrden.push(elem);
-            });
-
             let cm = this._localService.getData("sicuorg");
             if(cm.length > 0){
                 let data = JSON.parse(cm);
@@ -63,34 +62,43 @@ export class PanelFilterSeguimientoComponent implements OnInit, OnDestroy {
                     distrito: data.distrito
                 });
 
-                this.IdUbigeo =parseInt(data.idUbigeo);          
+                this.IdUbigeo = parseInt(data.idUbigeo);           
             }
+
+            this.listaEstados = getFilterMasterCatalog(CatalogoMasterEnum.EstadoOrdenTrabajo);         
     }
 
     ngOnInit(): void {
+        this._asignacionCarga.OrigenFilter.subscribe({
+            next:(origen) => {
+                this.origen = origen;
+                this.listaEstados.forEach(elem => {
+                    if(origen == 1 && (elem.code == null || elem.code == '01')) this.listaEstadosOrden.push(elem);
+                    else if(origen == 2 && (elem.code == null || elem.code == '02'|| elem.code == '04')) this.listaEstadosOrden.push(elem);
+                }); 
+            }
+        });       
     }
 
     ngOnDestroy(): void {
         this.listManz$.unsubscribe();
-    }  
+    } 
 
-    onChangeSelSector(newValueSect: string, sw: boolean){
+    onChangeSelSector(newValueSect: string){
         let codSector = '';
         this.sectores.forEach(sec => {
           if(sec.idSector == parseInt(newValueSect)) codSector = sec.codigoSector;
         });
   
-        this.listManz$ = this._seguimientoService.listarManzanas(codSector).subscribe(result => {
-  
+        this.listManz$ = this._generarOrdenService.listarManzanas(codSector).subscribe(result => {  
           this.manzanas = result.data;
-          
         });
       }    
 
     buscar(){
 
         let info = this.form.value;
-
+        
         this.filter = { 
             Page:1, 
             ItemsByPage: 10, 
@@ -117,7 +125,7 @@ export class PanelFilterSeguimientoComponent implements OnInit, OnDestroy {
                 }
             });
         }
-        
+
         let idest = parseInt(info.estado);
         if(idest != 0){
             this.listaEstadosOrden.forEach(el => {
@@ -125,12 +133,21 @@ export class PanelFilterSeguimientoComponent implements OnInit, OnDestroy {
                     this.filter.Estado = el.code;
                 }
             });
+        }        
+        
+        if(this.origen == 1){
+            this._generarOrdenService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
+                next:(Data: any) => {
+                    this._generarOrdenService.DataTableOT.next(Data);
+                }
+              })
         }
-
-        this._seguimientoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
-            next:(Data: any) => {
-                this._seguimientoService.DataTableOT.next(Data);
-            }
-          });
+        else if(this.origen == 2){
+            this._seguimientoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
+                next:(Data: any) => {
+                    this._seguimientoService.DataTableOT.next(Data);
+                }
+              });
+        }          
     }
 }

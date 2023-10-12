@@ -3,6 +3,7 @@ import { Title } from 'src/app/core/models/title.model';
 import { Breadcrumb } from 'src/app/core/models/breadcrumb.model';
 import { ActivatedRoute } from '@angular/router';
 import { Sector } from '../../ficha-individual/models/sector.model';
+import { AsignacionCargaService } from '../asignacion-carga.service';
   
 @Component({
     selector: 'app-seguimiento',
@@ -17,7 +18,8 @@ export class SeguimientoComponent implements OnInit{
     sectores: Sector[];
     
     constructor(
-        private actRoute: ActivatedRoute
+        private actRoute: ActivatedRoute,
+        private _asignacionCarga: AsignacionCargaService
         ){            
     }
 
@@ -28,6 +30,8 @@ export class SeguimientoComponent implements OnInit{
             }
             else{ console.log(resp.resolve.message); }
         });
+
+        this._asignacionCarga.OrigenFilter.next(2);
     }    
 
 }

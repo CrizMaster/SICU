@@ -84,8 +84,6 @@ export class GenerarOrdenService{
 
         let cm = this._localService.getData("sicuorg");
         let data = JSON.parse(cm);
-        
-        console.log('filter');
 
         return this.http.post<StatusResponse<OrdenTrabajo[]>>(environment.urlWebApiSICU + 'listarInformacionSector',
         {
@@ -98,8 +96,6 @@ export class GenerarOrdenService{
         })
         .pipe(
             tap((response: StatusResponse<OrdenTrabajo[]>) => {
-                console.log('response');
-                console.log(response);
                 if(response.success){
                     let con = 0;
                     response.data.forEach(elem => {

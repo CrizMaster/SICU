@@ -23,15 +23,8 @@ export const CatalogResolver: ResolveFn<{ success:boolean }> = (
    
         let item = response.data.find((obj) => { return obj.grupo === '998'; })
         if(item == undefined) {
-
-            // response.data.push({ id: con + 1, orden: '01', nombre: 'RESPONSABLE', grupo: '997' });
-            // response.data.push({ id: con + 2, orden: '02', nombre: 'APOYO', grupo: '997' });
-
             response.data.push({ id: con + 3, orden: '01', nombre: 'SUPERVISOR', grupo: '998' });
             response.data.push({ id: con + 4, orden: '02', nombre: 'TÉCNICO', grupo: '998' });
-
-            // response.data.push({ id: con + 5, orden: '01', nombre: 'ASIGNADO', grupo: '999' });
-            // response.data.push({ id: con + 6, orden: '02', nombre: 'EN PROCESO', grupo: '999' });
         }       
 
         _localService.removeData("sicucm");

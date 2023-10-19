@@ -1,0 +1,20 @@
+export interface EdificacionResponse {
+    usuarioCreacion: string,
+    terminalCreacion: string,
+    usuarioModificacion: string,
+    terminalModificacion: string,
+    codigoEdificacion: 0,
+    codigoLote: number,
+    nombreEspecifico: string,
+    codigoTipoEdificacion: string,
+    nombreEdificacion: string,
+    numeroEdificacion: string,
+    activo: number,
+    numeroEdificaciones: 0,
+    codigoDepartamento: string,
+    codigoProvincia: string,
+    codigoDistrito: string,
+    codigoSector: string,
+    codigoManzana: string,
+    codigoLoteCaracterizacion: string
+}

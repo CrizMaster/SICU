@@ -1,0 +1,15 @@
+.icon-display {
+  border-radius: 50%;
+  transform: scale(2.8);
+  color: rgb(235, 30, 35);
+  background-color: white;
+  top:-14px;
+}
+
+::ng-deep .mat-step-header .mat-step-icon {
+  background-color: rgb(235, 30, 35);
+  height: 50px;
+  width: 50px;
+  font-size: 30px;
+  top:-14px;
+}

@@ -53,6 +53,11 @@ import { OrdenTrabajoService } from "./components/formularios/orden-trabajo/orde
 import { BandejaOrdenTrabajoComponent } from "./components/formularios/orden-trabajo/bandeja/bandeja-orden-trabajo.component";
 import { LoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/lote-orden.component";
 import { BandejaLoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/bandeja-lote-orden/bandeja-lote-orden.component";
+import { RegistroLoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/registro-lote-orden.component";
+import { FormularioRegistroLoteComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/formulario-registro-lote.component";
+import { InformacionLoteComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/informacion-lote/informacion-lote.component";
+import { EdificacionesComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/edificaciones/edificaciones.component";
+import { EditarEdificacionModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/edificaciones/editar-edificacion-modal/editar-edificacion-modal.component";
 
 @NgModule({
     imports: [
@@ -104,7 +109,12 @@ import { BandejaLoteOrdenComponent } from "./components/formularios/orden-trabaj
         OrdenTrabajoComponent,
         BandejaOrdenTrabajoComponent,
         LoteOrdenComponent,
-        BandejaLoteOrdenComponent
+        BandejaLoteOrdenComponent,
+        RegistroLoteOrdenComponent,
+        FormularioRegistroLoteComponent,
+        InformacionLoteComponent,
+        EdificacionesComponent,
+        EditarEdificacionModalComponent
     ],
     exports: [],
     providers: [

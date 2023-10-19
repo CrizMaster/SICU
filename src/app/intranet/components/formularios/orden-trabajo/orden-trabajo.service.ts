@@ -5,10 +5,13 @@ import { LocalService } from 'src/app/core/shared/services/local.service';
 import { environment } from 'src/environments/environment';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { StatusResponse } from 'src/app/core/models/statusResponse.model';
-import { Sector } from '../../ficha-individual/models/sector.model';
 import { OrdenTrabajo } from '../../asignacion-carga/models/ordenTrabajo.model';
 import { OrdenTrabajoFilter } from '../../asignacion-carga/models/ordenTrabajoFilter.model';
 import { OrdenTrabajoView } from '../../asignacion-carga/models/ordenTrabajoResponse';
+import { LoteFilter, LoteResponse } from '../../asignacion-carga/models/loteResponse';
+import { CaracterizacionResponse, FilterCaracterizacion } from '../models/caracterizacionResponse';
+import { EdificacionFilter, EdificacionLoteRequest, EdificacionRequest } from '../models/edificacionRequest';
+import { EdificacionResponse } from '../models/edificacionResponse';
 
 @Injectable()
 
@@ -24,6 +27,9 @@ export class OrdenTrabajoService{
     });
 
     viewOrdenTrabajo: BehaviorSubject<OrdenTrabajoView> = new BehaviorSubject<OrdenTrabajoView>({});
+
+    filterCaracterizacion: BehaviorSubject<FilterCaracterizacion> = 
+        new BehaviorSubject<FilterCaracterizacion>({ codigoCaracterizacion: 0, codigoLoteCaracterizacion: '000', codigoLote: 0, codigoDetalle: 0 });
     
     constructor(private http: HttpClient,
         private _localService: LocalService){
@@ -39,49 +45,9 @@ export class OrdenTrabajoService{
         return this.viewOrdenTrabajo.asObservable();
     }
 
-    // listarSectores():Observable<StatusResponse<Sector[]>>{   
-        
-    //     let cm = this._localService.getData("sicuorg");
-    //     let data = JSON.parse(cm);
-        
-    //     return this.http.post<StatusResponse<Sector[]>>(environment.urlWebApiSICU + 'listarSectores',
-    //     {
-    //         'codigoUbigeo': parseInt(data.idUbigeo)
-    //     })
-    //     .pipe(
-    //         tap((response: StatusResponse<Sector[]>) => {
-    //             let con = 0;
-    //             if(response.success){
-    //                 response.data.forEach(item => {
-    //                     con++;
-    //                     item.idSector = con;
-    //                 });
-    //                 response.data.unshift({ idSector: 0, codigoSector: 'Seleccionar'});
-    //             }
-    //         }),
-    //         catchError(this.handlerError)
-    //     );        
-    // }
-
-    // listarManzanas(id: string):Observable<any>{
-    //     return this.http.post<any>(environment.urlWebApiSICU + 'listarManzanasPorSector',
-    //     {
-    //         'codigoSector': id
-    //     })
-    //     .pipe(
-    //         tap((response: any) => {
-    //             if(response.success){
-    //                 let con = 0;            
-    //                 response.data.forEach(item => {
-    //                     con++;
-    //                     item.idManzana = con;
-    //                 });
-    //                 response.data.unshift({ idManzana: 0, codigoManzana: 'Seleccionar'});
-    //             }
-    //         }),
-    //         catchError(this.handlerError)
-    //     );         
-    // }
+    get getFilterCaracterizacion():Observable<FilterCaracterizacion>{
+        return this.filterCaracterizacion.asObservable();
+    }
 
     listarOrdenesTrabajoxDistrito(filter: OrdenTrabajoFilter):Observable<StatusResponse<OrdenTrabajo[]>>{
 
@@ -111,65 +77,96 @@ export class OrdenTrabajoService{
             catchError(this.handlerError)            
         );
     }
+
+    listarLotesxOrdenTrabajo(filter: LoteFilter):Observable<StatusResponse<LoteResponse[]>>{
+
+        return this.http.post<StatusResponse<LoteResponse[]>>(environment.urlWebApiSICU + 'listarLotesOrdenTrabajo',
+        {
+            "page": filter.Page,
+            "itemsByPage": filter.ItemsByPage,
+            "codigoOrden": filter.codigoOrden
+        })
+        .pipe(
+            tap((response: StatusResponse<LoteResponse[]>) => {
+                if(response.success){
+                    //console.log(response);
+                    let con = 0;
+                    response.data.forEach(elem => {
+                        con++;
+                        elem.id = con + ((filter.Page - 1) * filter.ItemsByPage);
+                    });
+                }
+            }),
+            catchError(this.handlerError)            
+        );
+    }
+
+    obtieneInformacionCaracterizacionLote():Observable<StatusResponse<CaracterizacionResponse>>{
+
+        let filter: FilterCaracterizacion;
+        this.getFilterCaracterizacion.subscribe({
+            next:(Data) => {
+                  filter = Data;
+              }
+        });
+
+        return this.http.post<StatusResponse<CaracterizacionResponse>>(environment.urlWebApiSICU + 'obtieneInformacionCaracterizacionLote',
+        {
+            "codigoLoteCaracterizacion": filter.codigoLoteCaracterizacion,
+            "codigoCaracterizacion": filter.codigoCaracterizacion,
+            "codigoLote": filter.codigoLote
+        })
+        .pipe(
+            // tap((response: StatusResponse<CaracterizacionResponse>) => {
+            //     if(response.success){
+            //         console.log('response');
+            //         console.log(response);
+            //     }
+            // }),
+            catchError(this.handlerError)            
+        );
+    }    
+
+    GuardaFormularioLote(data: FormData):Observable<any>{
+        return this.http.post<any>(environment.urlWebApiSICU + 'GuardaFormularioLote',
+        data)
+        .pipe(
+            catchError(this.handlerError)
+        );         
+    }
+
+    GenerarLoteEdificaciones(data: EdificacionLoteRequest):Observable<any>{
+        return this.http.post<any>(environment.urlWebApiSICU + 'GenerarLoteEdificaciones',
+        data)
+        .pipe(
+            catchError(this.handlerError)
+        );         
+    }
+
+    ConsultaEdicacionesLote(filter:EdificacionFilter):Observable<StatusResponse<EdificacionResponse[]>>{
     
-    // listarPerfiles():Observable<StatusResponse<Perfil[]>>{
-    //     return this.http.post<StatusResponse<Perfil[]>>(environment.urlWebApiSecurity + 'listarPerfiles',
-    //     null)
-    //     .pipe(
-    //         tap((response: StatusResponse<Perfil[]>) => {
-    //             if(response.success){
-    //                 response.data.unshift({ idPerfil: 0, nombrePerfil: 'Seleccionar'});
-    //             }
-    //         }),
-    //         catchError(this.handlerError)
-    //     );
-    // }
+        return this.http.post<StatusResponse<EdificacionResponse[]>>(environment.urlWebApiSICU + 'ConsultaEdicacionesLote',
+        {
+            "codigoLote": filter.codigoLote
+        })
+        .pipe(
+            // tap((response: StatusResponse<EdificacionResponse[]>) => {
+            //     if(response.success){
+            //         console.log('response');
+            //         console.log(response);
+            //     }
+            // }),
+            catchError(this.handlerError)            
+        );
+    }    
 
-    // listarPersonasPerfil(filter: PerfilFilter):Observable<StatusResponse<Personal[]>>{
-
-    //     return this.http.post<StatusResponse<Personal[]>>(environment.urlWebApiSecurity + 'listarUsuariosPorPerfil'
-    //     , filter)
-    //     .pipe(
-    //         tap((response: any) => {
-    //             if(response.success){
-    //                 response.data.unshift({ codigoUsuario: 0, persona: 'Seleccionar', usuario: 'Seleccionar'});
-    //             }
-    //         }),
-    //         catchError(this.handlerError)
-    //     );
-    // }
-
-    // crearOrden(data: OrdenTrabajoRequest):Observable<any>{
-    //     return this.http.post<any>(environment.urlWebApiSICU + 'setOrdenTrabajo',
-    //     data)
-    //     .pipe(
-    //         catchError(this.handlerError)
-    //     );         
-    // }
-
-    // anularOrden(data: OrdenTrabajoAction):Observable<any>{
-    //     return this.http.post<any>(environment.urlWebApiSICU + 'anularOrdenTrabajo',
-    //     data)
-    //     .pipe(
-    //         catchError(this.handlerError)
-    //     );         
-    // }
-
-    // agregarUsuario(data: OrdenTrabajoRequest):Observable<any>{
-    //     return this.http.post<any>(environment.urlWebApiSICU + 'agregarUsuario',
-    //     data)
-    //     .pipe(
-    //         catchError(this.handlerError)
-    //     );         
-    // }
-
-    // quitarUsuario(data: OrdenTrabajoAction):Observable<any>{
-    //     return this.http.post<any>(environment.urlWebApiSICU + 'quitarUsuario',
-    //     data)
-    //     .pipe(
-    //         catchError(this.handlerError)
-    //     );         
-    // }    
+    ActualizaDatosEdificacion(data: EdificacionRequest):Observable<any>{
+        return this.http.post<any>(environment.urlWebApiSICU + 'ActualizaDatosEdificacion',
+        data)
+        .pipe(
+            catchError(this.handlerError)
+        );         
+    }
 
     private handlerError(error: HttpErrorResponse) {
         let msn = '';

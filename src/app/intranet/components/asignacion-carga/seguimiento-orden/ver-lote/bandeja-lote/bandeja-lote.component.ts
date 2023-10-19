@@ -14,6 +14,7 @@ import { LoteFilter, LoteResponse } from '../../../models/loteResponse';
 import { SeguimientoService } from '../../seguimiento.service';
 import { OrdenTrabajoFilter } from '../../../models/ordenTrabajoFilter.model';
 import { OrdenTrabajoView } from '../../../models/ordenTrabajoResponse';
+import { OrdenTrabajoService } from 'src/app/intranet/components/formularios/orden-trabajo/orden-trabajo.service';
   
 @Component({
     selector: 'app-bandeja-lote',
@@ -58,6 +59,7 @@ export class BandejaLoteComponent implements OnInit , OnDestroy {
   
     constructor(
       private _seguimientoService: SeguimientoService,
+      private _ordenTrabajoService: OrdenTrabajoService,
       private route: Router,
       public dialog: MatDialog){
       //this.filter = { Page:1, ItemsByPage: 10, Sector: '', Manzana: '', IdUbigeo: 0, Estado: '0'}
@@ -65,7 +67,7 @@ export class BandejaLoteComponent implements OnInit , OnDestroy {
 
     ngOnInit(): void {  
   
-      // this.ListarOrdenes();
+      this.ListarLotes();
   
       // this._seguimientoService.DataTableOT.subscribe({
       //   next:(Data) => {
@@ -96,21 +98,50 @@ export class BandejaLoteComponent implements OnInit , OnDestroy {
       //   }
       // });
 
-      let info: LoteResponse[] = [
-        { id:1, codigoEstado:1, estado: 'Visitado y Sincronizado', nroLote: '01', totalUC: 4, fechaAsignacion: '04/10/2023 15:15', fechaSicronizacion: '04/10/2023 19:50' },
-        { id:2, codigoEstado:2, estado: 'Pendiente Formulario', nroLote: '02', totalUC: 8, fechaAsignacion: '03/10/2023 15:35', fechaSicronizacion: '' },
-        { id:3, codigoEstado:3, estado: 'Visitado en Proceso', nroLote: '03', totalUC: 6, fechaAsignacion: '02/10/2023 10:00', fechaSicronizacion: '02/10/2023 15:35' },
-        { id:4, codigoEstado:4, estado: 'Visitado', nroLote: '04', totalUC: 12, fechaAsignacion: '05/10/2023 11:15', fechaSicronizacion: '05/10/2023 16:15' }
-      ]
+      // let info: LoteResponse[] = [
+      //   { id:1, codigoEstado: '01', estado: 'Pendiente Formulario', codigoLote: '01', unidadesAdministrativas: 4, fechaOrden: '04/10/2023 15:15', fechaSincronizacion: '04/10/2023 19:50', codigoCaracterizacion: 0 },
+      //   { id:2, codigoEstado: '01', estado: 'Pendiente Formulario', codigoLote: '02', unidadesAdministrativas: 8, fechaOrden: '03/10/2023 15:35', fechaSincronizacion: '', codigoCaracterizacion: 0 },
+      //   { id:3, codigoEstado: '02', estado: 'Visitado en Proceso', codigoLote: '03', unidadesAdministrativas: 6, fechaOrden: '02/10/2023 10:00', fechaSincronizacion: '02/10/2023 15:35', codigoCaracterizacion: 0 },
+      //   { id:4, codigoEstado: '01', estado: 'Pendiente Formulario', codigoLote: '04', unidadesAdministrativas: 12, fechaOrden: '05/10/2023 11:15', fechaSincronizacion: '05/10/2023 16:15', codigoCaracterizacion: 0 }
+      // ]
 
-            this.dataSource = new MatTableDataSource<LoteResponse>(info);
-            this.dataSource.paginator = this.paginator;      
+      //       this.dataSource = new MatTableDataSource<LoteResponse>(info);
+      //       this.dataSource.paginator = this.paginator;      
   
     } 
 
     ngOnDestroy(): void {
       this.anularOT$.unsubscribe();
       this.quitarUsuario$.unsubscribe();
+    }
+
+    ListarLotes(){
+      this.filter.codigoOrden = this.datos.codigoOrden;
+      this._ordenTrabajoService.listarLotesxOrdenTrabajo(this.filter).subscribe({
+        next:(Data) => {
+
+          if(Data.success){
+            // Data.data.forEach(elem => {
+            //   elem.seleccion = false;
+            //   elem.expandir = false;
+            // });
+
+            console.log(Data.data);
+
+            this.loading = false;
+            let info = Data.data;
+            info.length = Data.total;          
+
+            this.dataSource = new MatTableDataSource<LoteResponse>(info);
+            this.dataSource._updateChangeSubscription();
+            this.dataSource.paginator = this.paginator;
+          }
+          else{
+            this.dataSource = new MatTableDataSource<LoteResponse>([]);
+            this.dataSource.paginator = this.paginator;
+          }
+        }
+      })
     }
 
     // ListarOrdenes(){
@@ -226,20 +257,8 @@ export class BandejaLoteComponent implements OnInit , OnDestroy {
 
     VerUnidadCatastral(data: LoteResponse)
     {
-
-      // let ot: OrdenTrabajoView = {
-      //   orden: data.orden,
-      //   codigoOrden: data.codigoOrden,
-      //   fechaOrden: data.fechaOrden,
-      //   estadoOrden: data.estadoOrden,
-      //   codigoEstadoOrden: data.codigoEstadoOrden,
-      //   codigoSector: data.codigoSector,
-      //   codigoManzana: data.codigoManzana,
-      //   usuarios: data.usuarios
-      // }
-   
       let ot: OrdenTrabajoView = this.datos;
-      ot.nroLote = data.nroLote;
+      ot.nroLote = data.codigoLoteCaracterizacion;
       this._seguimientoService.viewOrdenTrabajo.next(ot);
 
       this.route.navigateByUrl('/intranet/verunidadcatastral');

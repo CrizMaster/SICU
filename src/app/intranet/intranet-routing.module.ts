@@ -15,6 +15,9 @@ import { VerLoteComponent } from "./components/asignacion-carga/seguimiento-orde
 import { VerUnidadCatastralComponent } from "./components/asignacion-carga/seguimiento-orden/ver-unidad-catastral/ver-unidad-catastral.component";
 import { OrdenTrabajoComponent } from "./components/formularios/orden-trabajo/orden-trabajo.component";
 import { LoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/lote-orden.component";
+import { RegisterOrdenModalComponent } from "./components/asignacion-carga/generar-orden/register-orden-modal/register-orden-modal.component";
+import { RegistroLoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/registro-lote-orden.component";
+import { InfoCaracterizacionResolver } from "./resolvers/infoCaracterizacion.resolver";
 
 const routes: Routes = [
     { path: '', component: IntranetComponent,      
@@ -75,6 +78,14 @@ const routes: Routes = [
           component: LoteOrdenComponent, 
           pathMatch:'full',
           canMatch: [IntranetGuard],
+        },
+        { path: 'registroLoteOrden', 
+          component: RegistroLoteOrdenComponent, 
+          pathMatch:'full',
+          canMatch: [IntranetGuard],
+          resolve: {
+            resolve: InfoCaracterizacionResolver
+          }
         }
       ] 
     }

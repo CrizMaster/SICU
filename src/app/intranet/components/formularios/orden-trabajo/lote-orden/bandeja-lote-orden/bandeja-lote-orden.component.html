@@ -11,36 +11,32 @@
                 <th mat-header-cell *matHeaderCellDef class="text-center"> Estado</th>
                 <td mat-cell *matCellDef="let element" class="text-center">
                   <span class="border p-2" style="width: 150px;"
-                  [class.border-success]="element.codigoEstado == 1"
-                  [class.text-success]="element.codigoEstado == 1"
-                  [class.border-danger]="element.codigoEstado == 2"
-                  [class.text-danger]="element.codigoEstado == 2"
-                  [class.border-warning]="element.codigoEstado == 3"
-                  [class.text-warning]="element.codigoEstado == 3"
-                  [class.border-info]="element.codigoEstado == 4"
-                  [class.text-info]="element.codigoEstado == 4">{{element.estado}} </span>
+                  [class.border-danger]="element.codigoEstado == '01'"
+                  [class.text-danger]="element.codigoEstado == '01'"
+                  [class.border-warning]="element.codigoEstado == '03'"
+                  [class.text-warning]="element.codigoEstado == '03'">{{element.estado}} </span>
 
                 </td>
               </ng-container>
           
               <ng-container matColumnDef="NroLote">
                 <th mat-header-cell *matHeaderCellDef class="text-center"> Nro. Lote</th>
-                <td mat-cell *matCellDef="let element" class="text-center"> {{element.nroLote}} </td>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoLoteCaracterizacion}} </td>
               </ng-container>
           
               <ng-container matColumnDef="TotalUC">
                 <th mat-header-cell *matHeaderCellDef class="text-center"> Total UC </th>
-                <td mat-cell *matCellDef="let element" class="text-center"> {{element.totalUC}} </td>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.unidadesAdministrativas}} </td>
               </ng-container>
           
               <ng-container matColumnDef="FechaAsignacion">
                 <th mat-header-cell *matHeaderCellDef class="text-center">Fecha Asignación</th>
-                <td mat-cell *matCellDef="let element" class="text-center"> {{element.fechaAsignacion}} </td>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.fechaOrden}} </td>
               </ng-container>
           
               <ng-container matColumnDef="FechaSincronizada">
-                <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha Sicronización </th>
-                <td mat-cell *matCellDef="let element" class="text-center"> {{element.fechaSicronizacion}} </td>
+                <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha Sincronización </th>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.fechaSincronizacion}} </td>
               </ng-container>
           
 
@@ -49,14 +45,14 @@
                   Acción
                 </th>
                 <td mat-cell *matCellDef="let element" class="text-center">
-                  <button class="btn btn-custom-danger btn-sm" *ngIf="element.codigoEstado == 2"
-                    (click)="VerUnidadCatastral(element)">
-                    <i class="bi bi-clipboard-check"></i>&nbsp;Registrar Formulario
+                  <button class="btn btn-custom-danger btn-sm" 
+                    (click)="ActualizarFormulario(element)">
+                    <i class="bi bi-clipboard-check"></i>&nbsp;Actualizar Formulario
                   </button>
-                  <button class="btn btn-custom-success btn-sm" *ngIf="element.codigoEstado != 2"
-                  (click)="VerUnidadCatastral(element)">
-                  <i class="bi bi-map"></i>&nbsp;Unidades Catastrales
-                </button>
+                  <!-- <button class="btn btn-custom-success btn-sm" *ngIf="element.codigoEstado != '01'"
+                  >
+                  <i class="bi bi-map"></i>&nbsp;Unidades Administrativas
+                </button> -->
                 </td>
               </ng-container>
 

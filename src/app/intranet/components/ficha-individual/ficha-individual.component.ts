@@ -13,7 +13,7 @@ import { FichaIndividualService } from './ficha-individual.service';
 })
 export class FichaIndividualComponent implements OnInit{
 
-    tituloForm: Title = { Title: 'FICHAS CATASTRALES INDIVIDUALES', Subtitle : 'Bandeja de Trabajo', Icon : 'person', Url: '' };
+    tituloForm: Title = { Title: 'FICHAS CATASTRALES INDIVIDUALES', Subtitle : 'Bandeja de Trabajo', Icon : 'person', Url: 'abcvbcbc' };
     BreadcrumbForm: Breadcrumb[] = [{ name : "Fichas Catastrales" },{ name : "Individual" },{ name : "Bandeja de Trabajo" }];    
 
     // @ViewChild('deleteSwal')

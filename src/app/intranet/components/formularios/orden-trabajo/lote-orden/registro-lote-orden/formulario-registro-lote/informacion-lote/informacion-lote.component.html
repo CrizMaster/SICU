@@ -1,0 +1,326 @@
+<div class="row my-3">  
+    <form [formGroup]="myForm" (ngSubmit)="guardar()" enctype="multipart/form-data">
+        <mat-card>
+          <mat-card-content>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-xs-12 mt-1">
+                  <div class="row">
+                  <div class="col-12 m-1">
+                      Código de Lotes Catastral
+                  </div>
+                  <div class="col-12" style="position: relative;">
+                      <input type="text" formControlName="codigoLote" 
+                              class="form-control form-control-sm border">
+                  </div>      
+                  </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-xs-12 mt-1">
+                  <div class="row">
+                  <div class="col-12 mt-1">
+                    &nbsp;
+                  </div>
+                  <div class="col-12 text-end" style="position: relative;">
+                      <mat-slide-toggle
+                          class="example-margin"                          
+                          formControlName="checked"
+                          (change)="Modifica($event)">
+                          Modifica
+                      </mat-slide-toggle>
+                  </div>      
+                  </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-xs-12 mt-1">
+                  <div class="row">
+                  <div class="col-12 m-1">
+                      Propuesta de Lotes Catastral:
+                  </div>
+                  <div class="col-12" style="position: relative;">
+                      <input type="text" formControlName="codigoLotePropuesta"
+                              class="form-control form-control-sm border"
+                              [disableControl]="!this.myForm.get('checked').value">
+                  </div>      
+                  </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-4 col-md-4 col-xs-12 mt-1">
+                    <div class="row">
+                    <div class="col-12 m-1">
+                        Habilitación Urbana
+                    </div>
+                    <div class="col-12" style="position: relative;">
+                      <input type="text" formControlName="habilitacionUrbana" 
+                             class="form-control form-control-sm border">
+                        <!-- <select name="habilitacionUrbana"
+                                formControlName="habilitacionUrbana"
+                                class="form-select form-select-sm border focus-ring"
+                                aria-label="select-habilitacionUrbana" [pattern]="pattern1Digs">
+                                <option *ngFor="let hu of listTipoHU" [value]="hu.value">{{ hu.text }}</option>
+                        </select> -->
+                        <!-- <i *ngIf="this.form.get('habilitacionUrbana')?.invalid && this.form.get('habilitacionUrbana')?.touched" 
+                            class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i> -->
+                    </div>      
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-xs-12 mt-1">
+                    <div class="row">
+                      <div class="col-12 mt-1">
+                        Tipo División Habilitación
+                      </div>
+                      <div class="col-12">
+                          <input type="text" formControlName="tipoDivisionHabilitacion" 
+                                class="form-control form-control-sm border">
+                      </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-xs-12 mt-1">
+                  <div class="row">
+                    <div class="col-12 mt-1">
+                      Nombre / Número División
+                    </div>
+                    <div class="col-12">
+                        <input type="text" formControlName="numeroDivision" 
+                              class="form-control form-control-sm border">
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-4 col-md-4 col-xs-12 mt-1">
+                    <div class="row">
+                        <div class="col-12 mt-1">
+                        Manzana
+                        </div>
+                        <div class="col-12">
+                          <input type="text" formControlName="manzanaUrbana" 
+                                  class="form-control form-control-sm border">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-xs-12 mt-1">
+                    <div class="row">
+                        <div class="col-12 mt-1">
+                        Lote
+                        </div>
+                        <div class="col-12">
+                          <input type="text" formControlName="loteUrbano" 
+                                  class="form-control form-control-sm border">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-xs-12 mt-1">
+                  <div class="row">
+                      <div class="col-12 mt-1">
+                      Sub Lote
+                      </div>
+                      <div class="col-12">
+                        <input type="text" formControlName="subLote" 
+                                class="form-control form-control-sm border">
+                      </div>
+                  </div>
+              </div>                
+            </div>          
+          </mat-card-content>
+        </mat-card>
+        <div class="row mt-3">
+            <div class="col-lg-12 col-md-12 col-xs-12 mt-1">
+              <ng-container>
+                <span class="fs-6 fw-bold">Entradas</span>
+                <mat-divider class="my-2"></mat-divider>
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover shadow p-3 mb-5 bg-body-tertiary" style="border: 1px solid #dadada;">                    
+                    <thead>
+                      <tr style="color: white; background-color: #dadada;">
+                        <th scope="col" class="text-center align-middle title-table fw-normal" >Vía</th>
+                        <th scope="col" class="text-center align-middle title-table fw-normal" style="width:120px;">Activación</th>
+                        <th scope="col" class="text-center align-middle title-table fw-normal" style="width:120px;">Nro Orden</th>
+                        <th scope="col" class="text-center align-middle title-table fw-normal" style="width:200px;">Tipo de Puerta</th>
+                        <th scope="col" class="text-center align-middle title-table fw-normal" style="width:250px;">Condición númerica</th>
+                        <th scope="col" class="text-center align-middle title-table fw-normal" style="width:120px; height: 60px;">Nro Municipal</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container formArrayName="vias" *ngFor="let via of getFormControl.controls; let i = index">
+                        <tr [formGroupName]="i">
+                          <td class="align-middle px-2">
+                            {{getFormControl.controls[i].get('nombreVia').value}}
+                          </td>
+                          <td class="align-middle text-center px-2">
+                            <mat-slide-toggle
+                                class="example-margin"
+                                [color]="color"
+                                formControlName="checkedAct"
+                                (change)="Activacion($event, getFormControl.controls[i])">
+                            </mat-slide-toggle>                          
+                          </td>
+                          <td class="align-middle px-2">
+                            <input type="text" formControlName="numeroOrden"
+                            class="form-control form-control-sm border">                          
+                          </td>
+                          <td class="align-middle px-2">
+                            <select name="idTipoPuerta"
+                                    formControlName="idTipoPuerta"
+                                    class="form-select form-select-sm border focus-ring"
+                                    aria-label="select-idTipoPuerta" [pattern]="pattern1Digs">
+                                    <option *ngFor="let tp of listTipoPuerta" [value]="tp.value">{{ tp.text }}</option>
+                            </select>                          
+                          </td>
+                          <td class="align-middle px-2">
+                            <select name="idCondicion"
+                                    formControlName="idCondicion"
+                                    class="form-select form-select-sm border focus-ring"
+                                    (change)="CondicionNumerica($event, getFormControl.controls[i])"
+                                    aria-label="select-idCondicion" [pattern]="pattern1Digs">
+                                    <option *ngFor="let tp of listCondicion" [value]="tp.value">{{ tp.text }}</option>
+                            </select>                          
+                          </td>
+                          <td class="align-middle px-2">
+                            <input type="text" formControlName="numeroMunicipal"
+                            class="form-control form-control-sm border">                          
+                          </td>
+                        </tr>
+                      </ng-container>                      
+                    </tbody>
+                  </table>
+                </div>
+                <!-- <ng-container *ngFor="let lessonForm of vias.controls; let i = index">
+                  <div class="lesson-form-row" [formGroup]="lessonForm">
+                      <mat-form-field appearance="fill">
+                          <input matInput
+                                 formControlName="nombreVia"
+                                 placeholder="Lesson title">
+                      </mat-form-field>
+                      <mat-form-field appearance="fill">
+                          <mat-select formControlName="idTipoPuerta"
+                                  placeholder="Lesson level">
+                                  <mat-option *ngFor="let hu of listTipoHU" [value]="hu.value">{{ hu.text }}</mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                      
+                  </div>
+              </ng-container> -->
+              <!-- <table mat-table [dataSource]="vias.controls" class="mat-elevation-z8">
+                  <ng-container matColumnDef="nombreVia" >
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Via</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      {{element.nombreVia}}
+                    </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="activacion">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Activacion</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <mat-slide-toggle
+                          class="example-margin"
+                          [color]="color"
+                          formControlName="checkedAct">
+                      </mat-slide-toggle>
+                    </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="numeroOrden">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Nro.Orden </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.numeroOrden}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="idTipoPuerta">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Tipo de Puerta</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <select name="idTipoPuerta"
+                              formControlName="idTipoPuerta"
+                              class="form-select form-select-sm border focus-ring"
+                              aria-label="select-idTipoPuerta" [pattern]="pattern2Digs">
+                              <option *ngFor="let tp of listTipoPuerta" [value]="tp.value">{{ tp.text }}</option>
+                      </select>
+                    </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="codigoCondicion">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Condiciones Numéricas </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <select name="codigoCondicion"
+                              formControlName="codigoCondicion"
+                              class="form-select form-select-sm border focus-ring" 
+                              [class.border-success]="this.form.get('codigoCondicion')?.valid"
+                              [class.focus-ring-success]="this.form.get('codigoCondicion')?.valid"
+                              [class.border-danger]="this.form.get('codigoCondicion')?.invalid && this.form.get('codigoCondicion')?.touched"
+                              [class.focus-ring-danger]="this.form.get('codigoCondicion')?.invalid && this.form.get('codigoCondicion')?.touched"
+                              aria-label="select-codigoCondicion" [pattern]="pattern2Digs">
+                              <option *ngFor="let hu of listTipoHU" [value]="hu.value">{{ hu.text }}</option>
+                      </select>                        
+                    </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="numeroMunicipal">
+                      <th mat-header-cell *matHeaderCellDef class="text-center">Nro Municipal</th>
+                      <td mat-cell *matCellDef="let element" class="text-center">
+                          <input type="text" formControlName="numeroMunicipal"
+                          class="form-control form-control-sm border">
+                      </td>
+                    </ng-container>
+
+    
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+              </table> -->
+              <!-- <div *ngIf="dataSource.filteredData.length == 0" class="text-danger m-2 fst-italic">No se encontraron registros.</div>   -->
+            </ng-container>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">&nbsp;</div>
+          <div class="col-md-4 border border-2 border-danger p-2 mb-2 border-opacity-25 rounded">
+            <input class="btn btn-sm btn-danger bg-cofopri w-100 mt-1 shadow-sm" 
+              type="file" (change)="capturarFile($event)" accept="image/*" multiple/>
+              <!-- <i class="bi bi-camera"></i>&nbsp;
+              Subir Archivos           -->
+          </div>
+        </div>
+        <div class="row py-2">
+          <div class="col-md-4">&nbsp;</div>
+          <div class="col-md-4">
+            <div class="row border border-2 border-danger p-2 mb-2 border-opacity-25 rounded" *ngIf="imagenes.length > 0">
+              <div class="col-md-12" *ngFor="let img of imagenes">
+                <mat-card class="my-2">
+                  <div class="d-flex">
+                    <div class="p-2" style="width: 70px;">
+                      <img [src]="img.base64" alt="" width="60px">
+                    </div>
+                    <div class="p-2 flex-grow-1">
+                      <div class="row">
+                        <div class="col-md-12">{{img.name}}</div>
+                        <div class="col-md-6">{{img.tamanio}}</div>
+                        <div class="col-md-6 text-end mt-1">
+                          <button mat-mini-fab color="warn" style="background: rgb(235, 30, 35);" 
+                              title="Quitar" (click)="quitarImagen(img)">
+                            <mat-icon>delete</mat-icon>
+                          </button>&nbsp;
+                          <!-- <button mat-mini-fab color="primary" style="background: rgb(21, 56, 255);"
+                              title="Quitar" (click)="quitarImagen(img)">
+                            <mat-icon>search</mat-icon>
+                          </button> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">&nbsp;</div>
+          <div class="col-md-4 border border-2 border-warning p-2 mb-2 border-opacity-25 rounded">
+            <button type="submit" class="btn btn-sm btn-warning w-100 mt-1 shadow-sm" 
+              [disabled]="myForm.invalid">
+              <i class="bi bi-save"></i>&nbsp; Grabar      
+            </button>
+          </div>
+        </div>
+        <!-- <button type="submit" class="btn btn-sm btn-primary bg-cofopri text-white" 
+            [disabled]="myForm.invalid"
+            (click)="guardar()">Aceptar</button> -->
+    </form>
+</div>

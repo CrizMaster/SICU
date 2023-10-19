@@ -59,7 +59,6 @@ export class FichaIndividualService{
 
     getCatalogoMaster(): CatalogoMaster[]{
         let cm = this._localService.getData("sicucm");
-        console.log(JSON.parse(cm));
         return JSON.parse(cm);      
     }
 

@@ -1,0 +1,60 @@
+<div class="col-md-12 my-3">  
+    <mat-card class="border_title">
+        <mat-card-content class="border_title bg-secondary-subtle">      
+          <mat-stepper class="example-stepper" #Stepper labelPosition="bottom"> <!--linear-->
+            <mat-step [stepControl]="firstFormGroup" 
+                [completed]="firstComplete" state="info">
+                <ng-template matStepLabel>INFORMACIÓN LOTE</ng-template>
+                <div class="container-sm">
+                    <app-informacion-lote [Stepper] = "Stepper"></app-informacion-lote>
+                </div> 
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup" 
+                label="EDIFICACIONES" state="receipt" [completed]="secondComplete">           
+                <div class="container-sm">
+                  <app-edificaciones></app-edificaciones>
+                </div>        
+            </mat-step>
+            <mat-step [stepControl]="thirdFormGroup" state="badge"
+                label="UNIDADES ADMINISTRATIVAS" [completed]="thirdComplete">
+                <div class="container-sm">
+                    <div class="row">
+                        <div class="col-12">
+                            MODULO EN CONSTRUCCIÓN
+                        </div>
+                    </div>
+                </div>  
+            </mat-step>
+            <mat-step [stepControl]="roomFormGroup" state="apartment"
+                label="BIENES COMUNES" [completed]="roomComplete">
+                <div class="container-sm">
+                    FORMULARIO DE BIENES COMUNES
+                </div>
+            </mat-step>            
+            <mat-step [stepControl]="fifthFormGroup" state="source_notes"
+                label="GENERAR REGISTRO" [completed]="fifthComplete">
+                <div class="container-sm">
+                    GENERAR REGISTRO
+                </div>
+            </mat-step>
+
+            <ng-template matStepperIcon="info">
+                <mat-icon class="icon-display">info</mat-icon>
+            </ng-template>
+            <ng-template matStepperIcon="receipt">
+                <mat-icon class="icon-display">receipt_long</mat-icon>
+            </ng-template>
+            <ng-template matStepperIcon="badge">
+                <mat-icon class="icon-display">badge</mat-icon>
+            </ng-template>
+            <ng-template matStepperIcon="apartment">
+                <mat-icon class="icon-display">apartment</mat-icon>
+            </ng-template>
+            <ng-template matStepperIcon="source_notes">
+                <mat-icon class="icon-display">source_notes</mat-icon>
+            </ng-template>
+            
+          </mat-stepper>        
+        </mat-card-content>
+    </mat-card>
+</div>

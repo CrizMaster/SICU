@@ -1,0 +1,52 @@
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <h1 mat-dialog-title class="bg-cofopri text-white">Edificación Nro {{codigo}}</h1>
+  <div mat-dialog-content class="px-4" style="font-size: 0.9rem;">
+    <div class="row my-2">    
+        <div class="col-12 mt-1">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  Tipo de Edificación:
+                </div>
+                <div class="col-12" style="position: relative;">
+                  <select name="tipoedificacion" #SelTipoedificacion
+                          formControlName="tipoedificacion"
+                          class="form-select form-select-sm border focus-ring" 
+                          [class.border-success]="this.form.get('tipoedificacion')?.valid"
+                          [class.focus-ring-success]="this.form.get('tipoedificacion')?.valid"
+                          [class.border-danger]="this.form.get('tipoedificacion')?.invalid && this.form.get('tipoedificacion')?.touched"
+                          [class.focus-ring-danger]="this.form.get('tipoedificacion')?.invalid && this.form.get('tipoedificacion')?.touched"
+                          aria-label="select-tipoedificacion">
+                          <option *ngFor="let cv of listTipoedificacion" [value]="cv.value">{{ cv.text }}</option>
+                  </select>
+                  <i *ngIf="this.form.get('tipoedificacion')?.invalid && this.form.get('tipoedificacion')?.touched" 
+                          class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                          title="Campo requerido"></i>
+                </div>
+              </div>
+              <div class="row my-2">
+                <div class="col-12 mt-1">
+                  Nombre Edificación:
+                </div>
+                <div class="col-12" style="position: relative;">
+                  <input type="text" formControlName="nombreedificacion"
+                        class="form-control form-control-sm border focus-ring"
+                        [class.border-success]="this.form.get('nombreedificacion')?.valid"
+                        [class.focus-ring-success]="this.form.get('nombreedificacion')?.valid"
+                        [class.border-danger]="this.form.get('nombreedificacion')?.invalid && this.form.get('nombreedificacion')?.touched"
+                        [class.focus-ring-danger]="this.form.get('nombreedificacion')?.invalid && this.form.get('nombreedificacion')?.touched">                        
+                </div>
+              </div>
+            </div>
+          </div>    
+        </div>
+    </div>    
+  </div>
+  <div mat-dialog-actions class="d-flex justify-content-end">  
+    <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
+    <button type="submit" class="btn btn-sm btn-warning" 
+            [disabled]="form.invalid"
+            (click)="guardar()"><i class="bi bi-plus-circle"></i>&nbsp;Guardar</button>
+  </div>
+</form>

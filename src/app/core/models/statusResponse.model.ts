@@ -3,5 +3,5 @@ export interface StatusResponse<T> {
     message?: string,
     total: number,
     validations?: string[],
-    data: T
+    data?: T
 }

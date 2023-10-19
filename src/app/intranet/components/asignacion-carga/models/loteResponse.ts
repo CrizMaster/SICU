@@ -1,15 +1,24 @@
 export interface LoteResponse {
-    id: number,
-    codigoEstado: number,
+    id?: number,
+    codigoDetalle: number,
+    codigoEstado: string,
     estado: string,
-    nroLote: string,
-    totalUC?: number,
-    fechaAsignacion?: string,
-    fechaSicronizacion?: string
+    codigoLote: number,
+    unidadesAdministrativas?: number,
+    fechaOrden?: string,
+    fechaSincronizacion?: string,
+    codigoCaracterizacion: number,
+    codigoLoteCaracterizacion: string
 }
 
 export interface LoteFilter {
     orden: number,
     Page: number,
-    ItemsByPage: number
+    ItemsByPage: number,
+    codigoOrden: number
+}
+
+export interface CaracterizacionFilter {
+    codigoLote: string,
+    codigoCaracterizacion: number
 }

@@ -45,11 +45,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: black;
 }
 
-.succesful{
-    margin-top: 78px !important;
-    margin-right: 28px !important;
-    position: absolute;
-}
+
 
 .mdc-linear-progress__bar-inner {  
     border-color: rgb(0, 84, 140) !important;
@@ -84,17 +80,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         background-color: white;   
       }      
 
-
+// E y L Consultores
 
 .bg-eyl-primary {
-  background-color: rgb(0, 84, 140);
+  background-color: #00548c;
 }
 .bg-eyl-secondary {
-  background-color: rgb(60, 60, 59);
+  background-color: #3c3c3b;
 }
 .text-eyl-primary {
-  color: rgb(0, 84, 140);
+  color: #00548c;
 }
 .text-eyl-secondary {
-  color: rgb(60, 60, 59);
+  color: #3c3c3b;
+}
+
+/*Posicion del SnackBar "sin conección a internet"*/
+.succesful{
+  margin-top: 78px !important;
+  margin-right: 28px !important;
+  position: absolute;
 }

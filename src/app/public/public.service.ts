@@ -20,8 +20,8 @@ export class PublicService{
 
     login(credencials: LoginRequest):Observable<LoginResponse>{
         return this.http.post<LoginResponse>(environment.urlWebApiTest + 'Users/Authenticate',
-        {   userName: credencials.usuario, 
-            password: credencials.password
+        {   UserName: credencials.usuario, 
+            Password: credencials.password
         }).pipe(
             catchError(this.handlerError)
         );

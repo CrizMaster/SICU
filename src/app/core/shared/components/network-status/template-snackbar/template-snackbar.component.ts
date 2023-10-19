@@ -10,22 +10,22 @@ import { of } from 'rxjs';
 })
 export class TemplateSnackbarComponent implements OnInit  {
 
-    image: string = '0';
-    cont: number = 4;
+    // image: string = '0';
+    // cont: number = 4;
     ngOnInit(): void {
-        setTimeout(() => {
-            this.changeImge();
-          }, 500);
+        // setTimeout(() => {
+        //     this.changeImge();
+        //   }, 500);
     }
 
-    changeImge(): void {
-        this.image = this.cont.toString();
-        this.cont --;
-        if(this.cont < 0) this.cont = 4;
+    // changeImge(): void {
+    //     this.image = this.cont.toString();
+    //     this.cont --;
+    //     if(this.cont < 0) this.cont = 4;
 
-        setTimeout(() => {
-            this.changeImge();
-          }, 500);
-    }
+    //     setTimeout(() => {
+    //         this.changeImge();
+    //       }, 500);
+    // }
     
 }

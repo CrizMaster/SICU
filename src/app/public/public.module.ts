@@ -3,7 +3,6 @@ import { SharedModule } from "../core/shared/shared.module";
 import { PublicRoutingModule } from "./public-routing.module"
 
 import { PublicComponent } from "./public.component";
-import { HomeComponent } from "./home/containers/home.component";
 import { LoginComponent } from "./login/login.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
@@ -23,7 +22,6 @@ import {RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module} from 'ng-recaptcha';
     ],
     declarations: [
         PublicComponent,
-        HomeComponent,
         LoginComponent,
         HeaderComponent,
         FooterComponent,

@@ -23,6 +23,7 @@ export class UserComponent implements OnInit{
 
     userName: string = '';
     email: string = '';
+    cargo: string = '';
     image: string = '';
     organizacionSeleccionada: number = 0;
     perfilSeleccionado: number = 0;
@@ -44,29 +45,30 @@ export class UserComponent implements OnInit{
     ngOnInit(): void {
       let tk = this._localService.getData("Token");
       let user = JSON.parse(tk);
-      this.image = user.data.image;
+      
+      this.image = user.data.archivoFoto;
 
-      this.userName = user.data.firstName + ' ' + user.data.lastName;
-      this.email = user.data.email;
+      this.userName = user.data.nombres + ' ' + user.data.apePaterno + ' ' + user.data.apeMaterno;
+      this.email = user.data.correo;
+      this.cargo = user.data.nombreCargo;
 
-      this._intranetService.listaOrganizaciones().subscribe({
-        next:(orgsData) => {
-            //console.log(orgsData);
-            this.organizaciones = orgsData.data;
-            if(this.organizaciones.length > 0) { 
+      // this._intranetService.listaOrganizaciones().subscribe({
+      //   next:(orgsData) => {
+      //       this.organizaciones = orgsData.data;
+      //       if(this.organizaciones.length > 0) { 
 
-              this._localService.removeData("sicuorg");
-              this._localService.saveData("sicuorg", JSON.stringify(this.organizaciones[0]));
+      //         this._localService.removeData("sicuorg");
+      //         this._localService.saveData("sicuorg", JSON.stringify(this.organizaciones[0]));
 
-              this.organizacionSeleccionada = parseInt(this.organizaciones[0].idOrganizacion);
-              this.getPerfiles(this.organizaciones[0].idOrganizacion); 
-            }
-        },
-        error:(errorData) => {
-            console.info('error');
-            console.log(errorData);
-        }
-      });      
+      //         this.organizacionSeleccionada = parseInt(this.organizaciones[0].idOrganizacion);
+      //         this.getPerfiles(this.organizaciones[0].idOrganizacion); 
+      //       }
+      //   },
+      //   error:(errorData) => {
+      //       console.info('error');
+      //       console.log(errorData);
+      //   }
+      // });      
     }
     
     onChangeSelOrgs(newValue: string){

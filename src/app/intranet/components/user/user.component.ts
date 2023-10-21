@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalService } from 'src/app/core/shared/services/local.service';
 import { IntranetService } from '../../intranet.service';
 import { AuthService } from 'src/app/core/shared/services/auth.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 interface SelectValue {
   value: string;
@@ -19,7 +20,7 @@ export interface Section {
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit{
+export class UserComponent implements OnInit, OnDestroy {
 
     userName: string = '';
     email: string = '';
@@ -32,6 +33,10 @@ export class UserComponent implements OnInit{
     //   { text: 'Municipalidad Provincial de Lambayeque', value: 2 },
     //   { text: 'Municipalidad Provincial de Lima', value: 3 }
     // ];
+    public listOrg$: Subscription = new Subscription;
+    public listPer$: Subscription = new Subscription;
+    public listMenu$: Subscription = new Subscription;
+
     organizaciones: any[] = [];
 
     perfiles: any[] = [{ nombrePerfil: 'Seleccione', idPerfil: 0 }];    
@@ -42,6 +47,9 @@ export class UserComponent implements OnInit{
       private route: Router){}
 
     ngOnInit(): void {
+
+      console.log('user componente');
+
       let tk = this._localService.getData("Token");
       let user = JSON.parse(tk);
       this.image = user.data.image;
@@ -49,11 +57,14 @@ export class UserComponent implements OnInit{
       this.userName = user.data.firstName + ' ' + user.data.lastName;
       this.email = user.data.email;
 
-      this._intranetService.listaOrganizaciones().subscribe({
+      this.listOrg$ = this._intranetService.listaOrganizaciones().subscribe({
         next:(orgsData) => {
-            //console.log(orgsData);
             this.organizaciones = orgsData.data;
             if(this.organizaciones.length > 0) { 
+
+              //if(this._localService.getData("sicuorg"))
+              // console.log('this.organizaciones[0]');
+              // console.log(this.organizaciones[0]);
 
               this._localService.removeData("sicuorg");
               this._localService.saveData("sicuorg", JSON.stringify(this.organizaciones[0]));
@@ -68,9 +79,14 @@ export class UserComponent implements OnInit{
         }
       });      
     }
+
+    ngOnDestroy(): void {
+      this.listOrg$.unsubscribe();
+      this.listPer$.unsubscribe();
+      this.listMenu$.unsubscribe();
+    }
     
     onChangeSelOrgs(newValue: string){
-      //this.organizacionSeleccionada = parseInt(newValue);
       this.organizaciones.forEach(org => {
         if(org.idOrganizacion == parseInt(newValue))
         {
@@ -82,15 +98,12 @@ export class UserComponent implements OnInit{
       this.getPerfiles(newValue);
     }
 
-    onChangeSelPerf(newValue: string){      
-      //this.perfilSeleccionado = parseInt(newValue);
+    onChangeSelPerf(newValue: string){
       this.getMenu();
     }
 
     getPerfiles(id: string){
-      // console.log('this.organizacionSeleccionada');
-      // console.log(this.organizacionSeleccionada);
-      this._intranetService.listaPerfiles(id).subscribe({
+      this.listPer$ = this._intranetService.listaPerfiles(id).subscribe({
         next:(persData) => {
             this.perfiles = persData.data;
             this.perfilSeleccionado = parseInt(persData.data[0].idPerfil);
@@ -106,17 +119,16 @@ export class UserComponent implements OnInit{
 
     getMenu(){
 
-      this._intranetService.listaMenu(this.organizacionSeleccionada, this.perfilSeleccionado).subscribe({
-        next:(menuData) => {                    
-          this._intranetService.currentComponentMenu.next(menuData.data);
-          //console.log('cambio de menú');
-          //this.route.navigateByUrl('/intranet');
-        },
-        error:(errorData) => {
-            console.info('error');
-            console.log(errorData);
-        }
-      });
+      this.listMenu$ = this._intranetService.listaMenu(this.organizacionSeleccionada, this.perfilSeleccionado)
+        .subscribe({
+          next:(menuData) => {                    
+            this._intranetService.currentComponentMenu.next(menuData.data);
+          },
+          error:(errorData) => {
+              console.info('error');
+              console.log(errorData);
+          }
+        });
     }
 
     CerrarSesion(){

@@ -50,8 +50,12 @@ export class BandejaSeguimientoComponent implements OnInit , OnDestroy {
     itemsByPage: number = 10;
     color:string = 'primary';
   
-    public anularOT$: Subscription = new Subscription;
+    public listOT1$: Subscription = new Subscription;
+    public listOT2$: Subscription = new Subscription;
+    public listOT3$: Subscription = new Subscription;
+
     public quitarUsuario$: Subscription = new Subscription;
+    public anularOT$: Subscription = new Subscription;
 
     ngAfterViewInit() {
       this.dataSource.paginator = this.paginator;
@@ -68,9 +72,9 @@ export class BandejaSeguimientoComponent implements OnInit , OnDestroy {
   
       this.ListarOrdenes();
   
-      this._seguimientoService.DataTableOT.subscribe({
+      this.listOT1$ = this._seguimientoService.DataTableOT.subscribe({
         next:(Data) => {
-  
+
           if(Data.total > 0){
             this.loading = true;
   
@@ -87,7 +91,7 @@ export class BandejaSeguimientoComponent implements OnInit , OnDestroy {
 
               fi = Data.data;
               fi.length = Data.total;
-              
+
               this.dataSource = new MatTableDataSource<OrdenTrabajo>(fi);
               this.dataSource.paginator = this.paginator;
     
@@ -100,15 +104,18 @@ export class BandejaSeguimientoComponent implements OnInit , OnDestroy {
     } 
 
     ngOnDestroy(): void {
+      this.listOT1$.unsubscribe();
+      this.listOT2$.unsubscribe();
       this.anularOT$.unsubscribe();
       this.quitarUsuario$.unsubscribe();
     }
 
     ListarOrdenes(){
-      this._seguimientoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
+      this.listOT2$ = this._seguimientoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
         next:(Data) => {
 
           if(Data.success){
+            
             Data.data.forEach(elem => {
               elem.seleccion = false;
               elem.expandir = false;
@@ -144,29 +151,32 @@ export class BandejaSeguimientoComponent implements OnInit , OnDestroy {
       this.filter.Page = pageIndex + 1;
       this.filter.ItemsByPage = pageSize;
   
-      this._seguimientoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
+      this.listOT2$ = this._seguimientoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
         next:(Data) => {
             this.loading = false;
   
-            Data.data.forEach(elem => {
-              elem.seleccion = false;
-              elem.expandir = false;
-            });
-
-            this.fi.length = previousSize;
-            this.fi.push(...Data.data);
-            this.fi.length = Data.total;
-            
-            this.selection.selected.forEach(sel => {
-              this.fi.forEach(item => {
-                if(item.id == sel.id) item.seleccion = true;
+            if(Data.data.length > 0)
+            {
+              Data.data.forEach(elem => {
+                elem.seleccion = false;
+                elem.expandir = false;
               });
-            });
 
-            this.dataSource = new MatTableDataSource<OrdenTrabajo>(this.fi);
-            this.dataSource._updateChangeSubscription();
+              this.fi.length = previousSize;
+              this.fi.push(...Data.data);
+              this.fi.length = Data.total;
+              
+              this.selection.selected.forEach(sel => {
+                this.fi.forEach(item => {
+                  if(item.id == sel.id) item.seleccion = true;
+                });
+              });
   
-            this.dataSource.paginator = this.paginator;
+              this.dataSource = new MatTableDataSource<OrdenTrabajo>(this.fi);
+              this.dataSource._updateChangeSubscription();
+    
+              this.dataSource.paginator = this.paginator;              
+            }
         }
       })
     }
@@ -194,27 +204,6 @@ export class BandejaSeguimientoComponent implements OnInit , OnDestroy {
 
     }
 
-    // CrearOrdenModal(data: OrdenTrabajo):void {
-
-    //   const dialogCrearOrden = this.dialog.open(RegisterOrdenModalComponent, {
-    //       width: '800px',
-    //       enterAnimationDuration : '300ms',
-    //       exitAnimationDuration: '300ms',
-    //       disableClose: true,
-    //       data: data
-    //   });
-  
-    //   dialogCrearOrden.afterClosed().subscribe((result:boolean) => {
-    //     if(result){
-    //       this.ListarOrdenes();
-    //     }            
-    //   });
-    // }
-
-    // CrearOrden(data: OrdenTrabajo){
-    //   this.CrearOrdenModal(data);
-    // }
-
     VerLote(data: OrdenTrabajo)
     {
 
@@ -228,7 +217,6 @@ export class BandejaSeguimientoComponent implements OnInit , OnDestroy {
         codigoManzana: data.codigoManzana,
         usuarios: data.usuarios
       }
-      //console.log(ot);
       this._seguimientoService.viewOrdenTrabajo.next(ot);
 
       this.route.navigateByUrl('/intranet/verlote');

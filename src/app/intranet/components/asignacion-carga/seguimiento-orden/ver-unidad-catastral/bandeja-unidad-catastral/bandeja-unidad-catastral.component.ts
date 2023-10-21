@@ -9,7 +9,7 @@ import { LoteFilter, LoteResponse } from '../../../models/loteResponse';
 import { SeguimientoService } from '../../seguimiento.service';
 import { UnidadCatastralResponse } from '../../../models/unidadCatastralResponse';
 import { OrdenTrabajoView } from '../../../models/ordenTrabajoResponse';
-  
+
 @Component({
     selector: 'app-bandeja-unidad-catastral',
     templateUrl: './bandeja-unidad-catastral.component.html',
@@ -29,26 +29,26 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
     loading: boolean = true;
     disablebtnAsignar: boolean = true;
     displayedColumns: string[] = ['NroCatastral', 'FechaAsignacion', 'FechaSincronizada', 'Accion'];
-    
+
     @Input() datos: OrdenTrabajoView = {};
 
     dataSource = new MatTableDataSource<UnidadCatastralResponse>();
     //selection = new SelectionModel<OrdenTrabajo>(true, []);
-  
+
     @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
-    
+
     pageEvent?: PageEvent;
     page: number = 1;
     itemsByPage: number = 10;
     color:string = 'primary';
-  
+
     public anularOT$: Subscription = new Subscription;
     public quitarUsuario$: Subscription = new Subscription;
 
     ngAfterViewInit() {
       this.dataSource.paginator = this.paginator;
     }
-  
+
     constructor(
       private _seguimientoService: SeguimientoService,
       private route: Router,
@@ -56,20 +56,20 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
       //this.filter = { Page:1, ItemsByPage: 10, Sector: '', Manzana: '', IdUbigeo: 0, Estado: '0'}
     }
 
-    ngOnInit(): void {  
-  
+    ngOnInit(): void {
+
       // this.ListarOrdenes();
-  
+
       // this._seguimientoService.DataTableOT.subscribe({
       //   next:(Data) => {
-  
+
       //     if(Data.total > 0){
       //       this.loading = true;
-  
+
       //       setTimeout(() => {
       //         this.paginator.pageIndex = 0;
       //         this.paginator.pageSize = 10;
-    
+
       //         let fi: OrdenTrabajo[];
 
       //         Data.data.forEach(elem => {
@@ -79,10 +79,10 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
 
       //         fi = Data.data;
       //         fi.length = Data.total;
-              
+
       //         this.dataSource = new MatTableDataSource<OrdenTrabajo>(fi);
       //         this.dataSource.paginator = this.paginator;
-    
+
       //         this.loading = false;
       //       }, 500);
       //     }
@@ -97,13 +97,13 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
       ]
 
             this.dataSource = new MatTableDataSource<UnidadCatastralResponse>(info);
-            this.dataSource.paginator = this.paginator;      
-  
-    } 
+            this.dataSource.paginator = this.paginator;
+
+    }
 
     ngOnDestroy(): void {
-      this.anularOT$.unsubscribe();
-      this.quitarUsuario$.unsubscribe();
+      // this.anularOT$.unsubscribe();
+      // this.quitarUsuario$.unsubscribe();
     }
 
     // ListarOrdenes(){
@@ -118,7 +118,7 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
 
     //         this.loading = false;
     //         let info = Data.data;
-    //         info.length = Data.total;          
+    //         info.length = Data.total;
 
     //         this.dataSource = new MatTableDataSource<OrdenTrabajo>(info);
     //         this.dataSource.paginator = this.paginator;
@@ -139,17 +139,17 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
       this.loading = true;
       let pageIndex = event.pageIndex;
       let pageSize = event.pageSize;
-  
+
       let previousIndex = event.previousPageIndex;
       let previousSize = pageSize * pageIndex;
-  
+
       this.filter.Page = pageIndex + 1;
       this.filter.ItemsByPage = pageSize;
-  
+
       // this._seguimientoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
       //   next:(Data) => {
       //       this.loading = false;
-  
+
       //       Data.data.forEach(elem => {
       //         elem.seleccion = false;
       //         elem.expandir = false;
@@ -158,7 +158,7 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
       //       this.fi.length = previousSize;
       //       this.fi.push(...Data.data);
       //       this.fi.length = Data.total;
-            
+
       //       this.selection.selected.forEach(sel => {
       //         this.fi.forEach(item => {
       //           if(item.id == sel.id) item.seleccion = true;
@@ -167,7 +167,7 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
 
       //       this.dataSource = new MatTableDataSource<OrdenTrabajo>(this.fi);
       //       this.dataSource._updateChangeSubscription();
-  
+
       //       this.dataSource.paginator = this.paginator;
       //   }
       // })
@@ -189,8 +189,8 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
     //       if(el.id == elem.id){
     //         this.selection.deselect(el);
     //       }
-    //     });      
-    //   }      
+    //     });
+    //   }
 
     //   this.disablebtnAsignar = this.selection.selected.length == 0;
 
@@ -205,11 +205,11 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
     //       disableClose: true,
     //       data: data
     //   });
-  
+
     //   dialogCrearOrden.afterClosed().subscribe((result:boolean) => {
     //     if(result){
     //       this.ListarOrdenes();
-    //     }            
+    //     }
     //   });
     // }
 
@@ -230,7 +230,7 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
       //   codigoManzana: data.codigoManzana,
       //   usuarios: data.usuarios
       // }
-   
+
       // this._seguimientoService.viewLote.next(ot);
 
       //this.route.navigateByUrl('/intranet/verunidadcatastral');
@@ -257,16 +257,16 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
     //       }
 
     //       this.anularOT$ = this._seguimientoService.anularOrden(data)
-    //       .subscribe(result => {    
+    //       .subscribe(result => {
     //         setTimeout(() => {
-    //           mLoading.close();       
+    //           mLoading.close();
 
-    //           if(result.success){ 
-                
-    //             let modal: Title = { 
+    //           if(result.success){
+
+    //             let modal: Title = {
     //               Title: 'Orden anulada',
-    //               Subtitle: 'La orden ' + dato.orden + ' se anuló satisfactoriamente.', 
-    //               Icon: 'ok' 
+    //               Subtitle: 'La orden ' + dato.orden + ' se anuló satisfactoriamente.',
+    //               Icon: 'ok'
     //             }
 
     //             const okModal = this.dialog.open(ModalMessageComponent, {
@@ -285,9 +285,9 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
 
     //           }
     //           else{
-    //               let modal: Title = { 
-    //                   Title: 'Opss...', 
-    //                   Subtitle: result.message, 
+    //               let modal: Title = {
+    //                   Title: 'Opss...',
+    //                   Subtitle: result.message,
     //                   Icon: 'error' }
     //                 this.dialog.open(ModalMessageComponent, {
     //                     width: '500px',
@@ -296,16 +296,16 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
     //                     disableClose: true,
     //                     data: modal
     //                 });
-    //           }              
+    //           }
     //         }, 500);
     //       });
 
-    //     }            
+    //     }
     //   });
     // }
 
-    // ModalLoading(): any {     
-    //   let modal: Title = { 
+    // ModalLoading(): any {
+    //   let modal: Title = {
     //     Title: 'Procesando su solicitud...'}
     //   let dgRef = this.dialog.open(ModalLoadingComponent, {
     //       width: '400px',
@@ -314,10 +314,10 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
     //       exitAnimationDuration: '300ms',
     //       disableClose: true,
     //       data: modal
-    //   }); 
+    //   });
 
     //   return dgRef;
-    // }  
+    // }
 
     // AgregarPersona(dato: OrdenTrabajo){
 
@@ -348,17 +348,17 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
     //       }
 
     //       this.quitarUsuario$ = this._seguimientoService.quitarUsuario(data)
-    //       .subscribe(result => {    
+    //       .subscribe(result => {
     //         setTimeout(() => {
 
-    //           loading.close();       
+    //           loading.close();
 
-    //           if(result.success){ 
-                
-    //             let modal: Title = { 
+    //           if(result.success){
+
+    //             let modal: Title = {
     //               Title: 'Personal eliminado',
-    //               Subtitle: 'El Personal ' + dato.persona + ' se eliminó de la orden satisfactoriamente.', 
-    //               Icon: 'ok' 
+    //               Subtitle: 'El Personal ' + dato.persona + ' se eliminó de la orden satisfactoriamente.',
+    //               Icon: 'ok'
     //             }
 
     //             const okModal = this.dialog.open(ModalMessageComponent, {
@@ -380,9 +380,9 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
 
     //             if(result.validations == null) result.message = 'Ha ocurrido un error, contacte con el area de soporte.';
 
-    //               let modal: Title = { 
-    //                   Title: 'Opss...', 
-    //                   Subtitle: result.message, 
+    //               let modal: Title = {
+    //                   Title: 'Opss...',
+    //                   Subtitle: result.message,
     //                   Icon: 'error' }
     //                 this.dialog.open(ModalMessageComponent, {
     //                     width: '500px',
@@ -391,10 +391,10 @@ export class BandejaLUnidadCatastralComponent implements OnInit , OnDestroy {
     //                     disableClose: true,
     //                     data: modal
     //                 });
-    //           }              
+    //           }
     //         }, 500);
     //       });
-    //     }            
+    //     }
     //   });
     // }
 }

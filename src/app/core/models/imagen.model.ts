@@ -5,5 +5,5 @@ export interface ImagenModel {
     tamanio: string,
     type: string,
     base64?: string,
-    imagen: any
+    imagen?: any
 }

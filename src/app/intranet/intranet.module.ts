@@ -58,6 +58,7 @@ import { FormularioRegistroLoteComponent } from "./components/formularios/orden-
 import { InformacionLoteComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/informacion-lote/informacion-lote.component";
 import { EdificacionesComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/edificaciones/edificaciones.component";
 import { EditarEdificacionModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/edificaciones/editar-edificacion-modal/editar-edificacion-modal.component";
+import { UnidadAdministrativaComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/unidad-administrativa.component";
 
 @NgModule({
     imports: [
@@ -114,7 +115,8 @@ import { EditarEdificacionModalComponent } from "./components/formularios/orden-
         FormularioRegistroLoteComponent,
         InformacionLoteComponent,
         EdificacionesComponent,
-        EditarEdificacionModalComponent
+        EditarEdificacionModalComponent,
+        UnidadAdministrativaComponent
     ],
     exports: [],
     providers: [

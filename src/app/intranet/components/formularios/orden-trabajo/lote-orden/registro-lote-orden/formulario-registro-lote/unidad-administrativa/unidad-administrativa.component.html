@@ -1,0 +1,132 @@
+<div class="row my-3">  
+    <form [formGroup]="myFormEdif" (ngSubmit)="guardar()">
+        <mat-card>
+          <mat-card-content>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-xs-12 mt-1">
+                <span>Número de Edificaciones</span>
+                <div class="input-group mb-3" style="width: 130px;">
+                    <button class="btn btn-outline-secondary text-center fw-bold" 
+                            (click)="ctrlNumeroEdificacion(-1)"
+                            style="width: 40px;" type="button">-</button>
+                    <input type="text" class="form-control border text-center" 
+                            [readonly]="readOnly"
+                            formControlName="numeroEdificaciones"
+                            style="border: 1px solid #dadada;">
+                    <button class="btn btn-outline-secondary text-center fw-bold" 
+                            (click)="ctrlNumeroEdificacion(1)"
+                            style="width: 40px;" type="button">+</button>
+                  </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-xs-12 mt-1 text-end mt-4">
+                <button class="btn btn-custom-danger" (click)="generarEdificaciones()">
+                    <i class="bi bi-building-gear"></i>&nbsp; Generar Edificaciones      
+                </button>
+              </div>
+            </div>        
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-content>
+              <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" multiTemplateDataRows>
+                  <ng-container matColumnDef="Dpto">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Dpto.</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">{{element.codigoDepartamento}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="Prov">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Prov.</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoProvincia}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="Dist">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Dist. </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoDistrito}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="Sec">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Sec. </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoSector}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="Mz">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Mz. </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoManzana}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Lote">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Lote </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoLoteCaracterizacion}} </td>
+                  </ng-container>
+                    
+                  <ng-container matColumnDef="Edifica">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Edifica </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.numeroEdificacion }} </td>
+                  </ng-container>                      
+              
+                  <ng-container matColumnDef="TotalLotes">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Tipo de Edificación</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.nombreEspecifico }} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="NroOrden">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Nombre de Edificación </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.nombreEdificacion }} </td>
+                  </ng-container>        
+              
+    
+                  <ng-container matColumnDef="seleccion">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">
+                      Acción
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <button class="btn btn-sm btn-custom btn-outline-secondary"
+                          matTooltip="Editar Edificación"
+                          (click)="EditarEdificacion(element)">
+                          <i class="bi bi-pencil-fill"></i>
+                      </button>&nbsp;
+                      <!-- <button class="btn btn-sm btn-custom-danger btn-outline-secondary"
+                          matTooltip="Eliminar Edificación"
+                          (click)="VerLote(element)">
+                          <i class="bi bi-trash3-fill"></i>
+                      </button> -->
+                      <!-- <table cellpadding="0" cellspacing="0">
+                        <tbody>
+                          <tr>
+                            <td style="width: 50%;" class="text-center">
+                              <button class="btn btn-sm btn-custom btn-outline-secondary"
+                                  matTooltip="Editar Edificación"
+                                  (click)="VerLote(element)">
+                                  <i class="bi bi-pencil-fill"></i>
+                              </button>
+                            </td>
+                            <td style="width: 50%;" class="text-center">
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>       -->
+                    </td>
+                  </ng-container>
+    
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+                </table>     
+              </div>           
+            </mat-card-content>
+        </mat-card>
+
+        <!-- <div class="row">
+          <div class="col-md-4">&nbsp;</div>
+          <div class="col-md-4 border border-2 border-warning p-2 mb-2 border-opacity-25 rounded">
+            <button type="submit" class="btn btn-sm btn-warning w-100 mt-1 shadow-sm" 
+              [disabled]="myForm.invalid"
+              (click)="guardar()">
+              <i class="bi bi-save"></i>&nbsp; Grabar      
+            </button>
+          </div>
+        </div> -->
+    </form>
+</div>

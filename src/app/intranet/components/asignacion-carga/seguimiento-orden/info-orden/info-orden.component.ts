@@ -17,7 +17,6 @@ export class InfoOrdenComponent implements OnInit{
     }
 
     ngOnInit(): void {
-        console.log(this.datos);
     }
 
     getColor(dato: UsuariosRequest): string{

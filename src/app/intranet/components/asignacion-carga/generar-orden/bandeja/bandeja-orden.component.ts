@@ -57,6 +57,9 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
   
     public anularOT$: Subscription = new Subscription;
     public quitarUsuario$: Subscription = new Subscription;
+    public listOT$: Subscription = new Subscription;
+    public listOT1$: Subscription = new Subscription;
+    public listOT2$: Subscription = new Subscription;
 
     ngAfterViewInit() {
       this.dataSource.paginator = this.paginator;
@@ -73,7 +76,7 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
   
       this.ListarOrdenes();
   
-      this._generarOrdenService.DataTableOT.subscribe({
+      this.listOT$ = this._generarOrdenService.DataTableOT.subscribe({
         next:(Data) => {
   
           if(Data.total > 0){
@@ -107,10 +110,13 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
     ngOnDestroy(): void {
       this.anularOT$.unsubscribe();
       this.quitarUsuario$.unsubscribe();
+      this.listOT$.unsubscribe();
+      this.listOT1$.unsubscribe();
+      this.listOT2$.unsubscribe();
     }
 
     ListarOrdenes(){
-      this._generarOrdenService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
+      this.listOT1$ = this._generarOrdenService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
         next:(Data) => {
 
           if(Data.success){
@@ -149,7 +155,7 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
       this.filter.Page = pageIndex + 1;
       this.filter.ItemsByPage = pageSize;
   
-      this._generarOrdenService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
+      this.listOT2$ = this._generarOrdenService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
         next:(Data) => {
 
             this.loading = false;

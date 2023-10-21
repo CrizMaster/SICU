@@ -61,6 +61,8 @@ export class BandejaLoteOrdenComponent implements OnInit , OnDestroy {
     }
 
     ngOnInit(): void {
+      this.filter.Page = this.page;
+      this.filter.ItemsByPage = this.itemsByPage;
       this.ListarLotes();
     } 
 
@@ -69,14 +71,12 @@ export class BandejaLoteOrdenComponent implements OnInit , OnDestroy {
     }
 
     ListarLotes(){
-      console.log(this.datos.codigoOrden);
+      
       this.filter.codigoOrden = this.datos.codigoOrden;
       this.listaLoteOT$ = this._ordenTrabajoService.listarLotesxOrdenTrabajo(this.filter).subscribe({
         next:(Data) => {
 
           if(Data.success){
-            console.log(Data.data);
-
             this.loading = false;
             let info = Data.data;
             info.length = Data.total;          
@@ -121,6 +121,7 @@ export class BandejaLoteOrdenComponent implements OnInit , OnDestroy {
         codigoDetalle: data.codigoDetalle,
         codigoLote: data.codigoLote
       }
+
       this._ordenTrabajoService.filterCaracterizacion.next(filter);
 
       this.route.navigateByUrl('/intranet/registroLoteOrden');

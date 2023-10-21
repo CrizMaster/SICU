@@ -9,7 +9,7 @@
                       Código de Lotes Catastral
                   </div>
                   <div class="col-12" style="position: relative;">
-                      <input type="text" formControlName="codigoLote" 
+                      <input type="text" formControlName="codigoLoteCaracterizacion" 
                               class="form-control form-control-sm border">
                   </div>      
                   </div>
@@ -51,15 +51,6 @@
                     <div class="col-12" style="position: relative;">
                       <input type="text" formControlName="habilitacionUrbana" 
                              class="form-control form-control-sm border">
-                        <!-- <select name="habilitacionUrbana"
-                                formControlName="habilitacionUrbana"
-                                class="form-select form-select-sm border focus-ring"
-                                aria-label="select-habilitacionUrbana" [pattern]="pattern1Digs">
-                                <option *ngFor="let hu of listTipoHU" [value]="hu.value">{{ hu.text }}</option>
-                        </select> -->
-                        <!-- <i *ngIf="this.form.get('habilitacionUrbana')?.invalid && this.form.get('habilitacionUrbana')?.touched" 
-                            class="position-icon-select bi bi-exclamation-circle-fill text-danger"
-                            title="Campo requerido"></i> -->
                     </div>      
                     </div>
                 </div>
@@ -126,7 +117,7 @@
         <div class="row mt-3">
             <div class="col-lg-12 col-md-12 col-xs-12 mt-1">
               <ng-container>
-                <span class="fs-6 fw-bold">Entradas</span>
+                <span class="fs-6 fw-bold">Puertas</span>
                 <mat-divider class="my-2"></mat-divider>
                 <div class="table-responsive">
                   <table class="table table-sm table-hover shadow p-3 mb-5 bg-body-tertiary" style="border: 1px solid #dadada;">                    
@@ -183,89 +174,7 @@
                       </ng-container>                      
                     </tbody>
                   </table>
-                </div>
-                <!-- <ng-container *ngFor="let lessonForm of vias.controls; let i = index">
-                  <div class="lesson-form-row" [formGroup]="lessonForm">
-                      <mat-form-field appearance="fill">
-                          <input matInput
-                                 formControlName="nombreVia"
-                                 placeholder="Lesson title">
-                      </mat-form-field>
-                      <mat-form-field appearance="fill">
-                          <mat-select formControlName="idTipoPuerta"
-                                  placeholder="Lesson level">
-                                  <mat-option *ngFor="let hu of listTipoHU" [value]="hu.value">{{ hu.text }}</mat-option>
-                          </mat-select>
-                      </mat-form-field>
-                      
-                  </div>
-              </ng-container> -->
-              <!-- <table mat-table [dataSource]="vias.controls" class="mat-elevation-z8">
-                  <ng-container matColumnDef="nombreVia" >
-                    <th mat-header-cell *matHeaderCellDef class="text-center"> Via</th>
-                    <td mat-cell *matCellDef="let element" class="text-center">
-                      {{element.nombreVia}}
-                    </td>
-                  </ng-container>
-              
-                  <ng-container matColumnDef="activacion">
-                    <th mat-header-cell *matHeaderCellDef class="text-center"> Activacion</th>
-                    <td mat-cell *matCellDef="let element" class="text-center">
-                      <mat-slide-toggle
-                          class="example-margin"
-                          [color]="color"
-                          formControlName="checkedAct">
-                      </mat-slide-toggle>
-                    </td>
-                  </ng-container>
-              
-                  <ng-container matColumnDef="numeroOrden">
-                    <th mat-header-cell *matHeaderCellDef class="text-center"> Nro.Orden </th>
-                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.numeroOrden}} </td>
-                  </ng-container>
-              
-                  <ng-container matColumnDef="idTipoPuerta">
-                    <th mat-header-cell *matHeaderCellDef class="text-center">Tipo de Puerta</th>
-                    <td mat-cell *matCellDef="let element" class="text-center">
-                      <select name="idTipoPuerta"
-                              formControlName="idTipoPuerta"
-                              class="form-select form-select-sm border focus-ring"
-                              aria-label="select-idTipoPuerta" [pattern]="pattern2Digs">
-                              <option *ngFor="let tp of listTipoPuerta" [value]="tp.value">{{ tp.text }}</option>
-                      </select>
-                    </td>
-                  </ng-container>
-              
-                  <ng-container matColumnDef="codigoCondicion">
-                    <th mat-header-cell *matHeaderCellDef class="text-center"> Condiciones Numéricas </th>
-                    <td mat-cell *matCellDef="let element" class="text-center">
-                      <select name="codigoCondicion"
-                              formControlName="codigoCondicion"
-                              class="form-select form-select-sm border focus-ring" 
-                              [class.border-success]="this.form.get('codigoCondicion')?.valid"
-                              [class.focus-ring-success]="this.form.get('codigoCondicion')?.valid"
-                              [class.border-danger]="this.form.get('codigoCondicion')?.invalid && this.form.get('codigoCondicion')?.touched"
-                              [class.focus-ring-danger]="this.form.get('codigoCondicion')?.invalid && this.form.get('codigoCondicion')?.touched"
-                              aria-label="select-codigoCondicion" [pattern]="pattern2Digs">
-                              <option *ngFor="let hu of listTipoHU" [value]="hu.value">{{ hu.text }}</option>
-                      </select>                        
-                    </td>
-                  </ng-container>
-              
-                  <ng-container matColumnDef="numeroMunicipal">
-                      <th mat-header-cell *matHeaderCellDef class="text-center">Nro Municipal</th>
-                      <td mat-cell *matCellDef="let element" class="text-center">
-                          <input type="text" formControlName="numeroMunicipal"
-                          class="form-control form-control-sm border">
-                      </td>
-                    </ng-container>
-
-    
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    
-              </table> -->
-              <!-- <div *ngIf="dataSource.filteredData.length == 0" class="text-danger m-2 fst-italic">No se encontraron registros.</div>   -->
+                </div>                
             </ng-container>
             </div>
         </div>
@@ -274,8 +183,6 @@
           <div class="col-md-4 border border-2 border-danger p-2 mb-2 border-opacity-25 rounded">
             <input class="btn btn-sm btn-danger bg-cofopri w-100 mt-1 shadow-sm" 
               type="file" (change)="capturarFile($event)" accept="image/*" multiple/>
-              <!-- <i class="bi bi-camera"></i>&nbsp;
-              Subir Archivos           -->
           </div>
         </div>
         <div class="row py-2">
@@ -297,10 +204,10 @@
                               title="Quitar" (click)="quitarImagen(img)">
                             <mat-icon>delete</mat-icon>
                           </button>&nbsp;
-                          <!-- <button mat-mini-fab color="primary" style="background: rgb(21, 56, 255);"
-                              title="Quitar" (click)="quitarImagen(img)">
+                          <button mat-mini-fab color="primary" style="background: rgb(21, 56, 255);"
+                              title="Ver" (click)="verImagen(img)">
                             <mat-icon>search</mat-icon>
-                          </button> -->
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -319,8 +226,5 @@
             </button>
           </div>
         </div>
-        <!-- <button type="submit" class="btn btn-sm btn-primary bg-cofopri text-white" 
-            [disabled]="myForm.invalid"
-            (click)="guardar()">Aceptar</button> -->
     </form>
 </div>

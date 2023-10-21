@@ -9,7 +9,7 @@ import { OrdenTrabajo } from '../../asignacion-carga/models/ordenTrabajo.model';
 import { OrdenTrabajoFilter } from '../../asignacion-carga/models/ordenTrabajoFilter.model';
 import { OrdenTrabajoView } from '../../asignacion-carga/models/ordenTrabajoResponse';
 import { LoteFilter, LoteResponse } from '../../asignacion-carga/models/loteResponse';
-import { CaracterizacionResponse, FilterCaracterizacion } from '../models/caracterizacionResponse';
+import { ArchivoModel, CaracterizacionResponse, FilterCaracterizacion } from '../models/caracterizacionResponse';
 import { EdificacionFilter, EdificacionLoteRequest, EdificacionRequest } from '../models/edificacionRequest';
 import { EdificacionResponse } from '../models/edificacionResponse';
 
@@ -79,7 +79,6 @@ export class OrdenTrabajoService{
     }
 
     listarLotesxOrdenTrabajo(filter: LoteFilter):Observable<StatusResponse<LoteResponse[]>>{
-
         return this.http.post<StatusResponse<LoteResponse[]>>(environment.urlWebApiSICU + 'listarLotesOrdenTrabajo',
         {
             "page": filter.Page,
@@ -158,7 +157,7 @@ export class OrdenTrabajoService{
             // }),
             catchError(this.handlerError)            
         );
-    }    
+    }
 
     ActualizaDatosEdificacion(data: EdificacionRequest):Observable<any>{
         return this.http.post<any>(environment.urlWebApiSICU + 'ActualizaDatosEdificacion',
@@ -167,6 +166,21 @@ export class OrdenTrabajoService{
             catchError(this.handlerError)
         );         
     }
+
+    ConsultaFotoLote(codigoArchivo:number):Observable<string>{
+    
+        return this.http.post<string>(environment.urlWebApiSICU + 'ConsultaFotoLote',
+        {
+            "codigoArchivo": codigoArchivo
+        })
+        .pipe(
+            tap((response: any) => {
+                console.log('response');
+                console.log(response);
+            }),
+            catchError(this.handlerError)            
+        );
+    }    
 
     private handlerError(error: HttpErrorResponse) {
         let msn = '';

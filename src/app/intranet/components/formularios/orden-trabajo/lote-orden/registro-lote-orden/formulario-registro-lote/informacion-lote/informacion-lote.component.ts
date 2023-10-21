@@ -28,13 +28,6 @@ import { MatStepper } from '@angular/material/stepper';
 export class InformacionLoteComponent implements OnInit{
 
     @Input() Stepper: MatStepper;
-    
-    //color: 'red';
-    //@Input() parentForm: FormGroup;
-    //@ViewChild(MatTable) table: MatTable<ViasCaracterizacion>;
-
-    //childArray: FormArray;
-    //tableDataSource: MatTableDataSource<AbstractControl>;
 
     myForm: FormGroup;
     formVias: FormGroup;
@@ -50,7 +43,9 @@ export class InformacionLoteComponent implements OnInit{
     listVias: ViasCaracterizacion[] = [];
     filter: FilterCaracterizacion;
 
-    codigoLote: string;
+    codigoLoteCaracterizacion: string;
+    codigoLote: number;
+
     public archivos: any = [];
     public previsualizacion: string;
     public imagenes: ImagenModel[] = [];
@@ -78,7 +73,7 @@ export class InformacionLoteComponent implements OnInit{
         });
 
         this.myForm = this.fb.group({
-            codigoLote: [{value: '', disabled : true}, Validators.required],
+            codigoLoteCaracterizacion: [{value: '', disabled : true}, Validators.required],
             codigoLotePropuesta: [{value: '', disabled : true}, Validators.required],
             habilitacionUrbana: [{value: '', disabled : true}, Validators.required],
             tipoDivisionHabilitacion: [{value: '', disabled : true}, Validators.required],
@@ -99,8 +94,7 @@ export class InformacionLoteComponent implements OnInit{
             idTipoPuerta: [0, Validators.required],
             numeroOrden: [1, Validators.required],
             idCondicion: [0, Validators.required],
-            numeroMunicipal: ['', Validators.required],
-
+            numeroMunicipal: ['', Validators.required]
         });
     }
 
@@ -137,8 +131,9 @@ export class InformacionLoteComponent implements OnInit{
                 let info:CaracterizacionResponse = resp.resolve.data;
 
                 this.codigoLote = info.codigoLote;
+                this.codigoLoteCaracterizacion = info.codigoLoteCaracterizacion;
                 this.myForm.patchValue({ 
-                    codigoLote: info.codigoLote, 
+                    codigoLoteCaracterizacion: info.codigoLoteCaracterizacion, 
                     codigoLotePropuesta: info.codigoLote, 
                     tipoDivisionHabilitacion: info.sectorUrbano,
                     numeroDivision: info.tipoDivision,
@@ -146,8 +141,6 @@ export class InformacionLoteComponent implements OnInit{
                     loteUrbano: info.loteUrbano,
                     subLote: info.subLote,
                   });
-
-                //info.listaVias.push({ nombreVia: 'Calle Tren', idTipoPuerta: 0, checkedAct: true, numeroOrden: 2, idCondicion: 0, numeroMunicipal: '' });
 
                 info.listaVias.forEach(el => {
                     el.idTipoPuerta = (el.idTipoPuerta == null ? 0 : el.idTipoPuerta);
@@ -171,6 +164,29 @@ export class InformacionLoteComponent implements OnInit{
                     control.push(viasForm);
 
                 });
+
+                if(this.codigoLote > 0){
+                    let con:number = 0;
+                    info.listaArchivos.forEach(el => {
+                        let imgBase64: any;
+                        this._ordenTrabajoService.ConsultaFotoLote(el.codigoArchivo).subscribe({
+                            next:(Data) => {
+                                console.log(Data);
+                                imgBase64 = Data;
+                              }
+                        });
+                        
+                        con++;
+                        this.imagenes.push({
+                            id: con + 1,
+                            name: el.nombreArchivo,
+                            tamanioBytes: 1024,
+                            tamanio: '1.00 KB',
+                            type: 'png',
+                            base64: imgBase64
+                        });
+                    });
+                }
             }
             else{ console.log(resp.resolve.message); }
         });
@@ -189,7 +205,7 @@ export class InformacionLoteComponent implements OnInit{
     Modifica(event: MatSlideToggleChange){
         if(!event.checked){
             this.myForm.patchValue({
-                codigoLotePropuesta: this.codigoLote
+                codigoLotePropuesta: this.codigoLoteCaracterizacion
             });             
         }
     }
@@ -310,6 +326,10 @@ export class InformacionLoteComponent implements OnInit{
             return null;
         }
     });
+
+    verImagen(img: ImagenModel){
+        
+    }
 
     guardar()
     {

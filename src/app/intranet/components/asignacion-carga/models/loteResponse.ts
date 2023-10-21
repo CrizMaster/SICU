@@ -12,10 +12,10 @@ export interface LoteResponse {
 }
 
 export interface LoteFilter {
-    orden: number,
-    Page: number,
-    ItemsByPage: number,
-    codigoOrden: number
+    orden?: number,
+    Page?: number,
+    ItemsByPage?: number,
+    codigoOrden?: number
 }
 
 export interface CaracterizacionFilter {

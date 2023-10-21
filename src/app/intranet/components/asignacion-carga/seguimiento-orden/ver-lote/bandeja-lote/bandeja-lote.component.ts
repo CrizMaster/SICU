@@ -15,6 +15,7 @@ import { SeguimientoService } from '../../seguimiento.service';
 import { OrdenTrabajoFilter } from '../../../models/ordenTrabajoFilter.model';
 import { OrdenTrabajoView } from '../../../models/ordenTrabajoResponse';
 import { OrdenTrabajoService } from 'src/app/intranet/components/formularios/orden-trabajo/orden-trabajo.service';
+import { StatusResponse } from 'src/app/core/models/statusResponse.model';
   
 @Component({
     selector: 'app-bandeja-lote',
@@ -30,8 +31,8 @@ import { OrdenTrabajoService } from 'src/app/intranet/components/formularios/ord
 })
 export class BandejaLoteComponent implements OnInit , OnDestroy {
 
-    filter: LoteFilter;
-    fi:any=[];
+    filter: LoteFilter = {};
+    fi:LoteResponse[]=[];
     loading: boolean = true;
     disablebtnAsignar: boolean = true;
     displayedColumns: string[] = ['Estado', 'NroLote', 'TotalUC', 'FechaAsignacion', 'FechaSincronizada', 'Accion'];
@@ -52,6 +53,8 @@ export class BandejaLoteComponent implements OnInit , OnDestroy {
   
     public anularOT$: Subscription = new Subscription;
     public quitarUsuario$: Subscription = new Subscription;
+    public listLote$: Subscription = new Subscription;
+    public listLote1$: Subscription = new Subscription;
 
     ngAfterViewInit() {
       this.dataSource.paginator = this.paginator;
@@ -66,70 +69,34 @@ export class BandejaLoteComponent implements OnInit , OnDestroy {
     }
 
     ngOnInit(): void {  
-  
+      this.filter.Page = this.page;
+      this.filter.ItemsByPage = this.itemsByPage;
       this.ListarLotes();
-  
-      // this._seguimientoService.DataTableOT.subscribe({
-      //   next:(Data) => {
-  
-      //     if(Data.total > 0){
-      //       this.loading = true;
-  
-      //       setTimeout(() => {
-      //         this.paginator.pageIndex = 0;
-      //         this.paginator.pageSize = 10;
-    
-      //         let fi: OrdenTrabajo[];
-
-      //         Data.data.forEach(elem => {
-      //           elem.seleccion = false;
-      //           elem.expandir = false;
-      //         });
-
-      //         fi = Data.data;
-      //         fi.length = Data.total;
-              
-      //         this.dataSource = new MatTableDataSource<OrdenTrabajo>(fi);
-      //         this.dataSource.paginator = this.paginator;
-    
-      //         this.loading = false;
-      //       }, 500);
-      //     }
-      //   }
-      // });
-
-      // let info: LoteResponse[] = [
-      //   { id:1, codigoEstado: '01', estado: 'Pendiente Formulario', codigoLote: '01', unidadesAdministrativas: 4, fechaOrden: '04/10/2023 15:15', fechaSincronizacion: '04/10/2023 19:50', codigoCaracterizacion: 0 },
-      //   { id:2, codigoEstado: '01', estado: 'Pendiente Formulario', codigoLote: '02', unidadesAdministrativas: 8, fechaOrden: '03/10/2023 15:35', fechaSincronizacion: '', codigoCaracterizacion: 0 },
-      //   { id:3, codigoEstado: '02', estado: 'Visitado en Proceso', codigoLote: '03', unidadesAdministrativas: 6, fechaOrden: '02/10/2023 10:00', fechaSincronizacion: '02/10/2023 15:35', codigoCaracterizacion: 0 },
-      //   { id:4, codigoEstado: '01', estado: 'Pendiente Formulario', codigoLote: '04', unidadesAdministrativas: 12, fechaOrden: '05/10/2023 11:15', fechaSincronizacion: '05/10/2023 16:15', codigoCaracterizacion: 0 }
-      // ]
-
-      //       this.dataSource = new MatTableDataSource<LoteResponse>(info);
-      //       this.dataSource.paginator = this.paginator;      
-  
     } 
 
     ngOnDestroy(): void {
       this.anularOT$.unsubscribe();
       this.quitarUsuario$.unsubscribe();
+      this.listLote$.unsubscribe();
+      this.listLote1$.unsubscribe();
     }
 
     ListarLotes(){
       this.filter.codigoOrden = this.datos.codigoOrden;
-      this._ordenTrabajoService.listarLotesxOrdenTrabajo(this.filter).subscribe({
-        next:(Data) => {
 
+      this.listLote$ = this._ordenTrabajoService.listarLotesxOrdenTrabajo(this.filter).subscribe({
+        next:(Data:StatusResponse<LoteResponse[]>) => {
+
+          console.log('Data');
+          console.log(Data);
           if(Data.success){
             // Data.data.forEach(elem => {
             //   elem.seleccion = false;
             //   elem.expandir = false;
             // });
 
-            console.log(Data.data);
-
             this.loading = false;
-            let info = Data.data;
+            let info:LoteResponse[] = Data.data;
             info.length = Data.total;          
 
             this.dataSource = new MatTableDataSource<LoteResponse>(info);
@@ -137,37 +104,12 @@ export class BandejaLoteComponent implements OnInit , OnDestroy {
             this.dataSource.paginator = this.paginator;
           }
           else{
-            this.dataSource = new MatTableDataSource<LoteResponse>([]);
+            this.dataSource = new MatTableDataSource<LoteResponse>();
             this.dataSource.paginator = this.paginator;
           }
         }
       })
     }
-
-    // ListarOrdenes(){
-    //   this._seguimientoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
-    //     next:(Data) => {
-
-    //       if(Data.success){
-    //         Data.data.forEach(elem => {
-    //           elem.seleccion = false;
-    //           elem.expandir = false;
-    //         });
-
-    //         this.loading = false;
-    //         let info = Data.data;
-    //         info.length = Data.total;          
-
-    //         this.dataSource = new MatTableDataSource<OrdenTrabajo>(info);
-    //         this.dataSource.paginator = this.paginator;
-    //       }
-    //       else{
-    //         this.dataSource = new MatTableDataSource<OrdenTrabajo>([]);
-    //         this.dataSource.paginator = this.paginator;
-    //       }
-    //     }
-    //   })
-    // }
 
     ExpandirContraer(elem: any){
       elem.expandir = !elem.expandir;
@@ -183,77 +125,23 @@ export class BandejaLoteComponent implements OnInit , OnDestroy {
   
       this.filter.Page = pageIndex + 1;
       this.filter.ItemsByPage = pageSize;
-  
-      // this._seguimientoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
-      //   next:(Data) => {
-      //       this.loading = false;
-  
-      //       Data.data.forEach(elem => {
-      //         elem.seleccion = false;
-      //         elem.expandir = false;
-      //       });
 
-      //       this.fi.length = previousSize;
-      //       this.fi.push(...Data.data);
-      //       this.fi.length = Data.total;
-            
-      //       this.selection.selected.forEach(sel => {
-      //         this.fi.forEach(item => {
-      //           if(item.id == sel.id) item.seleccion = true;
-      //         });
-      //       });
+      this.listLote1$ = this._ordenTrabajoService.listarLotesxOrdenTrabajo(this.filter).subscribe({
+        next:(Data:StatusResponse<LoteResponse[]>) => {
 
-      //       this.dataSource = new MatTableDataSource<OrdenTrabajo>(this.fi);
-      //       this.dataSource._updateChangeSubscription();
+            this.loading = false;
+
+            this.fi.length = previousSize;
+            this.fi.push(...Data.data);
+            this.fi.length = Data.total;
+
+            this.dataSource = new MatTableDataSource<LoteResponse>(this.fi);
+            this.dataSource._updateChangeSubscription();
   
-      //       this.dataSource.paginator = this.paginator;
-      //   }
-      // })
+            this.dataSource.paginator = this.paginator;
+        }
+      })    
     }
-
-    // changeCheckbox(val:any, elem: any){
-
-    //   if(val.checked){
-    //     let sw: boolean = false;
-    //     this.selection.selected.forEach(el => {
-    //       if(el.id == elem.id){
-    //         sw = true;
-    //       }
-    //     });
-    //     if(!sw) this.selection.select(elem);
-    //   }
-    //   else{
-    //     this.selection.selected.forEach(el => {
-    //       if(el.id == elem.id){
-    //         this.selection.deselect(el);
-    //       }
-    //     });      
-    //   }      
-
-    //   this.disablebtnAsignar = this.selection.selected.length == 0;
-
-    // }
-
-    // CrearOrdenModal(data: OrdenTrabajo):void {
-
-    //   const dialogCrearOrden = this.dialog.open(RegisterOrdenModalComponent, {
-    //       width: '800px',
-    //       enterAnimationDuration : '300ms',
-    //       exitAnimationDuration: '300ms',
-    //       disableClose: true,
-    //       data: data
-    //   });
-  
-    //   dialogCrearOrden.afterClosed().subscribe((result:boolean) => {
-    //     if(result){
-    //       this.ListarOrdenes();
-    //     }            
-    //   });
-    // }
-
-    // CrearOrden(data: OrdenTrabajo){
-    //   this.CrearOrdenModal(data);
-    // }
 
     VerUnidadCatastral(data: LoteResponse)
     {
@@ -263,166 +151,4 @@ export class BandejaLoteComponent implements OnInit , OnDestroy {
 
       this.route.navigateByUrl('/intranet/verunidadcatastral');
     }
-
-    // AnularOrden(dato: OrdenTrabajo){
-    //   let modal: Title = { Title: '¿Está seguro de anular la orden ' + dato.orden + ' ?', Subtitle: '', Icon: '' }
-    //   const dialogAnularOrden = this.dialog.open(ModalQuestionComponent, {
-    //       width: '450px',
-    //       enterAnimationDuration: '300ms',
-    //       exitAnimationDuration: '300ms',
-    //       disableClose: true,
-    //       data: modal
-    //   });
-
-    //   dialogAnularOrden.afterClosed().subscribe((result:boolean) => {
-    //     if(result){
-    //       let mLoading = this.ModalLoading();
-
-    //       let data: OrdenTrabajoAction = {
-    //         usuarioCreacion: 'carevalo',
-    //         terminalCreacion: '127.0.0.0',
-    //         codigoOrden: dato.codigoOrden
-    //       }
-
-    //       this.anularOT$ = this._seguimientoService.anularOrden(data)
-    //       .subscribe(result => {    
-    //         setTimeout(() => {
-    //           mLoading.close();       
-
-    //           if(result.success){ 
-                
-    //             let modal: Title = { 
-    //               Title: 'Orden anulada',
-    //               Subtitle: 'La orden ' + dato.orden + ' se anuló satisfactoriamente.', 
-    //               Icon: 'ok' 
-    //             }
-
-    //             const okModal = this.dialog.open(ModalMessageComponent, {
-    //                 width: '500px',
-    //                 enterAnimationDuration: '300ms',
-    //                 exitAnimationDuration: '300ms',
-    //                 disableClose: true,
-    //                 data: modal
-    //             });
-
-    //             okModal.afterClosed().subscribe(resp => {
-    //               if(resp){
-    //                 this.ListarOrdenes();
-    //               }
-    //             });
-
-    //           }
-    //           else{
-    //               let modal: Title = { 
-    //                   Title: 'Opss...', 
-    //                   Subtitle: result.message, 
-    //                   Icon: 'error' }
-    //                 this.dialog.open(ModalMessageComponent, {
-    //                     width: '500px',
-    //                     enterAnimationDuration: '300ms',
-    //                     exitAnimationDuration: '300ms',
-    //                     disableClose: true,
-    //                     data: modal
-    //                 });
-    //           }              
-    //         }, 500);
-    //       });
-
-    //     }            
-    //   });
-    // }
-
-    // ModalLoading(): any {     
-    //   let modal: Title = { 
-    //     Title: 'Procesando su solicitud...'}
-    //   let dgRef = this.dialog.open(ModalLoadingComponent, {
-    //       width: '400px',
-    //       height: '95px',
-    //       enterAnimationDuration: '300ms',
-    //       exitAnimationDuration: '300ms',
-    //       disableClose: true,
-    //       data: modal
-    //   }); 
-
-    //   return dgRef;
-    // }  
-
-    // AgregarPersona(dato: OrdenTrabajo){
-
-    // }
-
-    // QuitarPersona(dato: UsuarioAsignado){
-
-    //   let modal: Title = { Title: '¿Está seguro de quitar al personal?', Subtitle: '', Icon: '' }
-    //   const dialogQuitarPersona = this.dialog.open(ModalQuestionComponent, {
-    //       width: '450px',
-    //       enterAnimationDuration: '300ms',
-    //       exitAnimationDuration: '300ms',
-    //       disableClose: true,
-    //       data: modal
-    //   });
-
-    //   dialogQuitarPersona.afterClosed().subscribe((result:boolean) => {
-    //     if(result){
-    //       let loading = this.ModalLoading();
-
-    //       let data: OrdenTrabajoAction = {
-    //         usuarioCreacion: 'carevalo',
-    //         terminalCreacion: '127.0.0.0',
-    //         codigoOrden: dato.codigoOrden,
-    //         usuarios: [{
-    //           codigoUsuarioOrden: dato.codigoUsuarioOrden
-    //         }]
-    //       }
-
-    //       this.quitarUsuario$ = this._seguimientoService.quitarUsuario(data)
-    //       .subscribe(result => {    
-    //         setTimeout(() => {
-
-    //           loading.close();       
-
-    //           if(result.success){ 
-                
-    //             let modal: Title = { 
-    //               Title: 'Personal eliminado',
-    //               Subtitle: 'El Personal ' + dato.persona + ' se eliminó de la orden satisfactoriamente.', 
-    //               Icon: 'ok' 
-    //             }
-
-    //             const okModal = this.dialog.open(ModalMessageComponent, {
-    //                 width: '500px',
-    //                 enterAnimationDuration: '300ms',
-    //                 exitAnimationDuration: '300ms',
-    //                 disableClose: true,
-    //                 data: modal
-    //             });
-
-    //             okModal.afterClosed().subscribe(resp => {
-    //               if(resp){
-    //                 this.ListarOrdenes();
-    //               }
-    //             });
-
-    //           }
-    //           else{
-
-    //             if(result.validations == null) result.message = 'Ha ocurrido un error, contacte con el area de soporte.';
-
-    //               let modal: Title = { 
-    //                   Title: 'Opss...', 
-    //                   Subtitle: result.message, 
-    //                   Icon: 'error' }
-    //                 this.dialog.open(ModalMessageComponent, {
-    //                     width: '500px',
-    //                     enterAnimationDuration: '300ms',
-    //                     exitAnimationDuration: '300ms',
-    //                     disableClose: true,
-    //                     data: modal
-    //                 });
-    //           }              
-    //         }, 500);
-    //       });
-    //     }            
-    //   });
-    // }
 }

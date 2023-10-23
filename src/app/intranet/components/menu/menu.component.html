@@ -9,10 +9,10 @@
             {{menu.nombreMenu}}
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-list>
-          <mat-list-item class="rounded-1" style="font-size: 8pt; height: 36px" *ngFor="let item of menu.menu">
-              <mat-panel-title (click)="ir(item.path)">
-                  <mat-icon>{{item.icon}}</mat-icon>&nbsp;{{item.nombreMenu}}
+        <mat-list class="mat-list-item1">
+          <mat-list-item class="rounded-1" style="font-size: 0.8rem; height: 36px" *ngFor="let item of menu.menu">
+              <mat-panel-title (click)="ir(item.ruta)">
+                  <mat-icon>{{item.icono}}</mat-icon>&nbsp;{{item.nombreMenu}}
               </mat-panel-title>
           </mat-list-item>
         </mat-list>

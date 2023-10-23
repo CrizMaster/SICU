@@ -7,14 +7,14 @@ export const IntranetGuard: CanMatchFn = (guar) => {
   const _localService = inject(LocalService);
   const router = inject(Router);  
 
-  let cm = _localService.getData("sicume");
+  let cm = _localService.getData("eylmenu");
   if(cm == '') return router.navigate(['login']);
 
   let currentMenu = JSON.parse(cm);      
   let url = guar.path;
 
   function searchTree(element: any, matchingTitle: string): any {
-    if(String(element.path).includes('/' + matchingTitle)){
+    if(String(element.ruta).includes('/' + matchingTitle)){
          return element;
     }else if (element.menu != null){
          let result: any = null;
@@ -32,7 +32,7 @@ export const IntranetGuard: CanMatchFn = (guar) => {
     result = searchTree(element, url);
   }
 
-  //return result == null ? router.navigate(['access-denied']) : true;
-  return true;
+  return result == null ? router.navigate(['access-denied']) : true;
+  //return true;
   
 };

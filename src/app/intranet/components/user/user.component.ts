@@ -3,6 +3,7 @@ import { LocalService } from 'src/app/core/shared/services/local.service';
 import { IntranetService } from '../../intranet.service';
 import { AuthService } from 'src/app/core/shared/services/auth.service';
 import { Router } from '@angular/router';
+import { UsuarioSession } from 'src/app/public/models/usuarioSession';
 
 interface SelectValue {
   value: string;
@@ -43,32 +44,15 @@ export class UserComponent implements OnInit{
       private route: Router){}
 
     ngOnInit(): void {
+
       let tk = this._localService.getData("Token");
       let user = JSON.parse(tk);
       
-      this.image = user.data.archivoFoto;
+      this.image = user.archivoFoto;
 
-      this.userName = user.data.nombres + ' ' + user.data.apePaterno + ' ' + user.data.apeMaterno;
-      this.email = user.data.correo;
-      this.cargo = user.data.nombreCargo;
-
-      // this._intranetService.listaOrganizaciones().subscribe({
-      //   next:(orgsData) => {
-      //       this.organizaciones = orgsData.data;
-      //       if(this.organizaciones.length > 0) { 
-
-      //         this._localService.removeData("sicuorg");
-      //         this._localService.saveData("sicuorg", JSON.stringify(this.organizaciones[0]));
-
-      //         this.organizacionSeleccionada = parseInt(this.organizaciones[0].idOrganizacion);
-      //         this.getPerfiles(this.organizaciones[0].idOrganizacion); 
-      //       }
-      //   },
-      //   error:(errorData) => {
-      //       console.info('error');
-      //       console.log(errorData);
-      //   }
-      // });      
+      this.userName = user.nombres + ' ' + user.apePaterno + ' ' + user.apeMaterno;
+      this.email = user.correo;
+      this.cargo = user.nombreCargo;  
     }
     
     onChangeSelOrgs(newValue: string){
@@ -110,7 +94,7 @@ export class UserComponent implements OnInit{
 
       this._intranetService.listaMenu(this.organizacionSeleccionada, this.perfilSeleccionado).subscribe({
         next:(menuData) => {                    
-          this._intranetService.currentComponentMenu.next(menuData.data);
+          this._intranetService.currentMenu.next(menuData.data);
           //console.log('cambio de menú');
           //this.route.navigateByUrl('/intranet');
         },

@@ -6,13 +6,17 @@ import { LocalService } from '../core/shared/services/local.service';
 import { environment } from 'src/environments/environment';
 import { CatalogoMaster } from '../core/models/catalogo-master.model';
 import { StatusResponse } from '../core/models/statusResponse.model';
+import { MenuResponse } from './models/menuResponse';
+import { UsuarioSession } from '../public/models/usuarioSession';
 
 @Injectable( {  providedIn: 'root' })
 
 export class IntranetService implements OnInit {
 
 
-    currentComponentMenu: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    currentMenu: BehaviorSubject<StatusResponse<MenuResponse[]>> = new BehaviorSubject<StatusResponse<MenuResponse[]>>({});
+
+    currentUsuario: BehaviorSubject<UsuarioSession> = new BehaviorSubject<UsuarioSession>({});
 
     constructor(private http: HttpClient,
         private _localService: LocalService){}
@@ -21,8 +25,21 @@ export class IntranetService implements OnInit {
         //this.setCatalogoMaster();
     }
 
-    get getCurrentComponentMenu():Observable<any>{
-        return this.currentComponentMenu.asObservable();
+    get getCurrentMenu():Observable<any>{
+        return this.currentMenu.asObservable();
+    }
+
+    get getUsuario():Observable<UsuarioSession>{
+        return this.currentUsuario.asObservable();
+    }
+
+    
+
+    ListarMenu(): Observable<StatusResponse<MenuResponse[]>>{       
+        return this.http.get<StatusResponse<MenuResponse[]>>(environment.urlWebApiEyL + 'Users/GetListaMenu')
+        .pipe(
+            catchError(this.handlerError)            
+        );;
     }
 
     setMasterCatalog(): Observable<StatusResponse<CatalogoMaster[]>>{

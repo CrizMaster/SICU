@@ -53,6 +53,7 @@ import { OrdenTrabajoService } from "./components/formularios/orden-trabajo/orde
 import { BandejaOrdenTrabajoComponent } from "./components/formularios/orden-trabajo/bandeja/bandeja-orden-trabajo.component";
 import { LoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/lote-orden.component";
 import { BandejaLoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/bandeja-lote-orden/bandeja-lote-orden.component";
+import { PersonalUsuarioComponent } from "./components/configuraciones/personal-usuario/personal-usuario.component";
 
 @NgModule({
     imports: [
@@ -104,7 +105,9 @@ import { BandejaLoteOrdenComponent } from "./components/formularios/orden-trabaj
         OrdenTrabajoComponent,
         BandejaOrdenTrabajoComponent,
         LoteOrdenComponent,
-        BandejaLoteOrdenComponent
+        BandejaLoteOrdenComponent,
+
+        PersonalUsuarioComponent
     ],
     exports: [],
     providers: [

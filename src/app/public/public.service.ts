@@ -7,19 +7,19 @@ import { LoginRequest } from './models/loginRequest';
 import { LoginResponse } from './models/loginResponse';
 
 import { environment } from 'src/environments/environment';
+import { StatusResponse } from '../core/models/statusResponse.model';
+import { UsuarioSession } from './models/usuarioSession';
 
 @Injectable()
 
 export class PublicService{
 
-    //inComponentLogin: EventEmitter<boolean> = new EventEmitter();
-
     currentComponentLogin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(private http: HttpClient){}
 
-    login(credencials: LoginRequest):Observable<LoginResponse>{
-        return this.http.post<LoginResponse>(environment.urlWebApiTest + 'Users/Authenticate',
+    login(credencials: LoginRequest):Observable<StatusResponse<UsuarioSession>>{
+        return this.http.post<StatusResponse<UsuarioSession>>(environment.urlWebApiEyL + 'Users/Authenticate',
         {   UserName: credencials.usuario, 
             Password: credencials.password
         }).pipe(
@@ -28,7 +28,7 @@ export class PublicService{
     }
 
     validarRecaptchaV3(token: string): Observable<any> {
-        return this.http.post<any>(environment.urlWebApiTest + 'Users/ValidarRecaptcha',
+        return this.http.post<any>(environment.urlWebApiEyL + 'Users/ValidarRecaptcha',
         {
             Token: token
         })
@@ -36,37 +36,12 @@ export class PublicService{
             map((response) => response),
             catchError(this.handlerError)
         );
-    }   
-
-    // isComponentLogin(status: boolean) {
-    //     console.log('ok');
-    //     console.log(status);
-    //     this.inComponentLogin.emit(status);
-    // }
-
-    // getComponentLogin(){
-    //     return this.inComponentLogin;
-    // }
+    }
 
     //Para que pueden subscribe
     get getCurrentComponentLogin():Observable<boolean>{
         return this.currentComponentLogin.asObservable();
     }
-
-    // getCharacters(): Observable<any> {
-    //     return this.http.get('https://thronesapi.com/api/v2/Characters').pipe(
-    //         tap(console.log),
-    //         map(response => response.filter((character:any) => character.lastName == 'Stark')),
-    //         catchError(this.handlerError)
-    //     )
-    // }
-
-    // getContinents(): Observable<any> {
-    //     return this.http.get('https://thronesapi.com/api/v2/Continents').pipe(
-    //         tap(console.log),
-    //         catchError(this.handlerError)
-    //     )        
-    // }
 
     private handlerError(error: HttpErrorResponse) {
         let msn = '';

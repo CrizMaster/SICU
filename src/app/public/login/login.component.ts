@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PublicService } from '../public.service';
@@ -11,13 +11,15 @@ import { LocalService } from 'src/app/core/shared/services/local.service';
 import { AuthService } from 'src/app/core/shared/services/auth.service';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { HttpErrorResponse } from '@angular/common/http';
+import { StatusResponse } from 'src/app/core/models/statusResponse.model';
+import { UsuarioSession } from '../models/usuarioSession';
 
 @Component({
     selector : 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit, OnDestroy  {
 
     offline: boolean = false;
 
@@ -29,6 +31,9 @@ export class LoginComponent implements OnInit{
     msgStatus: string = 'Iniciando sesión...';
     hide: boolean = true;
     viewProgress: boolean = false;  
+
+    public sLogin$: Subscription = new Subscription;
+    public sRecap$: Subscription = new Subscription;
 
     constructor(private fb: FormBuilder,
         private route: Router,
@@ -51,6 +56,11 @@ export class LoginComponent implements OnInit{
         }); 
     }
 
+    ngOnDestroy(): void {
+      this.sLogin$.unsubscribe();
+      this.sRecap$.unsubscribe();
+    }
+        
     login(){
       this.loginError = '';
       this.msgStatus = 'Validando recaptchar...';
@@ -62,8 +72,9 @@ export class LoginComponent implements OnInit{
         this.recaptchaV3Service.execute('')
         .subscribe((token) => {
 
-            const auxiliar = this._publicService.validarRecaptchaV3(token)
-            auxiliar.subscribe({
+            const auxiliar = this._publicService.validarRecaptchaV3(token);
+
+            this.sRecap$ = auxiliar.subscribe({
               error: () => {
                 this.loginError = "A ocurrido un problema, recarge la página e intente nuevamente o contacte con area de soporte técnico.";
                 this.viewProgress = false;
@@ -95,23 +106,25 @@ export class LoginComponent implements OnInit{
 
     iniciarSesion()
     {  
-      this._publicService.login(this.loginForm.value as LoginRequest).subscribe({
-          next:(userData) => {
-              //console.log(userData);
-              this._authService.isLoggedIn.next(true);
-              this._localService.removeData("Token");
-              this._localService.saveData("Token", JSON.stringify(userData))
+      this.sLogin$ = this._publicService.login(this.loginForm.value as LoginRequest).subscribe({
+          next:(userData: StatusResponse<UsuarioSession>) => {
+              if(userData.success){
+
+                this._localService.removeData("Token");
+                this._localService.saveData("Token", JSON.stringify(userData.data))
+
+                // userData.data.token = "";
+                // this._authService.currentUsuario.next(userData.data);
+
+                this._authService.isLoggedIn.next(true);
+              }              
           },
           error:(errorData) => {
-              // console.info('error');
-              // console.log(errorData);
               this.loginError = errorData;
               this.viewProgress = false;
           },
           complete:() => {
-              //console.info('completo');
               this.route.navigateByUrl('/intranet');
-              //this.loginForm.reset();
               this.viewProgress = false;                  
           }
       });

@@ -15,11 +15,20 @@ import { VerLoteComponent } from "./components/asignacion-carga/seguimiento-orde
 import { VerUnidadCatastralComponent } from "./components/asignacion-carga/seguimiento-orden/ver-unidad-catastral/ver-unidad-catastral.component";
 import { OrdenTrabajoComponent } from "./components/formularios/orden-trabajo/orden-trabajo.component";
 import { LoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/lote-orden.component";
+import { MenuResolver } from "./resolvers/menu.resolver";
+import { PersonalUsuarioComponent } from "./components/configuraciones/personal-usuario/personal-usuario.component";
 
 const routes: Routes = [
     { path: '', component: IntranetComponent,      
       children:
-      [        
+      [ { path: 'personal', 
+          component: PersonalUsuarioComponent, 
+          pathMatch:'full',
+          canMatch: [IntranetGuard],
+        },
+    
+    
+
         { path: 'individual', 
           component: FichaIndividualComponent, 
           pathMatch:'full',
@@ -76,7 +85,10 @@ const routes: Routes = [
           pathMatch:'full',
           canMatch: [IntranetGuard],
         }
-      ] 
+      ],
+      resolve: {
+        datos: MenuResolver
+      }
     }
 ];
 

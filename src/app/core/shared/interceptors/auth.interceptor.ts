@@ -22,14 +22,14 @@ export class AuthInterceptor implements HttpInterceptor {
     let url = request.url;
   
     
-    const isApiSecurity= url.includes(environment.urlWebApiTest);
+    const isApiSecurity= url.includes(environment.urlWebApiEyL);
 
     if(isApiSecurity && this._localService.getData("Token")){
 
       let tk = this._localService.getData("Token");
       let usr = JSON.parse(tk);
       clonedRequest = request.clone({
-        setHeaders: { Authorization : 'Bearer ' + usr.data.token }
+        setHeaders: { Authorization : 'Bearer ' + usr.token }
       })
     }
 

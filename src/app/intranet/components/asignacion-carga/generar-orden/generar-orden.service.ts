@@ -67,13 +67,13 @@ export class GenerarOrdenService{
         })
         .pipe(
             tap((response: any) => {
-                if(response.success){
+                if(response.Success){
                     let con = 0;            
-                    response.data.forEach(item => {
+                    response.Data.forEach(item => {
                         con++;
                         item.idManzana = con;
                     });
-                    response.data.unshift({ idManzana: 0, codigoManzana: 'Seleccionar'});
+                    response.Data.unshift({ idManzana: 0, codigoManzana: 'Seleccionar'});
                 }
             }),
             catchError(this.handlerError)

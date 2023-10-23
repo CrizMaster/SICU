@@ -5,6 +5,7 @@ export const environment = {
     urlWebApiSICU:'http://localhost:8085/',
     urlWebApiSecurity:'http://localhost:8086/',
     urlWebApiTest:'http://localhost:64333/api/',
+    urlWebApiEyL:'http://localhost:64333/api/',
     name:'development',
     code: 1001,    
 };

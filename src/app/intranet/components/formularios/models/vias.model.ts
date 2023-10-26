@@ -6,13 +6,15 @@ export interface ViasCaracterizacion {
     codigoTipoVia?: string;
     nombreVia?: string;
     codigoTipoPuerta?: string;
+    nombreTipoPuerta?: string;
     numeroMunicipal?: string;
     codigoCondicion?: string;
     codigoEstado?: string;
     checkedAct?: boolean;
     idTipoPuerta?: number;
     idCondicion?: number;
-    codigoVia?: string
+    codigoVia?: string;
+    codigoViaLote?: number
 }
 
 export interface ViasCaracterizacionRequest {

@@ -16,5 +16,7 @@ export interface EdificacionResponse {
     codigoDistrito: string,
     codigoSector: string,
     codigoManzana: string,
-    codigoLoteCaracterizacion: string
+    codigoLoteCaracterizacion: string,
+    codigoEstado: string,
+    nombreEstado: string
 }

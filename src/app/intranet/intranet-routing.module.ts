@@ -18,6 +18,7 @@ import { LoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-
 import { RegisterOrdenModalComponent } from "./components/asignacion-carga/generar-orden/register-orden-modal/register-orden-modal.component";
 import { RegistroLoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/registro-lote-orden.component";
 import { InfoCaracterizacionResolver } from "./resolvers/infoCaracterizacion.resolver";
+import { BandejaLUnidadCatastralComponent } from "./components/asignacion-carga/seguimiento-orden/ver-unidad-catastral/bandeja-unidad-catastral/bandeja-unidad-catastral.component";
 
 const routes: Routes = [
     { path: '', component: IntranetComponent,      

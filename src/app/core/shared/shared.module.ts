@@ -35,6 +35,7 @@ import {
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatMenuModule} from '@angular/material/menu';
 
 import localeEsPE from '@angular/common/locales/es-PE';
 
@@ -85,6 +86,7 @@ const maskConfig: Partial<IConfig> = {
         MatAutocompleteModule,
         MatDatepickerModule,
         MatCheckboxModule,
+        MatMenuModule,
 
         NgbModule,
         NgxMaskDirective, 
@@ -143,6 +145,7 @@ const maskConfig: Partial<IConfig> = {
         MatAutocompleteModule,
         MatDatepickerModule,
         MatCheckboxModule,
+        MatMenuModule,
 
         NgbModule,
         NgxMaskDirective, 

@@ -12,6 +12,8 @@ import { LoteFilter, LoteResponse } from '../../asignacion-carga/models/loteResp
 import { ArchivoModel, CaracterizacionResponse, FilterCaracterizacion } from '../models/caracterizacionResponse';
 import { EdificacionFilter, EdificacionLoteRequest, EdificacionRequest } from '../models/edificacionRequest';
 import { EdificacionResponse } from '../models/edificacionResponse';
+import { ViasCaracterizacion } from '../models/vias.model';
+import { UnidadAdministrativaRequest } from '../models/unidadAdministrativaRequest';
 
 @Injectable()
 
@@ -19,6 +21,8 @@ export class OrdenTrabajoService{
 
     listaEstadosOrden: ItemSelect<number>[] = [];
     
+    listaVias: BehaviorSubject<ViasCaracterizacion[]> = new BehaviorSubject<ViasCaracterizacion[]>([]);
+
     DataTableOT: BehaviorSubject<StatusResponse<OrdenTrabajo[]>> = new BehaviorSubject<StatusResponse<OrdenTrabajo[]>>({
         success: false,
         message: '',
@@ -30,6 +34,9 @@ export class OrdenTrabajoService{
 
     filterCaracterizacion: BehaviorSubject<FilterCaracterizacion> = 
         new BehaviorSubject<FilterCaracterizacion>({ codigoCaracterizacion: 0, codigoLoteCaracterizacion: '000', codigoLote: 0, codigoDetalle: 0 });
+
+    listaEdificaciones: BehaviorSubject<EdificacionResponse[]> = new BehaviorSubject<EdificacionResponse[]>([]);
+    //listaVias: BehaviorSubject<ViasCaracterizacion[]> = new BehaviorSubject<ViasCaracterizacion[]>([]);
     
     constructor(private http: HttpClient,
         private _localService: LocalService){
@@ -45,8 +52,16 @@ export class OrdenTrabajoService{
         return this.viewOrdenTrabajo.asObservable();
     }
 
+    get getListaEdificaciones():Observable<EdificacionResponse[]>{
+        return this.listaEdificaciones.asObservable();
+    }
+
     get getFilterCaracterizacion():Observable<FilterCaracterizacion>{
         return this.filterCaracterizacion.asObservable();
+    }
+
+    get getListaVias():Observable<ViasCaracterizacion[]>{
+        return this.listaVias.asObservable();
     }
 
     listarOrdenesTrabajoxDistrito(filter: OrdenTrabajoFilter):Observable<StatusResponse<OrdenTrabajo[]>>{
@@ -116,15 +131,25 @@ export class OrdenTrabajoService{
             "codigoLote": filter.codigoLote
         })
         .pipe(
-            // tap((response: StatusResponse<CaracterizacionResponse>) => {
-            //     if(response.success){
-            //         console.log('response');
-            //         console.log(response);
-            //     }
-            // }),
+            tap((response: StatusResponse<CaracterizacionResponse>) => {
+                if(response.success){
+  
+                    if(filter.codigoLote != 0){
+                        let vias: ViasCaracterizacion[] = [];
+                        response.data.listaVias.forEach(el => {
+                            if(el.checkedAct){
+                                vias.push(el);
+                            }
+                        });
+
+                        this.listaVias.next(vias);
+                        
+                    }                    
+                }
+            }),
             catchError(this.handlerError)            
         );
-    }    
+    }
 
     GuardaFormularioLote(data: FormData):Observable<any>{
         return this.http.post<any>(environment.urlWebApiSICU + 'GuardaFormularioLote',
@@ -140,23 +165,6 @@ export class OrdenTrabajoService{
         .pipe(
             catchError(this.handlerError)
         );         
-    }
-
-    ConsultaEdicacionesLote(filter:EdificacionFilter):Observable<StatusResponse<EdificacionResponse[]>>{
-    
-        return this.http.post<StatusResponse<EdificacionResponse[]>>(environment.urlWebApiSICU + 'ConsultaEdicacionesLote',
-        {
-            "codigoLote": filter.codigoLote
-        })
-        .pipe(
-            // tap((response: StatusResponse<EdificacionResponse[]>) => {
-            //     if(response.success){
-            //         console.log('response');
-            //         console.log(response);
-            //     }
-            // }),
-            catchError(this.handlerError)            
-        );
     }
 
     ActualizaDatosEdificacion(data: EdificacionRequest):Observable<any>{
@@ -175,8 +183,25 @@ export class OrdenTrabajoService{
         })
         .pipe(
             tap((response: any) => {
-                console.log('response');
-                console.log(response);
+                // console.log('response');
+                // console.log(response);
+            }),
+            catchError(this.handlerError)            
+        );
+    }
+
+    ConsultaEdicacionesLote(filter:EdificacionFilter):Observable<StatusResponse<EdificacionResponse[]>>{
+    
+        return this.http.post<StatusResponse<EdificacionResponse[]>>(environment.urlWebApiSICU + 'ConsultaEdificacionesLote',
+        {
+            "codigoLote": filter.codigoLote,
+            "ind": filter.ind
+        })
+        .pipe(
+            tap((response: StatusResponse<EdificacionResponse[]>) => {
+                if(response.success){
+                    this.listaEdificaciones.next(response.data);
+                }
             }),
             catchError(this.handlerError)            
         );

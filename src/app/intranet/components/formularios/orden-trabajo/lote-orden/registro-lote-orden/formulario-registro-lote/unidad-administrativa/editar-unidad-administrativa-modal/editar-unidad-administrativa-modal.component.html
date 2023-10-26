@@ -1,0 +1,95 @@
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <h1 mat-dialog-title class="bg-cofopri text-white">{{title}}</h1>
+  <div mat-dialog-content class="px-4" style="font-size: 0.9rem;">
+    <div class="row my-2">    
+        <div class="col-12 mt-1">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  Entrada
+                </div>
+                <div class="col-12" style="position: relative;">
+                  <select name="entrada" #SelEntrada
+                          formControlName="entrada"
+                          class="form-select form-select-sm border focus-ring" 
+                          [class.border-success]="this.form.get('entrada')?.valid"
+                          [class.focus-ring-success]="this.form.get('entrada')?.valid"
+                          [class.border-danger]="this.form.get('entrada')?.invalid && this.form.get('entrada')?.touched"
+                          [class.focus-ring-danger]="this.form.get('entrada')?.invalid && this.form.get('entrada')?.touched"
+                          aria-label="select-entrada" [pattern]="pattern3Digs">
+                          <option *ngFor="let cv of listEntrada" [value]="cv.value">{{ cv.text }}</option>
+                  </select>
+                  <i *ngIf="this.form.get('entrada')?.invalid && this.form.get('entrada')?.touched" 
+                          class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                          title="Campo requerido"></i>
+                </div>
+              </div>
+              <div class="row my-2">
+                <div class="col-4 mt-1">
+                  Piso
+                </div>
+                <div class="col-4 mt-1">
+                  Unidad Administrativa
+                </div>
+                <div class="col-4 mt-1">
+                  Nro. Interior
+                </div>
+                <div class="col-4" style="position: relative;">
+                  <input type="text" formControlName="piso" mask='00'
+                        class="form-control form-control-sm border focus-ring"
+                        [class.border-success]="this.form.get('piso')?.valid"
+                        [class.focus-ring-success]="this.form.get('piso')?.valid"
+                        [class.border-danger]="this.form.get('piso')?.invalid && this.form.get('piso')?.touched"
+                        [class.focus-ring-danger]="this.form.get('piso')?.invalid && this.form.get('piso')?.touched">                        
+                </div>
+                <div class="col-4" style="position: relative;">
+                  <input type="text" formControlName="unidadadministrativa"
+                        class="form-control form-control-sm border focus-ring" mask='000'
+                        [class.border-success]="this.form.get('unidadadministrativa')?.valid"
+                        [class.focus-ring-success]="this.form.get('unidadadministrativa')?.valid"
+                        [class.border-danger]="this.form.get('unidadadministrativa')?.invalid && this.form.get('unidadadministrativa')?.touched"
+                        [class.focus-ring-danger]="this.form.get('unidadadministrativa')?.invalid && this.form.get('unidadadministrativa')?.touched">                        
+                </div>
+                <div class="col-4" style="position: relative;">
+                  <input type="text" formControlName="nrointerior" mask='000'
+                        class="form-control form-control-sm border focus-ring"
+                        [class.border-success]="this.form.get('nrointerior')?.valid"
+                        [class.focus-ring-success]="this.form.get('nrointerior')?.valid"
+                        [class.border-danger]="this.form.get('nrointerior')?.invalid && this.form.get('nrointerior')?.touched"
+                        [class.focus-ring-danger]="this.form.get('nrointerior')?.invalid && this.form.get('nrointerior')?.touched">                        
+                </div>
+              </div>
+              <div class="row my-2">
+                <div class="col-12">
+                  Tipo de Interior
+                </div>
+                <div class="col-12" style="position: relative;">
+                  <select name="tipointerior" #SelTipointerior
+                          formControlName="tipointerior"
+                          class="form-select form-select-sm border focus-ring" 
+                          [class.border-success]="this.form.get('tipointerior')?.valid"
+                          [class.focus-ring-success]="this.form.get('tipointerior')?.valid"
+                          [class.border-danger]="this.form.get('tipointerior')?.invalid && this.form.get('tipointerior')?.touched"
+                          [class.focus-ring-danger]="this.form.get('tipointerior')?.invalid && this.form.get('tipointerior')?.touched"
+                          aria-label="select-tipointerior" [pattern]="pattern1Digs">
+                          <option *ngFor="let cv of listTipointerior" [value]="cv.value">{{ cv.text }}</option>
+                  </select>
+                  <i *ngIf="this.form.get('tipointerior')?.invalid && this.form.get('tipointerior')?.touched" 
+                          class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                          title="Campo requerido"></i>
+                </div>
+              </div>
+
+            </div>
+          </div>    
+        </div>
+    </div>    
+  </div>
+  <div mat-dialog-actions class="d-flex justify-content-end">  
+    <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
+    <button type="submit" class="btn btn-sm bg-btn-save" 
+            [disabled]="form.invalid"
+            (click)="guardar()"><i class="bi bi-plus-circle"></i>&nbsp;Guardar</button>
+  </div>
+</form>

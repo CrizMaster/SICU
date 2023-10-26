@@ -12,17 +12,13 @@
             <mat-step [stepControl]="secondFormGroup" 
                 label="EDIFICACIONES" state="receipt" [completed]="secondComplete">           
                 <div class="container-sm">
-                  <app-edificaciones></app-edificaciones>
+                  <app-edificaciones [Stepper] = "Stepper"></app-edificaciones>
                 </div>        
             </mat-step>
             <mat-step [stepControl]="thirdFormGroup" state="badge"
                 label="UNIDADES ADMINISTRATIVAS" [completed]="thirdComplete">
                 <div class="container-sm">
-                    <div class="row">
-                        <div class="col-12">
-                            MODULO EN CONSTRUCCIÓN
-                        </div>
-                    </div>
+                    <app-unidad-administrativa></app-unidad-administrativa>
                 </div>  
             </mat-step>
             <mat-step [stepControl]="roomFormGroup" state="apartment"

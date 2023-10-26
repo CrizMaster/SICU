@@ -1,0 +1,15 @@
+.circle_active{
+    width: 54px; 
+    height: 54px;
+    background-color: #11478A;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.circle_inactive{
+    width: 54px; 
+    height: 54px;
+    background-color: #AAAAAA;
+    color: white;
+    font-size: 1.1rem;
+}

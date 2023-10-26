@@ -59,6 +59,10 @@ import { InformacionLoteComponent } from "./components/formularios/orden-trabajo
 import { EdificacionesComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/edificaciones/edificaciones.component";
 import { EditarEdificacionModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/edificaciones/editar-edificacion-modal/editar-edificacion-modal.component";
 import { UnidadAdministrativaComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/unidad-administrativa.component";
+import { EditarUnidadAdministrativaModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/editar-unidad-administrativa-modal/editar-unidad-administrativa-modal.component";
+import { BandejaUnidadAdministrativaComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/bandeja-unidad-administrativa/bandeja-unidad-administrativa.component";
+import { VincularUnidadAdministrativaComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/vincular-unidad-administrativa.component";
+import { UnidadAdministrativaService } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/unidad-administrativa.service";
 
 @NgModule({
     imports: [
@@ -116,7 +120,10 @@ import { UnidadAdministrativaComponent } from "./components/formularios/orden-tr
         InformacionLoteComponent,
         EdificacionesComponent,
         EditarEdificacionModalComponent,
-        UnidadAdministrativaComponent
+        UnidadAdministrativaComponent,
+        EditarUnidadAdministrativaModalComponent,
+        BandejaUnidadAdministrativaComponent,
+        VincularUnidadAdministrativaComponent
     ],
     exports: [],
     providers: [
@@ -129,7 +136,8 @@ import { UnidadAdministrativaComponent } from "./components/formularios/orden-tr
         AsignacionCargaService,
         GenerarOrdenService,
         SeguimientoService,
-        OrdenTrabajoService
+        OrdenTrabajoService,
+        UnidadAdministrativaService
     ]
 })
 

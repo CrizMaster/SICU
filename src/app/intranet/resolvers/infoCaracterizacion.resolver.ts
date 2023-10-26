@@ -9,8 +9,8 @@ import { CaracterizacionResponse } from "../components/formularios/models/caract
 export const InfoCaracterizacionResolver: ResolveFn<StatusResponse<CaracterizacionResponse>> = (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
-    _generarOrdenService: OrdenTrabajoService = inject(OrdenTrabajoService)
-): Observable<StatusResponse<CaracterizacionResponse>> => _generarOrdenService
+    _ordenTrabajoService: OrdenTrabajoService = inject(OrdenTrabajoService)
+): Observable<StatusResponse<CaracterizacionResponse>> => _ordenTrabajoService
     .obtieneInformacionCaracterizacionLote()
     .pipe(
         catchError((error) => {

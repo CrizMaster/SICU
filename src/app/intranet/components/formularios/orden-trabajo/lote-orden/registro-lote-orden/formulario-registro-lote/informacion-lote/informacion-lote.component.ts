@@ -124,9 +124,18 @@ export class InformacionLoteComponent implements OnInit{
         return code;
     }
 
-    ngOnInit(): void {
+    FindTextById(lista: any[], id: number): string {
+        let text: string = '';
+        lista.forEach(e => {
+            if(e.value == id) text = e.text;
+        });
+        return text;
+    }
 
+    ngOnInit(): void {
+   
         this.resolMenu$ = this.actRoute.data.subscribe(resp => {
+       
             if(resp.resolve.success){
                 let info:CaracterizacionResponse = resp.resolve.data;
 
@@ -134,7 +143,7 @@ export class InformacionLoteComponent implements OnInit{
                 this.codigoLoteCaracterizacion = info.codigoLoteCaracterizacion;
                 this.myForm.patchValue({ 
                     codigoLoteCaracterizacion: info.codigoLoteCaracterizacion, 
-                    codigoLotePropuesta: info.codigoLote, 
+                    codigoLotePropuesta: info.codigoLoteCaracterizacion, 
                     tipoDivisionHabilitacion: info.sectorUrbano,
                     numeroDivision: info.tipoDivision,
                     manzanaUrbana: info.manzanaUrbana,
@@ -171,7 +180,6 @@ export class InformacionLoteComponent implements OnInit{
                         let imgBase64: any;
                         this._ordenTrabajoService.ConsultaFotoLote(el.codigoArchivo).subscribe({
                             next:(Data) => {
-                                console.log(Data);
                                 imgBase64 = Data;
                               }
                         });
@@ -186,6 +194,16 @@ export class InformacionLoteComponent implements OnInit{
                             base64: imgBase64
                         });
                     });
+
+                    let vias: ViasCaracterizacion[] = [];
+                    info.listaVias.forEach(el => {
+                        if(el.checkedAct){
+                            vias.push(el);
+                        }
+                    });
+                    console.log('vias');
+                    console.log(vias);
+                    this._ordenTrabajoService.listaVias.next(vias);
                 }
             }
             else{ console.log(resp.resolve.message); }
@@ -405,7 +423,18 @@ export class InformacionLoteComponent implements OnInit{
                     });
   
                     okModal.afterClosed().subscribe(resp => {
-                      if(resp) this.Stepper.next();
+                        if(resp) {
+                            let vias: ViasCaracterizacion[] = [];
+                            info.vias.forEach(el => {
+                                if(el.checkedAct){
+                                    el.nombreTipoPuerta = this.FindTextById(this.listTipoPuerta, el.idTipoPuerta)
+                                    vias.push(el);
+                                }
+                            });
+
+                            this._ordenTrabajoService.listaVias.next(vias);
+                            this.Stepper.next(); 
+                        }
                     });
   
                   }

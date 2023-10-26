@@ -57,7 +57,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
     .btn-custom {
         color: #0055ff;
-        border-color: #b1b1b1;
+        border-color: #0055ff;
       }
       .btn-custom:hover {
         color: #0055ff;
@@ -82,5 +82,31 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         color: #26a851;
         border-color: #26a851;
         background-color: white;   
-      }     
+      }    
+
+      .popover{
+        --bs-popover-max-width: 600px;
+        --bs-popover-bg: #11478A;
+        border: 0.1rem solid #11478A;
+        background-color: #EDF6FF;
+
+      } 
+
+.color-title{
+  font-family: Calibri, sans-serif;
+  color: #4F4F4F;
+}
+.color-dato{
+  font-family: Calibri, sans-serif;
+  color: #11478A;
+}
+.bg-btn-save{
+  background-color: #E8B835;
+  color: #fff;
+}
+.bg-btn-save:hover{
+  background-color: #E8B835;
+  color: #fff;
+  //box-shadow: 1px 1px 1px #cccccc;
+}
     

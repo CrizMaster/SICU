@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { EdificacionResponse } from 'src/app/intranet/components/formularios/models/edificacionResponse';
 import { EditarEdificacionModalComponent } from './editar-edificacion-modal/editar-edificacion-modal.component';
 import { FilterCaracterizacion } from 'src/app/intranet/components/formularios/models/caracterizacionResponse';
+import { MatStepper } from '@angular/material/stepper';
   
 @Component({
     selector: 'app-edificaciones',
@@ -21,6 +22,8 @@ import { FilterCaracterizacion } from 'src/app/intranet/components/formularios/m
 })
 export class EdificacionesComponent implements OnInit{
 
+    @Input() Stepper: MatStepper;
+    
     myFormEdif: FormGroup;
     pattern1Digs = '^[1-9]|([1-9][0-9])$';
     pattern2Digs = '^((?!00).)*$';
@@ -31,7 +34,7 @@ export class EdificacionesComponent implements OnInit{
     public listEdific$: Subscription = new Subscription;
     public updateEdif$: Subscription = new Subscription;
     
-    displayedColumns: string[] = ['Dpto', 'Prov', 'Dist', 'Sec', 'Mz', 'Lote', 'Edifica', 'TotalLotes', 'NroOrden', 'seleccion'];
+    displayedColumns: string[] = ['Dpto', 'Prov', 'Dist', 'Sec', 'Mz', 'Lote', 'Edifica', 'TotalLotes', 'NroOrden', 'Estado', 'seleccion'];
 
     dataSource = new MatTableDataSource<EdificacionResponse>();
     
@@ -82,12 +85,11 @@ export class EdificacionesComponent implements OnInit{
     }
 
     listarEdificaciones(){
-        let filter: EdificacionFilter = { codigoLote: this.filter.codigoLote };
+        let filter: EdificacionFilter = { codigoLote: this.filter.codigoLote, ind: 1 };
 
         this.listEdific$ = this._ordenTrabajoService.ConsultaEdicacionesLote(filter)
         .subscribe(Data => {
-            let info = Data.data;
-            //info.length = Data.total;          
+            let info = Data.data;      
 
             this.dataSource = new MatTableDataSource<EdificacionResponse>(info);
             this.dataSource._updateChangeSubscription();            
@@ -197,6 +199,7 @@ export class EdificacionesComponent implements OnInit{
                           this.listarEdificaciones();
                       });
     
+                      this.Stepper.next();
                     }
                     else{
                         let modal: Title = { 

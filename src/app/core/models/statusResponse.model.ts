@@ -1,7 +1,7 @@
 export interface StatusResponse<T> {
-    success: boolean,
+    success?: boolean,
     message?: string,
-    total: number,
+    total?: number,
     validations?: string[],
     data?: T
 }

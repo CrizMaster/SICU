@@ -7,7 +7,8 @@ export interface EdificacionRequest {
 }
 
 export interface EdificacionFilter {
-    codigoLote: number
+    codigoLote: number,
+    ind: number
 }
 
 export interface EdificacionLoteRequest {

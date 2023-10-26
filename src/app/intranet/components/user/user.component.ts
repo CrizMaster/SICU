@@ -48,8 +48,6 @@ export class UserComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
 
-      console.log('user componente');
-
       let tk = this._localService.getData("Token");
       let user = JSON.parse(tk);
       this.image = user.data.image;

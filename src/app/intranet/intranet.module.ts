@@ -63,6 +63,11 @@ import { EditarUnidadAdministrativaModalComponent } from "./components/formulari
 import { BandejaUnidadAdministrativaComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/bandeja-unidad-administrativa/bandeja-unidad-administrativa.component";
 import { VincularUnidadAdministrativaComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/vincular-unidad-administrativa.component";
 import { UnidadAdministrativaService } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/unidad-administrativa.service";
+import { VincularUnidadComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/vincular-unidad/vincular-unidad.component';
+import { TitularidadComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/titularidad/titularidad.component';
+import { UnidadComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/unidad/unidad.component';
+import { ConstruccionesComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/construcciones/construcciones.component';
+import { OtrasInstalacionesComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/otras-instalaciones/otras-instalaciones.component';
 
 @NgModule({
     imports: [
@@ -123,7 +128,12 @@ import { UnidadAdministrativaService } from "./components/formularios/orden-trab
         UnidadAdministrativaComponent,
         EditarUnidadAdministrativaModalComponent,
         BandejaUnidadAdministrativaComponent,
-        VincularUnidadAdministrativaComponent
+        VincularUnidadAdministrativaComponent,
+        VincularUnidadComponent,
+        TitularidadComponent,
+        UnidadComponent,
+        ConstruccionesComponent,
+        OtrasInstalacionesComponent
     ],
     exports: [],
     providers: [

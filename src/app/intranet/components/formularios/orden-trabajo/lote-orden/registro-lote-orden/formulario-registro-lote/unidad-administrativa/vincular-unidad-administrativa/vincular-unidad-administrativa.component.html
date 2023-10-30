@@ -5,8 +5,8 @@
         <div class="col-md-12 text-end">
           <button class="btn btn-sm btn-custom btn-outline-primary" style="margin-top: -15px;"
               (click)="regresar()">
-              <i class="bi bi-arrow-return-left"></i>Regresar
-            </button>
+              Regresar&nbsp;<i class="bi bi-arrow-return-left"></i>
+          </button>
         </div>
       </div>
       <div class="mat-elevation-z8">
@@ -68,30 +68,75 @@
       </div>   
       <div class="row my-4">
           <div class="col-md-2" style="position: relative;">
-            <div class="d-flex flex-row mb-3">
-              <div class="p-2" style="z-index: 2;"><div class="rounded-circle circle_active text-center pt-3">1</div></div>
-              <div class="p-2 color-dato mt-2 fw-bold" style="font-size: 1rem;">Vincular Unidad</div>
+            <div class="d-flex flex-row mb-3" (click)="getIndex(1)">
+              <div class="p-2" style="z-index: 2;">
+                <div class="rounded-circle circle_active text-center"
+                  [class.circle_active]="index == 1"
+                  [class.circle_inactive]="index != 1">1
+                </div>
+              </div>
+              <div class="p-2 color-dato mt-2 fw-bold" 
+                [class.color-dato]="index == 1"
+                [class.color-title]="index != 1"
+                style="font-size: 1rem;">Vincular Unidad
+              </div>
             </div>
-            <div class="d-flex flex-row mb-3">
-              <div class="p-2" style="z-index: 2;"><div class="rounded-circle circle_inactive text-center pt-3">2</div></div>
-              <div class="p-2 color-title mt-3 fw-bold" style="font-size: 1rem;">Titularidad</div>
+            <div class="d-flex flex-row mb-3" (click)="getIndex(2)">
+              <div class="p-2" style="z-index: 2;">
+                <div class="rounded-circle circle_inactive text-center"
+                    [class.circle_active]="index == 2"
+                    [class.circle_inactive]="index != 2">2
+                </div>
+              </div>
+              <div class="p-2 color-title mt-2 fw-bold" 
+                [class.color-dato]="index == 2"
+                [class.color-title]="index != 2"
+                style="font-size: 1rem;">Titularidad
+              </div>
             </div>  
-            <div class="d-flex flex-row mb-3">
-              <div class="p-2" style="z-index: 2;"><div class="rounded-circle circle_inactive text-center pt-3">3</div></div>
-              <div class="p-2 color-title mt-3 fw-bold" style="font-size: 1rem;">Unidad</div>
+            <div class="d-flex flex-row mb-3" (click)="getIndex(3)">
+              <div class="p-2" style="z-index: 2;">
+                <div class="rounded-circle circle_inactive text-center"
+                  [class.circle_active]="index == 3"
+                  [class.circle_inactive]="index != 3">3
+                </div>
+              </div>
+              <div class="p-2 color-title mt-2 fw-bold" 
+                [class.color-dato]="index == 3"
+                [class.color-title]="index != 3"
+                style="font-size: 1rem;">Unidad
+              </div>
             </div>
-            <div class="d-flex flex-row mb-3">
-              <div class="p-2" style="z-index: 2;"><div class="rounded-circle circle_inactive text-center pt-3">4</div></div>
-              <div class="p-2 color-title mt-3 fw-bold" style="font-size: 1rem;">Construcciones</div>
+            <div class="d-flex flex-row mb-3" (click)="getIndex(4)">
+              <div class="p-2" style="z-index: 2;">
+                <div class="rounded-circle circle_inactive text-center"
+                  [class.circle_active]="index == 4"
+                  [class.circle_inactive]="index != 4">4
+                </div>
+              </div>
+              <div class="p-2 color-title mt-2 fw-bold" 
+                [class.color-dato]="index == 4"
+                [class.color-title]="index != 4"
+                style="font-size: 1rem;">Construcciones
+              </div>
             </div>
-            <div class="d-flex flex-row mb-3">
-              <div class="p-2" style="z-index: 2;"><div class="rounded-circle circle_inactive text-center pt-3">5</div></div>
-              <div class="p-2 color-title mt-2 fw-bold" style="font-size: 1rem;">Otras Instalaciones</div>
+            <div class="d-flex flex-row mb-3" (click)="getIndex(5)">
+              <div class="p-2" style="z-index: 2;">
+                <div class="rounded-circle circle_inactive text-center"
+                  [class.circle_active]="index == 5"
+                   [class.circle_inactive]="index != 5">5
+                </div>
+              </div>
+              <div class="p-2 color-title mt-1 fw-bold" 
+                [class.color-dato]="index == 5"
+                [class.color-title]="index != 5"
+                style="font-size: 1rem;">Otras Instalaciones
+              </div>
             </div>
-            <div style="position: absolute; top: 10px; width: 36px; height: 360px; border-right: 2px solid #aaaaaa; z-index: 1">&nbsp;</div>      
+            <div class="line_circle">&nbsp;</div>      
           </div>
           <div class="col-md-10">
-
+            <router-outlet></router-outlet>
           </div>
       </div>        
     </mat-card-content>

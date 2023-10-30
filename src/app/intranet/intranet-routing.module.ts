@@ -19,6 +19,11 @@ import { RegisterOrdenModalComponent } from "./components/asignacion-carga/gener
 import { RegistroLoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/registro-lote-orden.component";
 import { InfoCaracterizacionResolver } from "./resolvers/infoCaracterizacion.resolver";
 import { BandejaLUnidadCatastralComponent } from "./components/asignacion-carga/seguimiento-orden/ver-unidad-catastral/bandeja-unidad-catastral/bandeja-unidad-catastral.component";
+import { VincularUnidadComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/vincular-unidad/vincular-unidad.component";
+import { TitularidadComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/titularidad/titularidad.component";
+import { UnidadComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/unidad/unidad.component";
+import { ConstruccionesComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/construcciones/construcciones.component";
+import { OtrasInstalacionesComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/otras-instalaciones/otras-instalaciones.component";
 
 const routes: Routes = [
     { path: '', component: IntranetComponent,      
@@ -82,8 +87,16 @@ const routes: Routes = [
         },
         { path: 'registroLoteOrden', 
           component: RegistroLoteOrdenComponent, 
-          pathMatch:'full',
+          //pathMatch:'full',
           canMatch: [IntranetGuard],
+          children:[
+            { path: '', component: VincularUnidadComponent },
+            { path: 'vincular', component: VincularUnidadComponent },
+            { path: 'titularidad', component: TitularidadComponent },
+            { path: 'unidad', component: UnidadComponent },
+            { path: 'construcciones', component: ConstruccionesComponent },
+            { path: 'otras-instalaciones', component: OtrasInstalacionesComponent }
+          ],
           resolve: {
             resolve: InfoCaracterizacionResolver
           }
@@ -100,3 +113,4 @@ const routes: Routes = [
 })
 
 export class IntranetRoutingModule{}
+//export const routingComponents = [RegistroLoteOrdenComponent, TitularidadComponent]

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { UnidadAdministrativaService } from './unidad-administrativa.service';
 import { StatusResponse } from 'src/app/core/models/statusResponse.model';
@@ -14,7 +14,8 @@ export class UnidadAdministrativaComponent implements OnInit, OnDestroy {
     viewBandeja: boolean = false;
 
     constructor(
-        private _unidadAdministrativaService: UnidadAdministrativaService
+        private _unidadAdministrativaService: UnidadAdministrativaService,
+        private cd: ChangeDetectorRef
     ){}
 
 
@@ -24,6 +25,10 @@ export class UnidadAdministrativaComponent implements OnInit, OnDestroy {
                 this.viewBandeja = Data.success;
             }
         });        
+    }
+
+    ngAfterContentChecked(): void {
+        this.cd.detectChanges();
     }
 
     ngOnDestroy(): void {}

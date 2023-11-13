@@ -87,8 +87,6 @@ export class BandejaLoteComponent implements OnInit , OnDestroy {
       this.listLote$ = this._ordenTrabajoService.listarLotesxOrdenTrabajo(this.filter).subscribe({
         next:(Data:StatusResponse<LoteResponse[]>) => {
 
-          console.log('Data');
-          console.log(Data);
           if(Data.success){
             // Data.data.forEach(elem => {
             //   elem.seleccion = false;

@@ -5,8 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Title } from 'src/app/core/models/title.model';
 import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
 import { ModalQuestionComponent } from 'src/app/core/shared/components/modal-question/modal-question.component';
-import { OrdenTrabajo } from 'src/app/intranet/components/asignacion-carga/models/ordenTrabajo.model';
-import { EdificacionFilter, EdificacionLoteRequest, EdificacionRequest } from 'src/app/intranet/components/formularios/models/edificacionRequest';
+import { EdificacionFilter, EdificacionLoteRequest } from 'src/app/intranet/components/formularios/models/edificacionRequest';
 import { OrdenTrabajoService } from '../../../../orden-trabajo.service';
 import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
 import { Subscription } from 'rxjs';
@@ -33,6 +32,7 @@ export class EdificacionesComponent implements OnInit{
     public saveForm$: Subscription = new Subscription;
     public listEdific$: Subscription = new Subscription;
     public updateEdif$: Subscription = new Subscription;
+    public caract$: Subscription = new Subscription;
     
     displayedColumns: string[] = ['Dpto', 'Prov', 'Dist', 'Sec', 'Mz', 'Lote', 'Edifica', 'TotalLotes', 'NroOrden', 'Estado', 'seleccion'];
 
@@ -44,7 +44,7 @@ export class EdificacionesComponent implements OnInit{
         public subDialog: MatDialog,
         private _ordenTrabajoService: OrdenTrabajoService){
 
-        this._ordenTrabajoService.getFilterCaracterizacion.subscribe({
+        this.caract$ = this._ordenTrabajoService.getFilterCaracterizacion.subscribe({
             next:(Data) => {
                 this.filter = Data;
                 this.listarEdificaciones();
@@ -52,16 +52,7 @@ export class EdificacionesComponent implements OnInit{
         });
 
         this.myFormEdif = this.fb.group({
-            numeroEdificaciones: [0],
-            // codigoLotePropuesta: [{value: '', disabled : true}, Validators.required],
-            // habilitacionUrbana: [{value: '', disabled : true}, Validators.required],
-            // tipoDivisionHabilitacion: [{value: '', disabled : true}, Validators.required],
-            // numeroDivision: [{value: '', disabled : true}, Validators.required],
-            // manzanaUrbana: [{value: '', disabled : true}, Validators.required],
-            // loteUrbano: [{value: '', disabled : true}, Validators.required],
-            // subLote: [{value: '', disabled : true}, Validators.required],
-            // checked: [false],
-            // vias: this.fb.array([],[Validators.required])
+            numeroEdificaciones: [0]
           });        
     }
 
@@ -73,6 +64,7 @@ export class EdificacionesComponent implements OnInit{
         this.saveForm$.unsubscribe();
         this.listEdific$.unsubscribe();
         this.updateEdif$.unsubscribe();
+        this.caract$.unsubscribe();
     }
 
     ctrlNumeroEdificacion(val: number){
@@ -218,10 +210,6 @@ export class EdificacionesComponent implements OnInit{
                 });                
             }            
           });         
-
-    }    
-
-    guardar(){
 
     }
 

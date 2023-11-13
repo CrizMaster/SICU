@@ -29,11 +29,12 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
     pattern3Digs = '^((?!000).)*$'; 
 
     readOnly:boolean = true;
-    //public saveForm$: Subscription = new Subscription;
-    //public listEdific$: Subscription = new Subscription;
+
     public updateEdif$: Subscription = new Subscription;
     public anularUA$: Subscription = new Subscription;
-    
+    public listaEdifica$: Subscription = new Subscription;
+    public queryUA$: Subscription = new Subscription;
+
     displayedColumns: string[] = ['Dpto', 'Prov', 'Dist', 'Sec', 'Mz', 'Lote', 'Edifica', 'Entrada', 'Piso', 'Unidad', 'seleccion'];
 
     dataSource = new MatTableDataSource<UnidadAdministrativaResponse>();
@@ -44,7 +45,7 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
 
     title:string = 'Detalle';
 
-    public listaEdifica$: Subscription = new Subscription;
+    
 
     listaUE:UnidadAdministrativaResponse[] = [];
     listaEdificaciones: ItemSelect<number>[] = [{ value:0, text:'Seleccionar' }];
@@ -54,11 +55,10 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
         private _ordenTrabajoService: OrdenTrabajoService,
         private _unidadAdministrativaService: UnidadAdministrativaService
         ){
-
-        this.myFormUnidad = this.fb.group({
-            edificacion: [0]
-          });        
-    }
+            this.myFormUnidad = this.fb.group({
+              edificacion: [0]
+            });
+        }
 
     ngOnInit(): void {
         this.listaEdifica$ = this._ordenTrabajoService.listaEdificaciones.subscribe({
@@ -72,11 +72,28 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
                             text: elem.numeroEdificacion + ' - ' + elem.nombreEspecifico + ' ' + elem.nombreEdificacion
                         });
                     }                    
-                  });
+                });
+
+                if(this.listaEdificaciones.length == 2){
+                  setTimeout(() => {
+                    this.myFormUnidad.patchValue({ 
+                      edificacion: this.listaEdificaciones[1].value
+                    });
+
+                    this.listarUnidades();
+                  }, 500); 
+                }
             }
         });
     }   
     
+    ngOnDestroy(): void {
+      this.updateEdif$.unsubscribe();
+      this.listaEdifica$.unsubscribe();
+      this.anularUA$.unsubscribe();
+      this.queryUA$.unsubscribe();
+  }
+
     onChangeSelEdificaion(newValueSect: string){
         this.listarUnidades();     
     }
@@ -84,7 +101,7 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
     listarUnidades(){
         let info = this.myFormUnidad.value;
         if(info.edificacion != 0){
-            this._unidadAdministrativaService.ConsultaDatosUnidadAdministrativa(info.edificacion)
+            this.queryUA$ = this._unidadAdministrativaService.ConsultaDatosUnidadAdministrativa(info.edificacion)
             .subscribe(Data => {
                 if(Data.success){
                     this.dataSource = new MatTableDataSource<UnidadAdministrativaResponse>(Data.data);
@@ -92,12 +109,6 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
                 }   
             });  
         } 
-    }
-
-    ngOnDestroy(): void {
-        this.updateEdif$.unsubscribe();
-        this.listaEdifica$.unsubscribe();
-        this.anularUA$.unsubscribe();
     }
 
     VerUnidad(data: UnidadAdministrativaResponse){
@@ -235,7 +246,7 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
   
           }            
         });
-      }
+    }
 
     vincularUnidadAdmin(info: UnidadAdministrativaResponse){
 
@@ -245,10 +256,6 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
         };
 
         this._unidadAdministrativaService.UnidadAdministrativa.next(datos);        
-    }
-
-    guardar(){
-
     }
 
     ModalLoading(): any {     

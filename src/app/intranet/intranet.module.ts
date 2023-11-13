@@ -61,13 +61,16 @@ import { EditarEdificacionModalComponent } from "./components/formularios/orden-
 import { UnidadAdministrativaComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/unidad-administrativa.component";
 import { EditarUnidadAdministrativaModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/editar-unidad-administrativa-modal/editar-unidad-administrativa-modal.component";
 import { BandejaUnidadAdministrativaComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/bandeja-unidad-administrativa/bandeja-unidad-administrativa.component";
-import { VincularUnidadAdministrativaComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/vincular-unidad-administrativa.component";
+import { VincularComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/vincular.component";
 import { UnidadAdministrativaService } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/unidad-administrativa.service";
-import { VincularUnidadComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/vincular-unidad/vincular-unidad.component';
-import { TitularidadComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/titularidad/titularidad.component';
-import { UnidadComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/unidad/unidad.component';
-import { ConstruccionesComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/construcciones/construcciones.component';
-import { OtrasInstalacionesComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular-unidad-administrativa/otras-instalaciones/otras-instalaciones.component';
+import { VincularUnidadComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/vincular-unidad/vincular-unidad.component';
+import { TitularidadComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/titularidad/titularidad.component';
+import { UnidadComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/unidad/unidad.component';
+import { ConstruccionesComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/construcciones/construcciones.component';
+import { OtrasInstalacionesComponent } from './components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/otras-instalaciones/otras-instalaciones.component';
+import { PersonaModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/persona-modal/persona-modal.component";
+import { ConstruccionModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/construccion-modal/construccion-modal.component";
+import { OtraInstalacionModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/otra-instalacion-modal/otra-instalacion-modal.component";
 
 @NgModule({
     imports: [
@@ -128,12 +131,15 @@ import { OtrasInstalacionesComponent } from './components/formularios/orden-trab
         UnidadAdministrativaComponent,
         EditarUnidadAdministrativaModalComponent,
         BandejaUnidadAdministrativaComponent,
-        VincularUnidadAdministrativaComponent,
+        VincularComponent,
         VincularUnidadComponent,
         TitularidadComponent,
         UnidadComponent,
         ConstruccionesComponent,
-        OtrasInstalacionesComponent
+        OtrasInstalacionesComponent,
+        PersonaModalComponent,
+        ConstruccionModalComponent,
+        OtraInstalacionModalComponent
     ],
     exports: [],
     providers: [

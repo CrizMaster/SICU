@@ -1,0 +1,9 @@
+.li-color{
+    background-color: #f2fbfb; 
+    cursor: pointer;
+    border-bottom: 1px solid #a9a9a9 !important;
+}
+
+.li-color:hover{
+    cursor: pointer;
+}

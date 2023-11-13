@@ -6,9 +6,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Title } from 'src/app/core/models/title.model';
-import { ModalQuestionComponent } from 'src/app/core/shared/components/modal-question/modal-question.component';
 import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
-import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
 import { Subscription } from 'rxjs';
 import { OrdenTrabajoService } from '../orden-trabajo.service';
 import { OrdenTrabajoView } from '../../../asignacion-carga/models/ordenTrabajoResponse';
@@ -51,6 +49,9 @@ export class BandejaOrdenTrabajoComponent implements OnInit , OnDestroy {
   
     public anularOT$: Subscription = new Subscription;
     public quitarUsuario$: Subscription = new Subscription;
+    public listaOT$: Subscription = new Subscription;
+    public listaOTxDist$: Subscription = new Subscription;
+    public listaOTxDist2$: Subscription = new Subscription;
 
     ngAfterViewInit() {
       this.dataSource.paginator = this.paginator;
@@ -67,7 +68,7 @@ export class BandejaOrdenTrabajoComponent implements OnInit , OnDestroy {
   
       this.ListarOrdenes();
   
-      this._ordenTrabajoService.DataTableOT.subscribe({
+      this.listaOT$ = this._ordenTrabajoService.DataTableOT.subscribe({
         next:(Data) => {
   
           if(Data.total > 0){
@@ -101,10 +102,13 @@ export class BandejaOrdenTrabajoComponent implements OnInit , OnDestroy {
     ngOnDestroy(): void {
       this.anularOT$.unsubscribe();
       this.quitarUsuario$.unsubscribe();
+      this.listaOT$.unsubscribe();
+      this.listaOTxDist$.unsubscribe();
+      this.listaOTxDist2$.unsubscribe();
     }
 
     ListarOrdenes(){
-      this._ordenTrabajoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
+      this.listaOTxDist$ = this._ordenTrabajoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
         next:(Data) => {
 
           if(Data.success){
@@ -143,7 +147,7 @@ export class BandejaOrdenTrabajoComponent implements OnInit , OnDestroy {
       this.filter.Page = pageIndex + 1;
       this.filter.ItemsByPage = pageSize;
   
-      this._ordenTrabajoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
+      this.listaOTxDist2$ = this._ordenTrabajoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
         next:(Data) => {
             this.loading = false;
   
@@ -230,79 +234,4 @@ export class BandejaOrdenTrabajoComponent implements OnInit , OnDestroy {
     AgregarPersona(dato: OrdenTrabajo){
 
     }
-
-    // QuitarPersona(dato: UsuarioAsignado){
-
-    //   let modal: Title = { Title: '¿Está seguro de quitar al personal?', Subtitle: '', Icon: '' }
-    //   const dialogQuitarPersona = this.dialog.open(ModalQuestionComponent, {
-    //       width: '450px',
-    //       enterAnimationDuration: '300ms',
-    //       exitAnimationDuration: '300ms',
-    //       disableClose: true,
-    //       data: modal
-    //   });
-
-    //   dialogQuitarPersona.afterClosed().subscribe((result:boolean) => {
-    //     if(result){
-    //       let loading = this.ModalLoading();
-
-    //       let data: OrdenTrabajoAction = {
-    //         usuarioCreacion: 'carevalo',
-    //         terminalCreacion: '127.0.0.0',
-    //         codigoOrden: dato.codigoOrden,
-    //         usuarios: [{
-    //           codigoUsuarioOrden: dato.codigoUsuarioOrden
-    //         }]
-    //       }
-
-    //       this.quitarUsuario$ = this._seguimientoService.quitarUsuario(data)
-    //       .subscribe(result => {    
-    //         setTimeout(() => {
-
-    //           loading.close();       
-
-    //           if(result.success){ 
-                
-    //             let modal: Title = { 
-    //               Title: 'Personal eliminado',
-    //               Subtitle: 'El Personal ' + dato.persona + ' se eliminó de la orden satisfactoriamente.', 
-    //               Icon: 'ok' 
-    //             }
-
-    //             const okModal = this.dialog.open(ModalMessageComponent, {
-    //                 width: '500px',
-    //                 enterAnimationDuration: '300ms',
-    //                 exitAnimationDuration: '300ms',
-    //                 disableClose: true,
-    //                 data: modal
-    //             });
-
-    //             okModal.afterClosed().subscribe(resp => {
-    //               if(resp){
-    //                 this.ListarOrdenes();
-    //               }
-    //             });
-
-    //           }
-    //           else{
-
-    //             if(result.validations == null) result.message = 'Ha ocurrido un error, contacte con el area de soporte.';
-
-    //               let modal: Title = { 
-    //                   Title: 'Opss...', 
-    //                   Subtitle: result.message, 
-    //                   Icon: 'error' }
-    //                 this.dialog.open(ModalMessageComponent, {
-    //                     width: '500px',
-    //                     enterAnimationDuration: '300ms',
-    //                     exitAnimationDuration: '300ms',
-    //                     disableClose: true,
-    //                     data: modal
-    //                 });
-    //           }              
-    //         }, 500);
-    //       });
-    //     }            
-    //   });
-    // }
 }

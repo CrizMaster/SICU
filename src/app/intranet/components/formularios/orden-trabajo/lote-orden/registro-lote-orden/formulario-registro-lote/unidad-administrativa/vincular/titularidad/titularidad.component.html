@@ -1,0 +1,440 @@
+<form [formGroup]="formTitu">
+    <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>          
+              <div class="w-100 barra-title py-3 px-2">Características de Titularidad</div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="container-sm">
+            <div class="row my-2">
+              <div class="col-md-12">
+                <div class="row my-2">
+                  <div class="col-md-4">
+                    <div class="row">
+                      <div class="col-md-12 mt-1">
+                        Condición del Titular
+                      </div>
+                      <div class="col-md-12" style="position: relative;">
+                        <select name="condiciontitular" #SelCondTitu
+                                formControlName="condiciontitular"
+                                (change)="onChangeSelCondTitu(SelCondTitu.value)"
+                                class="form-select form-select-sm border focus-ring" 
+                                [class.border-success]="this.formTitu.get('condiciontitular')?.valid"
+                                [class.focus-ring-success]="this.formTitu.get('condiciontitular')?.valid"
+                                [class.border-danger]="this.formTitu.get('condiciontitular')?.invalid && this.formTitu.get('condiciontitular')?.touched"
+                                [class.focus-ring-danger]="this.formTitu.get('tipodocidentidad')?.invalid && this.formTitu.get('condiciontitular')?.touched"
+                                aria-label="select-condiciontitular" [pattern]="pattern1Digs">
+                                <option *ngFor="let cv of listCondicionTitular" [value]="cv.value">{{ cv.text }}</option>
+                        </select>
+                        <i *ngIf="this.formTitu.get('condiciontitular')?.invalid && this.formTitu.get('condiciontitular')?.touched" 
+                                class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                                title="Campo requerido"></i>                      
+                      </div>
+                    </div>                    
+                  </div>
+                  <div class="col-md-4">
+                    <div class="row">
+                      <div class="col-md-12 mt-1">
+                        Forma de Adquisión
+                      </div>
+                      <div class="col-md-12" style="position: relative;">
+                        <select name="formaadquisicion" #SelFormAdqu
+                                formControlName="formaadquisicion"
+                                class="form-select form-select-sm border focus-ring" 
+                                [class.border-success]="this.formTitu.get('formaadquisicion')?.valid"
+                                [class.focus-ring-success]="this.formTitu.get('formaadquisicion')?.valid"
+                                [class.border-danger]="this.formTitu.get('formaadquisicion')?.invalid && this.formTitu.get('formaadquisicion')?.touched"
+                                [class.focus-ring-danger]="this.formTitu.get('formaadquisicion')?.invalid && this.formTitu.get('formaadquisicion')?.touched"
+                                aria-label="select-formaadquisicion" [pattern]="pattern1Digs">
+                                <option *ngFor="let cv of listFormaAdquisicion" [value]="cv.value">{{ cv.text }}</option>
+                        </select>
+                        <i *ngIf="this.formTitu.get('formaadquisicion')?.invalid && this.formTitu.get('formaadquisicion')?.touched" 
+                                class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                                title="Campo requerido"></i>                      
+                      </div>
+                    </div>                    
+                  </div>
+                  <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12 mt-1">
+                            Tipo de Documento
+                        </div>
+                        <div class="col-md-12" style="position: relative;">
+                            <select name="tipodocidentidad" #SelDocIdent
+                                    formControlName="tipodocidentidad"
+                                    class="form-select form-select-sm border focus-ring" 
+                                    [class.border-success]="this.formTitu.get('tipodocidentidad')?.valid"
+                                    [class.focus-ring-success]="this.formTitu.get('tipodocidentidad')?.valid"
+                                    [class.border-danger]="this.formTitu.get('tipodocidentidad')?.invalid && this.formTitu.get('tipodocidentidad')?.touched"
+                                    [class.focus-ring-danger]="this.formTitu.get('tipodocidentidad')?.invalid && this.formTitu.get('tipodocidentidad')?.touched"
+                                    aria-label="select-tipodocidentidad" [pattern]="pattern1Digs">
+                                    <option *ngFor="let cv of listTipoDocumento" [value]="cv.value">{{ cv.text }}</option>
+                            </select>
+                            <i *ngIf="this.formTitu.get('tipodocidentidad')?.invalid && this.formTitu.get('tipodocidentidad')?.touched" 
+                                    class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                                    title="Campo requerido"></i>                      
+                        </div>
+                    </div>                    
+                  </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12 mt-1">
+                          Tipo de Partida Registral
+                        </div>
+                        <div class="col-md-12" style="position: relative;">
+                          <select name="partidaregistral" #SelPartida
+                                  formControlName="partidaregistral"
+                                  class="form-select form-select-sm border focus-ring" 
+                                  [class.border-success]="this.formTitu.get('partidaregistral')?.valid"
+                                  [class.focus-ring-success]="this.formTitu.get('partidaregistral')?.valid"
+                                  [class.border-danger]="this.formTitu.get('partidaregistral')?.invalid && this.formTitu.get('partidaregistral')?.touched"
+                                  [class.focus-ring-danger]="this.formTitu.get('partidaregistral')?.invalid && this.formTitu.get('partidaregistral')?.touched"
+                                  aria-label="select-partidaregistral" [pattern]="pattern1Digs">
+                                  <option *ngFor="let cv of listPartidaRegistral" [value]="cv.value">{{ cv.text }}</option>
+                          </select>
+                          <i *ngIf="this.formTitu.get('partidaregistral')?.invalid && this.formTitu.get('partidaregistral')?.touched" 
+                                  class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                                  title="Campo requerido"></i>                      
+                        </div>
+                      </div>                    
+                    </div>
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12 mt-1">
+                            Número de Partida
+                          </div>
+                          <div class="col-md-12" style="position: relative;">
+                            <input type="text" formControlName="numeropartida"
+                            class="form-control form-control-sm border focus-ring"
+                            [class.border-success]="this.formTitu.get('numeropartida')?.valid"
+                            [class.focus-ring-success]="this.formTitu.get('numeropartida')?.valid"
+                            [class.border-danger]="this.formTitu.get('numeropartida')?.invalid && this.formTitu.get('numeropartida')?.touched"
+                            [class.focus-ring-danger]="this.formTitu.get('numeropartida')?.invalid && this.formTitu.get('numeropartida')?.touched">
+                          <i *ngIf="this.formTitu.get('numeropartida')?.invalid && this.formTitu.get('numeropartida')?.touched" 
+                                class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                                title="Campo requerido"></i>                      
+                          </div>
+                      </div>                    
+                    </div>
+                    <div class="col-md-4">
+                      <div class="row">
+                          <!-- <div class="col-md-12 mt-1">
+                              &nbsp;
+                          </div>
+                          <div class="col-md-12">
+                            <button type="submit" class="btn btn-sm bg-btn-save w-100">
+                                Guardar      
+                            </button>         
+                          </div> -->
+                      </div>                    
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel > <!--disabled -->
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+                <div class="w-100 barra-title py-3 px-2">Interesados</div>              
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="container-sm">
+            <div class="row my-1">
+              <div class="col-md-12 text-end">
+                <button class="btn btn-sm btn-custom btn-outline-primary" 
+                  *ngIf="this.formTitu.get('condiciontitular')?.value != 0"
+                  (click)="AgregarPersona()">
+                  <i class="bi bi-person-add"></i>&nbsp;Agregar
+                </button>
+              </div>
+            </div>
+            <div class="row"> 
+              <!-- LISTA DE INTERESADOS -->
+              <div *ngFor="let int of lista" class="panel-sicu w-100 p-2 my-1">
+                  <div class="row m-1">
+                    <div class="col-md-6 col-sm-12">
+                      <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-title">Nro:</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-dato">1</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                      <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-title">Apellido Paterno:</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-dato">{{int.apellidoPaterno}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row m-1">
+                    <div class="col-md-6 col-sm-12">
+                      <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-title">Tipo Documento:</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-dato">{{int.tipoDocumento}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                      <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-title">Apellido Materno:</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-dato">{{int.apellidoMaterno}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row m-1">
+                    <div class="col-md-6 col-sm-12">
+                      <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-title">Nro Documento:</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-dato">{{int.numeroDocumento}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                      <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-title">Nombres:</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-dato">{{int.nombres}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row m-1">
+                    <div class="col-md-6 col-sm-12">
+                      <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-title">Estado Civil:</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-dato">{{int.estadoCivil}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                      <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                          <span class="badge p-2 bg-persona-natural">{{int.tipoPersona}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                      <div class="row">
+                        <div class="col-md-12 col-sm-12 text-end">
+                          <button mat-icon-button 
+                            [matMenuTriggerFor]="menu">
+                            <mat-icon>more_vert</mat-icon>
+                          </button>
+                          <mat-menu #menu="matMenu">
+                            <button mat-menu-item>
+                              <mat-icon>edit</mat-icon>
+                              <span>Editar interesado</span>
+                            </button>
+                            <button mat-menu-item>
+                              <mat-icon>delete</mat-icon>
+                              <span>Eliminar interesado</span>
+                            </button>
+                          </mat-menu>                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <!-- <div class="panel-sicu w-100 p-2 my-1">
+                <div class="row m-1">
+                  <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-title">Nro:</span>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-dato">1</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-title">Apellido Paterno:</span>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-dato">Sandoval</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row m-1">
+                  <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-title">Tipo Documento:</span>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-dato">DNI</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-title">Apellido Materno:</span>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-dato">Sánchez</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row m-1">
+                  <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-title">Nro Documento:</span>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-dato">41299248</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-title">Nombres:</span>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-dato">Carlos Manuel</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row m-1">
+                  <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-title">Estado Civil:</span>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                        <span class="color-dato">Soltero</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                      <div class="col-md-12 col-sm-12">
+                        <span class="badge p-2 bg-persona-juridica">Persona Jurídica</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row m-1">
+                  <div class="col-md-12 col-sm-12 text-end">
+                    <mat-button-toggle-group #group="matButtonToggleGroup">
+                      <mat-button-toggle value="editar" aria-label="editar">
+                        <mat-icon>edit</mat-icon>
+                      </mat-button-toggle>
+                      <mat-button-toggle value="agregar" aria-label="agregar">
+                        <mat-icon>person_add</mat-icon>
+                      </mat-button-toggle>
+                      <mat-button-toggle value="right" aria-label="Text align right">
+                        <mat-icon>restore_from_trash</mat-icon>
+                      </mat-button-toggle>
+                      <mat-button-toggle value="cancelar" disabled aria-label="cancelar">
+                        <mat-icon>cancel</mat-icon>
+                      </mat-button-toggle>
+                    </mat-button-toggle-group>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+            <div class="row">
+
+              <!-- [disabled]="this.lista.length==0" -->
+
+              <div class="col-md-9">&nbsp;</div>
+              <div class="col-md-3 text-end my-2">
+                <button type="submit" 
+                [disabled]="this.lista.length==0"
+                  class="btn btn-sm bg-btn-save w-100"
+                  (click)="GuardarInteresados()">
+                  Guardar      
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel> 
+      
+        <!-- <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>          
+              <div class="w-100 barra-title py-3 px-2">Evidencia</div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="container-sm">
+            <div class="row my-1">
+              <div class="row">
+                <div class="col-md-2">&nbsp;</div>
+                <div class="col-md-8 border border-2 border-danger p-2 mb-2 border-opacity-25 rounded">
+                  <input class="btn btn-sm btn-danger bg-cofopri w-100 mt-1 shadow-sm" 
+                    *ngIf="this.formTitu.get('condiciontitular')?.value != 0"
+                    type="file" (change)="capturarFile($event)" accept="image/*" multiple/>
+                </div>
+              </div>
+              <div class="row py-2">
+                <div class="col-md-2">&nbsp;</div>
+                <div class="col-md-8">
+                  <div class="row border border-2 border-danger p-2 mb-2 border-opacity-25 rounded" *ngIf="imagenes.length > 0">
+                    <div class="col-md-12" *ngFor="let img of imagenes">
+                      <mat-card class="my-2">
+                        <div class="d-flex">
+                          <div class="p-2" style="width: 70px;">
+                            <img [src]="img.base64" alt="" width="60px">
+                          </div>
+                          <div class="p-2 flex-grow-1">
+                            <div class="row">
+                              <div class="col-md-12">{{img.name}}</div>
+                              <div class="col-md-6">{{img.tamanio}}</div>
+                              <div class="col-md-6 text-end mt-1">
+                                <button mat-mini-fab color="warn" style="background: rgb(235, 30, 35);" 
+                                    title="Quitar" (click)="quitarImagen(img)">
+                                  <mat-icon>delete</mat-icon>
+                                </button>&nbsp;
+                                <button mat-mini-fab color="primary" style="background: rgb(21, 56, 255);"
+                                    title="Ver" (click)="verImagen(img)">
+                                  <mat-icon>search</mat-icon>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel> -->
+    </mat-accordion>
+</form>

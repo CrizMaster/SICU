@@ -1,0 +1,480 @@
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <h1 mat-dialog-title class="bg-cofopri text-white">Identificación del Titular Catastral</h1>
+  <div mat-dialog-content class="px-4" style="font-size: 0.9rem;">
+    <div class="row my-2">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-7 mt-1">
+            Código de Contribuyente
+          </div>
+          <div class="col-md-5">
+            <input type="text" formControlName="codigocontribuyente"
+                  class="form-control form-control-sm border focus-ring"
+                  [class.border-success]="this.form.get('codigocontribuyente')?.valid"
+                  [class.focus-ring-success]="this.form.get('codigocontribuyente')?.valid"
+                  [class.border-danger]="this.form.get('codigocontribuyente')?.invalid && this.form.get('codigocontribuyente')?.touched"
+                  [class.focus-ring-danger]="this.form.get('codigocontribuyente')?.invalid && this.form.get('codigocontribuyente')?.touched">
+            <i *ngIf="this.form.get('codigocontribuyente')?.invalid && this.form.get('codigocontribuyente')?.touched" 
+                  class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                  title="Campo requerido"></i>              
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-7 mt-1">
+            Número de Cotitular
+          </div>
+          <div class="col-md-5">
+            <input type="text" formControlName="nrocotitular"
+                  class="form-control form-control-sm border focus-ring"
+                  [class.border-success]="this.form.get('nrocotitular')?.valid"
+                  [class.focus-ring-success]="this.form.get('nrocotitular')?.valid"
+                  [class.border-danger]="this.form.get('nrocotitular')?.invalid && this.form.get('nrocotitular')?.touched"
+                  [class.focus-ring-danger]="this.form.get('nrocotitular')?.invalid && this.form.get('nrocotitular')?.touched">
+            <i *ngIf="this.form.get('nrocotitular')?.invalid && this.form.get('nrocotitular')?.touched" 
+                  class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                  title="Campo requerido"></i>             
+          </div>
+        </div>        
+      </div>
+    </div>
+    <div class="row my-2">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-5 mt-1">
+            Tipo de Titular
+          </div>
+          <div class="col-md-7">
+            <select name="tipotitular" #SelTipoTitular
+                    formControlName="tipotitular"
+                    (change)="onChangeSelTipoTitular(SelTipoTitular.value)"
+                    class="form-select form-select-sm border focus-ring" 
+                    [class.border-success]="this.form.get('tipotitular')?.valid"
+                    [class.focus-ring-success]="this.form.get('tipotitular')?.valid"
+                    [class.border-danger]="this.form.get('tipotitular')?.invalid && this.form.get('tipotitular')?.touched"
+                    [class.focus-ring-danger]="this.form.get('tipotitular')?.invalid && this.form.get('tipotitular')?.touched"
+                    aria-label="select-tipotitular" [pattern]="pattern1Digs">
+                    <option *ngFor="let cv of listTipoTitular" [value]="cv.value">{{ cv.text }}</option>
+            </select>
+            <i *ngIf="this.form.get('tipotitular')?.invalid && this.form.get('tipotitular')?.touched" 
+                    class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                    title="Campo requerido"></i>            
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-7 mt-1">
+            % Cotitular
+          </div>
+          <div class="col-md-5">
+            <input type="text" formControlName="porccotitular"
+                  class="form-control form-control-sm border focus-ring"
+                  [class.border-success]="this.form.get('porccotitular')?.valid"
+                  [class.focus-ring-success]="this.form.get('porccotitular')?.valid"
+                  [class.border-danger]="this.form.get('porccotitular')?.invalid && this.form.get('porccotitular')?.touched"
+                  [class.focus-ring-danger]="this.form.get('porccotitular')?.invalid && this.form.get('porccotitular')?.touched">
+            <i *ngIf="this.form.get('porccotitular')?.invalid && this.form.get('porccotitular')?.touched" 
+                  class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                  title="Campo requerido"></i>              
+          </div>
+        </div>        
+      </div>
+    </div>
+    <div class="row">
+      <mat-tab-group>
+        <mat-tab label="Titular" *ngIf="!natural">
+          <div class="container-sm" style="border: 2px solid #cde1ff;">
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-6 mt-1">
+                      Registro único del Contribuyente (RUC.):
+                    </div>
+                    <div class="col-md-6" style="position: relative;">
+                      <input type="text" formControlName="ruc"
+                            class="form-control form-control-sm border focus-ring"
+                            [class.border-success]="this.form.get('ruc')?.valid"
+                            [class.focus-ring-success]="this.form.get('ruc')?.valid"
+                            [class.border-danger]="this.form.get('ruc')?.invalid && this.form.get('ruc')?.touched"
+                            [class.focus-ring-danger]="this.form.get('ruc')?.invalid && this.form.get('ruc')?.touched">
+                      <i *ngIf="this.form.get('ruc')?.invalid && this.form.get('ruc')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                 
+                    </div>
+                    <!-- <div class="col-md-1">
+                      <button class="btn btn-sm btn-custom btn-outline-secondary"
+                            matTooltip="Buscar">
+                            <i class="bi bi-search"></i>
+                      </button>                      
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">Razón social</div>
+                    <div class="col-md-12" style="position: relative;">
+                      <input type="text" formControlName="razonsocial"
+                              class="form-control form-control-sm border focus-ring"
+                              [class.border-success]="this.form.get('razonsocial')?.valid"
+                              [class.focus-ring-success]="this.form.get('razonsocial')?.valid"
+                              [class.border-danger]="this.form.get('razonsocial')?.invalid && this.form.get('razonsocial')?.touched"
+                              [class.focus-ring-danger]="this.form.get('razonsocial')?.invalid && this.form.get('razonsocial')?.touched">
+                      <i *ngIf="this.form.get('razonsocial')?.invalid && this.form.get('razonsocial')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                         
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-2 mb-3">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">Teléfono</div>
+                    <div class="col-md-12" style="position: relative;">
+                      <input type="text" formControlName="telefonoempresa"
+                            class="form-control form-control-sm border focus-ring"
+                            [class.border-success]="this.form.get('telefonoempresa')?.valid"
+                            [class.focus-ring-success]="this.form.get('telefonoempresa')?.valid"
+                            [class.border-danger]="this.form.get('telefonoempresa')?.invalid && this.form.get('telefonoempresa')?.touched"
+                            [class.focus-ring-danger]="this.form.get('telefonoempresa')?.invalid && this.form.get('telefonoempresa')?.touched">
+                      <i *ngIf="this.form.get('telefonoempresa')?.invalid && this.form.get('telefonoempresa')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                       
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">Correo electrónico</div>
+                    <div class="col-md-12" style="position: relative;">
+                      <input type="text" formControlName="correoempresa"
+                            class="form-control form-control-sm border focus-ring"
+                            [class.border-success]="this.form.get('correoempresa')?.valid"
+                            [class.focus-ring-success]="this.form.get('correoempresa')?.valid"
+                            [class.border-danger]="this.form.get('correoempresa')?.invalid && this.form.get('correoempresa')?.touched"
+                            [class.focus-ring-danger]="this.form.get('correoempresa')?.invalid && this.form.get('correoempresa')?.touched">
+                      <i *ngIf="this.form.get('correoempresa')?.invalid && this.form.get('correoempresa')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                       
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Titular" *ngIf="natural">
+          <div class="container-sm" style="border: 2px solid #cde1ff;">
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-6 mt-1">
+                      Tipo de Documento de Identidad
+                    </div>
+                    <div class="col-md-6 mt-1">
+                      Número del Documento de Identidad
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6" style="position: relative;">
+                      <select name="tipodocidentidad" #SelDocIdent
+                              formControlName="tipodocidentidad"
+                              (change)="onChangeSelDocIdent(SelDocIdent.value)"
+                              class="form-select form-select-sm border focus-ring" 
+                              [class.border-success]="this.form.get('tipodocidentidad')?.valid"
+                              [class.focus-ring-success]="this.form.get('tipodocidentidad')?.valid"
+                              [class.border-danger]="this.form.get('tipodocidentidad')?.invalid && this.form.get('tipodocidentidad')?.touched"
+                              [class.focus-ring-danger]="this.form.get('tipodocidentidad')?.invalid && this.form.get('tipodocidentidad')?.touched"
+                              aria-label="select-tipodocidentidad" [pattern]="pattern1Digs">
+                              <option *ngFor="let cv of listTipoDocIdent" [value]="cv.value">{{ cv.text }}</option>
+                      </select>
+                      <i *ngIf="this.form.get('tipodocidentidad')?.invalid && this.form.get('tipodocidentidad')?.touched" 
+                              class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                              title="Campo requerido"></i>                      
+                    </div>
+                    <div class="col-md-5" style="position: relative;">
+                      <input type="text" formControlName="nrodocidentidad"
+                            class="form-control form-control-sm border focus-ring"
+                            [class.border-success]="this.form.get('nrodocidentidad')?.valid"
+                            [class.focus-ring-success]="this.form.get('nrodocidentidad')?.valid"
+                            [class.border-danger]="this.form.get('nrodocidentidad')?.invalid && this.form.get('nrodocidentidad')?.touched"
+                            [class.focus-ring-danger]="this.form.get('nrodocidentidad')?.invalid && this.form.get('nrodocidentidad')?.touched">
+                      <i *ngIf="this.form.get('nrodocidentidad')?.invalid && this.form.get('nrodocidentidad')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                 
+                    </div>
+                    <div class="col-md-1">
+                      <button class="btn btn-sm btn-custom btn-outline-secondary"
+                            matTooltip="Buscar" (click)="buscarPersona($event)"
+                            *ngIf="codigoTD == '02'">
+                            <i class="bi bi-search"></i>
+                      </button>                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col-md-12">Nombres</div>
+                    <div class="col-md-12" style="position: relative;">
+                      <input type="text" formControlName="nombres"
+                              class="form-control form-control-sm border focus-ring"
+                              [class.border-success]="this.form.get('nombres')?.valid"
+                              [class.focus-ring-success]="this.form.get('nombres')?.valid"
+                              [class.border-danger]="this.form.get('nombres')?.invalid && this.form.get('nombres')?.touched"
+                              [class.focus-ring-danger]="this.form.get('nombres')?.invalid && this.form.get('nombres')?.touched">
+                      <i *ngIf="this.form.get('nombres')?.invalid && this.form.get('nombres')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                         
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col-md-12">Apellido Paterno</div>
+                    <div class="col-md-12" style="position: relative;">
+                      <input type="text" formControlName="apellidopaterno"
+                            class="form-control form-control-sm border focus-ring"
+                            [class.border-success]="this.form.get('apellidopaterno')?.valid"
+                            [class.focus-ring-success]="this.form.get('apellidopaterno')?.valid"
+                            [class.border-danger]="this.form.get('apellidopaterno')?.invalid && this.form.get('apellidopaterno')?.touched"
+                            [class.focus-ring-danger]="this.form.get('apellidopaterno')?.invalid && this.form.get('apellidopaterno')?.touched">
+                      <i *ngIf="this.form.get('apellidopaterno')?.invalid && this.form.get('apellidopaterno')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                       
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col-md-12">Apellido Materno</div>
+                    <div class="col-md-12" style="position: relative;">
+                      <input type="text" formControlName="apellidomaterno"
+                            class="form-control form-control-sm border focus-ring"
+                            [class.border-success]="this.form.get('apellidomaterno')?.valid"
+                            [class.focus-ring-success]="this.form.get('apellidomaterno')?.valid"
+                            [class.border-danger]="this.form.get('apellidomaterno')?.invalid && this.form.get('apellidomaterno')?.touched"
+                            [class.focus-ring-danger]="this.form.get('apellidomaterno')?.invalid && this.form.get('apellidomaterno')?.touched">                       
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-2"> 
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col-md-12">Estado Civil</div>
+                    <div class="col-md-12" style="position: relative;">
+                      <select name="estadocivil" #SelEstCivil
+                              formControlName="estadocivil"
+                              class="form-select form-select-sm border focus-ring" 
+                              [class.border-success]="this.form.get('estadocivil')?.valid"
+                              [class.focus-ring-success]="this.form.get('estadocivil')?.valid"
+                              [class.border-danger]="this.form.get('estadocivil')?.invalid && this.form.get('estadocivil')?.touched"
+                              [class.focus-ring-danger]="this.form.get('estadocivil')?.invalid && this.form.get('estadocivil')?.touched"
+                              aria-label="select-estadocivil" [pattern]="pattern1Digs">
+                              <option *ngFor="let cv of listEstadoCivil" [value]="cv.value">{{ cv.text }}</option>
+                      </select>
+                      <i *ngIf="this.form.get('estadocivil')?.invalid && this.form.get('estadocivil')?.touched" 
+                              class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                              title="Campo requerido"></i>                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col-md-12">Sexo</div>
+                    <div class="col-md-12" style="position: relative;">
+                      <select name="estadocivil" #SelSexo
+                              formControlName="sexo"
+                              class="form-select form-select-sm border focus-ring" 
+                              [class.border-success]="this.form.get('sexo')?.valid"
+                              [class.focus-ring-success]="this.form.get('sexo')?.valid"
+                              [class.border-danger]="this.form.get('sexo')?.invalid && this.form.get('sexo')?.touched"
+                              [class.focus-ring-danger]="this.form.get('sexo')?.invalid && this.form.get('sexo')?.touched"
+                              aria-label="select-sexo" [pattern]="pattern1Digs">
+                              <option *ngFor="let cv of listSexo" [value]="cv.value">{{ cv.text }}</option>
+                      </select>
+                      <i *ngIf="this.form.get('sexo')?.invalid && this.form.get('sexo')?.touched" 
+                              class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                              title="Campo requerido"></i>                      
+                    </div>
+                  </div>
+                </div>                 
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col-md-12">Teléfono</div>
+                    <div class="col-md-12" style="position: relative;">
+                      <input type="text" formControlName="telefono"
+                            class="form-control form-control-sm border focus-ring"
+                            [class.border-success]="this.form.get('telefono')?.valid"
+                            [class.focus-ring-success]="this.form.get('telefono')?.valid"
+                            [class.border-danger]="this.form.get('telefono')?.invalid && this.form.get('telefono')?.touched"
+                            [class.focus-ring-danger]="this.form.get('telefono')?.invalid && this.form.get('telefono')?.touched">
+                      <i *ngIf="this.form.get('telefono')?.invalid && this.form.get('telefono')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                       
+                    </div>
+                  </div>
+                </div>                             
+              </div>
+              <div class="row mt-2 mb-3">
+
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-12">Correo electrónico</div>
+                    <div class="col-md-12" style="position: relative;">
+                      <input type="text" formControlName="correo"
+                            class="form-control form-control-sm border focus-ring"
+                            [class.border-success]="this.form.get('correo')?.valid"
+                            [class.focus-ring-success]="this.form.get('correo')?.valid"
+                            [class.border-danger]="this.form.get('correo')?.invalid && this.form.get('correo')?.touched"
+                            [class.focus-ring-danger]="this.form.get('correo')?.invalid && this.form.get('correo')?.touched">
+                      <i *ngIf="this.form.get('correo')?.invalid && this.form.get('correo')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                       
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Cónyuge" class="bg-cofopri text-cofopri" *ngIf="conConyuge && natural">
+          <div class="container-sm"  style="border: 2px solid #cde1ff;">
+            <div class="row mt-3">
+              <div class="col-md-4 mt-1">
+                Tipo y Nro. Doc. de Identidad:
+              </div>
+              <div class="col-md-4" style="position: relative;">
+                <select name="tipodocidentidadconyuge" #SelDocIdentConyuge
+                        formControlName="tipodocidentidadconyuge"
+                        (change)="onChangeSelDocIdentConyugue(SelDocIdentConyuge.value)"
+                        class="form-select form-select-sm border focus-ring" 
+                        [class.border-success]="this.form.get('tipodocidentidadconyuge')?.valid"
+                        [class.focus-ring-success]="this.form.get('tipodocidentidadconyuge')?.valid"
+                        [class.border-danger]="this.form.get('tipodocidentidadconyuge')?.invalid && this.form.get('tipodocidentidadconyuge')?.touched"
+                        [class.focus-ring-danger]="this.form.get('tipodocidentidadconyuge')?.invalid && this.form.get('tipodocidentidadconyuge')?.touched"
+                        aria-label="select-tipodocidentidadconyuge" [pattern]="pattern1Digs">
+                        <option *ngFor="let cv of listTipoDocIdentConyuge" [value]="cv.value">{{ cv.text }}</option>
+                </select>
+                <i *ngIf="this.form.get('tipodocidentidadconyuge')?.invalid && this.form.get('tipodocidentidadconyuge')?.touched" 
+                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                        title="Campo requerido"></i>                 
+              </div>
+              <div class="col-md-3" style="position: relative;">
+                <input type="text" formControlName="nrodocidentidadconyuge"
+                      class="form-control form-control-sm border focus-ring"
+                      [class.border-success]="this.form.get('nrodocidentidadconyuge')?.valid"
+                      [class.focus-ring-success]="this.form.get('nrodocidentidadconyuge')?.valid"
+                      [class.border-danger]="this.form.get('nrodocidentidadconyuge')?.invalid && this.form.get('nrodocidentidadconyuge')?.touched"
+                      [class.focus-ring-danger]="this.form.get('nrodocidentidadconyuge')?.invalid && this.form.get('nrodocidentidadconyuge')?.touched">
+                <i *ngIf="this.form.get('nrodocidentidadconyuge')?.invalid && this.form.get('nrodocidentidadconyuge')?.touched" 
+                      class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                      title="Campo requerido"></i>                 
+              </div>
+              <div class="col-md-1">
+                <button class="btn btn-sm btn-custom btn-outline-secondary"
+                      matTooltip="Buscar" (click)="buscarConyugue($event)"
+                      *ngIf="codigoTDConyuge == '02'">
+                      <i class="bi bi-search"></i>
+                </button>                      
+              </div>
+            </div>
+            <div class="row my-2">
+              <div class="col col-md-6">
+                <div class="row">
+                  <div class="col col-md-12">
+                    Apellido Paterno:
+                  </div>
+                  <div class="col col-md-12" style="position: relative;">
+                    <input type="text" formControlName="apellidopaternoconyuge"
+                          class="form-control form-control-sm border focus-ring"
+                          [class.border-success]="this.form.get('apellidopaternoconyuge')?.valid"
+                          [class.focus-ring-success]="this.form.get('apellidopaternoconyuge')?.valid"
+                          [class.border-danger]="this.form.get('apellidopaternoconyuge')?.invalid && this.form.get('apellidopaternoconyuge')?.touched"
+                          [class.focus-ring-danger]="this.form.get('apellidopaternoconyuge')?.invalid && this.form.get('apellidopaternoconyuge')?.touched">
+                    <i *ngIf="this.form.get('apellidopaternoconyuge')?.invalid && this.form.get('apellidopaternoconyuge')?.touched" 
+                          class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                          title="Campo requerido"></i>                                               
+                  </div>
+                </div>                
+              </div>
+              <div class="col col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    Apellido Materno:
+                  </div>
+                  <div class="col-md-12">
+                    <input type="text" formControlName="apellidomaternoconyuge"
+                          class="form-control form-control-sm border focus-ring"
+                          [class.border-success]="this.form.get('apellidomaternoconyuge')?.valid"
+                          [class.focus-ring-success]="this.form.get('apellidomaternoconyuge')?.valid"
+                          [class.border-danger]="this.form.get('apellidomaternoconyuge')?.invalid && this.form.get('apellidomaternoconyuge')?.touched"
+                          [class.focus-ring-danger]="this.form.get('apellidomaternoconyuge')?.invalid && this.form.get('apellidomaternoconyuge')?.touched">                        
+                  </div>
+                </div>                      
+              </div>
+            </div>
+            <div class="row mt-2 mb-3">
+              <div class="col col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    Nombres:
+                  </div>
+                  <div class="col-md-12" style="position: relative;">
+                    <input type="text" formControlName="nombresconyuge"
+                          class="form-control form-control-sm border focus-ring"
+                          [class.border-success]="this.form.get('nombresconyuge')?.valid"
+                          [class.focus-ring-success]="this.form.get('nombresconyuge')?.valid"
+                          [class.border-danger]="this.form.get('nombresconyuge')?.invalid && this.form.get('nombresconyuge')?.touched"
+                          [class.focus-ring-danger]="this.form.get('nombresconyuge')?.invalid && this.form.get('nombresconyuge')?.touched">
+                    <i *ngIf="this.form.get('nombresconyuge')?.invalid && this.form.get('nombresconyuge')?.touched" 
+                          class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                          title="Campo requerido"></i>                       
+                  </div>
+                </div>                
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">Sexo</div>
+                  <div class="col-md-12" style="position: relative;">
+                    <select name="estadocivil" #SelSexoconyuge
+                            formControlName="sexoconyuge"
+                            class="form-select form-select-sm border focus-ring" 
+                            [class.border-success]="this.form.get('sexoconyuge')?.valid"
+                            [class.focus-ring-success]="this.form.get('sexoconyuge')?.valid"
+                            [class.border-danger]="this.form.get('sexoconyuge')?.invalid && this.form.get('sexoconyuge')?.touched"
+                            [class.focus-ring-danger]="this.form.get('sexoconyuge')?.invalid && this.form.get('sexoconyuge')?.touched"
+                            aria-label="select-sexoconyuge" [pattern]="pattern1Digs">
+                            <option *ngFor="let cv of listSexo" [value]="cv.value">{{ cv.text }}</option>
+                    </select>
+                    <i *ngIf="this.form.get('sexoconyuge')?.invalid && this.form.get('sexoconyuge')?.touched" 
+                            class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                      
+                  </div>
+                </div>
+              </div>               
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>  
+    </div>    
+  </div>
+  <!-- <div mat-dialog-actions class="d-flex justify-content-end">  
+    <button type="submit" class="btn btn-sm btn-primary bg-cofopri text-white" 
+            [disabled]="form.invalid"
+            (click)="guardar()"><i class="bi bi-plus-circle"></i>&nbsp;Agregar</button>
+    <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
+  </div> -->
+  <div mat-dialog-actions class="d-flex justify-content-end">  
+    <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
+
+    <button type="submit" class="btn btn-sm btn-warning" 
+            [disabled]="form.invalid">
+            <i class="bi bi-plus-circle"></i>&nbsp;Guardar
+    </button>
+  </div>
+</form>

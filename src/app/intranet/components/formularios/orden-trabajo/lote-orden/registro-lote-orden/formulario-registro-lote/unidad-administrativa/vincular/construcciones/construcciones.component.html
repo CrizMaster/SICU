@@ -1,0 +1,111 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="row my-1">
+            <div class="col-md-8">
+              <div class="my-2 w-100 p-2 respuesta">Construcción</div>
+            </div>
+            <div class="col-md-4 text-end py-2">
+                <button class="btn btn-sm btn-custom btn-outline-primary" (click)="AgregarConstruccion()">
+                    <i class="bi bi-buildings"></i>&nbsp;Agregar
+                </button>
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-12">
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" multiTemplateDataRows>
+              <ng-container matColumnDef="Nro">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> Nro</th>
+                <td mat-cell *matCellDef="let element; let i = dataIndex;" class="text-center">{{i + 1}}</td>
+              </ng-container>
+          
+              <ng-container matColumnDef="Piso">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> Piso</th>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.numeroPiso}} </td>
+              </ng-container>
+          
+              <ng-container matColumnDef="MesAnio">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> Mes/Anio</th>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.mesAnioConstruccion | date: 'MM/yyyy'}} </td>
+              </ng-container>
+          
+              <ng-container matColumnDef="MEP">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> MEP </th>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoMaterialPredominante}} </td>
+              </ng-container>
+          
+              <ng-container matColumnDef="ECS">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> ECS </th>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoEstadoConservacion}} </td>
+              </ng-container>
+    
+              <ng-container matColumnDef="ECC">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> ECC </th>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoEstadoConstruccion}} </td>
+              </ng-container>
+                
+              <ng-container matColumnDef="MurosColumnas">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> Muros Columnas </th>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.categoriaMuroColumna }} </td>
+              </ng-container>                      
+          
+              <ng-container matColumnDef="Techo">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Techo</th>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.categoriaTecho }} </td>
+              </ng-container>
+          
+              <ng-container matColumnDef="PuertasVentanas">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> Puertas Ventanas </th>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.categoriaPuertaVentana }} </td>
+              </ng-container>
+    
+              <ng-container matColumnDef="CIIU">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> CIIU </th>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoCiiu }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="UCA">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> UCA </th>
+                <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoUca }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Accion">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> Accion </th>
+                <td mat-cell *matCellDef="let element; let i = dataIndex;" class="text-center">
+                  <button mat-icon-button 
+                    [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="EditarConstruccion(element, i)">
+                      <mat-icon>edit</mat-icon>
+                      <span>Editar Construcción</span>
+                    </button>
+                    <button mat-menu-item (click)="AnularConstruccion(element)">
+                      <mat-icon>delete</mat-icon>
+                      <span>Eliminar Construcción</span>
+                    </button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+    
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+            </table>     
+          </div> 
+    </div>
+</div>
+<div class="row mt-4">
+  <div class="col-md-9">
+    &nbsp;
+  </div>
+  <div class="col-md-3 text-end">
+    <button type="submit" 
+      [disabled]="this.lista.length==0"
+      class="btn btn-sm bg-btn-save w-100"
+      (click)="GuardarConstrucciones()">
+      Guardar      
+    </button>
+  </div>
+</div>

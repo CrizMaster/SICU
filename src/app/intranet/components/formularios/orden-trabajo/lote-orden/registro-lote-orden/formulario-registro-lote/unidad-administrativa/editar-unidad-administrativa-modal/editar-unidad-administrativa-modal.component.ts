@@ -55,8 +55,6 @@ export class EditarUnidadAdministrativaModalComponent implements OnInit, OnDestr
 
     ngOnInit(): void {
 
-        //console.log(this.data);
-
         this.listaVias$ = this._ordenTrabajoService.listaVias.subscribe({
             next:(Data:ViasCaracterizacion[]) => {
                 
@@ -99,6 +97,7 @@ export class EditarUnidadAdministrativaModalComponent implements OnInit, OnDestr
     }
 
     ngOnDestroy(): void {
+        this.listaVias$.unsubscribe();
     }
 
     guardar(){

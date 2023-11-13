@@ -18,6 +18,8 @@ import { InformacionLoteRequest } from 'src/app/intranet/components/formularios/
 import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
 import { Subscription } from 'rxjs';
 import { MatStepper } from '@angular/material/stepper';
+import { StatusResponse } from 'src/app/core/models/statusResponse.model';
+import { ImageViewerComponent } from 'src/app/core/shared/components/image-viewer/image-viewer.component';
 
   
 @Component({
@@ -60,7 +62,8 @@ export class InformacionLoteComponent implements OnInit{
         private cd: ChangeDetectorRef,
         private _ordenTrabajoService: OrdenTrabajoService,
         private actRoute: ActivatedRoute,
-        private sanitizer: DomSanitizer        
+        private sanitizer: DomSanitizer,
+        public dialog: MatDialog       
     ){
         this.listTipoHU = getFilterMasterCatalog(CatalogoMasterEnum.TipoHabilitacionUrbana);
         this.listTipoPuerta = getFilterMasterCatalog(CatalogoMasterEnum.TipoPuerta);
@@ -139,6 +142,8 @@ export class InformacionLoteComponent implements OnInit{
             if(resp.resolve.success){
                 let info:CaracterizacionResponse = resp.resolve.data;
 
+                
+
                 this.codigoLote = info.codigoLote;
                 this.codigoLoteCaracterizacion = info.codigoLoteCaracterizacion;
                 this.myForm.patchValue({ 
@@ -179,19 +184,19 @@ export class InformacionLoteComponent implements OnInit{
                     info.listaArchivos.forEach(el => {
                         let imgBase64: any;
                         this._ordenTrabajoService.ConsultaFotoLote(el.codigoArchivo).subscribe({
-                            next:(Data) => {
-                                imgBase64 = Data;
+                            next:(Data:StatusResponse<string>) => {
+                                if(Data.success){
+                                    con++;
+                                    this.imagenes.push({
+                                        id: con + 1,
+                                        name: el.nombreArchivo,
+                                        tamanioBytes: 1024,
+                                        tamanio: '1.00 KB',
+                                        type: 'png',
+                                        base64: "data:image/jpeg;base64," + Data.data
+                                    });
+                                }
                               }
-                        });
-                        
-                        con++;
-                        this.imagenes.push({
-                            id: con + 1,
-                            name: el.nombreArchivo,
-                            tamanioBytes: 1024,
-                            tamanio: '1.00 KB',
-                            type: 'png',
-                            base64: imgBase64
                         });
                     });
 
@@ -201,8 +206,7 @@ export class InformacionLoteComponent implements OnInit{
                             vias.push(el);
                         }
                     });
-                    console.log('vias');
-                    console.log(vias);
+
                     this._ordenTrabajoService.listaVias.next(vias);
                 }
             }
@@ -345,9 +349,19 @@ export class InformacionLoteComponent implements OnInit{
         }
     });
 
-    verImagen(img: ImagenModel){
+    verImagen(e, img){
+        let dgRef = this.dialog.open(ImageViewerComponent, {
+            width: 'auto',
+            height: 'auto',
+            enterAnimationDuration: '300ms',
+            exitAnimationDuration: '300ms',
+            disableClose: true,
+            data: img
+        }); 
         
-    }
+        e.stopPropagation();
+        e.preventDefault();
+      }
 
     guardar()
     {

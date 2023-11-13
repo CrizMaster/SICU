@@ -1,0 +1,16 @@
+<mat-card style="max-height: 600px; min-width: 400px; max-width: 900px;">
+    <mat-card-header class="sticky-top bg-cofopri text-white">
+      <mat-card-title class="pb-2">{{Data.name}}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image [src]="Data.base64" alt="Imagen">
+    <mat-card-actions class="sticky-bottom bg-white border-2 border-top">
+     <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <button class="btn btn-sm btn-custom btn-outline-primary"
+              (click)="Aceptar()">
+              <i class="bi bi-x-circle"></i>&nbsp;Cerrar
+          </button>
+        </div>
+      </div>     
+    </mat-card-actions>
+  </mat-card>

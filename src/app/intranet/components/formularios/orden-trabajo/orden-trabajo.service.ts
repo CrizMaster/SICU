@@ -175,17 +175,17 @@ export class OrdenTrabajoService{
         );         
     }
 
-    ConsultaFotoLote(codigoArchivo:number):Observable<string>{
+    ConsultaFotoLote(codigoArchivo:number):Observable<StatusResponse<string>>{
     
-        return this.http.post<string>(environment.urlWebApiSICU + 'ConsultaFotoLote',
+        return this.http.post<StatusResponse<string>>(environment.urlWebApiSICU + 'ConsultaFotoLote',
         {
             "codigoArchivo": codigoArchivo
         })
         .pipe(
-            tap((response: any) => {
-                // console.log('response');
-                // console.log(response);
-            }),
+            // tap((response: any) => {
+            //     console.log('response');
+            //     console.log(response);
+            // }),
             catchError(this.handlerError)            
         );
     }

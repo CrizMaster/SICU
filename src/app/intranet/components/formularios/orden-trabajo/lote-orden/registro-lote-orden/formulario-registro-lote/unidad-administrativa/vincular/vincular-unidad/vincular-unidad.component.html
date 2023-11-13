@@ -1,0 +1,218 @@
+<form [formGroup]="formVU">
+  <div class="row my-2">
+    <div class="col-md-12">
+      <mat-tab-group>
+        <mat-tab label="Documento de Identidad">
+          <div class="container-sm" style="border: 2px solid #cde1ff;">
+   
+              <div class="row my-2">
+                <div class="col-md-12">
+                  <div class="row my-2">                  
+                      <div class="col-md-5">
+                        <div class="row">
+                          <div class="col-md-12 mt-1">
+                            Tipo de Documento
+                          </div>
+                          <div class="col-md-12" style="position: relative;">
+                            <select name="tipodocidentidad" #SelDocIdent
+                                    formControlName="tipodocidentidad"
+                                    class="form-select form-select-sm border focus-ring" 
+                                    [class.border-success]="this.formVU.get('tipodocidentidad')?.valid"
+                                    [class.focus-ring-success]="this.formVU.get('tipodocidentidad')?.valid"
+                                    [class.border-danger]="this.formVU.get('tipodocidentidad')?.invalid && this.formVU.get('tipodocidentidad')?.touched"
+                                    [class.focus-ring-danger]="this.formVU.get('tipodocidentidad')?.invalid && this.formVU.get('tipodocidentidad')?.touched"
+                                    aria-label="select-tipodocidentidad" [pattern]="pattern1Digs">
+                                    <option *ngFor="let cv of listTipoDocIdent" [value]="cv.value">{{ cv.text }}</option>
+                            </select>
+                            <i *ngIf="this.formVU.get('tipodocidentidad')?.invalid && this.formVU.get('tipodocidentidad')?.touched" 
+                                    class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                                    title="Campo requerido"></i>                      
+                          </div>
+                        </div>                    
+                      </div>
+                      <div class="col-md-5">
+                        <div class="row">
+                          <div class="col-md-12 mt-1">
+                            Número de Documento
+                          </div>
+                          <div class="col-md-12" style="position: relative;">
+                            <input type="text" formControlName="nrodocidentidad"
+                            class="form-control form-control-sm border focus-ring"
+                            [class.border-success]="this.formVU.get('nrodocidentidad')?.valid"
+                            [class.focus-ring-success]="this.formVU.get('nrodocidentidad')?.valid"
+                            [class.border-danger]="this.formVU.get('nrodocidentidad')?.invalid && this.formVU.get('nrodocidentidad')?.touched"
+                            [class.focus-ring-danger]="this.formVU.get('nrodocidentidad')?.invalid && this.formVU.get('nrodocidentidad')?.touched">
+                          <i *ngIf="this.formVU.get('nrodocidentidad')?.invalid && this.formVU.get('nrodocidentidad')?.touched" 
+                                class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                                title="Campo requerido"></i>                      
+                          </div>
+                        </div>                     
+                      </div>
+                      <div class="col-md-2">
+                        <div class="row">
+                          <div class="col-md-12 mt-1">
+                            &nbsp;
+                          </div>
+                          <div class="col-md-12" style="position: relative;">
+                            <button class="btn btn-sm btn-custom btn-outline-secondary"
+                              matTooltip="Buscar" [disabled]="formVU.invalid">
+                              <i class="bi bi-search" (click)="ConsultaArmonizacion()"></i>
+                            </button>
+                          </div>
+                        </div>                     
+                      </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="w-100 panel-sicu">
+                        <div class="row">
+                          <div class="col-md-4 p-4 fw-bold" style="font-size: 1rem;">
+                            <span class="color-title">Apellido Paterno:&nbsp;&nbsp;</span><span class="color-dato">{{ApellidoPaterno}}</span>
+                          </div>
+                          <div class="col-md-4 p-4 fw-bold" style="font-size: 1rem;">
+                            <span class="color-title">Apellido Materno:&nbsp;&nbsp;</span><span class="color-dato">{{ApellidoMaterno}}</span>
+                          </div>
+                          <div class="col-md-4 p-4 fw-bold" style="font-size: 1rem;">
+                            <span class="color-title">Nombres:&nbsp;&nbsp;</span><span class="color-dato">{{Nombres}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Dirección" class="bg-cofopri text-cofopri">
+          <div class="container-sm"  style="border: 2px solid #cde1ff;">
+            <div class="row my-2">
+              <div class="col col-12 mt-1">
+                <div class="row my-2">
+                  <div class="col-md-12">
+                    <div class="row my-2">
+                      <div class="col-md-2">
+                        <div class="col-md-12 mt-1">
+                          Manzana Urbana
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" formControlName="manzanaUrbana"
+                              class="form-control form-control-sm border focus-ring">                          
+                        </div>                        
+                      </div>
+                      <div class="col-md-2">
+                        <div class="col-md-12 mt-1">
+                          Lote Urbana
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" formControlName="loteUrbano"
+                              class="form-control form-control-sm border focus-ring">                          
+                        </div>                            
+                      </div>
+                      <div class="col-md-2">
+                        <div class="col-md-12 mt-1">
+                          Sub-Lote Urbana
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" formControlName="subloteUrbano"
+                              class="form-control form-control-sm border focus-ring">                          
+                        </div>                            
+                      </div>
+                      <div class="col-md-3">
+                        <div class="col-md-12 mt-1">
+                          Tipo División Habilitación
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" formControlName="tipoDivision"
+                              class="form-control form-control-sm border focus-ring">                          
+                        </div>                       
+                      </div>
+                      <div class="col-md-3">
+                        <div class="col-md-12 mt-1">
+                          Nombres / Nro División
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" formControlName="nombreDivision"
+                              class="form-control form-control-sm border focus-ring">                          
+                        </div>                             
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-10">
+                        <div class="col-md-12 mt-1">
+                          Dirección
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" formControlName="direccion"
+                              class="form-control form-control-sm border focus-ring">                          
+                        </div>                        
+                      </div>
+                      <div class="col-md-2">
+                        <div class="col-md-12 mt-1">
+                          &nbsp;
+                        </div>
+                        <div class="col-md-12">
+                          <button class="btn btn-sm btn-custom btn-outline-secondary"
+                            matTooltip="Buscar" [disabled]="formVU.invalid">
+                            <i class="bi bi-search" (click)="ConsultaArmonizacion()"></i>
+                          </button>
+                        </div>                            
+                      </div>
+                    </div>
+                    <!-- <hr>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-10 my-2">
+                            <div class="w-100 p-2 respuesta">Respuesta</div>
+                          </div>
+                          <div class="col-md-2 my-2">
+                            <button class="btn btn-sm btn-custom btn-outline-primary">
+                              <i class="bi bi-link-45deg"></i>&nbsp;Vincular
+                            </button>
+                          </div>
+                        </div> 
+                        <div class="row">
+                          <div class="col-md-12">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item" style="background-color: #f2fbfb;">1.- Jirón Rio Ucayali 1403 San Luis, Lima, Lima</li>
+                              <li class="list-group-item">2.-</li>
+                              <li class="list-group-item">3.-</li>
+                              <li class="list-group-item">4.-</li>
+                              <li class="list-group-item">5.-</li>
+                            </ul>                        
+                          </div>
+                        </div>                    
+                      </div>
+                    </div>                     -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>      
+    </div>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12 my-4">
+              <div class="w-100 p-2 respuesta">Respuesta</div>
+            </div>
+          </div> 
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item li-color" 
+                    *ngFor="let dir of Direcciones; index as i" (dblclick)="seleccionarDatos(dir)">
+                  {{i + 1}}.-&nbsp;{{dir.direccion}}
+                </li>
+              </ul>                        
+            </div>
+          </div>                    
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

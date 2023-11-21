@@ -71,7 +71,7 @@ export class UnidadComponent {
     this._unidadAdministrativaService.ConsultaUnidadPredio(this.codigoUnidadAdministrativa).subscribe({
       next:(result: StatusResponse<UnidadPredioRequest>) => {
         if(result.success){
-          console.log(result);
+          //console.log(result);
           let datos = result.data;
           this.formPredio.patchValue({ 
             clasificacionpredio: this.getValue(datos.codigoClasificacionPredio, this.listClasificacionPrecio), 

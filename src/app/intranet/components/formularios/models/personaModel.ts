@@ -4,6 +4,7 @@ import { PersonaNaturalModel } from "./personaNaturalModel";
 
 
 export interface PersonaModel {
+    codigoCondicionTitular?: string,
     codigoContribuyente?: string,
     sucesion?: string,
     displayName?: string,
@@ -11,5 +12,6 @@ export interface PersonaModel {
     Titular?: PersonaNaturalModel,
     Conyuge?: PersonaNaturalModel,
     Empresa?: PersonaLegalModel,
-    Interesado?: InteresadoResponse
+    Interesado?: InteresadoResponse,
+    unTitular?: boolean
 }

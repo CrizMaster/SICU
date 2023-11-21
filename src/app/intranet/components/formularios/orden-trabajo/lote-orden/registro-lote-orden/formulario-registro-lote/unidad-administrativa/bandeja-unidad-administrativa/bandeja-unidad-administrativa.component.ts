@@ -35,7 +35,7 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
     public listaEdifica$: Subscription = new Subscription;
     public queryUA$: Subscription = new Subscription;
 
-    displayedColumns: string[] = ['Dpto', 'Prov', 'Dist', 'Sec', 'Mz', 'Lote', 'Edifica', 'Entrada', 'Piso', 'Unidad', 'seleccion'];
+    displayedColumns: string[] = ['Dpto', 'Prov', 'Dist', 'Sec', 'Mz', 'Lote', 'Edifica', 'Entrada', 'Piso', 'Unidad', 'Estado', 'seleccion'];
 
     dataSource = new MatTableDataSource<UnidadAdministrativaResponse>();
 
@@ -138,8 +138,11 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
                     dg.close();
                     if(result.success){ 
                       let modal: Title = { 
-                        Title:  'Nueva Unidad Administrativa', 
-                        Subtitle: 'Nueva Unidad Administativa se registro satisfactoriamente.', 
+                        Title:  (resp.codigoUnidadAdministrativa == 0 ? 'Nueva Unidad Administrativa'
+                                : 'Unidad Administrativa Actualizada'), 
+                        Subtitle: 'La Unidad Administativa se ' + 
+                                  (resp.codigoUnidadAdministrativa == 0 ? 'registró':'actualizó')
+                                  + ' satisfactoriamente.', 
                         Icon: 'ok' 
                       }
     

@@ -48,7 +48,7 @@ export class EditarEdificacionModalComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
         this.codigo = this.data.codigoDepartamento + this.data.codigoProvincia + this.data.codigoDistrito
-                        + this.data.codigoSector + this.data.codigoManzana + this.data.codigoLote + this.data.numeroEdificacion;
+                        + this.data.codigoSector + this.data.codigoManzana + this.data.codigoLoteCaracterizacion + this.data.numeroEdificacion;
 
         if(this.data.codigoTipoEdificacion == null){
             console.log('nuevo');          

@@ -28,6 +28,19 @@ export interface ArmonizacionResponse {
 
 export interface DireccionResponse {
     codigoContribuyente?: string,
+    nombres?: string,
+    apellidoPaterno?: string,
+    apellidoMaterno?: string,
+    codigoDocumento?: string,
+    tipoDocumento?: string,
+    numeroDocumento?: string,
+    codigoEstadoCivil?: string,
+    estadoCivil?: string,
+    fechaNacimiento?: Date,
+    genero?: string,
+    correo?: string,
+    telefono?: string,
+
     codigoPredio?: string,
     codigoDireccion?: number,
     direccion?: string,

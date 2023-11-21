@@ -23,6 +23,7 @@
         codigoDrr?: number,
         codigoUnidadAdministrativa?: number,
         codigoTipoCotitular?: string,
+        nombreTipoCotitular?: string,
         porcetajeCotitular?: number,
         codigoContribRentas?: string,
         codigoPredioRentas?: string,
@@ -31,7 +32,7 @@
         usuarioModificacion?: string,
         terminalModificacion?: string,
 
-        tipoDocumento?: string,
-        estadoCivil?: string,
-        tipoPersona?: string
+        nombreTipoDocumento?: string,
+        nombreTipoEstadoCivil?: string,
+        id?: number
     }

@@ -63,7 +63,7 @@ export class EditarUnidadAdministrativaModalComponent implements OnInit, OnDestr
                     if(elem.checkedAct){
                         this.listEntrada.push({
                             value: elem.codigoViaLote, 
-                            text: elem.nombreVia + ' - ' + elem.nombreTipoPuerta + ' ' + elem.numeroMunicipal
+                            text: elem.nombreVia + ' - ' + elem.nombreTipoPuerta + ' ' + ( elem.numeroMunicipal || '')
                         });
                     }                    
                 });

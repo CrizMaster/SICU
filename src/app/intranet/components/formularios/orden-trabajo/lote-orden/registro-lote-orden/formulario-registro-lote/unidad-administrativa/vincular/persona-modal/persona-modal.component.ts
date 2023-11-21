@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, OnDestroy, ChangeDetectorRef, Input  } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ItemSelect } from 'src/app/core/models/item-select.model';
 import { CatalogoMasterEnum } from 'src/app/core/shared/enum/catalogo-master.enum';
@@ -9,6 +9,10 @@ import { UnidadAdministrativaService } from '../../unidad-administrativa.service
 import { ReniecModel } from 'src/app/intranet/components/formularios/models/reniecModel';
 import { Subscription } from 'rxjs';
 import { InteresadoResponse } from 'src/app/intranet/components/formularios/models/interesadoRequest';
+import { ImagenModel } from 'src/app/core/models/imagen.model';
+import { ImageViewerComponent } from 'src/app/core/shared/components/image-viewer/image-viewer.component';
+import { Title } from 'src/app/core/models/title.model';
+import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
 
 @Component({
     selector: 'app-persona-modal',
@@ -32,6 +36,7 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
     listTipoDocIdentConyuge: ItemSelect<number>[] = [];
     listTipoTitular:  ItemSelect<number>[] = [];
         
+    public imagenes: ImagenModel[] = [];
     public reniec$: Subscription = new Subscription;
     public reniecConyugue$: Subscription = new Subscription;
     
@@ -40,7 +45,8 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
       @Inject(MAT_DIALOG_DATA) public data: PersonaModel,
       private _unidadAdministrativaService: UnidadAdministrativaService,
       private fb: FormBuilder,
-      private changeDetector: ChangeDetectorRef
+      private changeDetector: ChangeDetectorRef,
+      public dialog: MatDialog
     ){
         this.form = this.fb.group({
             codigocontribuyente: ['', Validators.required],
@@ -50,7 +56,7 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
             ruc: ['', [Validators.required, Validators.pattern('[0-9]+')]],
             razonsocial: [''],
             telefonoempresa: [''],
-            correoempresa: [''],
+            correoempresa: ['', Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
             estadocivil: [{value: 0, disabled: true}, Validators.required],
             sexo: [ 0, Validators.required],
             tipodocidentidad: [0, Validators.required],  
@@ -59,7 +65,7 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
             apellidopaterno: [{value: '', disabled: true}, Validators.required],
             apellidomaterno: [{value: '', disabled: true}],
             telefono: [''],
-            correo: [''],
+            correo: ['', Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
             tipodocidentidadconyuge: [0, Validators.required],
             nrodocidentidadconyuge: ['', [Validators.required, Validators.pattern('[0-9]+')]],
             nombresconyuge: [{value: '', disabled: true}, Validators.required],
@@ -136,18 +142,21 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
                     const apellidopaterno = this.form.get('apellidopaterno');
                     const apellidomaterno = this.form.get('apellidomaterno');
                     const nombres = this.form.get('nombresconyuge');
+                    const sexo = this.form.get('sexo');
 
                     tipodocidentidad.addValidators(Validators.required);
                     nrodocidentidad.addValidators(Validators.required);
                     apellidopaterno.addValidators(Validators.required);
                     apellidomaterno.addValidators(Validators.required);
                     nombres.addValidators(Validators.required);
+                    sexo.addValidators(Validators.required);
 
                     const tipodocidentidadconyuge = this.form.get('tipodocidentidadconyuge');
                     const nrodocidentidadconyuge = this.form.get('nrodocidentidadconyuge');
                     const apellidopaternoconyuge = this.form.get('apellidopaternoconyuge');
                     const apellidomaternoconyuge = this.form.get('apellidomaternoconyuge');
                     const nombresconyuge = this.form.get('nombresconyuge');
+                    const sexoconyuge = this.form.get('sexoconyuge');
 
                     if(this.conConyuge){
                         tipodocidentidadconyuge.addValidators(Validators.required);
@@ -155,6 +164,7 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
                         apellidopaternoconyuge.addValidators(Validators.required);
                         apellidomaternoconyuge.addValidators(Validators.required);
                         nombresconyuge.addValidators(Validators.required);
+                        sexoconyuge.addValidators(Validators.required);
                     }
                     else{
                         tipodocidentidadconyuge.clearValidators();
@@ -162,6 +172,7 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
                         apellidopaternoconyuge.clearValidators();                        
                         apellidomaternoconyuge.clearValidators();
                         nombresconyuge.clearValidators();
+                        sexoconyuge.clearValidators();
                     }
 
                     tipodocidentidad.updateValueAndValidity();
@@ -169,12 +180,14 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
                     apellidopaterno.updateValueAndValidity();
                     apellidomaterno.updateValueAndValidity();
                     nombres.updateValueAndValidity();
+                    sexo.updateValueAndValidity();
 
                     tipodocidentidadconyuge.updateValueAndValidity();
                     nrodocidentidadconyuge.updateValueAndValidity();                      
                     apellidopaternoconyuge.updateValueAndValidity();
                     apellidomaternoconyuge.updateValueAndValidity();
                     nombresconyuge.updateValueAndValidity();
+                    sexoconyuge.updateValueAndValidity();
                 }
                 else { 
                     this.natural = false; 
@@ -198,11 +211,13 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
                     const apellidomaterno = this.form.get('apellidomaterno');
                     const nombres = this.form.get('nombres');
                     const estadocivil = this.form.get('estadocivil');
+                    const sexo = this.form.get('sexo');
                     const tipodocidentidadconyuge = this.form.get('tipodocidentidadconyuge');
                     const nrodocidentidadconyuge = this.form.get('nrodocidentidadconyuge');
                     const apellidopaternoconyuge = this.form.get('apellidopaternoconyuge');
                     const apellidomaternoconyuge = this.form.get('apellidomaternoconyuge');
                     const nombresconyuge = this.form.get('nombresconyuge');
+                    const sexoconyuge = this.form.get('sexoconyuge');
 
                     tipodocidentidad.clearValidators();
                     nrodocidentidad.clearValidators();
@@ -210,11 +225,13 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
                     apellidomaterno.clearValidators();
                     nombres.clearValidators();
                     estadocivil.clearValidators();
+                    sexo.clearValidators();
                     tipodocidentidadconyuge.clearValidators();
                     nrodocidentidadconyuge.clearValidators();
                     apellidopaternoconyuge.clearValidators();
                     apellidomaternoconyuge.clearValidators();
                     nombresconyuge.clearValidators();
+                    sexoconyuge.clearValidators();
 
                     tipodocidentidad.updateValueAndValidity();
                     nrodocidentidad.updateValueAndValidity();
@@ -222,11 +239,13 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
                     apellidomaterno.updateValueAndValidity();
                     nombres.updateValueAndValidity(); 
                     estadocivil.updateValueAndValidity();
+                    sexo.updateValueAndValidity();
                     tipodocidentidadconyuge.updateValueAndValidity();
                     nrodocidentidadconyuge.updateValueAndValidity(); 
                     apellidopaternoconyuge.updateValueAndValidity();
                     apellidomaternoconyuge.updateValueAndValidity();
                     nombresconyuge.updateValueAndValidity();
+                    sexoconyuge.updateValueAndValidity();
                 }
             };
         });        
@@ -343,11 +362,13 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
 
     buscarPersona(e){   
         
+        let dg = this.ModalLoading();
         const nrodocidentidad = this.form.get('nrodocidentidad');
 
         this.reniec$ = this._unidadAdministrativaService.getConsultaReniec(nrodocidentidad.value)
         .subscribe(result => {
-            if(result.success){
+            dg.close();
+            if(result.success){                
                 let obj: ReniecModel = JSON.parse(result.data);
                 
                 if(obj.consultarResponse.return.deResultado == 'Consulta realizada correctamente'){
@@ -396,13 +417,16 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
     }
 
     buscarConyugue(e){  
+
+        let dg = this.ModalLoading();
         const nrodocidentidadconyuge = this.form.get('nrodocidentidadconyuge');
 
         this.reniecConyugue$ = this._unidadAdministrativaService.getConsultaReniec(nrodocidentidadconyuge.value)
         .subscribe(result => {
+            dg.close();
             if(result.success){
                 let obj: ReniecModel = JSON.parse(result.data);
-                console.log(obj);
+
                 if(obj.consultarResponse.return.deResultado == 'Consulta realizada correctamente'){
                     let persona = obj.consultarResponse.return.datosPersona;
 
@@ -439,6 +463,75 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
         return false;
     }   
 
+    quitarImagen(img: ImagenModel){
+        let listaImagenes: ImagenModel[] = [];
+        this.imagenes.forEach(el => {
+            if(el.id != img.id) listaImagenes.push(el);
+        });
+
+        this.imagenes = listaImagenes;
+    }
+
+    capturarFile(event){
+        
+        let idmax: number = 0;
+        let total = event.target.files.length;
+
+        if(this.imagenes.length > 0){
+            idmax = Math.max.apply(Math, this.imagenes.map(function(o) { return o.id; }));
+        }
+
+        for (let i = 0; i < total; i++) {
+            const archivoCapturado = event.target.files[i];
+            this.extraerBase64(archivoCapturado).then((imagen: any) => {
+                //this.previsualizacion = imagen.base;
+    
+                this.imagenes.push({
+                    id: idmax + i + 1,
+                    name: archivoCapturado.name,
+                    tamanioBytes: archivoCapturado.size,
+                    tamanio: Math.floor(archivoCapturado.size / 1024 ) + ' KB',
+                    type: archivoCapturado.type,
+                    base64: imagen.base,
+                    imagen: archivoCapturado
+                });
+            }); 
+        }
+    }
+
+    extraerBase64 = async($event: any) => new Promise((resolve, reject) => {
+        try{
+            const reader = new FileReader();
+            reader.readAsDataURL($event);
+            reader.onload = () => {
+                resolve({
+                    base: reader.result
+                });
+            };
+            reader.onerror = error => {
+                resolve({
+                    base: null
+                })
+            }
+        } catch(e){
+            return null;
+        }
+    });
+
+    verImagen(e, img){
+        let dgRef = this.dialog.open(ImageViewerComponent, {
+            width: 'auto',
+            height: 'auto',
+            enterAnimationDuration: '300ms',
+            exitAnimationDuration: '300ms',
+            disableClose: true,
+            data: img
+        }); 
+        
+        e.stopPropagation();
+        e.preventDefault();
+      }
+
     guardar(){
         let info = this.form.value;
 
@@ -457,7 +550,7 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
                     const apellidomaterno = this.form.get('apellidomaterno');
                     const nombres = this.form.get('nombres');
 
-                    inter.tipoPersona = "PERSONA NATURAL"
+                    inter.nombreTipoCotitular = "PERSONA NATURAL"
                     inter.numeroDocumento = info.nrodocidentidad;
                     inter.apellidoPaterno = apellidopaterno.value;
                     inter.apellidoMaterno = apellidomaterno.value;
@@ -465,26 +558,27 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
                     inter.numeroTelefono = info.telefono;
                     inter.correoElectronico = info.correo;
 
+                    const estadocivil = this.form.get('estadocivil');
                     this.listEstadoCivil.forEach(ec => {
-                      if(ec.value == info.estadocivil) {
+                      if(ec.value == estadocivil.value) {
                         inter.codigoEstadoCivil = ec.code;
-                        inter.estadoCivil = ec.text;
+                        inter.nombreTipoEstadoCivil = ec.text;
                       }
                     });
 
                     this.listTipoDocIdent.forEach(ec => {
                         if(ec.value == info.tipodocidentidad) {
                           inter.codigoTipoDocumento = ec.code;
-                          inter.tipoDocumento = ec.text;
+                          inter.nombreTipoDocumento = ec.text;
                         }
                     });
                 }
                 else { //PERSONA JURIDICA
-                    inter.tipoPersona = "PERSONA JURIDICA"
+                    inter.nombreTipoCotitular = "PERSONA JURIDICA"
                     inter.codigoTipoDocumento = '09';
-                    inter.tipoDocumento = 'R.U.C.';
+                    inter.nombreTipoDocumento = 'R.U.C.';
                     inter.numeroDocumento = info.ruc;
-                    inter.razonSocial = info.razonSocial
+                    inter.razonSocial = info.razonsocial;
                     inter.numeroTelefono = info.telefonoempresa;
                     inter.correoElectronico = info.correoempresa;
                 }
@@ -494,5 +588,20 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
         this.form.reset();
         this.dialogRef.close({ success: true, datos: inter });
     }
+
+    ModalLoading(): any {     
+        let modal: Title = { 
+          Title: 'Consultando a RENIEC...'}
+        let dgRef = this.dialog.open(ModalLoadingComponent, {
+            width: '400px',
+            height: '95px',
+            enterAnimationDuration: '300ms',
+            exitAnimationDuration: '300ms',
+            disableClose: true,
+            data: modal
+        }); 
+    
+        return dgRef;
+      }    
 
 }

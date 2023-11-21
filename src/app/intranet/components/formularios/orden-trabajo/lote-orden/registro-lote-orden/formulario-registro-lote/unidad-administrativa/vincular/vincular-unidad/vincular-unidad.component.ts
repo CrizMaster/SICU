@@ -57,6 +57,7 @@ export class VincularUnidadComponent {
   }
 
   ConsultaArmonizacion(){
+    let dg = this.ModalLoading('Consultando información de armonización...');
     let data: ArmonizacionRequest = {
       codigoUbigeo: '200101',
       tipoDocumento: '02',
@@ -64,22 +65,40 @@ export class VincularUnidadComponent {
       domicilioFiscal: ''
     };
     
-    this._unidadAdministrativaService.ConsultaArmonizacion(data)
-    .subscribe(Data => {
-        if(Data.success){
-          let info = Data.data[0];
+    setTimeout(() => {
 
-          this.ApellidoPaterno = info.apellidoPaterno;
-          this.ApellidoMaterno = info.apellidoMaterno;
-          this.Nombres = info.nombres;
+      this._unidadAdministrativaService.ConsultaArmonizacion(data)
+      .subscribe(Data => {
+          dg.close();
+          if(Data.success){
+            let info = Data.data[0];
+  
+            this.ApellidoPaterno = info.apellidoPaterno;
+            this.ApellidoMaterno = info.apellidoMaterno;
+            this.Nombres = info.nombres;
+  
+            info.direcciones.forEach(el => {
+              el.codigoContribuyente = info.codigoContribuyente;
+              el.nombres = info.nombres,
+              el.apellidoPaterno = info.apellidoPaterno,
+              el.apellidoMaterno = info.apellidoMaterno,
+              el.codigoDocumento = info.codigoDocumento,
+              el.tipoDocumento = info.tipoDocumento,
+              el.numeroDocumento = info.numeroDocumento,
+              el.codigoEstadoCivil = info.codigoEstadoCivil,
+              el.estadoCivil = info.estadoCivil,
+              el.fechaNacimiento = info.fechaNacimiento,
+              el.genero = info.genero,
+              el.correo = info.correo,
+              el.telefono = info.telefono
+            });
+            this.Direcciones = info.direcciones;
+  
+          }   
+      }); 
 
-          info.direcciones.forEach(el => {
-            el.codigoContribuyente = info.codigoContribuyente;
-          });
-          this.Direcciones = info.direcciones;
-
-        }   
-    });  
+    }, 500);
+ 
   }
 
   seleccionarDatos(datos: DireccionResponse){
@@ -95,7 +114,7 @@ export class VincularUnidadComponent {
 
     subDialogModal.afterClosed().subscribe(resp => {
       if(resp){
-        let dg = this.ModalLoading();
+        let dg = this.ModalLoading('Procesando su solicitud...');
 
         //Cargando datos
         setTimeout(() => {
@@ -104,25 +123,25 @@ export class VincularUnidadComponent {
           datos.index = 2;
           this._unidadAdministrativaService.InfoArmonizacion.next(datos);
 
-        }, 2000);         
+        }, 1000);         
         
       }            
     });
-}
+  }
 
-ModalLoading(): any {     
-  let modal: Title = { 
-    Title: 'Procesando su solicitud...'}
-  let dgRef = this.subDialog.open(ModalLoadingComponent, {
-      width: '400px',
-      height: '95px',
-      enterAnimationDuration: '300ms',
-      exitAnimationDuration: '300ms',
-      disableClose: true,
-      data: modal
-  }); 
-
-  return dgRef;
-}
-
+  ModalLoading(msn: string): any {     
+    let modal: Title = { 
+      Title: msn
+    }
+    let dgRef = this.subDialog.open(ModalLoadingComponent, {
+        width: '400px',
+        height: '95px',
+        enterAnimationDuration: '300ms',
+        exitAnimationDuration: '300ms',
+        disableClose: true,
+        data: modal
+    }); 
+  
+    return dgRef;
+  }
 }

@@ -3,6 +3,7 @@ export interface UnidadAdministrativaResponse {
     codigoDistrito?: string,
     codigoEdificacion?: number,
     codigoEstado?: string,
+    nombreEstado?: string,
     codigoProvincia?: string,
     codigoSector?: string,
     codigoTipoInterior?: string,

@@ -15,7 +15,7 @@ export class VincularComponent implements OnInit, OnDestroy {
 
     index: number = 1;
     displayedColumns: string[] = ['Dpto', 'Prov', 'Dist', 'Sec', 'Mz', 'Lote', 
-    'Edifica', 'Entrada', 'Piso', 'Unidad'];
+    'Edifica', 'Entrada', 'Piso', 'Unidad', 'Estado', 'accion'];
 
     dataSource = new MatTableDataSource<UnidadAdministrativaResponse>();
     

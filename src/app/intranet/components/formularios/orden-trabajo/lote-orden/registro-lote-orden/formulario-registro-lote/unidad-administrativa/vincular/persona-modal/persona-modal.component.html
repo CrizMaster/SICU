@@ -159,7 +159,7 @@
                             [class.focus-ring-danger]="this.form.get('correoempresa')?.invalid && this.form.get('correoempresa')?.touched">
                       <i *ngIf="this.form.get('correoempresa')?.invalid && this.form.get('correoempresa')?.touched" 
                             class="position-icon-input bi bi-exclamation-circle-fill text-danger"
-                            title="Campo requerido"></i>                       
+                            title="El correo electrónico no es válido"></i>                       
                     </div>
                   </div>
                 </div>
@@ -335,7 +335,7 @@
                             [class.focus-ring-danger]="this.form.get('correo')?.invalid && this.form.get('correo')?.touched">
                       <i *ngIf="this.form.get('correo')?.invalid && this.form.get('correo')?.touched" 
                             class="position-icon-input bi bi-exclamation-circle-fill text-danger"
-                            title="Campo requerido"></i>                       
+                            title="El correo electrónico no es válido"></i>                       
                     </div>
                   </div>
                 </div>
@@ -460,18 +460,54 @@
             </div>
           </div>
         </mat-tab>
+        <mat-tab label="Evidencia" class="bg-cofopri text-cofopri">
+          <div class="container-sm"  style="border: 2px solid #cde1ff;">
+            <div class="row mt-3">
+              <div class="col-md-1">&nbsp;</div>
+              <div class="col-md-10 border border-2 border-danger p-2 mb-2 border-opacity-25 rounded">
+                <input class="btn btn-sm btn-danger bg-cofopri w-100 mt-1 shadow-sm" 
+                  type="file" (change)="capturarFile($event)" accept="image/*" multiple/>
+              </div>
+            </div>
+            <div class="row py-2">
+              <div class="col-md-1">&nbsp;</div>
+              <div class="col-md-10">
+                <div class="row border border-2 border-danger p-2 mb-2 border-opacity-25 rounded" *ngIf="imagenes.length > 0">
+                  <div class="col-md-12" *ngFor="let img of imagenes">
+                    <mat-card class="my-2">
+                      <div class="d-flex">
+                        <div class="p-2" style="width: 70px;">
+                          <img [src]="img.base64" alt="" width="60px">
+                        </div>
+                        <div class="p-2 flex-grow-1">
+                          <div class="row">
+                            <div class="col-md-12">{{img.name}}</div>
+                            <div class="col-md-6">{{img.tamanio}}</div>
+                            <div class="col-md-6 text-end mt-1">
+                              <button mat-mini-fab color="warn" style="background: rgb(235, 30, 35);" 
+                                  title="Quitar" (click)="quitarImagen(img)">
+                                <mat-icon>delete</mat-icon>
+                              </button>&nbsp;
+                              <button mat-mini-fab color="primary" style="background: rgb(21, 56, 255);"
+                              title="Ver" (click)="verImagen($event, img)">
+                                <mat-icon>search</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-card>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
       </mat-tab-group>  
     </div>    
   </div>
-  <!-- <div mat-dialog-actions class="d-flex justify-content-end">  
-    <button type="submit" class="btn btn-sm btn-primary bg-cofopri text-white" 
-            [disabled]="form.invalid"
-            (click)="guardar()"><i class="bi bi-plus-circle"></i>&nbsp;Agregar</button>
-    <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
-  </div> -->
   <div mat-dialog-actions class="d-flex justify-content-end">  
     <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
-
     <button type="submit" class="btn btn-sm btn-warning" 
             [disabled]="form.invalid">
             <i class="bi bi-plus-circle"></i>&nbsp;Guardar

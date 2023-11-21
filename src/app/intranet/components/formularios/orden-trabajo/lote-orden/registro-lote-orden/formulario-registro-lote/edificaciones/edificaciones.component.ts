@@ -13,6 +13,10 @@ import { EdificacionResponse } from 'src/app/intranet/components/formularios/mod
 import { EditarEdificacionModalComponent } from './editar-edificacion-modal/editar-edificacion-modal.component';
 import { FilterCaracterizacion } from 'src/app/intranet/components/formularios/models/caracterizacionResponse';
 import { MatStepper } from '@angular/material/stepper';
+import { StatusResponse } from 'src/app/core/models/statusResponse.model';
+import { UnidadAdministrativaResponse } from 'src/app/intranet/components/formularios/models/unidadAdministrativaResponse';
+import { UnidadAdministrativaService } from '../unidad-administrativa/unidad-administrativa.service';
+import { DireccionResponse } from 'src/app/intranet/components/formularios/models/armonizacionModel';
   
 @Component({
     selector: 'app-edificaciones',
@@ -42,7 +46,8 @@ export class EdificacionesComponent implements OnInit{
 
     constructor(private fb: FormBuilder,
         public subDialog: MatDialog,
-        private _ordenTrabajoService: OrdenTrabajoService){
+        private _ordenTrabajoService: OrdenTrabajoService,
+        private _unidadAdministrativaService: UnidadAdministrativaService){
 
         this.caract$ = this._ordenTrabajoService.getFilterCaracterizacion.subscribe({
             next:(Data) => {
@@ -173,25 +178,33 @@ export class EdificacionesComponent implements OnInit{
                   setTimeout(() => {
                     dg.close();
                     if(result.success){ 
-                      let modal: Title = { 
-                        Title: 'Edificación Actualizada', 
-                        Subtitle: 'La edificación se actualizó satisfactoriamente.', 
-                        Icon: 'ok' 
-                      }
+                        let modal: Title = { 
+                            Title: 'Edificación Actualizada', 
+                            Subtitle: 'La edificación se actualizó satisfactoriamente.', 
+                            Icon: 'ok' 
+                        }
     
-                      const okModal = this.subDialog.open(ModalMessageComponent, {
-                          width: '500px',
-                          enterAnimationDuration: '300ms',
-                          exitAnimationDuration: '300ms',
-                          disableClose: true,
-                          data: modal
-                      });
+                        const okModal = this.subDialog.open(ModalMessageComponent, {
+                            width: '500px',
+                            enterAnimationDuration: '300ms',
+                            exitAnimationDuration: '300ms',
+                            disableClose: true,
+                            data: modal
+                        });
     
-                      okModal.afterClosed().subscribe(resp => {
-                          this.listarEdificaciones();
-                      });
+                        okModal.afterClosed().subscribe(resp => {
+                            this.listarEdificaciones();
+                        });
     
-                      this.Stepper.next();
+                        let datos: StatusResponse<UnidadAdministrativaResponse> = {
+                            success: false
+                        };                  
+                        this._unidadAdministrativaService.UnidadAdministrativa.next(datos);
+
+                        let direcc: DireccionResponse = {}; 
+                        this._unidadAdministrativaService.InfoArmonizacion.next(direcc); 
+
+                        this.Stepper.next();
                     }
                     else{
                         let modal: Title = { 

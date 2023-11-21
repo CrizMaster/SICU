@@ -121,14 +121,6 @@
                     </div>
                     <div class="col-md-4">
                       <div class="row">
-                          <!-- <div class="col-md-12 mt-1">
-                              &nbsp;
-                          </div>
-                          <div class="col-md-12">
-                            <button type="submit" class="btn btn-sm bg-btn-save w-100">
-                                Guardar      
-                            </button>         
-                          </div> -->
                       </div>                    
                     </div>
                 </div>
@@ -147,7 +139,8 @@
             <div class="row my-1">
               <div class="col-md-12 text-end">
                 <button class="btn btn-sm btn-custom btn-outline-primary" 
-                  *ngIf="this.formTitu.get('condiciontitular')?.value != 0"
+                  *ngIf="this.formTitu.get('condiciontitular')?.value != 0
+                  && ((this.dataPersona.unTitular && lista.length < 1) || !this.dataPersona.unTitular)"
                   (click)="AgregarPersona()">
                   <i class="bi bi-person-add"></i>&nbsp;Agregar
                 </button>
@@ -163,17 +156,25 @@
                           <span class="color-title">Nro:</span>
                         </div>
                         <div class="col-md-6 col-sm-12">
-                          <span class="color-dato">1</span>
+                          <span class="color-dato">{{int.id}}</span>
                         </div>
                       </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
-                      <div class="row">
+                      <div class="row" *ngIf="int.codigoTipoCotitular == '01'">
                         <div class="col-md-6 col-sm-12">
                           <span class="color-title">Apellido Paterno:</span>
                         </div>
                         <div class="col-md-6 col-sm-12">
                           <span class="color-dato">{{int.apellidoPaterno}}</span>
+                        </div>
+                      </div>
+                      <div class="row" *ngIf="int.codigoTipoCotitular != '01'">
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-title">Número:</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-dato">{{int.numeroDocumento}}</span>
                         </div>
                       </div>
                     </div>
@@ -185,12 +186,12 @@
                           <span class="color-title">Tipo Documento:</span>
                         </div>
                         <div class="col-md-6 col-sm-12">
-                          <span class="color-dato">{{int.tipoDocumento}}</span>
+                          <span class="color-dato">{{int.nombreTipoDocumento}}</span>
                         </div>
                       </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
-                      <div class="row">
+                      <div class="row" *ngIf="int.codigoTipoCotitular == '01'">
                         <div class="col-md-6 col-sm-12">
                           <span class="color-title">Apellido Materno:</span>
                         </div>
@@ -198,9 +199,17 @@
                           <span class="color-dato">{{int.apellidoMaterno}}</span>
                         </div>
                       </div>
+                      <div class="row" *ngIf="int.codigoTipoCotitular != '01'">
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-title">Razón Social:</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                          <span class="color-dato">{{int.razonSocial}}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="row m-1">
+                  <div class="row m-1" *ngIf="int.codigoTipoCotitular == '01'">
                     <div class="col-md-6 col-sm-12">
                       <div class="row">
                         <div class="col-md-6 col-sm-12">
@@ -224,19 +233,22 @@
                   </div>
                   <div class="row m-1">
                     <div class="col-md-6 col-sm-12">
-                      <div class="row">
+                      <div class="row" *ngIf="int.codigoTipoCotitular == '01'">
                         <div class="col-md-6 col-sm-12">
                           <span class="color-title">Estado Civil:</span>
                         </div>
                         <div class="col-md-6 col-sm-12">
-                          <span class="color-dato">{{int.estadoCivil}}</span>
+                          <span class="color-dato">{{int.nombreTipoEstadoCivil}}</span>
                         </div>
                       </div>
                     </div>
                     <div class="col-md-3 col-sm-12">
                       <div class="row">
-                        <div class="col-md-12 col-sm-12">
-                          <span class="badge p-2 bg-persona-natural">{{int.tipoPersona}}</span>
+                        <div class="col-md-12 col-sm-12" *ngIf="int.codigoTipoCotitular == '01'">
+                          <span class="badge p-2 bg-persona-natural">{{int.nombreTipoCotitular}}</span>
+                        </div>
+                        <div class="col-md-12 col-sm-12" *ngIf="int.codigoTipoCotitular != '01'">
+                          <span class="badge p-2 bg-persona-juridica">{{int.nombreTipoCotitular}}</span>
                         </div>
                       </div>
                     </div>
@@ -262,116 +274,8 @@
                     </div>
                   </div>
               </div>
-              <!-- <div class="panel-sicu w-100 p-2 my-1">
-                <div class="row m-1">
-                  <div class="col-md-6 col-sm-12">
-                    <div class="row">
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-title">Nro:</span>
-                      </div>
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-dato">1</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-sm-12">
-                    <div class="row">
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-title">Apellido Paterno:</span>
-                      </div>
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-dato">Sandoval</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row m-1">
-                  <div class="col-md-6 col-sm-12">
-                    <div class="row">
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-title">Tipo Documento:</span>
-                      </div>
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-dato">DNI</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-sm-12">
-                    <div class="row">
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-title">Apellido Materno:</span>
-                      </div>
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-dato">Sánchez</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row m-1">
-                  <div class="col-md-6 col-sm-12">
-                    <div class="row">
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-title">Nro Documento:</span>
-                      </div>
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-dato">41299248</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-sm-12">
-                    <div class="row">
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-title">Nombres:</span>
-                      </div>
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-dato">Carlos Manuel</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row m-1">
-                  <div class="col-md-6 col-sm-12">
-                    <div class="row">
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-title">Estado Civil:</span>
-                      </div>
-                      <div class="col-md-6 col-sm-12">
-                        <span class="color-dato">Soltero</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-sm-12">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <span class="badge p-2 bg-persona-juridica">Persona Jurídica</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row m-1">
-                  <div class="col-md-12 col-sm-12 text-end">
-                    <mat-button-toggle-group #group="matButtonToggleGroup">
-                      <mat-button-toggle value="editar" aria-label="editar">
-                        <mat-icon>edit</mat-icon>
-                      </mat-button-toggle>
-                      <mat-button-toggle value="agregar" aria-label="agregar">
-                        <mat-icon>person_add</mat-icon>
-                      </mat-button-toggle>
-                      <mat-button-toggle value="right" aria-label="Text align right">
-                        <mat-icon>restore_from_trash</mat-icon>
-                      </mat-button-toggle>
-                      <mat-button-toggle value="cancelar" disabled aria-label="cancelar">
-                        <mat-icon>cancel</mat-icon>
-                      </mat-button-toggle>
-                    </mat-button-toggle-group>
-                  </div>
-                </div>
-              </div> -->
             </div>
             <div class="row">
-
-              <!-- [disabled]="this.lista.length==0" -->
-
               <div class="col-md-9">&nbsp;</div>
               <div class="col-md-3 text-end my-2">
                 <button type="submit" 
@@ -383,58 +287,6 @@
               </div>
             </div>
           </div>
-        </mat-expansion-panel> 
-      
-        <!-- <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>          
-              <div class="w-100 barra-title py-3 px-2">Evidencia</div>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="container-sm">
-            <div class="row my-1">
-              <div class="row">
-                <div class="col-md-2">&nbsp;</div>
-                <div class="col-md-8 border border-2 border-danger p-2 mb-2 border-opacity-25 rounded">
-                  <input class="btn btn-sm btn-danger bg-cofopri w-100 mt-1 shadow-sm" 
-                    *ngIf="this.formTitu.get('condiciontitular')?.value != 0"
-                    type="file" (change)="capturarFile($event)" accept="image/*" multiple/>
-                </div>
-              </div>
-              <div class="row py-2">
-                <div class="col-md-2">&nbsp;</div>
-                <div class="col-md-8">
-                  <div class="row border border-2 border-danger p-2 mb-2 border-opacity-25 rounded" *ngIf="imagenes.length > 0">
-                    <div class="col-md-12" *ngFor="let img of imagenes">
-                      <mat-card class="my-2">
-                        <div class="d-flex">
-                          <div class="p-2" style="width: 70px;">
-                            <img [src]="img.base64" alt="" width="60px">
-                          </div>
-                          <div class="p-2 flex-grow-1">
-                            <div class="row">
-                              <div class="col-md-12">{{img.name}}</div>
-                              <div class="col-md-6">{{img.tamanio}}</div>
-                              <div class="col-md-6 text-end mt-1">
-                                <button mat-mini-fab color="warn" style="background: rgb(235, 30, 35);" 
-                                    title="Quitar" (click)="quitarImagen(img)">
-                                  <mat-icon>delete</mat-icon>
-                                </button>&nbsp;
-                                <button mat-mini-fab color="primary" style="background: rgb(21, 56, 255);"
-                                    title="Ver" (click)="verImagen(img)">
-                                  <mat-icon>search</mat-icon>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </mat-card>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </mat-expansion-panel> -->
+        </mat-expansion-panel>      
     </mat-accordion>
 </form>

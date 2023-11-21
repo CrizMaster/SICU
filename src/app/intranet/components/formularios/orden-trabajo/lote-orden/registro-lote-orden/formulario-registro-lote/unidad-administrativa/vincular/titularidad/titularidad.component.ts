@@ -67,14 +67,27 @@ export class TitularidadComponent  implements OnInit, OnDestroy {
       this._unidadAdministrativaService.InfoArmonizacion.subscribe({
         next:(Data:DireccionResponse) => {
             this.dataPersona.codigoContribuyente = Data.codigoContribuyente;
+
+            let ir: InteresadoResponse = {
+              nombres: Data.nombres,
+              apellidoPaterno: Data.apellidoPaterno,
+              apellidoMaterno: Data.apellidoMaterno,
+              nombreTipoDocumento: Data.tipoDocumento,
+              numeroDocumento: Data.numeroDocumento,
+              codigoTipoCotitular: '01',
+              nombreTipoCotitular: 'PERSONA NATURAL'
+            }
+            this.lista.push(ir);
         }
       }); 
 
       this._unidadAdministrativaService.UnidadAdministrativa.subscribe({
         next:(Data:StatusResponse<UnidadAdministrativaResponse>) => {            
             this.codigoUnidadAdministrativa = Data.data.codigoUnidadAdministrativa;
+            this.cargarTitulares();
         }
-      });       
+      });
+
   }
 
   ngOnInit(): void {
@@ -85,9 +98,28 @@ export class TitularidadComponent  implements OnInit, OnDestroy {
     this.saveForm$.unsubscribe();
   }
 
+  cargarTitulares(){
+    this._unidadAdministrativaService.ConsultarInteresados(this.codigoUnidadAdministrativa)
+    .subscribe(resp => {
+      if(resp.success){
+
+        resp.data.forEach(info => {
+          this.lista.push(info);
+        });
+
+        let i:number = 0;
+        this.lista.forEach(el => {
+          i++;
+          el.id = i;
+        });
+      }      
+    });    
+  }
+
   onChangeSelCondTitu(newValue: string){
     let id = parseInt(newValue);
     this.dataPersona.ConConyuge = true;
+    this.dataPersona.codigoCondicionTitular = '0';
 
     this.listCondicionTitular.forEach(el => {
       if(el.value == id){
@@ -97,11 +129,23 @@ export class TitularidadComponent  implements OnInit, OnDestroy {
           || el.code == '07'//OTROS
         ){
           this.dataPersona.ConConyuge = false;
+          this.dataPersona.unTitular = true;
         }
-        else if(el.code == '04'//SOCIEDAD CONYUGAL
+        else if(
+          el.code == '03'//POSEEDOR
+          || el.code == '04'//SOCIEDAD CONYUGAL
         ){
           this.dataPersona.ConConyuge = true;
+          this.dataPersona.unTitular = true;
         }
+        else if(
+          el.code == '05'//COTITULARIDAD
+        ){
+          this.dataPersona.ConConyuge = false;
+          this.dataPersona.unTitular = false;
+        }        
+
+        this.dataPersona.codigoCondicionTitular = el.code;
       }
     });
   }
@@ -117,6 +161,7 @@ export class TitularidadComponent  implements OnInit, OnDestroy {
     });
 
     dialogPerNatural.afterClosed().subscribe((result:any) => {
+      
       if(result.success){
 
         if(result.datos.codigoInteresado == 0){
@@ -151,7 +196,13 @@ export class TitularidadComponent  implements OnInit, OnDestroy {
             else this.lista.push(el);
           });
         }
-      }            
+
+        let i:number = 0;
+        this.lista.forEach(el => {
+          i++;
+          el.id = i;
+        });
+      }      
     });
   }
 
@@ -229,6 +280,7 @@ export class TitularidadComponent  implements OnInit, OnDestroy {
 
     subDialogModal.afterClosed().subscribe(resp => {
       if(resp){
+      
         let dg = this.ModalLoading();
 
         let datos: InteresadoRequest = {
@@ -239,8 +291,6 @@ export class TitularidadComponent  implements OnInit, OnDestroy {
           codigoUnidadAdministrativa: this.codigoUnidadAdministrativa,
           listaInteresadosDrr: this.lista
         };
-
-        console.log(datos);
 
         this.saveForm$ = this._unidadAdministrativaService.GuardarTitulares(datos)
          .subscribe(result => {    

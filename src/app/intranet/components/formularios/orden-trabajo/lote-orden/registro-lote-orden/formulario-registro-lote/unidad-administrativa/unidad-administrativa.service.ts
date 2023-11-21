@@ -11,7 +11,7 @@ import { UnidadPredioRequest } from 'src/app/intranet/components/formularios/mod
 import { ConstruccionResponse, ConstruccionesRequest } from 'src/app/intranet/components/formularios/models/construccionesRequest';
 import { ObraModel } from 'src/app/intranet/components/formularios/models/obraModel';
 import { ObrasComplementariasRequest, ObrasComplementariasResponse } from 'src/app/intranet/components/formularios/models/obrasComplementariasRequest';
-import { InteresadoRequest } from 'src/app/intranet/components/formularios/models/interesadoRequest';
+import { InteresadoRequest, InteresadoResponse } from 'src/app/intranet/components/formularios/models/interesadoRequest';
 
 @Injectable()
 
@@ -37,9 +37,9 @@ export class UnidadAdministrativaService{
             "codigoUnidadAdministrativa": 0
         })
         .pipe(
-            tap((response: any) => {
-                console.log(response);
-            }),
+            // tap((response: any) => {
+            //     console.log(response);
+            // }),
             catchError(this.handlerError)            
         );
     }
@@ -158,9 +158,9 @@ export class UnidadAdministrativaService{
     getConsultaReniec(dni: string): Observable<StatusResponse<string>> {
         return this.http.post(environment.urlWebApiPide + 'ConstaReniecDni?nuDniConsulta=' + dni, null)
         .pipe(
-            tap((response: any) => {
-                console.log(response);
-            }),            
+            // tap((response: any) => {
+            //     console.log(response);
+            // }),            
             catchError(this.handlerError)
         )        
     }
@@ -172,6 +172,20 @@ export class UnidadAdministrativaService{
             catchError(this.handlerError)
         );         
     }
+
+    ConsultarInteresados(codigoUnidadAdministrativa: number):Observable<StatusResponse<InteresadoResponse[]>>{
+
+        return this.http.post<StatusResponse<InteresadoResponse[]>>(environment.urlWebApiSICU + 'ConsultaInteresadosDrrUnidadAdmin',{
+            codigoUnidadAdministrativa: codigoUnidadAdministrativa
+        })
+        .pipe(
+            tap((response: any) => {
+                console.log('Titulares');
+                console.log(response);
+            }), 
+            catchError(this.handlerError)            
+        );
+    }    
 
     private handlerError(error: HttpErrorResponse) {
         let msn = '';

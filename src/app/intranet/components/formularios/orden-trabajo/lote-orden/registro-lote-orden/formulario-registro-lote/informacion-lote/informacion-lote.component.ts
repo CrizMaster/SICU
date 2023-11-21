@@ -142,8 +142,6 @@ export class InformacionLoteComponent implements OnInit{
             if(resp.resolve.success){
                 let info:CaracterizacionResponse = resp.resolve.data;
 
-                
-
                 this.codigoLote = info.codigoLote;
                 this.codigoLoteCaracterizacion = info.codigoLoteCaracterizacion;
                 this.myForm.patchValue({ 
@@ -418,10 +416,29 @@ export class InformacionLoteComponent implements OnInit{
 
                     let filter: FilterCaracterizacion;
                     filter = this.filter;
-                    filter.codigoLote = parseInt(result.data);
+                    filter.codigoLote = parseInt(result.data);                    
                     
                     this._ordenTrabajoService.filterCaracterizacion.next(filter);
   
+                    this._ordenTrabajoService.obtieneInformacionCaracterizacionLote()
+                    .subscribe(Data => {  
+                        console.log('Informacion Lote');
+                        console.log(Data);
+                        let newInfo: CaracterizacionResponse = Data.data;
+
+                        let vias: ViasCaracterizacion[] = [];
+                        newInfo.listaVias.forEach(el => {
+                            //if(el.checkedAct) {
+                                el.checkedAct = true;
+                                el.nombreTipoPuerta = this.FindTextById(this.listTipoPuerta, el.idTipoPuerta)
+                                vias.push(el);
+                            //}
+                        });
+
+                        this._ordenTrabajoService.listaVias.next(vias);
+
+                    });
+
                     let modal: Title = { 
                       Title: 'Formulario Actualizado', 
                       Subtitle: 'La información del lote se actualizó satisfactoriamente.', 
@@ -438,15 +455,6 @@ export class InformacionLoteComponent implements OnInit{
   
                     okModal.afterClosed().subscribe(resp => {
                         if(resp) {
-                            let vias: ViasCaracterizacion[] = [];
-                            info.vias.forEach(el => {
-                                if(el.checkedAct){
-                                    el.nombreTipoPuerta = this.FindTextById(this.listTipoPuerta, el.idTipoPuerta)
-                                    vias.push(el);
-                                }
-                            });
-
-                            this._ordenTrabajoService.listaVias.next(vias);
                             this.Stepper.next(); 
                         }
                     });

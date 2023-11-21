@@ -16,7 +16,9 @@ export class UnidadAdministrativaComponent implements OnInit, OnDestroy {
     constructor(
         private _unidadAdministrativaService: UnidadAdministrativaService,
         private cd: ChangeDetectorRef
-    ){}
+    ){
+        //console.log('const');
+    }
 
 
     ngOnInit(): void {
@@ -24,7 +26,8 @@ export class UnidadAdministrativaComponent implements OnInit, OnDestroy {
             next:(Data:StatusResponse<UnidadAdministrativaResponse>) => {
                 this.viewBandeja = Data.success;
             }
-        });        
+        });
+       //console.log('init');
     }
 
     ngAfterContentChecked(): void {

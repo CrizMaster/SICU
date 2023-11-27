@@ -49,19 +49,18 @@ export class UnidadComponent {
         codigoenuso: [0, [Validators.required]],
         descripcionuso: ['', [Validators.required]],
         predialrentas: ['', [Validators.required]],
-        areaterreno: ['', [Validators.required]]
+        areaterreno: ['', [Validators.required]],
+        porcterrenolegal: ['', [Validators.required]],
+        porcconstruccionlegal: ['', [Validators.required]]
       });
 
       this.listClasificacionPrecio = getFilterMasterCatalog(CatalogoMasterEnum.ClasificacionPredio);
       this.listPredioCatastralEn = getFilterMasterCatalog(CatalogoMasterEnum.PrecioCatastradoEn);
-      this.listCodigoEnUso = getFilterMasterCatalog(CatalogoMasterEnum.PredioCodigoUso);
-      //this.listCondicion = getFilterMasterCatalog(CatalogoMasterEnum.ClasificacionPredio);  
+      this.listCodigoEnUso = getFilterMasterCatalog(CatalogoMasterEnum.PredioCodigoUso); 
       
       this._unidadAdministrativaService.UnidadAdministrativa.subscribe({
         next:(Data:StatusResponse<UnidadAdministrativaResponse>) => {
-            // let lista:UnidadAdministrativaResponse[] = [];
-            // lista.push(Data.data);
-            
+
             this.codigoUnidadAdministrativa = Data.data.codigoUnidadAdministrativa;
         }
       });

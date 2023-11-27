@@ -24,6 +24,12 @@ import { TitularidadComponent } from "./components/formularios/orden-trabajo/lot
 import { UnidadComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/unidad/unidad.component";
 import { ConstruccionesComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/construcciones/construcciones.component";
 import { OtrasInstalacionesComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/otras-instalaciones/otras-instalaciones.component";
+import { UbicacionBcComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/ubicacion/ubicacion-bc.component";
+import { PredioBcComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/predio/predio-bc.component";
+import { ConstruccionesBcComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/construcciones/construcciones-bc.component";
+import { OtrasInstalacionesBcComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/otras-instalaciones/otras-instalaciones-bc.component";
+import { RecapitulacionBcComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/recapitulacion/recapitulacion-bc.component";
+import { RecapitulacionMatrizComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/recapitulacion-matriz/recapitulacion-matriz.component";
 
 const routes: Routes = [
     { path: '', component: IntranetComponent,      
@@ -95,11 +101,32 @@ const routes: Routes = [
             { path: 'titularidad', component: TitularidadComponent },
             { path: 'unidad', component: UnidadComponent },
             { path: 'construcciones', component: ConstruccionesComponent },
-            { path: 'otras-instalaciones', component: OtrasInstalacionesComponent }
+            { path: 'otras-instalaciones', component: OtrasInstalacionesComponent },
+            { path: 'ubicacion', component: UbicacionBcComponent },
+            { path: 'predio', component: PredioBcComponent },
+            { path: 'construcciones-bc', component: ConstruccionesBcComponent },
+            { path: 'otras-instalaciones-bc', component: OtrasInstalacionesBcComponent },
+            { path: 'recapitulacion-bc', component: RecapitulacionBcComponent },
+            { path: 'recapitulacion-matriz', component: RecapitulacionMatrizComponent }
           ],
           resolve: {
             resolve: InfoCaracterizacionResolver
           }
+/*
+            case 1: this.route.navigate(['ubicacion'], { relativeTo: this._activatedRoute })
+                    break;
+            case 2: this.route.navigate(['predio'], { relativeTo: this._activatedRoute })
+                    break;
+            case 3: this.route.navigate(['construcciones-bc'], { relativeTo: this._activatedRoute })
+                    break;
+            case 4: this.route.navigate(['otras-instalaciones-bc'], { relativeTo: this._activatedRoute })
+                    break;
+            case 5: this.route.navigate(['recapitulacion-bc'], { relativeTo: this._activatedRoute })
+
+*/
+
+
+
         }
       ] 
     }

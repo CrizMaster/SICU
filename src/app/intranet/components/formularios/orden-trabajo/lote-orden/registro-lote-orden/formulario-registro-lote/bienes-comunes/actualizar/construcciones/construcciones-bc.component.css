@@ -1,0 +1,38 @@
+.circle_active{
+    width: 40px; 
+    height: 40px;
+    background-color: #11478A;
+    color: white;
+    font-size: 1.4rem;
+    margin: auto; 
+    text-align: center;
+    padding-top:10px;
+}
+
+.circle_inactive{
+    width: 40px; 
+    height: 40px;
+    background-color: #AAAAAA;
+    color: white;
+    font-size: 1.4rem;
+    margin: auto; 
+    text-align: center;
+    padding-top:10px;
+}
+
+.circle_inactive:hover{
+    width: 40px; 
+    height: 40px;
+    background-color: #E8B835;
+    color: white;
+    cursor: pointer;
+}
+
+.line_circle {
+    position: absolute;    
+    top: 10px; 
+    width: 29px; 
+    height: 320px; 
+    border-right: 2px solid #aaaaaa; 
+    z-index: 1
+}

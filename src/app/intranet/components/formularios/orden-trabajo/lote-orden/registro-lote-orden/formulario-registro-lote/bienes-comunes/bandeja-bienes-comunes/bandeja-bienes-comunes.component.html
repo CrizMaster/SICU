@@ -1,0 +1,177 @@
+<div class="row my-4">  
+    <form [formGroup]="myFormBC">
+      <mat-card>
+            <mat-card-content>
+              <div class="row mb-3">
+                <div class="col-lg-6 col-md-6 col-xs-12 mt-1">
+                  <div class="w-100 p-2 respuesta">Generar Unidades de Bienes Comunes</div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-12 mt-1 text-end">
+                  <button class="btn btn-custom" 
+                        [disabled]="myFormBC.invalid"
+                        (click)="generarBienesComunes()">
+                      <i class="bi bi-building-gear"></i>&nbsp; Generar Unidades de Bienes Comunes
+                  </button>
+                </div>
+              </div>  
+              <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" multiTemplateDataRows>
+                  <ng-container matColumnDef="Dpto">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Dpto.</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"
+                    [class.marca_green]="element.numeroEdificacion == '99'"
+                    [class.marca_blue]="element.numeroEdificacion != '99'">{{element.codigoDepartamento}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="Prov">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Prov.</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoProvincia}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="Dist">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Dist. </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoDistrito}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="Sec">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Sec. </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoSector}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="Mz">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Mz. </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoManzana}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Lote">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Lote </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.codigoLote}} </td>
+                  </ng-container>
+                    
+                  <ng-container matColumnDef="Edifica">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Edifica </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.numeroEdificacion }} </td>
+                  </ng-container>                      
+              
+                  <ng-container matColumnDef="Entrada">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Entrada</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.entrada }} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="Piso">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Piso </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.numeroPiso }} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Unidad">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Unidad </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.numeroUnidadAdministrativa }} </td>
+                  </ng-container>
+
+                  <!-- <ng-container matColumnDef="Estado">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Estado </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.nombreEstado }} </td>
+                  </ng-container>                   -->
+    
+                  <ng-container matColumnDef="Accion">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">
+                      Acción
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <button class="btn btn-sm btn-custom btn-outline-primary"
+                        (click)="actualizarBC(element)" title="Actualizar">
+                        <i class="bi bi-pencil-fill"></i>
+                      </button>
+
+                      <!-- <button mat-icon-button 
+                        [matMenuTriggerFor]="menu">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="actualizarBC(element)">
+                          <mat-icon>edit</mat-icon>
+                          <span>Actualizar</span>
+                        </button>
+                        <button mat-menu-item (click)="editUnidadAdmin(element)">
+                          <mat-icon>remove_red_eye</mat-icon>
+                          <span>Visualizar</span>
+                        </button>
+                        <button mat-menu-item (click)="AnularUnidadAdmin(element)">
+                          <mat-icon>delete</mat-icon>
+                          <span>Eliminar</span>
+                        </button>
+                      </mat-menu> -->
+                    </td>
+                  </ng-container>
+    
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+                </table>     
+              </div>           
+            </mat-card-content>
+      </mat-card>
+      <!-- <br>
+      <br>
+      <br>
+      <br>
+      <ng-template #popContent>
+        <div style="width: 480px;">
+          <div class="row">
+            <div class="col-md-9 col-sm-12">
+              <div class="row">
+                <div class="col-md-12 col-sm-12">
+                  <span class="color-title">Entrada:</span>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                  <span class="color-dato">{{rowSelect.entrada}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+              <div class="row">
+                <div class="col-md-12 col-sm-12">
+                  <span class="color-title">Piso:</span>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                  <span class="color-dato">{{rowSelect.numeroPiso}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-12">
+              <div class="row">
+                <div class="col-md-12 col-sm-12">
+                  <span class="color-title">Unidad Administrativa</span>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                  <span class="color-dato">{{rowSelect.numeroUnidadAdministrativa}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="row">
+                <div class="col-md-12 col-sm-12">
+                  <span class="color-title">Nro. Interior</span>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                  <span class="color-dato">{{rowSelect.numeroInterior}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="row">
+                <div class="col-md-12 col-sm-12">
+                  <span class="color-title">Tipo de Interior</span>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                  <span class="color-dato">{{rowSelect.nombreTipoInterior}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template> -->
+    </form>
+</div>

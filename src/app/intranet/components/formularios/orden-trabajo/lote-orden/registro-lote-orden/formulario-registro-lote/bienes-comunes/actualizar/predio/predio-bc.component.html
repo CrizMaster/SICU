@@ -1,0 +1,283 @@
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <mat-accordion multi>
+          <mat-expansion-panel [expanded]="expanding">
+            <mat-expansion-panel-header>
+              <mat-panel-title>          
+                <div class="w-100 barra-title py-3 px-2">Inscripción del Predio</div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="container-sm">
+              <div class="row my-2">
+                <div class="col-md-3">
+                  <div class="row">
+                    <div class="col-md-12 mt-1">
+                      Tipo de Partida Registral
+                    </div>
+                    <div class="col-md-12" style="position: relative;">
+                      <select name="partidaregistral" #SelPartida
+                              formControlName="partidaregistral"
+                              class="form-select form-select-sm border focus-ring" 
+                              [class.border-success]="this.form.get('partidaregistral')?.valid"
+                              [class.focus-ring-success]="this.form.get('partidaregistral')?.valid"
+                              [class.border-danger]="this.form.get('partidaregistral')?.invalid && this.form.get('partidaregistral')?.touched"
+                              [class.focus-ring-danger]="this.form.get('partidaregistral')?.invalid && this.form.get('partidaregistral')?.touched"
+                              aria-label="select-partidaregistral" [pattern]="pattern1Digs">
+                              <option *ngFor="let cv of listPartidaRegistral" [value]="cv.value">{{ cv.text }}</option>
+                      </select>
+                      <i *ngIf="this.form.get('partidaregistral')?.invalid && this.form.get('partidaregistral')?.touched" 
+                              class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                              title="Campo requerido"></i>                      
+                    </div>
+                  </div>                    
+                </div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <div class="col-md-12 mt-1">
+                        Número de Partida
+                      </div>
+                      <div class="col-md-12" style="position: relative;">
+                        <input type="text" formControlName="numeropartida"
+                        class="form-control form-control-sm border focus-ring"
+                        [class.border-success]="this.form.get('numeropartida')?.valid"
+                        [class.focus-ring-success]="this.form.get('numeropartida')?.valid"
+                        [class.border-danger]="this.form.get('numeropartida')?.invalid && this.form.get('numeropartida')?.touched"
+                        [class.focus-ring-danger]="this.form.get('numeropartida')?.invalid && this.form.get('numeropartida')?.touched">
+                      <i *ngIf="this.form.get('numeropartida')?.invalid && this.form.get('numeropartida')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                      
+                      </div>
+                  </div>                    
+                </div>
+                <div class="col-md-3">
+                  <div class="row">
+                      <div class="col-md-12 mt-1">
+                          Tipo de Documento
+                      </div>
+                      <div class="col-md-12" style="position: relative;">
+                          <select name="tipodocidentidad" #SelDocIdent
+                                  formControlName="tipodocidentidad"
+                                  class="form-select form-select-sm border focus-ring" 
+                                  [class.border-success]="this.form.get('tipodocidentidad')?.valid"
+                                  [class.focus-ring-success]="this.form.get('tipodocidentidad')?.valid"
+                                  [class.border-danger]="this.form.get('tipodocidentidad')?.invalid && this.form.get('tipodocidentidad')?.touched"
+                                  [class.focus-ring-danger]="this.form.get('tipodocidentidad')?.invalid && this.form.get('tipodocidentidad')?.touched"
+                                  aria-label="select-tipodocidentidad" [pattern]="pattern1Digs">
+                                  <option *ngFor="let cv of listTipoDocumento" [value]="cv.value">{{ cv.text }}</option>
+                          </select>
+                          <i *ngIf="this.form.get('tipodocidentidad')?.invalid && this.form.get('tipodocidentidad')?.touched" 
+                                  class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                                  title="Campo requerido"></i>                      
+                      </div>
+                  </div>                    
+                </div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <div class="col-md-12 mt-1">
+                        Número de Documento
+                      </div>
+                      <div class="col-md-12" style="position: relative;">
+                        <input type="text" formControlName="numerodocumento"
+                        class="form-control form-control-sm border focus-ring"
+                        [class.border-success]="this.form.get('numerodocumento')?.valid"
+                        [class.focus-ring-success]="this.form.get('numerodocumento')?.valid"
+                        [class.border-danger]="this.form.get('numerodocumento')?.invalid && this.form.get('numerodocumento')?.touched"
+                        [class.focus-ring-danger]="this.form.get('numerodocumento')?.invalid && this.form.get('numerodocumento')?.touched">
+                      <i *ngIf="this.form.get('numerodocumento')?.invalid && this.form.get('numerodocumento')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                      
+                      </div>
+                  </div>                    
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+  
+          <mat-expansion-panel [expanded]="expanding"> <!--disabled -->
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                  <div class="w-100 barra-title py-3 px-2">Descripción del Predio</div>              
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="container-sm">
+              <div class="row my-1">
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col-md-12 mt-1">
+                      Clasificación de Predio
+                    </div>
+                    <div class="col-md-12" style="position: relative;">
+                      <select name="clasificacionpredio" #SelClasiPredio
+                              formControlName="clasificacionpredio"                      
+                              class="form-select form-select-sm border focus-ring" 
+                              [class.border-success]="this.form.get('clasificacionpredio')?.valid"
+                              [class.focus-ring-success]="this.form.get('clasificacionpredio')?.valid"
+                              [class.border-danger]="this.form.get('clasificacionpredio')?.invalid && this.form.get('clasificacionpredio')?.touched"
+                              [class.focus-ring-danger]="this.form.get('clasificacionpredio')?.invalid && this.form.get('clasificacionpredio')?.touched"
+                              aria-label="select-clasificacionpredio" [pattern]="pattern1Digs">
+                              <option *ngFor="let cv of listClasificacionPrecio" [value]="cv.value">{{ cv.text }}</option>
+                      </select>
+                      <i *ngIf="this.form.get('clasificacionpredio')?.invalid && this.form.get('clasificacionpredio')?.touched" 
+                              class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                              title="Campo requerido"></i>                      
+                    </div>
+                  </div>                    
+                </div>
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col-md-12 mt-1">
+                      Predio Catastral en
+                    </div>
+                    <div class="col-md-12" style="position: relative;">
+                      <select name="prediocatastralen" #SelPredioCatastral
+                              formControlName="prediocatastralen"
+                              class="form-select form-select-sm border focus-ring" 
+                              [class.border-success]="this.form.get('prediocatastralen')?.valid"
+                              [class.focus-ring-success]="this.form.get('prediocatastralen')?.valid"
+                              [class.border-danger]="this.form.get('prediocatastralen')?.invalid && this.form.get('prediocatastralen')?.touched"
+                              [class.focus-ring-danger]="this.form.get('prediocatastralen')?.invalid && this.form.get('prediocatastralen')?.touched"
+                              aria-label="select-prediocatastralen" [pattern]="pattern1Digs">
+                              <option *ngFor="let cv of listPredioCatastralEn" [value]="cv.value">{{ cv.text }}</option>
+                      </select>
+                      <i *ngIf="this.form.get('prediocatastralen')?.invalid && this.form.get('prediocatastralen')?.touched" 
+                              class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                              title="Campo requerido"></i>                      
+                    </div>
+                  </div>                    
+                </div>
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col-md-12 mt-1">
+                        Área de Terreno Verificada (M2)
+                      </div>
+                      <div class="col-md-12" style="position: relative;">
+                        <input type="text" formControlName="areaterreno"
+                        class="form-control form-control-sm border focus-ring"
+                        [class.border-success]="this.form.get('areaterreno')?.valid"
+                        [class.focus-ring-success]="this.form.get('areaterreno')?.valid"
+                        [class.border-danger]="this.form.get('areaterreno')?.invalid && this.form.get('areaterreno')?.touched"
+                        [class.focus-ring-danger]="this.form.get('areaterreno')?.invalid && this.form.get('areaterreno')?.touched">
+                      <i *ngIf="this.form.get('areaterreno')?.invalid && this.form.get('areaterreno')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                      
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row my-2">
+                  <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12 mt-1">
+                            Código en uso
+                        </div>
+                        <div class="col-md-12" style="position: relative;">
+                          <select name="codigoenuso" #SelCodigoUso
+                              formControlName="codigoenuso"                      
+                              class="form-select form-select-sm border focus-ring" 
+                              [class.border-success]="this.form.get('codigoenuso')?.valid"
+                              [class.focus-ring-success]="this.form.get('codigoenuso')?.valid"
+                              [class.border-danger]="this.form.get('codigoenuso')?.invalid && this.form.get('codigoenuso')?.touched"
+                              [class.focus-ring-danger]="this.form.get('codigoenuso')?.invalid && this.form.get('codigoenuso')?.touched"
+                              aria-label="select-codigoenuso" [pattern]="pattern1Digs">
+                              <option *ngFor="let cv of listCodigoEnUso" [value]="cv.value">{{ cv.text }}</option>
+                      </select>
+                      <i *ngIf="this.form.get('codigoenuso')?.invalid && this.form.get('codigoenuso')?.touched" 
+                              class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                              title="Campo requerido"></i>  
+                        </div>
+                    </div>                    
+                  </div>
+                  <div class="col-md-8">
+                    <div class="row">
+                      <div class="col-md-12 mt-1">
+                        Descripción del uso
+                      </div>
+                      <div class="col-md-12" style="position: relative;">
+                        <input type="text" formControlName="descripcionuso"
+                        class="form-control form-control-sm border focus-ring"
+                        [class.border-success]="this.form.get('descripcionuso')?.valid"
+                        [class.focus-ring-success]="this.form.get('descripcionuso')?.valid"
+                        [class.border-danger]="this.form.get('descripcionuso')?.invalid && this.form.get('descripcionuso')?.touched"
+                        [class.focus-ring-danger]="this.form.get('descripcionuso')?.invalid && this.form.get('descripcionuso')?.touched">
+                      <i *ngIf="this.form.get('descripcionuso')?.invalid && this.form.get('descripcionuso')?.touched" 
+                            class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>
+                      </div>
+                    </div>                    
+                  </div>
+              </div>
+            </div>
+          </mat-expansion-panel> 
+
+          <mat-expansion-panel [expanded]="expanding"> <!--disabled -->
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                  <div class="w-100 barra-title py-3 px-2">Evidencia</div>              
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="container-sm">
+              <div class="row mt-3">
+                <div class="col-md-1">&nbsp;</div>
+                <div class="col-md-10 border border-2 border-danger p-2 mb-2 border-opacity-25 rounded">
+                  <input class="btn btn-sm btn-danger bg-cofopri w-100 mt-1 shadow-sm" 
+                    type="file" (change)="capturarFile($event)" accept="image/*" multiple/>
+                </div>
+              </div>
+              <div class="row py-2">
+                <div class="col-md-1">&nbsp;</div>
+                <div class="col-md-10">
+                  <div class="row border border-2 border-danger p-2 mb-2 border-opacity-25 rounded" *ngIf="imagenes.length > 0">
+                    <div class="col-md-6" *ngFor="let img of imagenes">
+                      <mat-card class="my-2">
+                        <div class="d-flex">
+                          <div class="p-2" style="width: 70px;">
+                            <img [src]="img.base64" alt="" width="60px">
+                          </div>
+                          <div class="p-2 flex-grow-1">
+                            <div class="row">
+                              <div class="col-md-12">{{img.name}}</div>
+                              <div class="col-md-6">{{img.tamanio}}</div>
+                              <div class="col-md-6 text-end mt-1">
+                                <button mat-mini-fab color="warn" style="background: rgb(235, 30, 35);" 
+                                    title="Quitar" (click)="quitarImagen(img)">
+                                  <mat-icon>delete</mat-icon>
+                                </button>&nbsp;
+                                <button mat-mini-fab color="primary" style="background: rgb(21, 56, 255);"
+                                title="Ver" (click)="verImagen($event, img)">
+                                  <mat-icon>search</mat-icon>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>      
+        </mat-accordion>
+      <div class="row">
+        <div class="col-md-8">&nbsp;</div>
+        <div class="col-md-2 my-2">
+          <button type="submit" 
+            class="btn btn-sm btn-custom w-100"
+            (click)="limpiar()">
+            Limpiar      
+          </button>
+        </div>
+        <div class="col-md-2 my-2">
+          <button type="submit" 
+            class="btn btn-sm bg-btn-save w-100"
+            (click)="guardar()">
+            Guardar      
+          </button>
+        </div>
+      </div>
+      </div>       
+    </div>
+  </div>
+</form>

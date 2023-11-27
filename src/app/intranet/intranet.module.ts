@@ -71,6 +71,18 @@ import { OtrasInstalacionesComponent } from './components/formularios/orden-trab
 import { PersonaModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/persona-modal/persona-modal.component";
 import { ConstruccionModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/construccion-modal/construccion-modal.component";
 import { OtraInstalacionModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/unidad-administrativa/vincular/otra-instalacion-modal/otra-instalacion-modal.component";
+import { BienesComunesComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/bienes-comunes.component";
+import { BienesComunesService } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/bienes-comunes.service";
+import { BandejaBienesComunesComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/bandeja-bienes-comunes/bandeja-bienes-comunes.component";
+import { ActualizarBcComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/actualizar-bc.component";
+import { UbicacionBcComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/ubicacion/ubicacion-bc.component";
+import { PredioBcComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/predio/predio-bc.component";
+import { ConstruccionesBcComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/construcciones/construcciones-bc.component";
+import { OtrasInstalacionesBcComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/otras-instalaciones/otras-instalaciones-bc.component";
+import { ConstruccionBcModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/construccion-modal/construccion-bc-modal.component";
+import { OtraInstalacionBcModalComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/otra-instalacion-modal/otra-instalacion-bc-modal.component";
+import { RecapitulacionBcComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/recapitulacion/recapitulacion-bc.component";
+import { RecapitulacionMatrizComponent } from "./components/formularios/orden-trabajo/lote-orden/registro-lote-orden/formulario-registro-lote/bienes-comunes/actualizar/recapitulacion-matriz/recapitulacion-matriz.component";
 
 @NgModule({
     imports: [
@@ -139,7 +151,18 @@ import { OtraInstalacionModalComponent } from "./components/formularios/orden-tr
         OtrasInstalacionesComponent,
         PersonaModalComponent,
         ConstruccionModalComponent,
-        OtraInstalacionModalComponent
+        OtraInstalacionModalComponent,
+        BienesComunesComponent,
+        BandejaBienesComunesComponent,
+        ActualizarBcComponent,
+        UbicacionBcComponent,
+        PredioBcComponent,
+        ConstruccionesBcComponent,
+        ConstruccionBcModalComponent,
+        OtrasInstalacionesBcComponent,
+        OtraInstalacionBcModalComponent,
+        RecapitulacionBcComponent,
+        RecapitulacionMatrizComponent
     ],
     exports: [],
     providers: [
@@ -153,7 +176,8 @@ import { OtraInstalacionModalComponent } from "./components/formularios/orden-tr
         GenerarOrdenService,
         SeguimientoService,
         OrdenTrabajoService,
-        UnidadAdministrativaService
+        UnidadAdministrativaService,
+        BienesComunesService
     ]
 })
 

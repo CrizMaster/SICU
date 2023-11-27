@@ -1,0 +1,119 @@
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row my-1">
+        <div class="col-md-12">
+          <!-- <div class="my-2 w-100 p-2 respuesta">Ubicación</div> -->
+          <div class="w-100 barra-title py-3 px-2">Ubicación</div>
+        </div>
+        <!-- <div class="col-md-2 text-end py-2">
+          <button class="btn btn-custom btn-outline-primary">
+            <i class="bi bi-eraser-fill"></i>
+          </button>&nbsp;
+          <button class="btn btn-custom btn-outline-primary">
+            <i class="bi bi-save"></i>
+          </button>
+        </div> -->
+    </div> 
+    </div>
+    <div class="col-md-12">
+      <div class="row my-2">
+        <div class="col-12">
+          Entrada
+        </div>
+        <div class="col-12" style="position: relative;">
+          <select name="entrada" #SelEntrada
+                  formControlName="entrada"
+                  class="form-select form-select-sm border focus-ring" 
+                  [class.border-success]="this.form.get('entrada')?.valid"
+                  [class.focus-ring-success]="this.form.get('entrada')?.valid"
+                  [class.border-danger]="this.form.get('entrada')?.invalid && this.form.get('entrada')?.touched"
+                  [class.focus-ring-danger]="this.form.get('entrada')?.invalid && this.form.get('entrada')?.touched"
+                  aria-label="select-entrada" [pattern]="pattern3Digs">
+                  <option *ngFor="let cv of listEntrada" [value]="cv.value">{{ cv.text }}</option>
+          </select>
+          <i *ngIf="this.form.get('entrada')?.invalid && this.form.get('entrada')?.touched" 
+                  class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                  title="Campo requerido"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="row my-2">
+        <div class="col-4" style="position: relative;">
+          <div class="col-12">
+            Tipo de Puerta
+          </div>
+          <div class="col-12" style="position: relative;">
+            <select name="tipopuerta" #SelTipopuerta
+                    formControlName="tipopuerta"
+                    class="form-select form-select-sm border focus-ring" 
+                    [class.border-success]="this.form.get('tipopuerta')?.valid"
+                    [class.focus-ring-success]="this.form.get('tipopuerta')?.valid"
+                    [class.border-danger]="this.form.get('tipopuerta')?.invalid && this.form.get('tipopuerta')?.touched"
+                    [class.focus-ring-danger]="this.form.get('tipopuerta')?.invalid && this.form.get('tipopuerta')?.touched"
+                    aria-label="select-tipopuerta" [pattern]="pattern1Digs">
+                    <option *ngFor="let cv of listTipopuerta" [value]="cv.value">{{ cv.text }}</option>
+            </select>
+            <i *ngIf="this.form.get('tipopuerta')?.invalid && this.form.get('tipopuerta')?.touched" 
+                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                    title="Campo requerido"></i>
+          </div>                      
+        </div>
+        <div class="col-4" style="position: relative;">
+          <div class="col-12">
+            Condición Númerica
+          </div>
+          <div class="col-12" style="position: relative;">
+            <select name="condicionnumerica" #SelCondicionNumerica
+                    formControlName="condicionnumerica"
+                    (change)="onChangeCondicionNumerica(SelCondicionNumerica.value)"
+                    class="form-select form-select-sm border focus-ring" 
+                    [class.border-success]="this.form.get('condicionnumerica')?.valid"
+                    [class.focus-ring-success]="this.form.get('condicionnumerica')?.valid"
+                    [class.border-danger]="this.form.get('condicionnumerica')?.invalid && this.form.get('condicionnumerica')?.touched"
+                    [class.focus-ring-danger]="this.form.get('condicionnumerica')?.invalid && this.form.get('condicionnumerica')?.touched"
+                    aria-label="select-condicionnumerica" [pattern]="pattern1Digs">
+                    <option *ngFor="let cv of listCondicionNumerica" [value]="cv.value">{{ cv.text }}</option>
+            </select>
+            <i *ngIf="this.form.get('condicionnumerica')?.invalid && this.form.get('condicionnumerica')?.touched" 
+                    class="position-icon-select fa-solid fa-exclamation-circle text-danger"
+                    title="Campo requerido"></i>
+          </div>                      
+        </div>
+        <div class="col-4" style="position: relative;">
+          <div class="col-12">
+            Número Municipal
+          </div>
+          <div class="col-12" style="position: relative;">
+            <input type="text" formControlName="nromunicipalbc"
+            class="form-control form-control-sm border focus-ring"
+            [class.border-success]="this.form.get('nromunicipalbc')?.valid"
+            [class.focus-ring-success]="this.form.get('nromunicipalbc')?.valid"
+            [class.border-danger]="this.form.get('nromunicipalbc')?.invalid && this.form.get('nromunicipalbc')?.touched"
+            [class.focus-ring-danger]="this.form.get('nromunicipalbc')?.invalid && this.form.get('nromunicipalbc')?.touched"> 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="row mt-2">
+        <div class="col-md-8">&nbsp;</div>
+        <div class="col-md-2 my-2">
+          <button type="submit" 
+            class="btn btn-sm btn-custom w-100"
+            (click)="limpiar()">
+            Limpiar      
+          </button>
+        </div>
+        <div class="col-md-2 my-2">
+          <button type="submit" 
+            class="btn btn-sm bg-btn-save w-100"
+            (click)="guardar()">
+            Guardar      
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

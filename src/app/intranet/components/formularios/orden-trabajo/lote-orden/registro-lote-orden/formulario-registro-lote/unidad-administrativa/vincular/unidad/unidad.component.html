@@ -7,84 +7,84 @@
     <div class="row my-2">
         <div class="col-md-12">
             <div class="row my-2">
-            <div class="col-md-4">
-              <div class="row">
-                <div class="col-md-12 mt-1">
-                  Clasificación de Predio
-                </div>
-                <div class="col-md-12" style="position: relative;">
-                  <select name="clasificacionpredio" #SelClasiPredio
-                          formControlName="clasificacionpredio"                      
-                          class="form-select form-select-sm border focus-ring" 
-                          [class.border-success]="this.formPredio.get('clasificacionpredio')?.valid"
-                          [class.focus-ring-success]="this.formPredio.get('clasificacionpredio')?.valid"
-                          [class.border-danger]="this.formPredio.get('clasificacionpredio')?.invalid && this.formPredio.get('clasificacionpredio')?.touched"
-                          [class.focus-ring-danger]="this.formPredio.get('clasificacionpredio')?.invalid && this.formPredio.get('clasificacionpredio')?.touched"
-                          aria-label="select-clasificacionpredio" [pattern]="pattern1Digs">
-                          <option *ngFor="let cv of listClasificacionPrecio" [value]="cv.value">{{ cv.text }}</option>
-                  </select>
-                  <i *ngIf="this.formPredio.get('clasificacionpredio')?.invalid && this.formPredio.get('clasificacionpredio')?.touched" 
-                          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
-                          title="Campo requerido"></i>                      
-                </div>
-              </div>                    
-            </div>
-            <div class="col-md-4">
-              <div class="row">
-                <div class="col-md-12 mt-1">
-                  Predio Catastral en
-                </div>
-                <div class="col-md-12" style="position: relative;">
-                  <select name="prediocatastralen" #SelPredioCatastral
-                          formControlName="prediocatastralen"
-                          class="form-select form-select-sm border focus-ring" 
-                          [class.border-success]="this.formPredio.get('prediocatastralen')?.valid"
-                          [class.focus-ring-success]="this.formPredio.get('prediocatastralen')?.valid"
-                          [class.border-danger]="this.formPredio.get('prediocatastralen')?.invalid && this.formPredio.get('prediocatastralen')?.touched"
-                          [class.focus-ring-danger]="this.formPredio.get('prediocatastralen')?.invalid && this.formPredio.get('prediocatastralen')?.touched"
-                          aria-label="select-prediocatastralen" [pattern]="pattern1Digs">
-                          <option *ngFor="let cv of listPredioCatastralEn" [value]="cv.value">{{ cv.text }}</option>
-                  </select>
-                  <i *ngIf="this.formPredio.get('prediocatastralen')?.invalid && this.formPredio.get('prediocatastralen')?.touched" 
-                          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
-                          title="Campo requerido"></i>                      
-                </div>
-              </div>                    
-            </div>
-            <div class="col-md-4">
-              <div class="row">
+              <div class="col-md-4">
+                <div class="row">
                   <div class="col-md-12 mt-1">
-                      Código en uso
+                    Clasificación de Predio
                   </div>
                   <div class="col-md-12" style="position: relative;">
-                    <!-- <input type="text" formControlName="codigoenuso"
-                    class="form-control form-control-sm border focus-ring"
-                    [class.border-success]="this.formPredio.get('codigoenuso')?.valid"
-                    [class.focus-ring-success]="this.formPredio.get('codigoenuso')?.valid"
-                    [class.border-danger]="this.formPredio.get('codigoenuso')?.invalid && this.formPredio.get('codigoenuso')?.touched"
-                    [class.focus-ring-danger]="this.formPredio.get('codigoenuso')?.invalid && this.formPredio.get('codigoenuso')?.touched">
-                  <i *ngIf="this.formPredio.get('codigoenuso')?.invalid && this.formPredio.get('codigoenuso')?.touched" 
-                        class="position-icon-input bi bi-exclamation-circle-fill text-danger"
-                        title="Campo requerido"></i>    -->
-                    <select name="codigoenuso" #SelCodigoUso
-                        formControlName="codigoenuso"                      
-                        class="form-select form-select-sm border focus-ring" 
-                        [class.border-success]="this.formPredio.get('codigoenuso')?.valid"
-                        [class.focus-ring-success]="this.formPredio.get('codigoenuso')?.valid"
-                        [class.border-danger]="this.formPredio.get('codigoenuso')?.invalid && this.formPredio.get('codigoenuso')?.touched"
-                        [class.focus-ring-danger]="this.formPredio.get('codigoenuso')?.invalid && this.formPredio.get('codigoenuso')?.touched"
-                        aria-label="select-codigoenuso" [pattern]="pattern1Digs">
-                        <option *ngFor="let cv of listCodigoEnUso" [value]="cv.value">{{ cv.text }}</option>
-                </select>
-                <i *ngIf="this.formPredio.get('codigoenuso')?.invalid && this.formPredio.get('codigoenuso')?.touched" 
-                        class="position-icon-select bi bi-exclamation-circle-fill text-danger"
-                        title="Campo requerido"></i>  
+                    <select name="clasificacionpredio" #SelClasiPredio
+                            formControlName="clasificacionpredio"                      
+                            class="form-select form-select-sm border focus-ring" 
+                            [class.border-success]="this.formPredio.get('clasificacionpredio')?.valid"
+                            [class.focus-ring-success]="this.formPredio.get('clasificacionpredio')?.valid"
+                            [class.border-danger]="this.formPredio.get('clasificacionpredio')?.invalid && this.formPredio.get('clasificacionpredio')?.touched"
+                            [class.focus-ring-danger]="this.formPredio.get('clasificacionpredio')?.invalid && this.formPredio.get('clasificacionpredio')?.touched"
+                            aria-label="select-clasificacionpredio" [pattern]="pattern1Digs">
+                            <option *ngFor="let cv of listClasificacionPrecio" [value]="cv.value">{{ cv.text }}</option>
+                    </select>
+                    <i *ngIf="this.formPredio.get('clasificacionpredio')?.invalid && this.formPredio.get('clasificacionpredio')?.touched" 
+                            class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                      
                   </div>
-              </div>                    
-            </div>
+                </div>                    
+              </div>
+              <div class="col-md-4">
+                <div class="row">
+                  <div class="col-md-12 mt-1">
+                    Predio Catastral en
+                  </div>
+                  <div class="col-md-12" style="position: relative;">
+                    <select name="prediocatastralen" #SelPredioCatastral
+                            formControlName="prediocatastralen"
+                            class="form-select form-select-sm border focus-ring" 
+                            [class.border-success]="this.formPredio.get('prediocatastralen')?.valid"
+                            [class.focus-ring-success]="this.formPredio.get('prediocatastralen')?.valid"
+                            [class.border-danger]="this.formPredio.get('prediocatastralen')?.invalid && this.formPredio.get('prediocatastralen')?.touched"
+                            [class.focus-ring-danger]="this.formPredio.get('prediocatastralen')?.invalid && this.formPredio.get('prediocatastralen')?.touched"
+                            aria-label="select-prediocatastralen" [pattern]="pattern1Digs">
+                            <option *ngFor="let cv of listPredioCatastralEn" [value]="cv.value">{{ cv.text }}</option>
+                    </select>
+                    <i *ngIf="this.formPredio.get('prediocatastralen')?.invalid && this.formPredio.get('prediocatastralen')?.touched" 
+                            class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                            title="Campo requerido"></i>                      
+                  </div>
+                </div>                    
+              </div>
+              <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12 mt-1">
+                        Código en uso
+                    </div>
+                    <div class="col-md-12" style="position: relative;">
+                      <!-- <input type="text" formControlName="codigoenuso"
+                      class="form-control form-control-sm border focus-ring"
+                      [class.border-success]="this.formPredio.get('codigoenuso')?.valid"
+                      [class.focus-ring-success]="this.formPredio.get('codigoenuso')?.valid"
+                      [class.border-danger]="this.formPredio.get('codigoenuso')?.invalid && this.formPredio.get('codigoenuso')?.touched"
+                      [class.focus-ring-danger]="this.formPredio.get('codigoenuso')?.invalid && this.formPredio.get('codigoenuso')?.touched">
+                    <i *ngIf="this.formPredio.get('codigoenuso')?.invalid && this.formPredio.get('codigoenuso')?.touched" 
+                          class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                          title="Campo requerido"></i>    -->
+                      <select name="codigoenuso" #SelCodigoUso
+                          formControlName="codigoenuso"                      
+                          class="form-select form-select-sm border focus-ring" 
+                          [class.border-success]="this.formPredio.get('codigoenuso')?.valid"
+                          [class.focus-ring-success]="this.formPredio.get('codigoenuso')?.valid"
+                          [class.border-danger]="this.formPredio.get('codigoenuso')?.invalid && this.formPredio.get('codigoenuso')?.touched"
+                          [class.focus-ring-danger]="this.formPredio.get('codigoenuso')?.invalid && this.formPredio.get('codigoenuso')?.touched"
+                          aria-label="select-codigoenuso" [pattern]="pattern1Digs">
+                          <option *ngFor="let cv of listCodigoEnUso" [value]="cv.value">{{ cv.text }}</option>
+                  </select>
+                  <i *ngIf="this.formPredio.get('codigoenuso')?.invalid && this.formPredio.get('codigoenuso')?.touched" 
+                          class="position-icon-select bi bi-exclamation-circle-fill text-danger"
+                          title="Campo requerido"></i>  
+                    </div>
+                </div>                    
+              </div>
             </div>
             <div class="row my-2">
-              <div class="col-md-8">
+              <div class="col-md-12">
                 <div class="row">
                   <div class="col-md-12 mt-1">
                     Descripción del uso
@@ -102,7 +102,9 @@
                   </div>
                 </div>                    
               </div>
-              <div class="col-md-2">
+            </div>
+            <div class="row my-2">
+              <div class="col-md-3">
                 <div class="row">
                   <div class="col-md-12 mt-1">
                       Cód Predial Rentas
@@ -120,7 +122,7 @@
                     </div>
                 </div>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <div class="row">
                   <div class="col-md-12 mt-1">
                       Área de Terreno
@@ -138,70 +140,110 @@
                     </div>
                 </div>
               </div>
-            </div>
-            <div class="row my-2">
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-12 mt-1">
-                        Evidencia
-                        </div>
-                        <div class="col-md-12" style="position: relative;">
-                            <div class="row my-1">
-                                <div class="row">
-                                <div class="col-md-2">&nbsp;</div>
-                                <div class="col-md-8 border border-2 border-danger p-2 mb-2 border-opacity-25 rounded">
-                                    <input class="btn btn-sm btn-danger bg-cofopri w-100 mt-1 shadow-sm" 
-                                    *ngIf="this.formPredio.get('condiciontitular')?.value != 0"
-                                    type="file" (change)="capturarFile($event)" accept="image/*" multiple/>
-                                </div>
-                                </div>
-                                <div class="row py-2">
-                                <div class="col-md-2">&nbsp;</div>
-                                <div class="col-md-8">
-                                    <div class="row border border-2 border-danger p-2 mb-2 border-opacity-25 rounded" *ngIf="imagenes.length > 0">
-                                    <div class="col-md-12" *ngFor="let img of imagenes">
-                                        <mat-card class="my-2">
-                                        <div class="d-flex">
-                                            <div class="p-2" style="width: 70px;">
-                                            <img [src]="img.base64" alt="" width="60px">
-                                            </div>
-                                            <div class="p-2 flex-grow-1">
-                                            <div class="row">
-                                                <div class="col-md-12">{{img.name}}</div>
-                                                <div class="col-md-6">{{img.tamanio}}</div>
-                                                <div class="col-md-6 text-end mt-1">
-                                                <button mat-mini-fab color="warn" style="background: rgb(235, 30, 35);" 
-                                                    title="Quitar" (click)="quitarImagen(img)">
-                                                    <mat-icon>delete</mat-icon>
-                                                </button>&nbsp;
-                                                <button mat-mini-fab color="primary" style="background: rgb(21, 56, 255);"
-                                                    title="Ver" (click)="verImagen($event, img)">
-                                                    <mat-icon>search</mat-icon>
-                                                </button>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                        </mat-card>
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                    
-                </div>
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button type="submit" 
-                                class="btn btn-sm bg-btn-save w-100"
-                                [disabled]="formPredio.invalid">
-                                Guardar      
-                            </button>         
-                        </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <div class="col-md-12 mt-1">
+                      % de BC Terreno Legal
+                    </div>
+                    <div class="col-md-12" style="position: relative;">
+                      <input type="text" formControlName="porcterrenolegal"
+                      class="form-control form-control-sm border focus-ring"
+                      [class.border-success]="this.formPredio.get('porcterrenolegal')?.valid"
+                      [class.focus-ring-success]="this.formPredio.get('porcterrenolegal')?.valid"
+                      [class.border-danger]="this.formPredio.get('porcterrenolegal')?.invalid && this.formPredio.get('porcterrenolegal')?.touched"
+                      [class.focus-ring-danger]="this.formPredio.get('porcterrenolegal')?.invalid && this.formPredio.get('porcterrenolegal')?.touched">
+                    <i *ngIf="this.formPredio.get('porcterrenolegal')?.invalid && this.formPredio.get('porcterrenolegal')?.touched" 
+                          class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                          title="Campo requerido"></i>                      
                     </div>
                 </div>
+              </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <div class="col-md-12 mt-1">
+                    % de BC Construcción Legal
+                    </div>
+                    <div class="col-md-12" style="position: relative;">
+                      <input type="text" formControlName="porcconstruccionlegal"
+                      class="form-control form-control-sm border focus-ring"
+                      [class.border-success]="this.formPredio.get('porcconstruccionlegal')?.valid"
+                      [class.focus-ring-success]="this.formPredio.get('porcconstruccionlegal')?.valid"
+                      [class.border-danger]="this.formPredio.get('porcconstruccionlegal')?.invalid && this.formPredio.get('porcconstruccionlegal')?.touched"
+                      [class.focus-ring-danger]="this.formPredio.get('porcconstruccionlegal')?.invalid && this.formPredio.get('porcconstruccionlegal')?.touched">
+                    <i *ngIf="this.formPredio.get('porcconstruccionlegal')?.invalid && this.formPredio.get('porcconstruccionlegal')?.touched" 
+                          class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                          title="Campo requerido"></i>                      
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="row my-2">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-12 mt-1">
+                    Evidencia
+                  </div>
+                  <div class="col-md-12" style="position: relative;">
+                    <div class="row">
+                      <div class="col-md-12 border-opacity-25 rounded">
+                          <input class="btn btn-sm btn-danger bg-cofopri w-100 mt-1 shadow-sm" 
+                          *ngIf="this.formPredio.get('condiciontitular')?.value != 0"
+                          type="file" (change)="capturarFile($event)" accept="image/*" multiple/>
+                      </div>
+                    </div>
+                    <div class="row py-2">
+                      <div class="col-md-12">
+                          <div class="">
+                            <div class="col-md-12 border border-2 border-danger p-2 mb-2 border-opacity-25 rounded" *ngIf="imagenes.length > 0">
+                              <div class="row">
+                                <div class="col-md-6" *ngFor="let img of imagenes">
+                                  <mat-card class="my-2">
+                                    <div class="d-flex">
+                                        <div class="p-2" style="width: 70px;">
+                                        <img [src]="img.base64" alt="" width="60px">
+                                        </div>
+                                        <div class="p-2 flex-grow-1">
+                                        <div class="row">
+                                            <div class="col-md-12">{{img.name}}</div>
+                                            <div class="col-md-6">{{img.tamanio}}</div>
+                                            <div class="col-md-6 text-end mt-1">
+                                            <button mat-mini-fab color="warn" style="background: rgb(235, 30, 35);" 
+                                                title="Quitar" (click)="quitarImagen(img)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>&nbsp;
+                                            <button mat-mini-fab color="primary" style="background: rgb(21, 56, 255);"
+                                                title="Ver" (click)="verImagen($event, img)">
+                                                <mat-icon>search</mat-icon>
+                                            </button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                  </mat-card>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>                   
+              </div>
+            </div>
+            <div class="row my-2">
+              <div class="col-md-10">&nbsp;</div>
+              <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-12 text-end">
+                        <button type="submit" 
+                            class="btn btn-sm bg-btn-save w-100"
+                            [disabled]="formPredio.invalid">
+                            Guardar      
+                        </button>         
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>

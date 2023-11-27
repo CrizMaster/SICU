@@ -120,7 +120,7 @@ export class OtrasInstalacionesComponent implements OnInit, OnDestroy  {
     });
   
     this.dataSource = new MatTableDataSource<ObrasComplementariasResponse>(this.lista);
-  } 
+  }
 
   GuardarObrasComplementarias(){
     let modal1: Title = { Title: '¿Está seguro de actualizar las obras e instalaciones?'}

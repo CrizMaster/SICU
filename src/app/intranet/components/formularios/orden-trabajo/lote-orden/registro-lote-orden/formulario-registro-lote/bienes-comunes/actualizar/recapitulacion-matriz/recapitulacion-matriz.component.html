@@ -1,0 +1,98 @@
+<div class="row">
+  <form [formGroup]="form" enctype="multipart/form-data">
+    <div class="col-md-12">
+      <div class="row my-1">
+          <div class="col-md-6">
+            <div class="w-100 barra-title py-3 px-2">Recapitulación de Edificas</div>
+          </div>
+          <div class="col-md-6 text-end py-2">
+            <button class="btn btn-custom btn-outline-primary">
+              <i class="bi bi-eraser-fill"></i>
+            </button>&nbsp;
+            <button class="btn btn-custom btn-outline-primary"
+              [disabled]="form.invalid">
+              <i class="bi bi-calculator-fill"></i>
+            </button>&nbsp;
+            <button class="btn btn-custom btn-outline-primary">
+              <i class="bi bi-save"></i>
+            </button>
+          </div>
+      </div> 
+    </div>
+    <div class="col-lg-12 col-md-12 col-xs-12  my-2">
+      <div class="sombra-tabla">
+        <table class="table table-sm table-hover p-3 mb-5 bg-body-tertiary">                    
+          <thead>
+            <tr class="title-table">
+              <th scope="col" class="py-3 text-center align-middle title-table fw-normal">Dpto</th>
+              <th scope="col" class="text-center align-middle title-table fw-normal">Prov</th>
+              <th scope="col" class="text-center align-middle title-table fw-normal">Dist</th>
+              <th scope="col" class="text-center align-middle title-table fw-normal">Sec</th>
+              <th scope="col" class="text-center align-middle title-table fw-normal">Mz</th>
+              <th scope="col" class="text-center align-middle title-table fw-normal">Lote</th>
+              <th scope="col" class="text-center align-middle title-table fw-normal">Edifica</th>
+              <th scope="col" class="text-center align-middle title-table fw-normal" style="width: 180px;">Área Terreno Ocupado</th>
+              <th scope="col" class="text-center align-middle title-table fw-normal">%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container formArrayName="lista" *ngFor="let edi of getFormControl.controls; let i = index">
+              <tr [formGroupName]="i">
+                <td class="text-center align-middle py-3">
+                  {{getFormControl.controls[i].get('dpto').value}}
+                </td>
+                <td class=" text-center align-middle">
+                  {{getFormControl.controls[i].get('prov').value}}
+                </td>
+                <td class="align-middle px-2">
+                  {{getFormControl.controls[i].get('dist').value}}
+                </td>
+                <td class="text-center align-middle">
+                  {{getFormControl.controls[i].get('sec').value}}
+                </td>
+                <td class="text-center align-middle">
+                  {{getFormControl.controls[i].get('mz').value}}
+                </td>
+                <td class="text-center align-middle">
+                  {{getFormControl.controls[i].get('lote').value}}
+                </td>
+                <td class="text-center align-middle px-2">
+                  {{getFormControl.controls[i].get('edifica').value}}
+                </td>
+                <td class="text-center align-middle" style="position: relative;">
+                  <input type="text" formControlName="area"
+                  class="form-control form-control-sm border text-end focus-ring"
+                  (keyup)="onKeyupEvent($event)"
+                  (blur)="onBlur(edi)"
+                  [class.border-success]="edi.get('area')?.valid"
+                  [class.focus-ring-success]="edi.get('area')?.valid"
+                  [class.border-danger]="edi.get('area')?.invalid && edi.get('area')?.touched"
+                  [class.focus-ring-danger]="edi.get('area')?.invalid && edi.get('area')?.touched">
+                  <i *ngIf="edi.get('area')?.invalid && edi.get('area')?.touched" 
+                        class="position-icon-input2 bi bi-exclamation-circle-fill text-danger"
+                        title="Campo requerido"></i>                         
+                </td>
+                <td class="text-center align-middle">
+                  {{getFormControl.controls[i].get('porcentaje').value}}
+                </td>
+              </tr>
+            </ng-container>                      
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="7" class="text-end py-3 fw-bold">
+                Total
+              </td>
+              <td class="text-end py-3 fw-bold">
+                {{strTotal}}
+              </td>
+              <td class="text-center py-3 fw-bold">
+                {{strTotalPorc}}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>  
+    </div>
+  </form>
+</div>

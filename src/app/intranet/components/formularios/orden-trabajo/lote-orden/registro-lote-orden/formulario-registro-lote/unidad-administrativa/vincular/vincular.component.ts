@@ -5,6 +5,12 @@ import { UnidadAdministrativaResponse } from 'src/app/intranet/components/formul
 import { UnidadAdministrativaService } from '../unidad-administrativa.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DireccionResponse } from 'src/app/intranet/components/formularios/models/armonizacionModel';
+import { Title } from 'src/app/core/models/title.model';
+import { ModalQuestionComponent } from 'src/app/core/shared/components/modal-question/modal-question.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
+import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
 
 @Component({
     selector: 'app-vincular',
@@ -18,11 +24,14 @@ export class VincularComponent implements OnInit, OnDestroy {
     'Edifica', 'Entrada', 'Piso', 'Unidad', 'Estado', 'accion'];
 
     dataSource = new MatTableDataSource<UnidadAdministrativaResponse>();
+
+    public saveForm$: Subscription = new Subscription;
     
     constructor(
         private _unidadAdministrativaService: UnidadAdministrativaService,
         private route: Router,
-        private _activatedRoute:ActivatedRoute
+        private _activatedRoute:ActivatedRoute,
+        public subDialog: MatDialog
     ){
         this._unidadAdministrativaService.UnidadAdministrativa.subscribe({
             next:(Data:StatusResponse<UnidadAdministrativaResponse>) => {
@@ -44,7 +53,66 @@ export class VincularComponent implements OnInit, OnDestroy {
         this.getIndex(1);
     }
 
-    ngOnDestroy(): void {}
+    ngOnDestroy(): void {
+        this.saveForm$.unsubscribe();
+    }
+
+    TerminarUnidadAdmin(row: UnidadAdministrativaResponse){
+        let modal1: Title = { Title: '¿Está seguro de terminar la unidad administrativa?' }
+        
+        const sdm = this.subDialog.open(ModalQuestionComponent, {
+            width: '450px',
+            enterAnimationDuration: '300ms',
+            exitAnimationDuration: '300ms',
+            disableClose: true,
+            data: modal1
+        });
+
+        sdm.afterClosed().subscribe(resp => {
+            if(resp){
+              let dg = this.ModalLoading();
+  
+              this.saveForm$ = this._unidadAdministrativaService.CierraUnidadAdministrativa(row.codigoUnidadAdministrativa)
+              .subscribe(result => {    
+                setTimeout(() => {
+                    dg.close();
+                
+                    if(result.success){ 
+                        let modal: Title = { 
+                            Title: 'Unidad Administrativa Terminada', 
+                            Subtitle: 'La unidad administrativa se terminó satisfactoriamente.', 
+                            Icon: 'ok' 
+                        }
+                        const okModal = this.subDialog.open(ModalMessageComponent, {
+                            width: '500px',
+                            enterAnimationDuration: '300ms',
+                            exitAnimationDuration: '300ms',
+                            disableClose: true,
+                            data: modal
+                        });
+                        okModal.afterClosed().subscribe(resp => {
+                            this.regresar();
+                        });
+                    }
+                    else{
+                        let modal: Title = { 
+                            Title: 'Opss...', 
+                            Subtitle: result.message, 
+                            Icon: 'error' }
+    
+                        this.subDialog.open(ModalMessageComponent, {
+                                  width: '500px',
+                                  enterAnimationDuration: '300ms',
+                                  exitAnimationDuration: '300ms',
+                                  disableClose: true,
+                                  data: modal
+                              });
+                    }
+                }, 500);
+              });
+            }            
+        });          
+    }
 
     getIndex(ind: number){
         this.index = ind;
@@ -69,4 +137,19 @@ export class VincularComponent implements OnInit, OnDestroy {
   
         this._unidadAdministrativaService.UnidadAdministrativa.next(datos);         
     }
+
+    ModalLoading(): any {     
+        let modal: Title = { 
+          Title: 'Procesando su solicitud...'}
+        let dgRef = this.subDialog.open(ModalLoadingComponent, {
+            width: '400px',
+            height: '95px',
+            enterAnimationDuration: '300ms',
+            exitAnimationDuration: '300ms',
+            disableClose: true,
+            data: modal
+        }); 
+  
+        return dgRef;
+    }     
 }

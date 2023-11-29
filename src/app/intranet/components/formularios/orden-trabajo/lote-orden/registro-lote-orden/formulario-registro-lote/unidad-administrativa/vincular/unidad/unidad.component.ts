@@ -17,8 +17,6 @@ import { UnidadAdministrativaResponse } from 'src/app/intranet/components/formul
 import { ArchivoModel } from 'src/app/intranet/components/formularios/models/caracterizacionResponse';
 import { ImageViewerComponent } from 'src/app/core/shared/components/image-viewer/image-viewer.component';
 
-
-
 @Component({
   selector: 'app-unidad',
   templateUrl: './unidad.component.html',
@@ -29,6 +27,7 @@ export class UnidadComponent {
   pattern1Digs = '^[1-9]|([1-9][0-9])$';
   codigoUnidadAdministrativa: number = 0;
   formPredio: FormGroup;
+  habilitar: boolean = true;
 
   listClasificacionPrecio: ItemSelect<number>[] = [{ value:0, text:'Seleccionar' }];
   listPredioCatastralEn: ItemSelect<number>[] = [{ value:0, text:'Seleccionar' }];
@@ -60,8 +59,10 @@ export class UnidadComponent {
       
       this._unidadAdministrativaService.UnidadAdministrativa.subscribe({
         next:(Data:StatusResponse<UnidadAdministrativaResponse>) => {
-
-            this.codigoUnidadAdministrativa = Data.data.codigoUnidadAdministrativa;
+            if(Data != undefined && Data.data != undefined){
+              this.codigoUnidadAdministrativa = Data.data.codigoUnidadAdministrativa;
+              this.habilitar = Data.data.codigoEstado != '03';
+            }            
         }
       });
   }
@@ -112,9 +113,9 @@ export class UnidadComponent {
     this.saveForm$.unsubscribe();
   }
 
-  getValue(code: string, lista: ItemSelect<number>[]){
+  getValue(code: string, ds: any[]){
     let id = 0;
-    lista.forEach(item => {
+    ds.forEach(item => {
       if(item.code == code) id = item.value;
     });
 

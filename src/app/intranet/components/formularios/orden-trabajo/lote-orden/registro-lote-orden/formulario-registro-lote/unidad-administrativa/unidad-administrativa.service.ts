@@ -165,7 +165,7 @@ export class UnidadAdministrativaService{
         )        
     }
 
-    GuardarTitulares(data: InteresadoRequest):Observable<StatusResponse<number>>{
+    GuardarTitulares(data: FormData):Observable<StatusResponse<number>>{
         return this.http.post<StatusResponse<number>>(environment.urlWebApiSICU + 'RegistraInteresadosDrr',
         data)
         .pipe(
@@ -185,6 +185,16 @@ export class UnidadAdministrativaService{
             }), 
             catchError(this.handlerError)            
         );
+    }    
+
+    CierraUnidadAdministrativa(codigoUnidadAdministrativa: number):Observable<StatusResponse<number>>{
+        return this.http.post<StatusResponse<number>>(environment.urlWebApiSICU + 'CierraUnidadAdministrativa',
+        {
+            'codigoUnidadAdministrativa': codigoUnidadAdministrativa
+        })
+        .pipe(
+            catchError(this.handlerError)
+        );         
     }    
 
     private handlerError(error: HttpErrorResponse) {

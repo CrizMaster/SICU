@@ -1,15 +1,14 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PublicService } from '../public.service';
 import { LoginRequest } from '../models/loginRequest';
-import { LoginResponse } from '../models/loginResponse';
-import { Subscription, catchError, fromEvent, map, merge, share, throwError } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
 
 
 import { LocalService } from 'src/app/core/shared/services/local.service';
 import { AuthService } from 'src/app/core/shared/services/auth.service';
-import { ReCaptchaV3Service } from 'ng-recaptcha';
+//import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -17,10 +16,12 @@ import { HttpErrorResponse } from '@angular/common/http';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit, OnDestroy {
 
     offline: boolean = false;
 
+    public login$: Subscription = new Subscription;
+    
     loginForm = this.fb.group({
         usuario: ['', Validators.required],
         password: ['', Validators.required]
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit{
         private _publicService: PublicService,
         private _localService: LocalService,
         private _authService: AuthService,
-        private recaptchaV3Service: ReCaptchaV3Service
+        //private recaptchaV3Service: ReCaptchaV3Service
         ){}
 
     ngOnInit(): void {
@@ -51,6 +52,10 @@ export class LoginComponent implements OnInit{
         }); 
     }
 
+    ngOnDestroy(): void {
+      this.login$.unsubscribe();
+    }
+
     login(){
       this.loginError = '';
       this.msgStatus = 'Validando recaptchar...';
@@ -59,33 +64,39 @@ export class LoginComponent implements OnInit{
       if(this.loginForm.valid)
       {
         this.viewProgress = true;
-        this.recaptchaV3Service.execute('')
-        .subscribe((token) => {
+        this.msgStatus = 'Iniciando sesión...';
+        setTimeout(() => {
+          this.iniciarSesion();
+        }, 1000);
 
-            const auxiliar = this._publicService.validarRecaptchaV3(token)
-            auxiliar.subscribe({
-              error: () => {
-                this.loginError = "A ocurrido un problema, recarge la página e intente nuevamente o contacte con area de soporte técnico.";
-                this.viewProgress = false;
-              },
-              next: (resultado: any) => {
-                if (resultado.success === true) {
-                  //console.log('next');
-                  this.msgStatus = 'Iniciando sesión...';
-                  setTimeout(() => {
-                    this.iniciarSesion();
-                  }, 1000);
+        // this.viewProgress = true;
+        // this.recaptchaV3Service.execute('')
+        // .subscribe((token) => {
+
+        //     const auxiliar = this._publicService.validarRecaptchaV3(token)
+        //     auxiliar.subscribe({
+        //       error: () => {
+        //         this.loginError = "A ocurrido un problema, recarge la página e intente nuevamente o contacte con area de soporte técnico.";
+        //         this.viewProgress = false;
+        //       },
+        //       next: (resultado: any) => {
+        //         if (resultado.success === true) {
+       
+        //           this.msgStatus = 'Iniciando sesión...';
+        //           setTimeout(() => {
+        //             this.iniciarSesion();
+        //           }, 1000);
                   
-                } else {
-                  console.error('Error en el captcha. Eres un robot');
-                  this.loginError = 'Protección recaptcha activada. Intente nuevamente por favor.';
-                  this.viewProgress = false;
-                }
-              }
-            });
+        //         } else {
+        //           console.error('Error en el captcha. Eres un robot');
+        //           this.loginError = 'Protección recaptcha activada. Intente nuevamente por favor.';
+        //           this.viewProgress = false;
+        //         }
+        //       }
+        //     });
 
-          }
-        );
+        //   }
+        // );
       }
       else{
           this.loginForm.markAllAsTouched();
@@ -95,7 +106,7 @@ export class LoginComponent implements OnInit{
 
     iniciarSesion()
     {  
-      this._publicService.login(this.loginForm.value as LoginRequest).subscribe({
+      this.login$ = this._publicService.login(this.loginForm.value as LoginRequest).subscribe({
           next:(userData) => {
               //console.log(userData);
               this._authService.isLoggedIn.next(true);

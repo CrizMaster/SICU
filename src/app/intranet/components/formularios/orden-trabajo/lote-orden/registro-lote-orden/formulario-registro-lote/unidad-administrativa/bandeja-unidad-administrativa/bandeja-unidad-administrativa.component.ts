@@ -29,6 +29,7 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
     pattern3Digs = '^((?!000).)*$'; 
 
     readOnly:boolean = true;
+    btnGenerarUA: boolean = false;
 
     public updateEdif$: Subscription = new Subscription;
     public anularUA$: Subscription = new Subscription;
@@ -66,10 +67,11 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
                 
                 this.listaEdificaciones = [{ value:0, text:'Seleccionar' }];
                 Data.forEach(elem => {
-                    if(elem.codigoEstado == '02'){
+                    if(elem.codigoEstado != '01'){
                         this.listaEdificaciones.push({
                             value: elem.codigoEdificacion, 
-                            text: elem.numeroEdificacion + ' - ' + elem.nombreEspecifico + ' ' + elem.nombreEdificacion
+                            text: elem.numeroEdificacion + ' - ' + elem.nombreEspecifico + ' ' + elem.nombreEdificacion,
+                            code: elem.codigoEstado
                         });
                     }                    
                 });
@@ -79,8 +81,8 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
                     this.myFormUnidad.patchValue({ 
                       edificacion: this.listaEdificaciones[1].value
                     });
-
-                    this.listarUnidades();
+                    this.onChangeSelEdificaion(this.listaEdificaciones[1].value.toString());
+                    //this.listarUnidades();
                   }, 500); 
                 }
             }
@@ -92,13 +94,27 @@ export class BandejaUnidadAdministrativaComponent implements OnInit, OnDestroy {
       this.listaEdifica$.unsubscribe();
       this.anularUA$.unsubscribe();
       this.queryUA$.unsubscribe();
-  }
+    }
 
     onChangeSelEdificaion(newValueSect: string){
-        this.listarUnidades();     
+        let id = parseInt(newValueSect);
+        this.btnGenerarUA = false;
+        if(id != 0){
+          this.btnGenerarUA = true;
+          this.listaEdificaciones.forEach(el => {
+            if(el.value == parseInt(newValueSect)){
+              this.btnGenerarUA = el.code != '03';
+            }
+          });
+  
+          this.listarUnidades(); 
+        }    
     }
 
     listarUnidades(){
+      this.dataSource = new MatTableDataSource<UnidadAdministrativaResponse>([]);
+      this.dataSource._updateChangeSubscription();
+
         let info = this.myFormUnidad.value;
         if(info.edificacion != 0){
             this.queryUA$ = this._unidadAdministrativaService.ConsultaDatosUnidadAdministrativa(info.edificacion)

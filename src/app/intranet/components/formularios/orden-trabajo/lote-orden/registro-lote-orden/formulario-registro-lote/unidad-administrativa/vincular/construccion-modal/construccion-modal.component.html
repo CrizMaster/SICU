@@ -270,6 +270,9 @@
   <div mat-dialog-actions class="d-flex justify-content-end">  
     <button class="btn btn-sm btn-default" mat-button mat-dialog-close>Cancelar</button>
     <button type="submit" class="btn btn-sm btn-warning" 
-            [disabled]="form.invalid"><i class="bi bi-plus-circle"></i>&nbsp;Agregar</button>
+            [disabled]="form.invalid"
+            *ngIf="data.habilitar">
+            <i class="bi bi-plus-circle"></i>&nbsp;Agregar
+    </button>
   </div>
 </form>

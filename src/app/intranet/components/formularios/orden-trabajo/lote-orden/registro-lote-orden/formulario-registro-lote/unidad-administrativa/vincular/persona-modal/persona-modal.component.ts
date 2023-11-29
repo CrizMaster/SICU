@@ -86,10 +86,13 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        //console.log(this.data);
         this.conConyuge = this.data.ConConyuge;
-        this.form.patchValue({
-            codigocontribuyente: this.data.codigoContribuyente
-        });
+        if(this.data.codigoContribuyente != undefined){
+            this.form.patchValue({
+                codigocontribuyente: this.data.codigoContribuyente
+            });
+        }
 
         this.listTipoTitular.forEach(item => {
             if(item.code == '01') {
@@ -101,9 +104,80 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
         });        
         if(this.conConyuge){
             let tt = this.form.get('tipotitular');
+            tt.setValue(this.getValue('01', this.listTipoTitular));
             tt.disable();
             tt.updateValueAndValidity();           
         }
+
+        //edición        
+        if(this.data.Interesado != undefined &&
+            this.data.Interesado.codigoInteresado != undefined &&
+            this.data.Interesado.codigoInteresado != 0){
+                let inter = this.data.Interesado;
+                //console.log(inter);
+                this.form.patchValue({
+                    codigocontribuyente: inter.codigoContribRentas,
+                    porccotitular: inter.porcetajeCotitular,
+                    tipotitular: this.getValue(inter.codigoTipoCotitular, this.listTipoTitular)
+                });
+
+                if(inter.codigoTipoCotitular == '01') //PERSONA NATURAL
+                {
+                    this.natural = true;
+                    this.codigoTD = inter.codigoTipoDocumento;
+                    this.form.patchValue({
+                        tipodocidentidad: this.getValue(inter.codigoTipoDocumento, this.listTipoDocIdent),
+                        nrodocidentidad: inter.numeroDocumento,
+                        nombres: inter.nombres,
+                        apellidopaterno: inter.apellidoPaterno,
+                        apellidomaterno: inter.apellidoMaterno,
+                        sexo: this.getValue(inter.codigoTipoGenero, this.listSexo),
+                        estadocivil: this.getValue(inter.codigoEstadoCivil, this.listEstadoCivil),
+                        telefono: inter.numeroTelefono,
+                        correo: inter.correoElectronico
+                    });                    
+                    
+                    if(inter.listConyuge.length == 0){
+                        this.conConyuge = true;
+                        let conyuge = inter.listConyuge[0];
+                        this.form.patchValue({
+                            tipodocidentidadconyuge: this.getValue(conyuge.codigoTipoDocumento, this.listTipoDocIdentConyuge),
+                            nrodocidentidadconyuge: conyuge.numeroDocumento,
+                            nombresconyuge: conyuge.nombres,
+                            apellidopaternoconyuge: conyuge.apellidoPaterno,
+                            apellidomaternoconyuge: conyuge.apellidoMaterno,
+                            sexoconyuge: this.getValue(conyuge.codigoTipoGenero, this.listSexo)
+                        });
+                    }
+                }
+                else if(inter.codigoTipoCotitular == '02') //PERSONA NATURAL
+                {
+                    this.natural = false;
+                    this.form.patchValue({
+                        ruc: inter.numeroDocumento,
+                        razonsocial: inter.razonSocial,
+                        telefonoempresa: inter.numeroTelefono,
+                        correoempresa: inter.correoElectronico
+                    });                    
+                }
+        }
+
+    }
+
+    getValue(code: string, ds: any[]) {
+        let id = 0;
+        ds.forEach(elem => {
+            if(elem.code == code) id = elem.value;
+        }); 
+        return id;
+    }
+
+    getCode(value: number, ds: any[]) {
+        let code = '';
+        ds.forEach(elem => {
+            if(elem.value == value) code = elem.code;
+        }); 
+        return code;
     }
 
     onChangeSelTipoTitular(newValue: string){
@@ -536,11 +610,15 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
         let info = this.form.value;
 
         let inter: InteresadoResponse = {
-            codigoInteresado: this.data.Interesado.codigoInteresado
+            codigoInteresado: this.data.Interesado.codigoInteresado,
+            listConyuge: [],
+            listArchivo: []
         };
 
+        const tipotitular = this.form.get('tipotitular');
+
         this.listTipoTitular.forEach(item => {
-            if(item.value == info.tipotitular){
+            if(item.value == tipotitular.value){
                 inter.codigoContribRentas = info.codigocontribuyente;
                 inter.porcetajeCotitular = info.porccotitular;
                 inter.codigoTipoCotitular = item.code;
@@ -557,6 +635,7 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
                     inter.nombres = nombres.value;
                     inter.numeroTelefono = info.telefono;
                     inter.correoElectronico = info.correo;
+                    inter.codigoTipoGenero = this.getCode(info.sexo, this.listSexo);
 
                     const estadocivil = this.form.get('estadocivil');
                     this.listEstadoCivil.forEach(ec => {
@@ -572,6 +651,22 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
                           inter.nombreTipoDocumento = ec.text;
                         }
                     });
+
+                    //inter.conConyuge = this.conConyuge;
+                    if(this.conConyuge){
+                        const apellidopaternoconyuge = this.form.get('apellidopaternoconyuge');
+                        const apellidomaternoconyuge = this.form.get('apellidomaternoconyuge');
+                        const nombresconyuge = this.form.get('nombresconyuge');
+
+                        inter.listConyuge.push({
+                            apellidoPaterno: apellidopaternoconyuge.value,
+                            apellidoMaterno: apellidomaternoconyuge.value,
+                            nombres: nombresconyuge.value,
+                            codigoTipoDocumento: this.getCode(info.tipodocidentidadconyuge, this.listTipoDocIdentConyuge),
+                            numeroDocumento: info.nrodocidentidadconyuge,
+                            codigoTipoGenero: this.getCode(info.sexoconyuge, this.listSexo)
+                        });
+                    }
                 }
                 else { //PERSONA JURIDICA
                     inter.nombreTipoCotitular = "PERSONA JURIDICA"
@@ -582,6 +677,8 @@ export class PersonaModalComponent implements OnInit, OnDestroy {
                     inter.numeroTelefono = info.telefonoempresa;
                     inter.correoElectronico = info.correoempresa;
                 }
+
+                inter.listArchivo = this.imagenes;
             };
         });        
 

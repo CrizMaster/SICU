@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 
 import { LoginRequest } from './models/loginRequest';
 import { LoginResponse } from './models/loginResponse';
@@ -12,17 +12,27 @@ import { environment } from 'src/environments/environment';
 
 export class PublicService{
 
-    //inComponentLogin: EventEmitter<boolean> = new EventEmitter();
-
     currentComponentLogin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(private http: HttpClient){}
 
-    login(credencials: LoginRequest):Observable<LoginResponse>{
-        return this.http.post<LoginResponse>(environment.urlWebApiTest + 'Users/Authenticate',
+    // login(credencials: LoginRequest):Observable<LoginResponse>{
+    //     return this.http.post<LoginResponse>(environment.urlWebApiTest + 'Users/Authenticate',
+    //     {   userName: credencials.usuario, 
+    //         password: credencials.password
+    //     }).pipe(
+    //         catchError(this.handlerError)
+    //     );
+    // }
+
+    login(credencials: LoginRequest):Observable<any>{
+        return this.http.post<any>(environment.urlWebApiShowSecurity + 'Authenticate',
         {   userName: credencials.usuario, 
             password: credencials.password
         }).pipe(
+            // tap((response:any) => {
+            //     console.log(response);
+            // }),
             catchError(this.handlerError)
         );
     }
@@ -38,35 +48,9 @@ export class PublicService{
         );
     }   
 
-    // isComponentLogin(status: boolean) {
-    //     console.log('ok');
-    //     console.log(status);
-    //     this.inComponentLogin.emit(status);
-    // }
-
-    // getComponentLogin(){
-    //     return this.inComponentLogin;
-    // }
-
-    //Para que pueden subscribe
     get getCurrentComponentLogin():Observable<boolean>{
         return this.currentComponentLogin.asObservable();
     }
-
-    // getCharacters(): Observable<any> {
-    //     return this.http.get('https://thronesapi.com/api/v2/Characters').pipe(
-    //         tap(console.log),
-    //         map(response => response.filter((character:any) => character.lastName == 'Stark')),
-    //         catchError(this.handlerError)
-    //     )
-    // }
-
-    // getContinents(): Observable<any> {
-    //     return this.http.get('https://thronesapi.com/api/v2/Continents').pipe(
-    //         tap(console.log),
-    //         catchError(this.handlerError)
-    //     )        
-    // }
 
     private handlerError(error: HttpErrorResponse) {
         let msn = '';

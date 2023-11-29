@@ -26,5 +26,6 @@ export interface ConstruccionResponse {
     areaVerificada?: number,
     mesAnioConstruccion?: Date,
     activo?: number,
-    nro?: number
+    nro?: number,
+    habilitar?: boolean
 }

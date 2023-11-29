@@ -26,5 +26,6 @@ export interface ObrasComplementariasResponse {
     activo?: number,
     descripcionObra?: string,
     nombreEspecifico?: string,
-    nro?: number
+    nro?: number,
+    habilitar?: boolean
 }

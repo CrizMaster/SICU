@@ -15,7 +15,7 @@ export class ActualizarBcComponent implements OnInit, OnDestroy {
 
     index: number = 1;
     matriz: boolean = false;
-    displayedColumns: string[] = ['Dpto', 'Prov', 'Dist', 'Sec', 'Mz', 'Lote', 'Edifica', 'Entrada', 'Piso', 'Unidad', 'Accion'];;
+    displayedColumns: string[] = ['Dpto', 'Prov', 'Dist', 'Sec', 'Mz', 'Lote', 'Edifica', 'Entrada', 'Piso', 'Unidad'];;
 
     dataSource = new MatTableDataSource<BienesComunesResponse>();
 
@@ -29,6 +29,7 @@ export class ActualizarBcComponent implements OnInit, OnDestroy {
         this.itemBC$ = this._BienesComunesService.BienesComunes.subscribe({
             next:(Data:StatusResponse<BienesComunesResponse>) => {
                 if(Data.data != undefined){
+
                     let lista:BienesComunesResponse[] = [];
                     lista.push(Data.data);
 
@@ -40,11 +41,6 @@ export class ActualizarBcComponent implements OnInit, OnDestroy {
             }
         }); 
         
-        // this._BienesComunesService.InfoArmonizacion.subscribe({
-        //     next:(Data:DireccionResponse) => {
-        //         this.getIndex(Data.index);
-        //     }
-        // }); 
     }
 
     ngOnInit(): void {

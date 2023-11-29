@@ -15,6 +15,9 @@ import { InteresadoRequest, InteresadoResponse } from 'src/app/intranet/componen
 import { BienesComunesResponse } from 'src/app/intranet/components/formularios/models/bienesComunesResponse';
 import { RecapitulacionEdificaResponse } from 'src/app/intranet/components/formularios/models/recapitulacionEdificaResponse';
 import { RecapitulacionBCResponse } from 'src/app/intranet/components/formularios/models/recapitulacionBCResponse';
+import { UbicacionBCRequest } from 'src/app/intranet/components/formularios/models/ubicacionBCRequest';
+import { PredioBCRequest } from 'src/app/intranet/components/formularios/models/predioBCRequest';
+
 
 @Injectable()
 
@@ -32,52 +35,70 @@ export class BienesComunesService{
         return this.BienesComunes.asObservable();
     }
 
-    /*
-export interface BienesComunesResponse {
-    codigoDepartamento?: string,
-    codigoDistrito?: string,
-    codigoEdificacion?: number,
-    codigoEstado?: string,
-    nombreEstado?: string,
-    codigoProvincia?: string,
-    codigoSector?: string,
-    codigoManzana?: string,
-    codigoLote?: string,
-    codigoBienComun: number,
-    entrada?: string,
-    numeroPiso?: string,
-    numeroUnidadAdministrativa?: string,
-    terminalCreacion?: string,
-    terminalModificacion?: string,    
-    usuarioCreacion?: string,    
-    usuarioModificacion?: string
-}    
-    */
-    ConsultaDatosBienesComunes(codigoEdificacion: number):Observable<StatusResponse<BienesComunesResponse[]>>{
-
-        let lista: BienesComunesResponse[] = [];
-        lista.push({ codigoDepartamento: '15', codigoProvincia: '01', codigoDistrito: '09', codigoSector: '01', codigoManzana: '001', codigoLote: '001', 
-        numeroEdificacion: '99', entrada: '99', numeroPiso: '99', numeroUnidadAdministrativa: '999'})
-
-        lista.push({ codigoDepartamento: '15', codigoProvincia: '01', codigoDistrito: '09', codigoSector: '01', codigoManzana: '001', codigoLote: '001', 
-        numeroEdificacion: '02', entrada: '99', numeroPiso: '99', numeroUnidadAdministrativa: '999'})
-
-        lista.push({ codigoDepartamento: '15', codigoProvincia: '01', codigoDistrito: '09', codigoSector: '01', codigoManzana: '001', codigoLote: '001', 
-        numeroEdificacion: '03', entrada: '99', numeroPiso: '99', numeroUnidadAdministrativa: '999'})
-
-        lista.push({ codigoDepartamento: '15', codigoProvincia: '01', codigoDistrito: '09', codigoSector: '01', codigoManzana: '001', codigoLote: '001', 
-        numeroEdificacion: '04', entrada: '99', numeroPiso: '99', numeroUnidadAdministrativa: '999'})
-
-        lista.push({ codigoDepartamento: '15', codigoProvincia: '01', codigoDistrito: '09', codigoSector: '01', codigoManzana: '001', codigoLote: '001', 
-        numeroEdificacion: '05', entrada: '99', numeroPiso: '99', numeroUnidadAdministrativa: '999'})
-
-        let status: StatusResponse<BienesComunesResponse[]> = {
-            success: true,
-            data: lista
-        }
-
-        return of(status);
+    GeneraBienesComunes(codigoLote: number):Observable<StatusResponse<number>>{
+    
+        return this.http.post<StatusResponse<number>>(environment.urlWebApiSICU + 'GeneraBienesComunes',
+        {
+            codigoLote: codigoLote
+        })
+        .pipe(
+            catchError(this.handlerError)
+        );         
     }
+
+    ConsultaDatosBienesComunes(codigoLote: number):Observable<StatusResponse<BienesComunesResponse[]>>{
+
+        return this.http.post<StatusResponse<BienesComunesResponse[]>>(environment.urlWebApiSICU + 'ConsultaUnidadesBienComun',
+        {
+            codigoLote: codigoLote
+        })
+        .pipe(
+            catchError(this.handlerError)
+        ); 
+    }
+
+    GuardarUbicacionBienesComunes(ubiBC: UbicacionBCRequest):Observable<StatusResponse<number>>{
+    
+        return this.http.post<StatusResponse<number>>(environment.urlWebApiSICU + 'guardaUbicacionBienComun',
+        ubiBC)
+        .pipe(
+            catchError(this.handlerError)
+        );         
+    }
+
+    ConsultaUbicacionBienesComunes(codigoUnidadAdministrativa: number):Observable<StatusResponse<UbicacionBCRequest[]>>{
+
+        return this.http.post<StatusResponse<UbicacionBCRequest[]>>(environment.urlWebApiSICU + 'ConsultaUbicacionBienComun',
+        {
+            codigoUnidadAdministrativa: codigoUnidadAdministrativa
+        })
+        .pipe(
+            catchError(this.handlerError)
+        ); 
+    }
+
+    GuardaEvidenciasBienComun(data: FormData):Observable<StatusResponse<number>>{
+        return this.http.post<StatusResponse<number>>(environment.urlWebApiSICU + 'ActualizaUnidadAdministrativa',
+        data)
+        .pipe(
+            catchError(this.handlerError)
+        );         
+    }
+
+    ConsultaPredioBienesComunes(codigoUnidadAdministrativa: number):Observable<StatusResponse<PredioBCRequest>>{
+
+        return this.http.post<StatusResponse<PredioBCRequest>>(environment.urlWebApiSICU + 'ConsultaDatosUnidadAdministrativa01',
+        {
+            codigoUnidadAdministrativa: codigoUnidadAdministrativa
+        })
+        .pipe(
+            catchError(this.handlerError)
+        ); 
+    }
+
+
+
+
 
     ConsultaDatosRecapitulacionEdifica(codigoEdificacion: number):Observable<StatusResponse<RecapitulacionEdificaResponse[]>>{
 

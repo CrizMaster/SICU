@@ -9,6 +9,8 @@ import { Title } from 'src/app/core/models/title.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalQuestionComponent } from 'src/app/core/shared/components/modal-question/modal-question.component';
 import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
+import { StatusResponse } from 'src/app/core/models/statusResponse.model';
+import { UnidadAdministrativaResponse } from 'src/app/intranet/components/formularios/models/unidadAdministrativaResponse';
 
 @Component({
   selector: 'app-vincular-unidad',
@@ -21,6 +23,7 @@ export class VincularUnidadComponent {
   
   formVU: FormGroup;
 
+  habilitar: boolean = true;
   ApellidoPaterno:string = '';
   ApellidoMaterno:string = '';
   Nombres:string = '';
@@ -34,18 +37,26 @@ export class VincularUnidadComponent {
     private _unidadAdministrativaService: UnidadAdministrativaService,
     public subDialog: MatDialog
     ){
-    this.formVU = this.fb.group({
-      tipodocidentidad: [0, Validators.required],  
-      nrodocidentidad: ['', [Validators.required, Validators.pattern('[0-9]+')]],
-      manzanaUrbana: [''],
-      loteUrbano: [''],
-      subloteUrbano: [''],
-      tipoDivision: [''],
-      nombreDivision: [''],
-      direccion: ['']
-    }); 
+      this.formVU = this.fb.group({
+        tipodocidentidad: [0, Validators.required],  
+        nrodocidentidad: ['', [Validators.required, Validators.pattern('[0-9]+')]],
+        manzanaUrbana: [''],
+        loteUrbano: [''],
+        subloteUrbano: [''],
+        tipoDivision: [''],
+        nombreDivision: [''],
+        direccion: ['']
+      }); 
 
-    this.listTipoDocIdent = getFilterMasterCatalog(CatalogoMasterEnum.TipoDocIdentidadTitular);
+      this._unidadAdministrativaService.UnidadAdministrativa.subscribe({
+        next:(Data:StatusResponse<UnidadAdministrativaResponse>) => {
+            if(Data != undefined && Data.data != undefined){
+              this.habilitar = Data.data.codigoEstado != '03';
+            }            
+        }
+      });      
+
+      this.listTipoDocIdent = getFilterMasterCatalog(CatalogoMasterEnum.TipoDocIdentidadTitular);
   }
 
   ngOnInit(): void {
@@ -102,31 +113,34 @@ export class VincularUnidadComponent {
   }
 
   seleccionarDatos(datos: DireccionResponse){
-    let modal1: Title = { Title: '¿Está seguro de vincular el registro seleccionado?'}
     
-    const subDialogModal = this.subDialog.open(ModalQuestionComponent, {
-        width: '450px',
-        enterAnimationDuration: '300ms',
-        exitAnimationDuration: '300ms',
-        disableClose: true,
-        data: modal1
-    });
-
-    subDialogModal.afterClosed().subscribe(resp => {
-      if(resp){
-        let dg = this.ModalLoading('Procesando su solicitud...');
-
-        //Cargando datos
-        setTimeout(() => {
-          dg.close();
-
-          datos.index = 2;
-          this._unidadAdministrativaService.InfoArmonizacion.next(datos);
-
-        }, 1000);         
-        
-      }            
-    });
+    if(this.habilitar){
+      let modal1: Title = { Title: '¿Está seguro de vincular el registro seleccionado?'}
+    
+      const subDialogModal = this.subDialog.open(ModalQuestionComponent, {
+          width: '450px',
+          enterAnimationDuration: '300ms',
+          exitAnimationDuration: '300ms',
+          disableClose: true,
+          data: modal1
+      });
+  
+      subDialogModal.afterClosed().subscribe(resp => {
+        if(resp){
+          let dg = this.ModalLoading('Procesando su solicitud...');
+  
+          //Cargando datos
+          setTimeout(() => {
+            dg.close();
+  
+            datos.index = 2;
+            this._unidadAdministrativaService.InfoArmonizacion.next(datos);
+  
+          }, 1000);         
+          
+        }            
+      });
+    }
   }
 
   ModalLoading(msn: string): any {     

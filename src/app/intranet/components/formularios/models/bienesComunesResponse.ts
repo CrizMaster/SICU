@@ -16,5 +16,15 @@ export interface BienesComunesResponse {
     terminalCreacion?: string,
     terminalModificacion?: string,    
     usuarioCreacion?: string,    
-    usuarioModificacion?: string
+    usuarioModificacion?: string,
+
+    codigoTipoInterior?: string,
+    codigoUnidadAdministrativa?: number,
+    codigoVia: string,
+    codigoViaLote: string,
+    loteUrbano: string,
+    manzanaUrbana: string,
+    nombreTipoInterior: string,
+    nombreVia: string,
+    numeroInterior: string
 }

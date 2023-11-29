@@ -422,17 +422,14 @@ export class InformacionLoteComponent implements OnInit{
   
                     this._ordenTrabajoService.obtieneInformacionCaracterizacionLote()
                     .subscribe(Data => {  
-                        console.log('Informacion Lote');
-                        console.log(Data);
+
                         let newInfo: CaracterizacionResponse = Data.data;
 
                         let vias: ViasCaracterizacion[] = [];
                         newInfo.listaVias.forEach(el => {
-                            //if(el.checkedAct) {
                                 el.checkedAct = true;
                                 el.nombreTipoPuerta = this.FindTextById(this.listTipoPuerta, el.idTipoPuerta)
                                 vias.push(el);
-                            //}
                         });
 
                         this._ordenTrabajoService.listaVias.next(vias);

@@ -12,14 +12,14 @@ import { PublicService } from "./public.service";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { ReactiveFormsModule } from "@angular/forms";
 
-import {RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module} from 'ng-recaptcha';
+//import {RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module} from 'ng-recaptcha';
 
 @NgModule({
     imports: [
         PublicRoutingModule,
         SharedModule,
         ReactiveFormsModule,
-        RecaptchaV3Module
+        //RecaptchaV3Module
     ],
     declarations: [
         PublicComponent,
@@ -32,10 +32,10 @@ import {RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module} from 'ng-recaptcha';
     exports: [],
     providers: [
         PublicService,
-        {
-            provide: RECAPTCHA_V3_SITE_KEY,
-            useValue: "6Lf9BE4nAAAAAIDxDESVz3wPsQRKPH95qc5IByB4",
-        }
+        // {
+        //     provide: RECAPTCHA_V3_SITE_KEY,
+        //     useValue: "6Lf9BE4nAAAAAIDxDESVz3wPsQRKPH95qc5IByB4",
+        // }
     ]
 })
 

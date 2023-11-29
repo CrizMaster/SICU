@@ -60,10 +60,6 @@ export class UserComponent implements OnInit, OnDestroy {
             this.organizaciones = orgsData.data;
             if(this.organizaciones.length > 0) { 
 
-              //if(this._localService.getData("sicuorg"))
-              // console.log('this.organizaciones[0]');
-              // console.log(this.organizaciones[0]);
-
               this._localService.removeData("sicuorg");
               this._localService.saveData("sicuorg", JSON.stringify(this.organizaciones[0]));
 

@@ -271,8 +271,8 @@
         </div>
         <div class="col-md-2 my-2">
           <button type="submit" 
-            class="btn btn-sm bg-btn-save w-100"
-            (click)="guardar()">
+            [disabled]="form.invalid || imagenes.length == 0"
+            class="btn btn-sm bg-btn-save w-100">
             Guardar      
           </button>
         </div>

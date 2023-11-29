@@ -167,6 +167,16 @@ export class OrdenTrabajoService{
         );         
     }
 
+    CierraEdificacion(codigoEdificacion: number):Observable<StatusResponse<number>>{
+        return this.http.post<StatusResponse<number>>(environment.urlWebApiSICU + 'CierraEdificacion',
+        {
+            'codigoEdificacion': codigoEdificacion
+        })
+        .pipe(
+            catchError(this.handlerError)
+        );         
+    }
+
     ActualizaDatosEdificacion(data: EdificacionRequest):Observable<any>{
         return this.http.post<any>(environment.urlWebApiSICU + 'ActualizaDatosEdificacion',
         data)

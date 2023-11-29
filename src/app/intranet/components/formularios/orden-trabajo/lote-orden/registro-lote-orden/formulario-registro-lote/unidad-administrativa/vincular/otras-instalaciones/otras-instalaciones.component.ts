@@ -22,6 +22,7 @@ export class OtrasInstalacionesComponent implements OnInit, OnDestroy  {
   displayedColumns: string[] = ['Nro', 'Codigo', 'Descripcion', 'MesAnio', 'MEP', 'ECS', 'ECC', 
   'ProductoTotal', 'UnidadMedida', 'UCA', 'Accion'];
 
+  habilitar: boolean = true;
   codigoUnidadAdministrativa: number = 0;
   lista: ObrasComplementariasResponse[] = [];
   dataSource = new MatTableDataSource<ObrasComplementariasResponse>();
@@ -36,8 +37,11 @@ export class OtrasInstalacionesComponent implements OnInit, OnDestroy  {
     private _unidadAdministrativaService: UnidadAdministrativaService
     ){  
       this._unidadAdministrativaService.UnidadAdministrativa.subscribe({
-        next:(Data:StatusResponse<UnidadAdministrativaResponse>) => {            
+        next:(Data:StatusResponse<UnidadAdministrativaResponse>) => {  
+          if(Data != undefined && Data.data != undefined){
             this.codigoUnidadAdministrativa = Data.data.codigoUnidadAdministrativa;
+            this.habilitar = Data.data.codigoEstado != '03';
+          }
         }
       });        
   } 
@@ -62,7 +66,7 @@ export class OtrasInstalacionesComponent implements OnInit, OnDestroy  {
   }
 
   ObraComplementariaModal(data: ObrasComplementariasResponse):void {
-
+    data.habilitar = this.habilitar;
     const dialog = this.dialog.open(OtraInstalacionModalComponent, {
         width: '760px',
         enterAnimationDuration: '300ms',

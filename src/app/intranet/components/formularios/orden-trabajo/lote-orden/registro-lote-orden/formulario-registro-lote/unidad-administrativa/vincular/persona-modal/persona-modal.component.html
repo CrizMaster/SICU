@@ -288,7 +288,7 @@
                   <div class="row">
                     <div class="col-md-12">Sexo</div>
                     <div class="col-md-12" style="position: relative;">
-                      <select name="estadocivil" #SelSexo
+                      <select name="sexo" #SelSexo
                               formControlName="sexo"
                               class="form-select form-select-sm border focus-ring" 
                               [class.border-success]="this.form.get('sexo')?.valid"
@@ -441,7 +441,7 @@
                 <div class="row">
                   <div class="col-md-12">Sexo</div>
                   <div class="col-md-12" style="position: relative;">
-                    <select name="estadocivil" #SelSexoconyuge
+                    <select name="sexoconyuge" #SelSexoconyuge
                             formControlName="sexoconyuge"
                             class="form-select form-select-sm border focus-ring" 
                             [class.border-success]="this.form.get('sexoconyuge')?.valid"
@@ -463,17 +463,15 @@
         <mat-tab label="Evidencia" class="bg-cofopri text-cofopri">
           <div class="container-sm"  style="border: 2px solid #cde1ff;">
             <div class="row mt-3">
-              <div class="col-md-1">&nbsp;</div>
-              <div class="col-md-10 border border-2 border-danger p-2 mb-2 border-opacity-25 rounded">
+              <div class="col-md-12">
                 <input class="btn btn-sm btn-danger bg-cofopri w-100 mt-1 shadow-sm" 
                   type="file" (change)="capturarFile($event)" accept="image/*" multiple/>
               </div>
             </div>
             <div class="row py-2">
-              <div class="col-md-1">&nbsp;</div>
-              <div class="col-md-10">
-                <div class="row border border-2 border-danger p-2 mb-2 border-opacity-25 rounded" *ngIf="imagenes.length > 0">
-                  <div class="col-md-12" *ngFor="let img of imagenes">
+              <div class="col-md-12">
+                <div class="row" *ngIf="imagenes.length > 0">
+                  <div class="col-md-6" *ngFor="let img of imagenes">
                     <mat-card class="my-2">
                       <div class="d-flex">
                         <div class="p-2" style="width: 70px;">

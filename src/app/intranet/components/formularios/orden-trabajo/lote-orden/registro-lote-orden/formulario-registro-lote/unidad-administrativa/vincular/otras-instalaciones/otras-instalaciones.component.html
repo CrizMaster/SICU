@@ -5,7 +5,9 @@
               <div class="my-2 w-100 p-2 respuesta">Obras / Instalaciones</div>
             </div>
             <div class="col-md-4 text-end py-2">
-                <button class="btn btn-sm btn-custom btn-outline-primary" (click)="AgregarObra()">
+                <button class="btn btn-sm btn-custom btn-outline-primary" 
+                    (click)="AgregarObra()"
+                    *ngIf="habilitar">
                     <i class="bi bi-building-add"></i>&nbsp;Agregar
                 </button>
             </div>
@@ -72,14 +74,24 @@
                     <mat-icon>more_vert</mat-icon>
                   </button>
                   <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="EditarObra(element, i)">
+                    <button mat-menu-item 
+                      (click)="EditarObra(element, i)"
+                      *ngIf="habilitar">
                       <mat-icon>edit</mat-icon>
                       <span>Editar Obra</span>
                     </button>
-                    <button mat-menu-item (click)="AnularObra(element)">
+                    <button mat-menu-item 
+                      (click)="AnularObra(element)"
+                      *ngIf="habilitar">
                       <mat-icon>delete</mat-icon>
                       <span>Eliminar Obra</span>
                     </button>
+                    <button mat-menu-item 
+                      (click)="EditarObra(element, i)"
+                      *ngIf="!habilitar">
+                      <mat-icon>remove_red_eye</mat-icon>
+                      <span>Ver Obra</span>
+                    </button>                    
                   </mat-menu>
                 </td>
               </ng-container>
@@ -98,6 +110,7 @@
   <div class="col-md-3 text-end">
     <button type="submit" 
       [disabled]="this.lista.length==0"
+      *ngIf="habilitar"
       class="btn btn-sm bg-btn-save w-100"
       (click)="GuardarObrasComplementarias()">
       Guardar      

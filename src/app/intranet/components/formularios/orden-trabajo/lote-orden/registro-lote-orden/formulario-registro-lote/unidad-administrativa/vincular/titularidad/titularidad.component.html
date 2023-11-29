@@ -1,6 +1,6 @@
 <form [formGroup]="formTitu">
     <mat-accordion class="example-headers-align" multi>
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="expanding">
           <mat-expansion-panel-header>
             <mat-panel-title>          
               <div class="w-100 barra-title py-3 px-2">Características de Titularidad</div>
@@ -113,9 +113,9 @@
                             [class.focus-ring-success]="this.formTitu.get('numeropartida')?.valid"
                             [class.border-danger]="this.formTitu.get('numeropartida')?.invalid && this.formTitu.get('numeropartida')?.touched"
                             [class.focus-ring-danger]="this.formTitu.get('numeropartida')?.invalid && this.formTitu.get('numeropartida')?.touched">
-                          <i *ngIf="this.formTitu.get('numeropartida')?.invalid && this.formTitu.get('numeropartida')?.touched" 
-                                class="position-icon-input bi bi-exclamation-circle-fill text-danger"
-                                title="Campo requerido"></i>                      
+                            <i *ngIf="this.formTitu.get('numeropartida')?.invalid && this.formTitu.get('numeropartida')?.touched" 
+                                  class="position-icon-input bi bi-exclamation-circle-fill text-danger"
+                                  title="Campo requerido"></i>                      
                           </div>
                       </div>                    
                     </div>
@@ -129,7 +129,7 @@
           </div>
         </mat-expansion-panel>
 
-        <mat-expansion-panel > <!--disabled -->
+        <mat-expansion-panel  [expanded]="expanding"> <!--disabled -->
           <mat-expansion-panel-header>
             <mat-panel-title>
                 <div class="w-100 barra-title py-3 px-2">Interesados</div>              
@@ -144,6 +144,10 @@
                   (click)="AgregarPersona()">
                   <i class="bi bi-person-add"></i>&nbsp;Agregar
                 </button>
+                <!-- <button class="btn btn-sm btn-custom btn-outline-primary"
+                  (click)="AgregarPersona()">
+                  <i class="bi bi-person-add"></i>&nbsp;Agregar
+                </button>                 -->
               </div>
             </div>
             <div class="row"> 
@@ -256,11 +260,13 @@
                       <div class="row">
                         <div class="col-md-12 col-sm-12 text-end">
                           <button mat-icon-button 
+                            *ngIf="habilitar && this.formTitu.get('condiciontitular')?.valid"
                             [matMenuTriggerFor]="menu">
                             <mat-icon>more_vert</mat-icon>
                           </button>
                           <mat-menu #menu="matMenu">
-                            <button mat-menu-item>
+                            <button mat-menu-item
+                              (click)="EditarPersona(int)">
                               <mat-icon>edit</mat-icon>
                               <span>Editar interesado</span>
                             </button>
@@ -276,10 +282,12 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-9">&nbsp;</div>
-              <div class="col-md-3 text-end my-2">
+              <div class="col-md-10">&nbsp;
+              </div>
+              <div class="col-md-2 text-end my-2">
                 <button type="submit" 
-                [disabled]="this.lista.length==0"
+                  *ngIf="habilitar"
+                  [disabled]="this.formTitu.invalid || lista.length==0"
                   class="btn btn-sm bg-btn-save w-100"
                   (click)="GuardarInteresados()">
                   Guardar      

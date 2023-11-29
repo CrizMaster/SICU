@@ -3,17 +3,8 @@
     <div class="col-md-12">
       <div class="row my-1">
         <div class="col-md-12">
-          <!-- <div class="my-2 w-100 p-2 respuesta">Ubicación</div> -->
           <div class="w-100 barra-title py-3 px-2">Ubicación</div>
         </div>
-        <!-- <div class="col-md-2 text-end py-2">
-          <button class="btn btn-custom btn-outline-primary">
-            <i class="bi bi-eraser-fill"></i>
-          </button>&nbsp;
-          <button class="btn btn-custom btn-outline-primary">
-            <i class="bi bi-save"></i>
-          </button>
-        </div> -->
     </div> 
     </div>
     <div class="col-md-12">
@@ -109,7 +100,7 @@
         <div class="col-md-2 my-2">
           <button type="submit" 
             class="btn btn-sm bg-btn-save w-100"
-            (click)="guardar()">
+            [disabled]="form.invalid">
             Guardar      
           </button>
         </div>

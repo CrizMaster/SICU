@@ -10,6 +10,10 @@ import { ModalMessageComponent } from 'src/app/core/shared/components/modal-mess
 import { ModalQuestionComponent } from 'src/app/core/shared/components/modal-question/modal-question.component';
 import { ConstruccionResponse, ConstruccionesRequest } from 'src/app/intranet/components/formularios/models/construccionesRequest';
 import { ConstruccionBcModalComponent } from '../construccion-modal/construccion-bc-modal.component';
+import { UnidadAdministrativaService } from '../../../unidad-administrativa/unidad-administrativa.service';
+import { BienesComunesService } from '../../bienes-comunes.service';
+import { StatusResponse } from 'src/app/core/models/statusResponse.model';
+import { BienesComunesResponse } from 'src/app/intranet/components/formularios/models/bienesComunesResponse';
 
 @Component({
     selector: 'app-construcciones-bc',
@@ -27,6 +31,7 @@ export class ConstruccionesBcComponent implements OnInit {
   
     public saveForm$: Subscription = new Subscription;
     public consCons$: Subscription = new Subscription;
+    public itemBC$: Subscription = new Subscription;
   
     dataSource = new MatTableDataSource<ConstruccionResponse>();
     
@@ -35,12 +40,32 @@ export class ConstruccionesBcComponent implements OnInit {
         private _activatedRoute:ActivatedRoute,
         private fb: FormBuilder,
         private cd: ChangeDetectorRef,
-        public dialog: MatDialog,        
+        public dialog: MatDialog,
+        private _unidadAdministrativaService: UnidadAdministrativaService,
+        private _bienesComunesService: BienesComunesService
     ){
-
+      this.itemBC$ = this._bienesComunesService.BienesComunes.subscribe({
+        next:(Data:StatusResponse<BienesComunesResponse>) => {
+            if(Data.data != undefined){
+                this.codigoUnidadAdministrativa = Data.data.codigoUnidadAdministrativa;
+            }                 
+        }
+      });
     }
 
     ngOnInit(): void {
+      this.consCons$ = this._unidadAdministrativaService.ConsultaConstrucciones(this.codigoUnidadAdministrativa).subscribe({
+        next:(result: StatusResponse<ConstruccionResponse[]>) => {
+          if(result.success){
+            this.lista = result.data;
+            this.lista.forEach(el => {
+              el.codigoConstruccion =  el.codigoConstruccion
+            });
+  
+            this.dataSource = new MatTableDataSource<ConstruccionResponse>(this.lista);
+          }       
+        }
+      });      
     }
 
     ConstruccionModal(data: ConstruccionResponse):void {
@@ -128,42 +153,42 @@ export class ConstruccionesBcComponent implements OnInit {
               listaConstrucciones: this.lista
             };
     
-            // this.saveForm$ = this._unidadAdministrativaService.GuardarConstrucciones(datos)
-            //  .subscribe(result => {    
-            //   setTimeout(() => {
-            //     dg.close();
-            //     if(result.success) {
+            this.saveForm$ = this._unidadAdministrativaService.GuardarConstrucciones(datos)
+             .subscribe(result => {    
+              setTimeout(() => {
+                dg.close();
+                if(result.success) {
     
-            //       let modal: Title = { 
-            //         Title: 'Construcciones Actualizadas', 
-            //         Subtitle: 'La información de las construcciones se actualizó satisfactoriamente.', 
-            //         Icon: 'ok' 
-            //       }
+                  let modal: Title = { 
+                    Title: 'Construcciones Actualizadas', 
+                    Subtitle: 'La información de las construcciones se actualizó satisfactoriamente.', 
+                    Icon: 'ok' 
+                  }
     
-            //       const okModal = this.dialog.open(ModalMessageComponent, {
-            //           width: '500px',
-            //           enterAnimationDuration: '300ms',
-            //           exitAnimationDuration: '300ms',
-            //           disableClose: true,
-            //           data: modal
-            //       });
+                  const okModal = this.dialog.open(ModalMessageComponent, {
+                      width: '500px',
+                      enterAnimationDuration: '300ms',
+                      exitAnimationDuration: '300ms',
+                      disableClose: true,
+                      data: modal
+                  });
     
-            //     }
-            //     else{
-            //         let modal: Title = { 
-            //             Title: 'Opss...', 
-            //             Subtitle: result.message, 
-            //             Icon: 'error' }
-            //           this.dialog.open(ModalMessageComponent, {
-            //               width: '500px',
-            //               enterAnimationDuration: '300ms',
-            //               exitAnimationDuration: '300ms',
-            //               disableClose: true,
-            //               data: modal
-            //           });
-            //     }              
-            //   }, 500);
-            // });
+                }
+                else{
+                    let modal: Title = { 
+                        Title: 'Opss...', 
+                        Subtitle: result.message, 
+                        Icon: 'error' }
+                      this.dialog.open(ModalMessageComponent, {
+                          width: '500px',
+                          enterAnimationDuration: '300ms',
+                          exitAnimationDuration: '300ms',
+                          disableClose: true,
+                          data: modal
+                      });
+                }              
+              }, 500);
+            });
           }            
         });
     

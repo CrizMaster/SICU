@@ -25,6 +25,7 @@ export class ConstruccionesComponent implements OnInit, OnDestroy  {
 
   codigoUnidadAdministrativa: number = 0;
   lista: ConstruccionResponse[] = [];
+  habilitar: boolean = true;
 
   public saveForm$: Subscription = new Subscription;
   public consCons$: Subscription = new Subscription;
@@ -38,8 +39,11 @@ export class ConstruccionesComponent implements OnInit, OnDestroy  {
     private _unidadAdministrativaService: UnidadAdministrativaService){
 
       this._unidadAdministrativaService.UnidadAdministrativa.subscribe({
-        next:(Data:StatusResponse<UnidadAdministrativaResponse>) => {            
+        next:(Data:StatusResponse<UnidadAdministrativaResponse>) => {   
+          if(Data != undefined && Data.data != undefined){
             this.codigoUnidadAdministrativa = Data.data.codigoUnidadAdministrativa;
+            this.habilitar = Data.data.codigoEstado != '03';
+          }
         }
       });      
       
@@ -66,7 +70,7 @@ export class ConstruccionesComponent implements OnInit, OnDestroy  {
   }
 
   ConstruccionModal(data: ConstruccionResponse):void {
-
+    data.habilitar = this.habilitar;
     const dialog = this.dialog.open(ConstruccionModalComponent, {
         width: '760px',
         enterAnimationDuration: '300ms',

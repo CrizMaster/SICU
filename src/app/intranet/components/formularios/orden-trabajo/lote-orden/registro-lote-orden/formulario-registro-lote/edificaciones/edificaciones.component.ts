@@ -226,6 +226,64 @@ export class EdificacionesComponent implements OnInit{
 
     }
 
+    TerminarEdificacion(row: EdificacionResponse){
+        
+        let modal1: Title = { Title: '¿Está seguro de terminar la edificación?' }
+        
+        const sdm = this.subDialog.open(ModalQuestionComponent, {
+            width: '450px',
+            enterAnimationDuration: '300ms',
+            exitAnimationDuration: '300ms',
+            disableClose: true,
+            data: modal1
+        });
+
+        sdm.afterClosed().subscribe(resp => {
+            if(resp){
+              let dg = this.ModalLoading();
+  
+              this.saveForm$ = this._ordenTrabajoService.CierraEdificacion(row.codigoEdificacion)
+              .subscribe(result => {    
+                setTimeout(() => {
+                    dg.close();
+                
+                    if(result.success){ 
+                        let modal: Title = { 
+                            Title: 'Edificación Terminada', 
+                            Subtitle: 'La edificación se terminó satisfactoriamente.', 
+                            Icon: 'ok' 
+                        }
+                        const okModal = this.subDialog.open(ModalMessageComponent, {
+                            width: '500px',
+                            enterAnimationDuration: '300ms',
+                            exitAnimationDuration: '300ms',
+                            disableClose: true,
+                            data: modal
+                        });
+                        okModal.afterClosed().subscribe(resp => {
+                            this.listarEdificaciones();
+                        });
+                    }
+                    else{
+                        let modal: Title = { 
+                            Title: 'Opss...', 
+                            Subtitle: result.message, 
+                            Icon: 'error' }
+    
+                        this.subDialog.open(ModalMessageComponent, {
+                                  width: '500px',
+                                  enterAnimationDuration: '300ms',
+                                  exitAnimationDuration: '300ms',
+                                  disableClose: true,
+                                  data: modal
+                              });
+                    }
+                }, 500);
+              });
+            }            
+        });        
+    }
+
     ModalLoading(): any {     
         let modal: Title = { 
           Title: 'Procesando su solicitud...'}

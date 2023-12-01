@@ -93,11 +93,12 @@ export class IntranetService implements OnInit {
      
         const headers = { 'Authorization': 'Bearer ' + user.data.token }
 
-        return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListOrganizacionesAsync',
-        { headers })
-        .pipe(
-            catchError(this.handlerError)
-        );
+        return of({});
+        // return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListOrganizacionesAsync',
+        // { headers })
+        // .pipe(
+        //     catchError(this.handlerError)
+        // );
     }
 
     listaPerfiles(id: string):Observable<any>{
@@ -110,11 +111,12 @@ export class IntranetService implements OnInit {
             params: {'idOrganizacion': id}
         }
 
-        return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListPerfilesAsync',
-        httpOptions)
-        .pipe(
-            catchError(this.handlerError)
-        );
+        return of({});
+        // return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListPerfilesAsync',
+        // httpOptions)
+        // .pipe(
+        //     catchError(this.handlerError)
+        // );
     }
     
     listaMenu(idOrg: number, idPer: number):Observable<any>{
@@ -133,11 +135,12 @@ export class IntranetService implements OnInit {
 
         //const headers = { 'Authorization': 'Bearer ' + user.data.token }
 
-        return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListMenuAsync',
-        httpOptions)
-        .pipe(
-            catchError(this.handlerError)
-        );
+        return of({});
+        // return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListMenuAsync',
+        // httpOptions)
+        // .pipe(
+        //     catchError(this.handlerError)
+        // );
     }    
 
     private handlerError(error: HttpErrorResponse) {

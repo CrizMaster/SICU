@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, tap, throwError } from 'rxjs';
 import { LocalService } from 'src/app/core/shared/services/local.service';
 import { FichaCatastralFilter } from './models/fichaCatastralFilter.model';
 
@@ -98,14 +98,16 @@ export class FichaIndividualService{
                     'Bearer ' + user.data.token
                 );
 
-        return this.http.post<FichaCatastralResponse>(environment.urlWebApiTest + 'Customers/ListFichasIndividualesAsync',
-        filter,
-        {
-            headers: headers
-        })
-        .pipe(
-            catchError(this.handlerError)
-        );
+        let a:FichaCatastralResponse;
+        return of(a);
+        // return this.http.post<FichaCatastralResponse>(environment.urlWebApiTest + 'Customers/ListFichasIndividualesAsync',
+        // filter,
+        // {
+        //     headers: headers
+        // })
+        // .pipe(
+        //     catchError(this.handlerError)
+        // );
     }
 
     listarDepartamentos():Observable<Ubigeo[]>{

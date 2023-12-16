@@ -8,6 +8,7 @@ import { CatalogoMaster } from '../core/models/catalogo-master.model';
 import { StatusResponse } from '../core/models/statusResponse.model';
 import { MenuResponse } from './models/menuResponse';
 import { UsuarioSession } from '../public/models/usuarioSession';
+import { CatalogoModel } from '../core/models/catalogo.model';
 
 @Injectable( {  providedIn: 'root' })
 
@@ -39,17 +40,30 @@ export class IntranetService implements OnInit {
         return this.http.get<StatusResponse<MenuResponse[]>>(environment.urlWebApiEyL + 'Users/GetListaMenu')
         .pipe(
             catchError(this.handlerError)            
-        );;
+        );
     }
 
-    setMasterCatalog(): Observable<StatusResponse<CatalogoMaster[]>>{
-        let cm = this._localService.getData("sicucm");
+    setMasterCatalog(): Observable<StatusResponse<CatalogoModel[]>>{
+        let cm = this._localService.getData("catmaster");
         if(cm.length == 0){
-            return this.http.post<StatusResponse<CatalogoMaster[]>>(environment.urlWebApiSICU + 'obtener', null);
+
+            let tk = this._localService.getData("Token");
+            let usr = JSON.parse(tk);
+         
+            const httpOptions = {
+                headers: { 'Authorization': 'Bearer ' + usr.token }
+            }
+
+            return this.http.post<StatusResponse<CatalogoModel[]>>(environment.urlWebApiEyL + 'General/GetListarCatalogo', 
+            null,
+            httpOptions)
+            .pipe(
+                catchError(this.handlerError)            
+            );
         }
         else{
             let resp = JSON.parse(cm);
-            let data: StatusResponse<CatalogoMaster[]> = { success:true, data: resp, message: '', total:1, validations: [] };
+            let data: StatusResponse<CatalogoModel[]> = { success:true, data: resp};
             
             return of(data);
         }        

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PublicService } from './public.service';
 
 @Component({
     selector: 'app-public',

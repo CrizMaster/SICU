@@ -4,7 +4,6 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { LoginRequest } from './models/loginRequest';
-import { LoginResponse } from './models/loginResponse';
 
 import { environment } from 'src/environments/environment';
 import { StatusResponse } from '../core/models/statusResponse.model';

@@ -113,9 +113,6 @@ export class LoginComponent implements OnInit, OnDestroy  {
                 this._localService.removeData("Token");
                 this._localService.saveData("Token", JSON.stringify(userData.data))
 
-                // userData.data.token = "";
-                // this._authService.currentUsuario.next(userData.data);
-
                 this._authService.isLoggedIn.next(true);
               }              
           },

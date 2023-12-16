@@ -76,29 +76,29 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
       this._generarOrdenService.DataTableOT.subscribe({
         next:(Data) => {
   
-          if(Data.total > 0){
-            this.loading = true;
+          // if(Data.total > 0){
+          //   this.loading = true;
   
-            setTimeout(() => {
-              this.paginator.pageIndex = 0;
-              this.paginator.pageSize = 10;
+          //   setTimeout(() => {
+          //     this.paginator.pageIndex = 0;
+          //     this.paginator.pageSize = 10;
     
-              let fi: OrdenTrabajo[];
+          //     let fi: OrdenTrabajo[];
 
-              Data.data.forEach(elem => {
-                elem.seleccion = false;
-                elem.expandir = false;
-              });
+          //     Data.data.forEach(elem => {
+          //       elem.seleccion = false;
+          //       elem.expandir = false;
+          //     });
 
-              fi = Data.data;
-              fi.length = Data.total;
+          //     fi = Data.data;
+          //     fi.length = Data.total;
               
-              this.dataSource = new MatTableDataSource<OrdenTrabajo>(fi);
-              this.dataSource.paginator = this.paginator;
+          //     this.dataSource = new MatTableDataSource<OrdenTrabajo>(fi);
+          //     this.dataSource.paginator = this.paginator;
     
-              this.loading = false;
-            }, 500);
-          }
+          //     this.loading = false;
+          //   }, 500);
+          // }
         }
       });
   
@@ -121,7 +121,7 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
 
             this.loading = false;
             let info = Data.data;
-            info.length = Data.total;          
+            //info.length = Data.total;          
 
             this.dataSource = new MatTableDataSource<OrdenTrabajo>(info);
             this.dataSource.paginator = this.paginator;
@@ -161,7 +161,7 @@ export class BandejaOrdenComponent implements OnInit , OnDestroy {
 
             this.fi.length = previousSize;
             this.fi.push(...Data.data);
-            this.fi.length = Data.total;
+            //this.fi.length = Data.total;
             
             this.selection.selected.forEach(sel => {
               this.fi.forEach(item => {

@@ -6,9 +6,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Title } from 'src/app/core/models/title.model';
-import { ModalQuestionComponent } from 'src/app/core/shared/components/modal-question/modal-question.component';
 import { ModalLoadingComponent } from 'src/app/core/shared/components/modal-loading/modal-loading.component';
-import { ModalMessageComponent } from 'src/app/core/shared/components/modal-message/modal-message.component';
 import { Subscription } from 'rxjs';
 import { OrdenTrabajoService } from '../orden-trabajo.service';
 import { OrdenTrabajoView } from '../../../asignacion-carga/models/ordenTrabajoResponse';
@@ -107,6 +105,9 @@ export class BandejaOrdenTrabajoComponent implements OnInit , OnDestroy {
       this._ordenTrabajoService.listarOrdenesTrabajoxDistrito(this.filter).subscribe({
         next:(Data) => {
 
+          this.dataSource = new MatTableDataSource<OrdenTrabajo>([]);
+          this.dataSource.paginator = this.paginator;
+
           if(Data.success){
             Data.data.forEach(elem => {
               elem.seleccion = false;
@@ -118,10 +119,6 @@ export class BandejaOrdenTrabajoComponent implements OnInit , OnDestroy {
             info.length = Data.total;          
 
             this.dataSource = new MatTableDataSource<OrdenTrabajo>(info);
-            this.dataSource.paginator = this.paginator;
-          }
-          else{
-            this.dataSource = new MatTableDataSource<OrdenTrabajo>([]);
             this.dataSource.paginator = this.paginator;
           }
         }

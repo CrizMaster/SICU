@@ -3,5 +3,7 @@ export interface StatusResponse<T> {
     message?: string,
     data?: T,
     total?: number,
+    totalPaginas?: number,
+    totalRegistros?: number,
     validations?: string[]
 }

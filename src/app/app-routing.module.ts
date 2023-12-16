@@ -11,9 +11,9 @@ const routes: Routes = [
     path:'intranet', 
     canMatch: [authGuard],
     loadChildren:() => import('./intranet/intranet.module').then(m => m.IntranetModule),
-    // resolve: {
-    //   datos: CatalogResolver
-    // }
+    resolve: {
+      datos: CatalogResolver
+    }
   },
   {
     path: 'access-denied', component: AccessDeniedComponent, 

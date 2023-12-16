@@ -32,6 +32,29 @@ export class IntranetComponent implements OnInit{
           this.offline = sw;
         }
       });
+
+      this.actRoute.data.subscribe(resp => {
+        console.log(resp);
+        if(!resp.datos.Success) {
+            let modal: Title = { 
+              Title: 'Opss...', 
+              Subtitle: 'No se puedo recuperar la información necesaria para continuar con el sistema, verifique su conexión a internet o contacte con el administrador del sistema.',
+              Icon: 'error' 
+            };
+            let win = this.dialog.open(ModalMessageComponent, {
+                width: '500px',
+                enterAnimationDuration: '300ms',
+                exitAnimationDuration: '300ms',
+                disableClose: true,
+                data: modal
+            });
+
+            win.afterClosed().subscribe(result => {
+                this.CerrarSesion();          
+            });
+        }
+      });      
+
     }
 
     CerrarSesion(){

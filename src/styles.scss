@@ -101,3 +101,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-right: 28px !important;
   position: absolute;
 }
+
+.icon-display {
+  transform: scale(1.5);
+}
+
+// .mat-primary {
+//   --mdc-fab-container-color: #00548c;
+//   color: #ffffff;
+//  }
+
+ .mat-mdc-raised-button.mat-primary {
+  --mdc-protected-button-container-color: #00548c;
+  --mdc-protected-button-label-text-color: #fff;
+} 
+
+.mat-mdc-fab.mat-primary, .mat-mdc-mini-fab.mat-primary {
+  --mdc-fab-container-color: #00548c;
+  --mdc-fab-icon-color: white;
+  --mat-mdc-fab-color: #fff;
+}

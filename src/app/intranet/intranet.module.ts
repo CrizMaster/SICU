@@ -54,6 +54,8 @@ import { BandejaOrdenTrabajoComponent } from "./components/formularios/orden-tra
 import { LoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/lote-orden.component";
 import { BandejaLoteOrdenComponent } from "./components/formularios/orden-trabajo/lote-orden/bandeja-lote-orden/bandeja-lote-orden.component";
 import { PersonalUsuarioComponent } from "./components/configuraciones/personal-usuario/personal-usuario.component";
+import { ConfiguracionService } from "./components/configuraciones/configuracion.service";
+import { PersonaModalComponent } from "./components/configuraciones/personal-usuario/persona-modal/persona-modal.component";
 
 @NgModule({
     imports: [
@@ -107,7 +109,8 @@ import { PersonalUsuarioComponent } from "./components/configuraciones/personal-
         LoteOrdenComponent,
         BandejaLoteOrdenComponent,
 
-        PersonalUsuarioComponent
+        PersonalUsuarioComponent,
+        PersonaModalComponent
     ],
     exports: [],
     providers: [
@@ -120,7 +123,8 @@ import { PersonalUsuarioComponent } from "./components/configuraciones/personal-
         AsignacionCargaService,
         GenerarOrdenService,
         SeguimientoService,
-        OrdenTrabajoService
+        OrdenTrabajoService,
+        ConfiguracionService
     ]
 })
 

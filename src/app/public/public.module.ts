@@ -1,15 +1,12 @@
 import { NgModule } from "@angular/core";
 import { SharedModule } from "../core/shared/shared.module";
 import { PublicRoutingModule } from "./public-routing.module"
+import { ReactiveFormsModule } from "@angular/forms";
 
 import { PublicComponent } from "./public.component";
 import { LoginComponent } from "./login/login.component";
-import { HeaderComponent } from "./components/header/header.component";
-import { FooterComponent } from "./components/footer/footer.component";
-
 import { PublicService } from "./public.service";
-import { NavbarComponent } from "./components/navbar/navbar.component";
-import { ReactiveFormsModule } from "@angular/forms";
+
 
 import {RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module} from 'ng-recaptcha';
 
@@ -22,10 +19,7 @@ import {RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module} from 'ng-recaptcha';
     ],
     declarations: [
         PublicComponent,
-        LoginComponent,
-        HeaderComponent,
-        FooterComponent,
-        NavbarComponent
+        LoginComponent
     ],
     exports: [],
     providers: [

@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
     
     const isApiSecurity= url.includes(environment.urlWebApiEyL);
 
-    if(isApiSecurity && this._localService.getData("Token")){
+    if(this._localService.getData("Token")){
 
       let tk = this._localService.getData("Token");
       let usr = JSON.parse(tk);

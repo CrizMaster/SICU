@@ -13,7 +13,7 @@ import { UsuarioSession } from './models/usuarioSession';
 
 export class PublicService{
 
-    currentComponentLogin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    //currentComponentLogin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(private http: HttpClient){}
 
@@ -37,10 +37,10 @@ export class PublicService{
         );
     }
 
-    //Para que pueden subscribe
-    get getCurrentComponentLogin():Observable<boolean>{
-        return this.currentComponentLogin.asObservable();
-    }
+    // //Para que pueden subscribe
+    // get getCurrentComponentLogin():Observable<boolean>{
+    //     return this.currentComponentLogin.asObservable();
+    // }
 
     private handlerError(error: HttpErrorResponse) {
         let msn = '';

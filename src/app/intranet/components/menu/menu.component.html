@@ -1,11 +1,11 @@
 <div class="row mt-3 bg-light">
-    <mat-accordion >
+    <mat-accordion style="z-index: 2;">
       <mat-expansion-panel class="bg-light" *ngFor="let menu of menus">
         <mat-expansion-panel-header 
             [collapsedHeight]="customCollapsedHeight" 
             [expandedHeight]="customExpandedHeight">
           <mat-panel-title>
-              <mat-icon>dynamic_feed</mat-icon>&nbsp;
+              <mat-icon>{{menu.icono}}</mat-icon>&nbsp;
             {{menu.nombreMenu}}
           </mat-panel-title>
         </mat-expansion-panel-header>
@@ -34,5 +34,5 @@
           </mat-list-item>
         </mat-list>
       </mat-expansion-panel> -->
-    </mat-accordion>
+    </mat-accordion>  
   </div>

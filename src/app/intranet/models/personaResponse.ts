@@ -14,7 +14,10 @@ export interface PersonaResponse{
     archivoFoto: string,
     bloqueado: boolean,
     userName: string,
-    total: number
+    total: number,
+    idUsuario: number,
+
+    accion?: number
 }
 
 export interface PersonaFilter{
@@ -25,4 +28,26 @@ export interface PersonaFilter{
     ApeMaterno?: string,
     Pagina: number,
     Registros: number
+}
+
+export interface PersonaRequest{
+    accion: number,
+    idPersona: number,
+    idTipoDocumento?: number,
+    numeroDocumento?: string,
+    nombres?: string,
+    apePaterno?: string,
+    apeMaterno?: string,
+    idCargo?: number,
+    correo?: string,
+    celular?: string,
+    archivoFoto?: string
+}
+
+export interface UsuarioRequest{
+    accion: number,
+    idPersona: number,
+    password?: string,
+    passwordRepite?: string
+    passwordActual?: string
 }

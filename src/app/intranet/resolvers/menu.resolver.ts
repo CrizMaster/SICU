@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from "
 import { inject } from "@angular/core";
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
-import { CatalogoMaster } from "src/app/core/models/catalogo-master.model";
 import { LocalService } from "src/app/core/shared/services/local.service";
 import { StatusResponse } from "src/app/core/models/statusResponse.model";
 import { MenuResponse } from "../models/menuResponse";

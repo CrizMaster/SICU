@@ -9,6 +9,8 @@ import { StatusResponse } from '../core/models/statusResponse.model';
 import { MenuResponse } from './models/menuResponse';
 import { UsuarioSession } from '../public/models/usuarioSession';
 import { CatalogoModel } from '../core/models/catalogo.model';
+import { CargoModel } from '../core/models/cargo.model';
+import { AuthService } from '../core/shared/services/auth.service';
 
 @Injectable( {  providedIn: 'root' })
 
@@ -20,7 +22,8 @@ export class IntranetService implements OnInit {
     currentUsuario: BehaviorSubject<UsuarioSession> = new BehaviorSubject<UsuarioSession>({});
 
     constructor(private http: HttpClient,
-        private _localService: LocalService){}
+        private _localService: LocalService,
+        private _authService: AuthService){}
 
     ngOnInit(): void {
         //this.setCatalogoMaster();
@@ -36,11 +39,20 @@ export class IntranetService implements OnInit {
 
     
 
-    ListarMenu(): Observable<StatusResponse<MenuResponse[]>>{       
-        return this.http.get<StatusResponse<MenuResponse[]>>(environment.urlWebApiEyL + 'Users/GetListaMenu')
-        .pipe(
-            catchError(this.handlerError)            
-        );
+    ListarMenu(): Observable<StatusResponse<MenuResponse[]>>{
+        let mn = this._localService.getData("eylmenu");
+        if(mn.length == 0){
+            return this.http.get<StatusResponse<MenuResponse[]>>(environment.urlWebApiEyL + 'Users/GetListaMenu')
+            .pipe(
+                catchError(this.handlerError)            
+            );
+        }
+        else{
+            let resp = JSON.parse(mn);
+            let data: StatusResponse<MenuResponse[]> = { success:true, data: resp};
+            
+            return of(data);            
+        }
     }
 
     setMasterCatalog(): Observable<StatusResponse<CatalogoModel[]>>{
@@ -48,18 +60,27 @@ export class IntranetService implements OnInit {
         if(cm.length == 0){
 
             let tk = this._localService.getData("Token");
-            let usr = JSON.parse(tk);
-         
-            const httpOptions = {
-                headers: { 'Authorization': 'Bearer ' + usr.token }
-            }
+            if(tk.length == 0){
+                //this._authService.isLoggedIn.next(false);
 
-            return this.http.post<StatusResponse<CatalogoModel[]>>(environment.urlWebApiEyL + 'General/GetListarCatalogo', 
-            null,
-            httpOptions)
-            .pipe(
-                catchError(this.handlerError)            
-            );
+                let cat: CatalogoModel[] = [];
+                let data: StatusResponse<CatalogoModel[]> = { success:true, data: cat};
+
+                return of(data);                
+            }
+            else{
+                let usr = JSON.parse(tk);
+         
+                const httpOptions = {
+                    headers: { 'Authorization': 'Bearer ' + usr.token }
+                }
+    
+                return this.http.get<StatusResponse<CatalogoModel[]>>(environment.urlWebApiEyL + 'General/ListarCatalogo',
+                httpOptions)
+                .pipe(
+                    catchError(this.handlerError)            
+                );
+            }            
         }
         else{
             let resp = JSON.parse(cm);
@@ -67,7 +88,20 @@ export class IntranetService implements OnInit {
             
             return of(data);
         }        
-    }
+    }   
+
+    ListarCargo(): Observable<StatusResponse<CargoModel[]>>{
+        return this.http.get<StatusResponse<CargoModel[]>>(environment.urlWebApiEyL + 'General/ListarCargo')
+        .pipe(
+            catchError(this.handlerError)            
+        );       
+    } 
+
+        // return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListOrganizacionesAsync',
+        // { headers })
+        // .pipe(
+        //     catchError(this.handlerError)
+        // );
 
     // setCatalogoMaster():void{
 
@@ -100,62 +134,45 @@ export class IntranetService implements OnInit {
     //     }
     // }
 
-    listaOrganizaciones():Observable<any>{
+    // listaOrganizaciones():Observable<any>{
         
-        let tk = this._localService.getData("Token");
-        let user = JSON.parse(tk);
+    //     let tk = this._localService.getData("Token");
+    //     let user = JSON.parse(tk);
      
-        const headers = { 'Authorization': 'Bearer ' + user.data.token }
+    //     const headers = { 'Authorization': 'Bearer ' + user.data.token }
 
-        return of({});
-        // return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListOrganizacionesAsync',
-        // { headers })
-        // .pipe(
-        //     catchError(this.handlerError)
-        // );
-    }
+    //     return of({});
+    // }
 
-    listaPerfiles(id: string):Observable<any>{
+    // listaPerfiles(id: string):Observable<any>{
         
-        let tk = this._localService.getData("Token");
-        let user = JSON.parse(tk);
+    //     let tk = this._localService.getData("Token");
+    //     let user = JSON.parse(tk);
      
-        const httpOptions = {
-            headers: { 'Authorization': 'Bearer ' + user.data.token },
-            params: {'idOrganizacion': id}
-        }
+    //     const httpOptions = {
+    //         headers: { 'Authorization': 'Bearer ' + user.data.token },
+    //         params: {'idOrganizacion': id}
+    //     }
 
-        return of({});
-        // return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListPerfilesAsync',
-        // httpOptions)
-        // .pipe(
-        //     catchError(this.handlerError)
-        // );
-    }
+    //     return of({});
+    // }
     
-    listaMenu(idOrg: number, idPer: number):Observable<any>{
+    // listaMenu(idOrg: number, idPer: number):Observable<any>{
         
-        let tk = this._localService.getData("Token");
-        let user = JSON.parse(tk);
+    //     let tk = this._localService.getData("Token");
+    //     let user = JSON.parse(tk);
      
-        let queryParams = new HttpParams();
-        queryParams = queryParams.append("idOrganizacion",idOrg);
-        queryParams = queryParams.append("idPerfil",idPer);
+    //     let queryParams = new HttpParams();
+    //     queryParams = queryParams.append("idOrganizacion",idOrg);
+    //     queryParams = queryParams.append("idPerfil",idPer);
 
-        const httpOptions = {
-            headers: { 'Authorization': 'Bearer ' + user.data.token },
-            params: queryParams            
-        }
+    //     const httpOptions = {
+    //         headers: { 'Authorization': 'Bearer ' + user.data.token },
+    //         params: queryParams            
+    //     }
 
-        //const headers = { 'Authorization': 'Bearer ' + user.data.token }
-
-        return of({});
-        // return this.http.get<any>(environment.urlWebApiTest + 'Customers/GetListMenuAsync',
-        // httpOptions)
-        // .pipe(
-        //     catchError(this.handlerError)
-        // );
-    }    
+    //     return of({});
+    // }    
 
     private handlerError(error: HttpErrorResponse) {
         let msn = '';

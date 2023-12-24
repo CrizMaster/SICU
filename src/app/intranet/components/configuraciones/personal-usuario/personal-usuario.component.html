@@ -123,6 +123,20 @@
                         <th mat-header-cell *matHeaderCellDef class="text-center"> Correo</th>
                         <td mat-cell *matCellDef="let element" class="text-left"> {{element.correo}} </td>
                     </ng-container>
+
+                    <ng-container matColumnDef="Usuario">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Usuario</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.userName}} </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="Estado">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Estado</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> 
+                            <span class="text-bg-success px-3 py-2 rounded-pill" *ngIf="element.idUsuario > 0"
+                            [class.text-bg-success]="!element.bloqueado"
+                            [class.text-bg-danger]="element.bloqueado">{{element.bloqueado ? 'Bloqueado' : 'Activo'}}</span>
+                        </td>
+                    </ng-container>                    
             
         
                     <ng-container matColumnDef="Accion">
@@ -130,7 +144,41 @@
                             Acción
                         </th>
                         <td mat-cell *matCellDef="let element" class="text-center">
-        
+                            <button mat-icon-button 
+                                [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu" xPosition="before">
+                                <button mat-menu-item (click)="EditarPersona(element)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Editar</span>
+                                </button>
+                                <button mat-menu-item (click)="EliminarPersona(element)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Eliminar</span>
+                                </button>
+                                <mat-divider></mat-divider>
+                                <button mat-menu-item (click)="CrearUsuario(element)"
+                                    *ngIf="element.idUsuario == 0">
+                                    <mat-icon>account_circle</mat-icon>
+                                    <span>Crear Usuario</span>
+                                </button>
+                                <button mat-menu-item (click)="CambiarPassword(element)"
+                                    *ngIf="element.idUsuario > 0 && !element.bloqueado">
+                                    <mat-icon>key</mat-icon>
+                                    <span>Cambiar Password</span>
+                                </button>
+                                <button mat-menu-item (click)="BloquearUsuario(element)"
+                                    *ngIf="element.idUsuario > 0 && !element.bloqueado">
+                                    <mat-icon>lock</mat-icon>
+                                    <span>Bloquear Usuario</span>
+                                </button>
+                                <button mat-menu-item (click)="DesbloquearUsuario(element)"
+                                    *ngIf="element.idUsuario > 0 && element.bloqueado">
+                                    <mat-icon>lock_open</mat-icon>
+                                    <span>Desbloquear Usuario</span>
+                                </button>                                
+                          </mat-menu>        
                         </td>
                     </ng-container>
                     

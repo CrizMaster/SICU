@@ -35,6 +35,7 @@ import {
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatMenuModule} from '@angular/material/menu';
 
 import localeEsPE from '@angular/common/locales/es-PE';
 
@@ -51,6 +52,7 @@ import { TemplateSnackbarComponent } from "./components/network-status/template-
 import { AccessDeniedComponent } from "./components/access-denied/access-denied.component";
 import { ModalMessageComponent } from "./components/modal-message/modal-message.component";
 import { ModalLoadingComponent } from "./components/modal-loading/modal-loading.component";
+import { DisableToogleDirective } from "./directive/disable-toogle.directive";
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -85,6 +87,7 @@ const maskConfig: Partial<IConfig> = {
         MatAutocompleteModule,
         MatDatepickerModule,
         MatCheckboxModule,
+        MatMenuModule,
 
         NgbModule,
         NgxMaskDirective, 
@@ -101,6 +104,7 @@ const maskConfig: Partial<IConfig> = {
         NetworkStatusComponent,
         TemplateSnackbarComponent,
         DisableControlDirective,
+        DisableToogleDirective,
         AccessDeniedComponent,
         ModalLoadingComponent
     ],
@@ -116,6 +120,7 @@ const maskConfig: Partial<IConfig> = {
         ModalMessageComponent,
         NetworkStatusComponent,
         DisableControlDirective,
+        DisableToogleDirective,
         AccessDeniedComponent,
         ModalLoadingComponent,
 
@@ -143,6 +148,7 @@ const maskConfig: Partial<IConfig> = {
         MatAutocompleteModule,
         MatDatepickerModule,
         MatCheckboxModule,
+        MatMenuModule,
 
         NgbModule,
         NgxMaskDirective, 

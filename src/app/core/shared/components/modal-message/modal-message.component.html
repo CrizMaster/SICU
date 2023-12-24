@@ -1,8 +1,8 @@
-<!-- <h1 mat-dialog-title class="bg-cofopri text-white">Sistema de Información Catastral Urbano</h1> -->
 <div mat-dialog-content class="m-4" style="font-size: 0.9rem;">
     <div class="container">
         <div class="row">
             <div class="col col-12 text-center">
+                <i *ngIf="data.Icon == 'warning'" class="bi bi-exclamation-circle fa-10x text-warning" style="font-size: 5rem;"></i>
                 <i *ngIf="data.Icon == 'error'" class="bi bi-x-circle fa-10x text-danger" style="font-size: 5rem;"></i>
                 <i *ngIf="data.Icon == 'ok'" class="bi bi-check-circle fa-10x text-green-light" style="font-size: 5rem;"></i>
             </div>
@@ -17,6 +17,7 @@
 </div>
 <div mat-dialog-actions class="d-flex justify-content-center align-items-center bg-body-secondary">  
     <button type="submit" class="btn btn-sm btn-danger" 
+            [class.btn-warning] ="data.Icon == 'warning'"
             [class.btn-danger] ="data.Icon == 'error'"
             [class.btn-success] ="data.Icon == 'ok'"
             style="width: 100px;"

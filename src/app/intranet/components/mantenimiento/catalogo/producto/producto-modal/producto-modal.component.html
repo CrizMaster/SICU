@@ -1,0 +1,63 @@
+<form [formGroup]="form" (ngSubmit)="guardar()">
+    <h1 mat-dialog-title class="bg-eyl-primary text-white">
+        <mat-icon class="icon-display">category</mat-icon>
+        &nbsp;&nbsp;{{data.accion == 1 ? 'Nuevo Producto':'Editar Producto'}}
+    </h1>
+    <div mat-dialog-content class="p-4" style="font-size: 0.9rem;">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <mat-form-field class="input-full-width">
+                    <mat-label>Código del Producto</mat-label>
+                    <input matInput formControlName="codigo" class="text-uppercase">
+                </mat-form-field>                        
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <mat-form-field class="input-full-width">
+                    <mat-label>Nombre o descripción del producto</mat-label>
+                    <input matInput formControlName="nombreproducto">
+                </mat-form-field>                      
+            </div> 
+        </div>                 
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <mat-form-field class="input-full-width">
+                    <mat-label>Moneda</mat-label>
+                    <mat-select name="moneda"
+                                #SelDocIdent
+                                formControlName="moneda"
+                                [pattern]="pattern1Digs">
+                      <mat-option *ngFor="let td of ListaMoneda" [value]="td.value">
+                        {{td.text}}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>                         
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <mat-form-field class="input-full-width">
+                    <mat-label>Valor de Compra referencial</mat-label>
+                    <input matInput formControlName="valorcompra">
+                </mat-form-field>                        
+            </div>
+        </div>       
+    </div>
+    <div mat-dialog-actions class="d-flex justify-content-end p-4"> 
+        <button mat-raised-button color="primary" 
+            type="submit"
+            [disabled]="form.invalid">
+            <mat-icon>save</mat-icon>
+            Guardar
+        </button>&nbsp;
+        <button mat-raised-button (click)="limpiar($event)">
+            <mat-icon>cleaning_services</mat-icon>
+            Limpiar
+        </button>&nbsp;  
+        <button mat-raised-button mat-dialog-close color="warn">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+        </button>       
+    </div>
+  </form>
+
+  

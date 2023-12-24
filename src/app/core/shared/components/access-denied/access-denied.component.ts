@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-access-denied',
@@ -6,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./access-denied.component.css']
 })
 export class AccessDeniedComponent implements OnInit{
-    constructor(){}
+    constructor(
+        private router: Router
+    ){}
 
     ngOnInit(): void {
         
     }
+
+    inicio(e){
+        this.router.navigate(['intranet']);
+
+        e.stopPropagation();
+        e.preventDefault();
+    }    
 }

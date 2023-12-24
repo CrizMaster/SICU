@@ -44,11 +44,11 @@ export class LoginComponent implements OnInit, OnDestroy  {
         ){}
 
     ngOnInit(): void {
-        //this._publicService.isComponentLogin(true);
+        //this._publicService.isComponentLogin(true);  
         this._localService.clearData();
 
-        this._publicService.currentComponentLogin.next(true);
-        this._authService.isLoggedIn.next(false);
+        //this._publicService.currentComponentLogin.next(true);
+        //this._authService.isLoggedIn.next(false);
         this._authService.isOffLine.subscribe({
           next:(sw) => {
             this.offline = sw;
@@ -114,15 +114,19 @@ export class LoginComponent implements OnInit, OnDestroy  {
                 this._localService.saveData("Token", JSON.stringify(userData.data))
 
                 this._authService.isLoggedIn.next(true);
-              }              
+                this.route.navigateByUrl('/intranet');
+              }
+              else{
+                this.loginError = userData.message;
+                this.viewProgress = false;  
+              }
           },
           error:(errorData) => {
               this.loginError = errorData;
               this.viewProgress = false;
           },
-          complete:() => {
-              this.route.navigateByUrl('/intranet');
-              this.viewProgress = false;                  
+          complete:() => {              
+              this.viewProgress = false;
           }
       });
     }

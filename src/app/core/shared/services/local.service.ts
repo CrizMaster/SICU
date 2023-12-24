@@ -20,6 +20,7 @@ export class LocalService {
       }
 
     public removeData(key: string) {
+        //console.log('remove: ' + key);
         localStorage.removeItem(key);
     }
   

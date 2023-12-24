@@ -7,7 +7,7 @@ import { UsuarioSession } from 'src/app/public/models/usuarioSession';
 })
 export class AuthService {
 
-  public readonly isLoggedIn = new BehaviorSubject<boolean>(true);
+  public readonly isLoggedIn = new BehaviorSubject<boolean>(true);  
   public readonly isOffLine = new BehaviorSubject<boolean>(false);
   public readonly listMenu = new BehaviorSubject<any>([]);
 

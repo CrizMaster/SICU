@@ -121,3 +121,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --mdc-fab-icon-color: white;
   --mat-mdc-fab-color: #fff;
 }
+
+.grecaptcha-badge { 
+  visibility: hidden;
+}

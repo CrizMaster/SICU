@@ -1,0 +1,162 @@
+<app-breadcrumb [Data]="BreadcrumbForm"></app-breadcrumb>
+<app-title [Data]="tituloForm"></app-title>
+<div class="row my-2">
+    <div class="col-12 my-2">
+        <div class="row">
+            <div class="col-12">
+                <mat-accordion class="panel-headers-align" multi>
+                    <mat-expansion-panel >
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>filter_alt</mat-icon>&nbsp;
+                            Filtros de búsqueda
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <form [formGroup]="form" (ngSubmit)="buscar()">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <mat-form-field class="input-full-width">
+                                    <mat-label>Código del Producto</mat-label>
+                                    <input matInput formControlName="codigo">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="input-full-width">
+                                    <mat-label>Nombre del Producto</mat-label>
+                                    <input matInput formControlName="nombreproducto" class="text-uppercase">
+                                </mat-form-field>            
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 text-end">
+                                <button mat-raised-button color="primary" type="submit">
+                                    <mat-icon>filter_alt</mat-icon>
+                                    Buscar
+                                </button>&nbsp;
+                                <button mat-raised-button (click)="limpiar()">
+                                    <mat-icon>cleaning_services</mat-icon>
+                                    Limpiar
+                                </button>            
+                            </div>
+                          </div>
+                      </form>
+                    </mat-expansion-panel>
+                </mat-accordion>                           
+            </div>
+        </div>        
+    </div>
+    <div class="col-12">
+        <mat-card>         
+            <mat-card-header>   
+                <div class="row w-100 my-2">
+                    <div class="col">
+                        <div class="row row-cols-auto mb-2">
+                            <div class="col ms-3">
+                                <mat-icon class="icon-display">category</mat-icon>
+                            </div>
+                            <div class="col mt-1 fw-bolder">
+                                Registro del Catalogo de Productos
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col text-end">
+                        <button mat-mini-fab color="primary" aria-label="Nuevo producto" (click)="Agregar()" matTooltip="Nuevo Producto">
+                            <mat-icon >category</mat-icon>
+                        </button>                     
+                    </div>
+                </div>       
+            </mat-card-header>
+            <mat-card-content>
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" multiTemplateDataRows>
+                    <ng-container matColumnDef="Nro">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Nro.</th>
+                        <td mat-cell *matCellDef="let element" class="text-center">{{element.nro}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="Codigo">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Código</th>
+                        <td mat-cell *matCellDef="let element" class="text-left"> {{element.codigo}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="Producto">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Producto </th>
+                        <td mat-cell *matCellDef="let elem" class="text-left"> {{elem.nombreProducto}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="ValorCompra">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Valor de Compra </th>
+                        <td mat-cell *matCellDef="let element" class="text-left"> {{element.moneda}} {{element.valorCompra | number : '1.2-2'}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="FechaCrea">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha Registro </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.fechaCrea}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="PersonaCrea">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Personal registra</th>
+                        <td mat-cell *matCellDef="let element" class="text-left"> {{element.personaCrea}} </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="Estado">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Estado</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> 
+                            <span class="text-bg-success px-3 py-2 rounded-pill"
+                            [class.text-bg-success]="element.esVigente"
+                            [class.text-bg-danger]="!element.esVigente">{{element.esVigente ? 'Activo' : 'Inactivo'}}</span>
+                            <!-- <div id="div">
+                                <mat-slide-toggle color="primary">Activo</mat-slide-toggle>
+                            </div> -->
+                            
+                        </td>
+                    </ng-container>                    
+            
+        
+                    <ng-container matColumnDef="Accion">
+                        <th mat-header-cell *matHeaderCellDef class="text-center">
+                            Acción
+                        </th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+                            <button mat-icon-button 
+                                [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu" xPosition="before">
+                                <button mat-menu-item 
+                                    (click)="Editar(element)"
+                                    *ngIf="element.esVigente">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Editar</span>
+                                </button>
+                                <button mat-menu-item 
+                                    (click)="Activar(element)"
+                                    *ngIf="!element.esVigente">
+                                    <mat-icon>toggle_on</mat-icon>
+                                    <span>Activar</span>
+                                </button>
+                                <button mat-menu-item 
+                                    (click)="Desactivar(element)"
+                                    *ngIf="element.esVigente">
+                                    <mat-icon>toggle_off</mat-icon>
+                                    <span>Desactivar</span>
+                                </button>                                   
+                            </mat-menu>        
+                        </td>
+                    </ng-container>
+                    
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+        
+                <div *ngIf="dataSource.filteredData.length == 0" class="text-danger m-2 fst-italic">No se encontraron registros.</div>
+           
+                <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+                showFirstLastButtons
+                (page)="pageEvent = $event; pageChanged($event)">
+                </mat-paginator>          
+            </mat-card-content>
+        </mat-card>        
+    </div>
+</div>
+
+  

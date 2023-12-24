@@ -23,10 +23,11 @@ export class MenuComponent implements OnInit{
 
     ngOnInit(): void {
 
-      let tk = this._localService.getData("eylmenu");
-      let currentMenu = JSON.parse(tk);
-      
-      this.menus = currentMenu;
+      let menu = this._localService.getData("eylmenu");
+      if(menu.length > 0){
+        let currentMenu = JSON.parse(menu);      
+        this.menus = currentMenu;        
+      }
     }
     
     ir(path: string){
